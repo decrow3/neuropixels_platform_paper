@@ -1,49 +1,30 @@
-# Neuropixels Platform Paper
+# OpenScope Pilot Analysis
 
-<img src="icon.png" width="400">
+## Project Overview
+This project is part of the OpenScope initiative by the Allen Institute. It aims to analyze pilot data and provide insights into experimental outcomes.
 
-This repository contains code for generating the figures in the pre-print describing the scientific findings from the Allen Institute's [Neuropixels data collection platform](https://portal.brain-map.org/explore/circuits/visual-coding-neuropixels).
+## Objectives
+- Clarify project requirements.
+- Scaffold the project structure.
+- Customize the codebase to meet analysis needs.
+- Install necessary extensions and dependencies.
+- Compile and run the project.
+- Ensure comprehensive documentation.
 
-Most of the figures can be generated from publicly available NWB files and unit tables, available via the AllenSDK. See [the AllenSDK documentation](https://allensdk.readthedocs.io/en/latest/visual_coding_neuropixels.html) for an overview of the dataset and example notebooks for accessing it.
+## Next Steps
+1. Define the analysis plan.
+2. Identify required tools and frameworks.
+3. Set up the project environment.
+4. Begin data analysis and visualization.
 
-Each figure in the pre-print has a folder with associated code. Data required for figure generation that's not available in the October 2019 release (e.g., from the change detection experiments) is included in the `data` directory.
+Feel free to update this document as the project progresses.
 
-This repository is still a work in progress; we will continue to clean up the code and add documentation throughout the review process.
+## Pilot Analysis Steps
+To prepare for the analysis pipeline:
 
-
-## Level of Support
-
-We are not currently supporting this code, but simply releasing it to the community AS IS.  We are not able to provide any guarantees of support. The community is welcome to submit issues, but you should not expect an active response.
-
-
-## Terms of Use
-
-See [Allen Institute Terms of Use](https://alleninstitute.org/legal/terms-use/)
-
-
-© 2019 Allen Institute for Brain Science
-
-
-
-
-
-## NEW DATA TEST
-# Align new V1 data to include
-# Example Run
-python generate_retinotopic_csvs.py \
-  --nwb /path/to/site2.nwb \
-  --out_dir ./data/site2_processed \
-  --site_name V1_site2 \
-  --id_offset 1000000
-
-python generate_retinotopic_csvs.py \
-  --nwb /path/to/site3.nwb \
-  --out_dir ./data/site3_processed \
-  --site_name V1_site3 \
-  --id_offset 2000000
-
-
-
+1. **Prepare Analysis Pipeline**: Develop a robust pipeline for analyzing existing test data.
+2. **Test Data Analysis**: Validate the pipeline using existing test data to ensure readiness.
+3. **V1 Data Integration**: Ensure the pipeline is adaptable for V1 data when it becomes available.
 
 Project Proposal:
 A critical re-examination of the mouse visual system
@@ -114,73 +95,7 @@ Essential
 VISp: 5
 3
 Secondary
-ANALYSIS PLAN: Armed with data on the degree of functional difference arising from retinotopic location within a single visual area, we will determine: 1) If reported functional differences across the higher order visual areas go beyond what can be explained by retinotopic bias. 2) Whether a hierarchy emerges among higher order visual areas once retinotopic biases are accounted for and 3) Whether functional differences across the two axes of the visual field are similar or different in magnitude. The last point will help tie functional differences across the retinotopic map to ethological needs and demands of the animal. If awarded, lab ok members will handle analysis, under the advisement of the authors, and our Allen Institute partners. PhD student #1: 50% effort, PhD student #2: 50% effort.
-
-## Retinotopic V1 Analysis - New Data Workflow
-
-To extend the hierarchical analysis across retinotopic gradients within V1, new Neuropixels recordings from multiple V1 locations will be incorporated as distinct "areas" in the existing analysis framework:
-
-### Data Organization
-
-New V1 recording sites are labeled as separate areas to preserve the existing dataset:
-- **V1** (original): Center V1, from Allen Brain Observatory passive viewing
-- **V1_site2** through **V1_site6** (new): Recordings from peripheral, upper, lower, and other retinotopic locations
-
-Each site is treated as an independent "area" in the analysis, allowing direct comparison of functional properties across the retinotopic map within a single cortical area.
-
-### Metric Computation
-
-For each new V1 site, compute the same four metric CSVs as the original analysis:
-
-1. **change_modulation_data.csv** — Response modulation to stimulus changes
-   - Requires: spike times, trial labels (change/no-change)
-   - Output: modulation index per unit
-
-2. **time_to_first_spike.csv** — Response latency
-   - Requires: spike times, stimulus onset times
-   - Output: time-to-first-spike (ms) per unit
-
-3. **timescale_metrics.csv** — Response decay timescale
-   - Requires: spike times, stimulus presentation windows
-   - Output: autocorrelation timescale, response decay tau per unit
-
-4. **layer_info.csv** — Cortical layer and depth
-   - Requires: unit depth/position, CCF coordinates
-   - Output: layer assignment, cortical depth per unit
-
-Additionally, include RF mapping metrics (from sparse noise and Gabor patches):
-- **area_rf** — Receptive field area (deg²)
-- **rf_center_x, rf_center_y** — RF location (deg, visual field coordinates)
-- **p_value_rf** — RF significance
-
-### Data Integration
-
-1. **Merge all CSVs** into a unified metric table:
-   ```python
-   # Append new site metrics to existing Observatory data
-   all_metrics = pd.concat([existing_data, new_site_data], ignore_index=True)
-   ```
-
-2. **Run [`common/create_units_table.py`](common/create_units_table.py )**
-   - Merges all metric CSVs
-   - Downloads AllenSDK data (RF metrics, unit quality)
-   - Outputs: `unit_table.csv` with all areas (V1, V1_site2–V1_site6, LGd, LP, higher visual areas)
-
-3. **Run [`Figure3/Figure3.py`](Figure3/Figure3.py )**
-   - Accepts expanded area tuple:
-     ```python
-     areas = ('LGd', 'V1', 'V1_site2', 'V1_site3', 'V1_site4', 'V1_site5', 'V1_site6', 'LP', ...)
-     ```
-   - Generates comparison figure showing latency, modulation, timescale across all areas/sites
-   - Visualizes within-V1 retinotopic gradients vs. inter-area hierarchy
-
-### Expected Output
-
-Figure showing:
-- Latency distributions across V1 sites → retinotopic gradient within V1
-- Modulation index across V1 sites → compare to higher areas
-- Response timescale across V1 sites → functional property gradient
-- Hierarchy correlations with retinotopic position vs. anatomical area designation
+ANALYSIS PLAN: Armed with data on the degree of functional difference arising from retinotopic location within a single visual area, we will determine: 1) If reported functional differences across the higher order visual areas go beyond what can be explained by retinotopic bias. 2) Whether a hierarchy emerges among higher order visual areas once retinotopic biases are accounted for and 3) Whether functional differences across the two axes of the visual field are similar or different in magnitude. The last point will help tie functional differences across the retinotopic map to ethological needs and demands of the animal. If awarded, lab members will handle analysis, under the advisement of the authors, and our Allen Institute partners. PhD student #1: 50% effort, PhD student #2: 50% effort.
 In closing, we want to emphasize that area delineations are not merely semantics. They influence experimental design, bias the interpretation of experimental data, and influence cross-species understanding. Our hypothesis that the mouse has a single area V2 would bring the mouse visual system into alignment with that of other mammals. In addition, it generates a common set of rules for delineating visual areas across species - namely coverage of visual field and distinct anatomical and functional differences between areas. We believe the Allen Institute is uniquely positioned to help test our hypothesis, given the role they have played in establishing the organization of the mouse visual system. In our view, the OpenScope offers a perfect opportunity to test this timely hypothesis.
 Figure 2: Design includes several sites in V1
 Denman, D. J., Luviano, J. A., Ollerenshaw, D. R., Cross, S., Williams, D., Buice, M. A., Olsen, S. R., & Reid, R. C. (2018). Mouse color and wavelength-specific luminance contrast sensitivity are non-uniform across visual space. eLife, 7. https://doi.org/10.7554/ELIFE.31209
@@ -199,130 +114,3 @@ Wang, Q., & Burkhalter, A. (2007). Area map of mouse visual cortex. Journal of C
 Wang, Q., Gao, E., & Burkhalter, A. (2011). Gateways of ventral and dorsal streams in mouse visual cortex. Journal of Neuroscience, 31(5), 1905–1918. https://doi.org/10.1523/JNEUROSCI.3488-10.2011
 Yu, H.-H., Rowley, D., Price, N., Rosa, M., & Zavitz, E. (2020). A twisted visual field map in the primate cortex predicted by topographic continuity. Science Advances, 6(6), eaaz8763. https://doi.org/10.1101/682187
 Zhuang, J., Ng, L., Williams, D., Valley, M., Li, Y., Garrett, M., & Waters, J. (2017). An extended retinotopic map of mouse cortex. eLife, 6, 1–29. https://doi.org/10.7554/elife.18372
-
-## Run on Local Dataset
-
-Use this quick-start to process and analyze a local Neuropixels dataset located at `/media/huklaban5/Data/MouseV2/001568/`.
-
-### Prerequisites
-- Create and activate the Conda env: `environment.yml`
-
-```bash
-conda env create -f environment.yml
-conda activate neuropixels-platform
-```
-
-- Confirm the dataset contains NWB files and stimulus/metadata required for DG, sparse noise, flash, and natural images.
-
-### 1) Generate per-site metric CSVs
-
-Run `generate_retinotopic_csvs.py` for each recording. Replace paths if your NWB filenames differ.
-
-```bash
-# Example for one recording in 001568
-python generate_retinotopic_csvs.py \
-   --nwb \
-   "/media/huklaban5/Data/MouseV2/001568/session1.nwb" \
-   --out_dir "./data/site2_processed" \
-   --site_name "V1_site2" \
-   --id_offset 1000000
-
-# Repeat for additional recordings/sites with unique out_dir/site_name/id_offset
-python generate_retinotopic_csvs.py \
-   --nwb \
-   "/media/huklaban5/Data/MouseV2/001568/session2.nwb" \
-   --out_dir "./data/site3_processed" \
-   --site_name "V1_site3" \
-   --id_offset 2000000
-```
-
-Outputs expected in each `data/site*_processed/` folder:
-- `change_modulation_data.csv`
-- `time_to_first_spike.csv`
-- `timescale_metrics.csv`
-- `layer_info.csv`
-
-Optional RF outputs (if available): `rf_metrics.csv` with `area_rf`, `rf_center_x`, `rf_center_y`, `p_value_rf`.
-
-### 2) Build unified unit table
-
-Merge Observatory + local site metrics into `data/unit_table.csv`.
-
-```bash
-python common/create_units_table.py
-```
-
-Notes:
-- The script looks for existing Observatory CSVs in `data/` and new site CSVs under `data/site*_processed/`.
-- It standardizes column names (e.g., `modulation_index` → `mod_idx_dg`, `autocorr_tau` → `timescale_ac`, `time_to_first_spike` → `time_to_first_spike_fl`).
-- Ensure `ecephys_unit_id` is present or provided via `--id_offset` mapping in the generator.
-
-### 3) Generate Figure 3
-
-Run the updated Figure 3 script to include new V1 sites as distinct areas.
-
-```bash
-python Figure3/Figure3.py
-```
-
-Results:
-- Saves high-resolution figure `Figure3_restored_style.png` in `Figure3/`.
-- Prints area coverage diagnostics and summary counts.
-
-### Tips
-- If your dataset path or filenames differ, update the `--nwb` arguments and `--site_name` to match your retinotopic location naming.
-- For additional sites, increment `--id_offset` to keep unit IDs unique across recordings.
-- If RF metrics are missing, the analysis will run but RF-specific panels and filters are skipped.
-
-## 2026-02 Updates (New V1 Sites)
-
-This repo now computes the Figure 3 functional metrics for new V1 NWBs using **PyNWB I/O** + **paper/legacy math**, to minimize method drift vs the platform paper.
-
-### What changed
-
-`generate_retinotopic_csvs.py` now writes the four per-site CSVs with **paper-compatible schemas**:
-
-1) `time_to_first_spike.csv`
-- Uses `functions/time_to_first_spike.compute_first_spike` (legacy).
-- Binning: **1 ms**.
-- Window: **30–200 ms** post-flash onset (flash-locked).
-- Output: `time_to_first_spike` in **seconds** (matches `data/time_to_first_spike.csv` in this repo).
-
-2) `timescale_metrics.csv`
-- Matches `Figure3/timescale_calculation.py` (paper method).
-- Binning: **10 ms** (0–2 s after flash), fit window **40–290 ms**.
-- Autocorr: 2D autocorr across trials, averaged, then exponential fit.
-- Output columns: `autocorr_tau` (ms), `err_ac`, `spike_count_ac`.
-
-3) `change_modulation_data.csv`
-- Computes drifting-gratings modulation index using `functions/modulation_index.main` (legacy).
-- Uses the trial-averaged 1 ms PSTH per temporal frequency and reports the **max MI over TF**.
-- Output: `modulation_index`.
-
-4) `layer_info.csv`
-- Ensures `cortical_depth`, `cortical_layer` exist (layer currently left as NaN unless you add an assignment rule).
-- Writes `ecephys_structure_acronym` as `${site_name}_${probeLetter}` when `device_name` exists.
-
-### Known limitations / assumptions
-
-- Requires stimulus tables in `nwbfile.intervals` that include:
-  - A *flash* table with `start_time` (for TTFS + timescale).
-  - A drifting-gratings table with `start_time` plus a temporal frequency column (one of: `temporal_frequency`, `temporal_frequency_hz`, `tf`, `TF`).
-- Requires SciPy for timescale fitting and MI computation.
-- RF metrics for new sites (`area_rf`, `rf_center_x/y`, `p_value_rf`) are **not generated** by `generate_retinotopic_csvs.py` yet.
-- `common/create_units_table.py` still has hard-coded `cache_directory` / `code_directory` paths; update those locally if needed.
-
-### Plan from here
-
-1) Run `generate_retinotopic_csvs.py` for `site2`–`site5` (or more), confirming each `data/site*_processed/` folder contains:
-   - `change_modulation_data.csv`
-   - `time_to_first_spike.csv`
-   - `timescale_metrics.csv`
-   - `layer_info.csv`
-
-2) Run `python common/create_units_table.py` to append these sites into `data/unit_table.csv`.
-
-3) Run `python Figure3/Figure3.py` and verify the expected columns are present for the new sites:
-   - `mod_idx_dg`, `time_to_first_spike_fl`, `timescale_ac`
-
-4) (Optional but recommended) Add RF metric generation for the new NWBs (sparse-noise / gabor pipelines) so Figure 3 filtering and RF panels can match the original paper more closely.

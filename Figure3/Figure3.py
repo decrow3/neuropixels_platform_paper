@@ -1,10 +1,14 @@
+import pandas as pd
+import os
+import numpy as np
+import matplotlib.pyplot as plt
 
 from scipy.ndimage.filters import gaussian_filter1d
 from sklearn.utils import resample    
 
 ### PATH VARIABLES ##############################
-cache_directory = '/mnt/nvme0/ecephys_cache_dir_2'
-code_directory = '/home/joshs/GitHub/neuropixels_platform_paper'
+cache_directory = '/media/huklaban5/Data/MouseV2/' #'/mnt/nvme0/ecephys_cache_dir_2'
+code_directory = '/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper'#'/home/joshs/GitHub/neuropixels_platform_paper'
 ###################################################
 
 df = pd.read_csv(os.path.join(code_directory, 'data', 'unit_table.csv'), low_memory=False)
@@ -133,6 +137,12 @@ for area_idx, area in enumerate(areas):
         max_values[metric_idx] = np.max([np.max(h_filt), max_values[metric_idx]])
 
         plt.subplot(len(metrics), 4, metric_idx*4+1)
+        #get_color_palette.py is in /home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/common/create_units_table.py 
+        #so we need to add that path to sys.path
+        import sys
+        sys.path.append(os.path.join(code_directory, 'common'))
+        from get_color_palette import get_color_palette
+
         plt.plot(b[:-1],h_filt,color=get_color_palette(areas[area_idx], color_palette))
         plt.xlabel(labels[metric_idx])
         
@@ -226,8 +236,12 @@ for metric_idx, metric in enumerate(metrics):
     plot_range = 8
     
     plt.subplot(len(metrics),4,metric_idx*4+4)
-    plt.imshow(np.log10(comparison_corrected),cmap='bone',vmin=-5,vmax=np.log10(0.05))
-    
+    #plt.imshow(np.log10(comparison_corrected),cmap='bone',vmin=-5,vmax=np.log10(0.05))
+    comparison_corrected = comparison_corrected.copy()
+    np.fill_diagonal(comparison_corrected, 1.0)
+    comparison_corrected[comparison_corrected == 0] = 1.0  # or use epsilon for lower triangle
+    to_plot = np.log10(np.clip(comparison_corrected, 1e-10, 1.0))
+    plt.imshow(to_plot, cmap='bone', vmin=-5, vmax=np.log10(0.05))
     plt.colorbar(fraction=0.026, pad=0.04)
     
     plt.xticks(ticks=np.arange(len(common_names)), labels=common_names)
@@ -236,3 +250,5 @@ for metric_idx, metric in enumerate(metrics):
     plt.xlim([-0.5,len(common_names)-0.5])    
     
 plt.tight_layout()
+plt.savefig(os.path.join(code_directory, 'Figure3', 'Figure3_output.png'), dpi=150, bbox_inches='tight')
+print('Saved Figure3_output.png')

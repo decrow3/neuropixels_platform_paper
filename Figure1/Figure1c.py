@@ -44,9 +44,9 @@ freq1 = dg.stim_table.iloc[trial_number-1].temporal_frequency
 freq2 = dg.stim_table.iloc[trial_number].temporal_frequency
 freq3 = dg.stim_table.iloc[trial_number+1].temporal_frequency
 
-t1 = np.linspace(0,2*pi*freq1*2,200)
-t2 = np.linspace(0,2*pi*freq2*2,200)
-t3 = np.linspace(0,2*pi*freq3*2,200)
+t1 = np.linspace(0,2*np.pi*freq1*2,200)
+t2 = np.linspace(0,2*np.pi*freq2*2,200)
+t3 = np.linspace(0,2*np.pi*freq3*2,200)
 z = np.zeros((100,))
 
 a = np.concatenate((z,t1,z,t2,z,t3,z),axis=0)
