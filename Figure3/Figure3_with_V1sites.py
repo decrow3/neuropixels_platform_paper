@@ -63,7 +63,7 @@ def _load_one_site(site_dir):
     df = lay.merge(mod, on='unit_id').merge(ts, on='unit_id').merge(ttfs, on='unit_id')
     return df.rename(columns={
         'time_to_first_spike': 'time_to_first_spike_fl',
-        'modulation_index':    'mod_idx_dg',
+        'modulation_index':    'f1_f0_dg',
         'autocorr_tau':        'timescale_ac',
     })
 
@@ -110,9 +110,9 @@ HS     = [hierarchy_score[a] for a in areas]
 n_areas = len(areas)
 
 # ── Metric configuration ─────────────────────────────────────────────────────
-metrics = ['time_to_first_spike_fl', 'mod_idx_dg', 'timescale_ac']
+metrics = ['time_to_first_spike_fl', 'f1_f0_dg', 'timescale_ac']
 labels  = ['Time to first spike (ms)',
-           '$log_{10}$ Modulation index (F1/F0)',
+           '$log_{10}$ F1/F0',
            'Response decay timescale (ms)']
 bins    = [np.linspace(15, 120, 30),
            np.linspace(-1.5, 2.0, 50),    # log10(F1/F0)
@@ -165,7 +165,7 @@ for area_idx, area in enumerate(areas):
 
         if metric_idx == 0:   # TTFS
             sel &= (df.time_to_first_spike_fl < 0.1)
-        elif metric_idx == 1: # mod_idx_dg (F1/F0) — exclude zeros
+        elif metric_idx == 1: # f1_f0_dg — exclude zeros
             sel &= (df[metric].astype(float) > 0)
         elif metric_idx == 2: # timescale
             sel &= (df[metric].astype(float) < 300) & (df[metric].astype(float) > 1)
@@ -234,7 +234,7 @@ for i in range(len(metrics)):
                  f'$r_P$={r_p:.2f}; $P_P$={p_p:.4f}\n$r_S$={r_s:.2f}; $P_S$={p_s:.4f}',
                  fontsize=7)
 
-    # Site2 probes as stars
+    # Site session stars (raw)
     for k, area in enumerate(areas):
         if area not in site2_areas: continue
         if not np.isfinite(centers[k, i]): continue
@@ -244,6 +244,27 @@ for i in range(len(metrics)):
         plt.errorbar(HS[k], centers[k, i], yerr=errorbars[k, i],
                      fmt='none', ecolor=get_color_palette(area), lw=1.2, zorder=3)
 
+    # TTFS only: add mean-matched (offset-corrected) copies as hollow stars
+    if i == 0:
+        v1_idx   = list(areas).index('V1')
+        site_idxs = [list(areas).index(a) for a in site2_areas if a in areas]
+        site_vals = [centers[k, 0] for k in site_idxs if np.isfinite(centers[k, 0])]
+        if site_vals and np.isfinite(centers[v1_idx, 0]):
+            ttfs_shift = centers[v1_idx, 0] - np.mean(site_vals)
+            for k, area in enumerate(areas):
+                if area not in site2_areas: continue
+                raw_y = centers[k, i]
+                if not np.isfinite(raw_y): continue
+                corr_y = raw_y + ttfs_shift
+                # Thin dotted line connecting raw to corrected
+                plt.plot([HS[k], HS[k]], [raw_y, corr_y], ':',
+                         color=get_color_palette(area), lw=1.0, zorder=3)
+                # Hollow star at corrected position
+                plt.plot(HS[k], corr_y, '*', ms=11,
+                         color='white',
+                         markeredgecolor=get_color_palette(area),
+                         markeredgewidth=1.2, zorder=5)
+
     plt.ylabel(labels[i])
 
 # Legend in the first scatter panel
@@ -252,6 +273,11 @@ handles = [plt.Line2D([0],[0], marker='*', ms=10, linestyle='none',
                        color=get_color_palette(a), markeredgecolor='k',
                        markeredgewidth=0.5, label=a)
            for a in site2_areas]
+handles += [
+    plt.Line2D([0],[0], marker='*', ms=10, linestyle='none',
+               color='white', markeredgecolor='grey', markeredgewidth=1.2,
+               label='TTFS corrected\n(mean-matched to V1)'),
+]
 ax_leg.legend(handles=handles, loc='upper left', fontsize=7, framealpha=0.6,
                title='V1 multi-site sessions', title_fontsize=7)
 

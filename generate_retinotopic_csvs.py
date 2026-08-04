@@ -355,12 +355,14 @@ def compute_dg_modulation_index_legacy(
     spikes_by_unit: Dict[int, np.ndarray],
     stim_df: pd.DataFrame,
 ) -> pd.DataFrame:
-    """Compute F1/F0 modulation index matching the Allen SDK metric (mod_idx_dg).
+    """Compute F1/F0 matching Allen SDK's f1_f0_dg metric.
 
-    For each unit and temporal frequency, we average the FFT amplitude at TF across
-    individual trials (rather than FFT of the trial-averaged PSTH), which is robust to
-    variable grating starting phase. F1/F0 = mean(|FFT[TF]|) * 2/N / mean_firing_rate.
-    The max F1/F0 across TF values is reported.
+    Matches allensdk/.../stimulus_analysis/drifting_gratings.py::f1_f0():
+      1. Find preferred condition (ori x TF) for each unit by mean spike count.
+      2. For trials at that condition, fold the response into individual grating
+         cycles and average across cycles within each trial (→ one cycle PSTH).
+      3. FFT the single-cycle average: F0 = DC/2, F1 = amplitude at bin 1.
+      4. Return nanmean(F1/F0) across trials where F0 > 0.
     """
     rows = []
 
@@ -370,16 +372,15 @@ def compute_dg_modulation_index_legacy(
             [{"unit_id": int(uid), "modulation_index": np.nan} for uid in units_df.index.values]
         )
 
-    tf_col = None
-    for c in ("temporal_frequency", "temporal_frequency_hz", "tf", "TF"):
-        if c in stim_df.columns:
-            tf_col = c
-            break
+    tf_col = next((c for c in ("temporal_frequency", "temporal_frequency_hz", "tf", "TF")
+                   if c in stim_df.columns), None)
     if tf_col is None:
         log("Modulation index: no TF column in stim table; filling NaN")
         return pd.DataFrame(
             [{"unit_id": int(uid), "modulation_index": np.nan} for uid in units_df.index.values]
         )
+
+    ori_col = next((c for c in ("orientation", "ori", "ORI") if c in stim_df.columns), None)
 
     if "stop_time" in stim_df.columns:
         dur = np.nanmedian((stim_df["stop_time"] - stim_df["start_time"]).to_numpy(dtype=float))
@@ -388,22 +389,46 @@ def compute_dg_modulation_index_legacy(
         duration_s = 2.0
     duration_ms = int(max(1, min(10000, round(duration_s * 1000.0))))
 
-    freqs = np.fft.rfftfreq(duration_ms, d=1e-3)  # Hz, at 1ms resolution
+    # Filter out blank / null trials
+    tf_numeric = pd.to_numeric(stim_df[tf_col], errors="coerce")
+    valid_mask = tf_numeric > 0
+    if ori_col:
+        ori_numeric = pd.to_numeric(stim_df[ori_col], errors="coerce")
+        valid_mask &= ori_numeric.notna()
+    valid = stim_df[valid_mask].copy()
+    valid[tf_col] = tf_numeric[valid_mask].values
+    if ori_col:
+        valid[ori_col] = ori_numeric[valid_mask].values
 
-    # Pre-group trials by TF
-    tf_groups = {}
-    for tf, sub in stim_df.groupby(tf_col):
-        try:
-            tf_val = float(tf)
-        except Exception:
-            continue
-        if not np.isfinite(tf_val) or tf_val <= 0:
-            continue
+    if len(valid) < 5:
+        log("Modulation index: too few valid trials; filling NaN")
+        return pd.DataFrame(
+            [{"unit_id": int(uid), "modulation_index": np.nan} for uid in units_df.index.values]
+        )
+
+    # Build condition groups keyed by (ori, tf) or (tf,)
+    group_cols = [ori_col, tf_col] if ori_col else [tf_col]
+    conditions: Dict[tuple, dict] = {}
+    for keys, sub in valid.groupby(group_cols):
+        if not isinstance(keys, tuple):
+            keys = (keys,)
+        tf_val = float(keys[-1])
         starts = sub["start_time"].to_numpy(dtype=float)
         if starts.size < 5:
             continue
-        k = int(np.argmin(np.abs(freqs - tf_val)))
-        tf_groups[tf_val] = (starts, k)
+        cycles_per_trial = int(tf_val * duration_s)
+        bins_per_cycle   = duration_ms // cycles_per_trial if cycles_per_trial > 0 else 0
+        if bins_per_cycle < 4 or cycles_per_trial < 1:
+            continue
+        conditions[keys] = dict(starts=starts, tf_val=tf_val,
+                                cycles_per_trial=cycles_per_trial,
+                                bins_per_cycle=bins_per_cycle)
+
+    if not conditions:
+        log("Modulation index: no usable conditions; filling NaN")
+        return pd.DataFrame(
+            [{"unit_id": int(uid), "modulation_index": np.nan} for uid in units_df.index.values]
+        )
 
     total = len(units_df.index.values)
     for idx, uid in enumerate(units_df.index.values):
@@ -414,21 +439,43 @@ def compute_dg_modulation_index_legacy(
             rows.append({"unit_id": int(uid), "modulation_index": np.nan})
             continue
 
-        best = np.nan
-        for tf_val, (starts, k) in tf_groups.items():
-            x2d = _bin_spikes_trials_1ms_binary(spikes, starts, duration_ms=duration_ms).astype(float)
-            x2d_hz = x2d * 1000.0  # convert binary 1ms bins → Hz per bin
-            F0 = np.mean(x2d_hz)   # mean firing rate across all trials and bins
-            if F0 < 0.5:
-                continue
-            # Per-trial FFT amplitudes at TF frequency bin
-            fft_amps = 2.0 * np.abs(np.fft.rfft(x2d_hz, axis=1))[:, k] / duration_ms
-            F1 = float(np.mean(fft_amps))
-            ratio = F1 / F0
-            if np.isfinite(ratio) and (not np.isfinite(best) or ratio > best):
-                best = ratio
+        # Fast preferred-condition search via simple spike counts (no 1ms binning)
+        best_key, best_mean = None, -1.0
+        for key, cond in conditions.items():
+            i0 = np.searchsorted(spikes, cond["starts"])
+            i1 = np.searchsorted(spikes, cond["starts"] + duration_s)
+            mean_c = float(np.mean(i1 - i0))
+            if mean_c > best_mean:
+                best_mean = mean_c
+                best_key = key
 
-        rows.append({"unit_id": int(uid), "modulation_index": best})
+        if best_key is None or best_mean == 0.0:
+            rows.append({"unit_id": int(uid), "modulation_index": np.nan})
+            continue
+
+        # Compute F1/F0 at preferred condition using cycle-fold approach
+        cond = conditions[best_key]
+        x2d = _bin_spikes_trials_1ms_binary(
+            spikes, cond["starts"], duration_ms=duration_ms).astype(np.float32)
+
+        # Fold into (n_trials, cycles_per_trial, bins_per_cycle), average cycles
+        n_bins_used = cond["cycles_per_trial"] * cond["bins_per_cycle"]
+        arr = x2d[:, :n_bins_used].reshape(
+            x2d.shape[0], cond["cycles_per_trial"], cond["bins_per_cycle"])
+        avg_cycle = np.mean(arr, axis=1)          # → (n_trials, bins_per_cycle)
+
+        # FFT of each trial's single-cycle average
+        AMP = 2.0 * np.abs(np.fft.fft(avg_cycle, axis=1)) / cond["bins_per_cycle"]
+        F0  = 0.5 * AMP[:, 0]   # DC / 2 = mean firing rate (spikes per bin)
+        F1  = AMP[:, 1]          # amplitude at first harmonic
+
+        sel = F0 > 0.0
+        if not np.any(sel):
+            rows.append({"unit_id": int(uid), "modulation_index": np.nan})
+            continue
+
+        f1f0 = float(np.nanmean(F1[sel] / F0[sel]))
+        rows.append({"unit_id": int(uid), "modulation_index": f1f0})
 
     return pd.DataFrame(rows)
 
