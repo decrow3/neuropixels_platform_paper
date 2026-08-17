@@ -1,0 +1,56 @@
+{
+  "checkpoint": "06c_allen_bo11_v1_rf_size_border_exclusion_surfaces",
+  "inputs": {
+    "support": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+      "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+    }
+  },
+  "parameters": {
+    "sessions": [
+      715093703,
+      719161530,
+      721123822,
+      744228101,
+      750749662,
+      751348571,
+      754312389,
+      754829445,
+      755434585,
+      756029989,
+      757216464,
+      757970808,
+      758798717,
+      759883607,
+      760345702,
+      761418226,
+      762602078,
+      763673393,
+      773418906,
+      791319847,
+      797828357,
+      798911424,
+      799864342
+    ],
+    "border_exclusions_deg": [
+      20.0,
+      22.5,
+      25.0,
+      27.5,
+      30.0,
+      32.5,
+      35.0
+    ],
+    "bandwidth_deg": 8.0,
+    "grid_limits_deg": {
+      "azimuth": [
+        10,
+        90
+      ],
+      "elevation": [
+        -30,
+        50
+      ]
+    }
+  }
+}

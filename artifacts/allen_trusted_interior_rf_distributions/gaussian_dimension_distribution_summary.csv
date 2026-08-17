@@ -1,0 +1,50 @@
+population,group,metric,unit,units,sessions,mean,std,minimum,q25,median,q75,q90,q95,q97_5,q99,maximum
+trusted + Gaussian center on screen,V1,width_sigma_magnitude_deg,deg sigma,2400,31,24.81967,21.30735,0.0612041,9.77059,18.28832,33.95802,49.00964,62.17494,75.44033,98.07591,291.6199
+trusted + Gaussian center on screen,V1,height_sigma_magnitude_deg,deg sigma,2400,31,28.93401,22.19603,2.704193,12.05068,22.79355,39.79727,56.15008,70.65578,83.66807,108.1694,196.4277
+trusted + Gaussian center on screen,V1,major_sigma_magnitude_deg,deg sigma,2400,31,30.51982,25.26794,2.95872,12.39219,22.96738,41.24788,60.74544,76.65035,94.99767,121.2689,291.6199
+trusted + Gaussian center on screen,V1,minor_sigma_magnitude_deg,deg sigma,2400,31,23.23386,17.03266,0.0612041,9.486992,18.14697,32.82849,47.01686,56.24583,66.42312,74.83737,122.7789
+trusted + Gaussian center on screen,V1,major_fwhm_deg,deg FWHM,2400,31,71.86869,59.50146,6.967253,29.18138,54.08406,97.13134,143.0446,180.4978,223.7024,285.5664,686.7123
+trusted + Gaussian center on screen,V1,minor_fwhm_deg,deg FWHM,2400,31,54.71155,40.10886,0.1441246,22.34016,42.73286,77.30519,110.7162,132.4488,156.4145,176.2285,289.1221
+trusted + Gaussian center on screen,V1,gaussian_fwhm_area_deg2,deg2 at half maximum,2400,31,4786.508,7829.957,3.316916,502.3035,1841.942,5912.02,12260.16,18616.03,25634.04,39167.5,97774.35
+trusted + Gaussian center on screen,HVA pooled,width_sigma_magnitude_deg,deg sigma,1560,31,31.25138,20.897,2.838574,15.86093,26.95204,40.56358,56.90437,67.55041,77.23141,102.619,225.0035
+trusted + Gaussian center on screen,HVA pooled,height_sigma_magnitude_deg,deg sigma,1560,31,37.85761,25.12331,2.597651,20.11408,32.26552,48.82001,66.62216,84.04147,104.4858,122.9614,224.8605
+trusted + Gaussian center on screen,HVA pooled,major_sigma_magnitude_deg,deg sigma,1560,31,40.05069,27.4657,3.149251,20.40161,33.47188,51.31056,71.50195,92.95933,109.3823,144.4937,225.0035
+trusted + Gaussian center on screen,HVA pooled,minor_sigma_magnitude_deg,deg sigma,1560,31,29.0583,16.57951,2.597651,15.44333,26.27302,38.74513,51.67018,60.96377,68.22794,77.09981,110.7997
+trusted + Gaussian center on screen,HVA pooled,major_fwhm_deg,deg FWHM,1560,31,94.31217,64.67679,7.415919,48.04213,78.82025,120.8271,168.3742,218.9025,257.5756,340.2567,529.8427
+trusted + Gaussian center on screen,HVA pooled,minor_fwhm_deg,deg FWHM,1560,31,68.42707,39.04177,6.117,36.36626,61.86823,91.23782,121.674,143.5587,160.6645,181.5562,260.9134
+trusted + Gaussian center on screen,HVA pooled,gaussian_fwhm_area_deg2,deg2 at half maximum,1560,31,6734.867,8388.299,38.93255,1351.301,3926.431,8565.286,16379.09,22764.71,30753.09,37949.84,89669.65
+trusted + Gaussian center on screen,LM,width_sigma_magnitude_deg,deg sigma,270,22,25.42183,17.87249,2.838574,11.36492,18.99587,34.90438,50.34908,62.94394,67.41392,73.54728,109.1339
+trusted + Gaussian center on screen,LM,height_sigma_magnitude_deg,deg sigma,270,22,31.24607,26.91978,2.597651,13.73846,21.89583,42.1008,57.6443,79.01073,106.5327,134.7876,200.7425
+trusted + Gaussian center on screen,LM,major_sigma_magnitude_deg,deg sigma,270,22,32.82469,27.46008,3.149251,13.82211,22.41937,46.38885,62.59429,80.24434,106.5327,134.7876,200.7425
+trusted + Gaussian center on screen,LM,minor_sigma_magnitude_deg,deg sigma,270,22,23.84321,16.32743,2.597651,11.13601,17.91581,33.98468,48.32634,54.46133,61.25626,65.42093,109.1339
+trusted + Gaussian center on screen,LM,major_fwhm_deg,deg FWHM,270,22,77.29624,64.66354,7.415919,32.54859,52.79358,109.2374,147.3983,188.961,250.8653,317.4006,472.7125
+trusted + Gaussian center on screen,LM,minor_fwhm_deg,deg FWHM,270,22,56.14647,38.44816,6.117,26.2233,42.1885,80.0278,113.7998,128.2466,144.2475,154.0545,256.9906
+trusted + Gaussian center on screen,LM,gaussian_fwhm_area_deg2,deg2 at half maximum,270,22,4928.478,6917.23,38.93255,671.8118,1719.665,7014.776,13355.51,18956.75,22041.85,30999.5,52203.42
+trusted + Gaussian center on screen,RL,width_sigma_magnitude_deg,deg sigma,220,23,34.53586,26.33836,6.428214,17.36303,27.55291,40.31854,64.01108,77.00894,97.90605,132.6185,225.0035
+trusted + Gaussian center on screen,RL,height_sigma_magnitude_deg,deg sigma,220,23,38.25558,24.17918,8.05025,22.06656,31.15884,49.79476,70.90808,86.34639,92.33519,107.7012,174.9163
+trusted + Gaussian center on screen,RL,major_sigma_magnitude_deg,deg sigma,220,23,41.80194,30.05082,9.148257,22.06656,32.57826,53.19583,81.54967,93.42668,109.8634,157.6533,225.0035
+trusted + Gaussian center on screen,RL,minor_sigma_magnitude_deg,deg sigma,220,23,30.9895,17.98663,6.428214,16.91214,26.77133,38.16787,56.92385,70.54266,75.1648,83.15068,88.09581
+trusted + Gaussian center on screen,RL,major_fwhm_deg,deg FWHM,220,23,98.43604,70.76427,21.5425,51.96278,76.71593,125.2666,192.0348,220.003,258.7085,371.2451,529.8427
+trusted + Gaussian center on screen,RL,minor_fwhm_deg,deg FWHM,220,23,72.97471,42.35527,15.13729,39.82504,63.04166,89.87847,134.0454,166.1153,176.9996,195.8049,207.4498
+trusted + Gaussian center on screen,RL,gaussian_fwhm_area_deg2,deg2 at half maximum,220,23,7679.546,10342.47,256.1144,1619.529,4076.849,9025.017,19139.54,28153.54,36116.66,43759.27,82298.14
+trusted + Gaussian center on screen,AL,width_sigma_magnitude_deg,deg sigma,226,23,29.69134,23.01117,4.216154,14.15502,23.84197,39.25343,53.97235,73.51393,80.08666,104.4122,185.8421
+trusted + Gaussian center on screen,AL,height_sigma_magnitude_deg,deg sigma,226,23,34.35304,21.23226,5.834368,18.40401,28.7558,45.98805,61.88758,71.70999,86.30845,110.0227,125.125
+trusted + Gaussian center on screen,AL,major_sigma_magnitude_deg,deg sigma,226,23,36.95325,25.54075,5.834368,18.69299,29.00549,48.90688,68.59184,77.73201,100.0746,121.6204,185.8421
+trusted + Gaussian center on screen,AL,minor_sigma_magnitude_deg,deg sigma,226,23,27.09112,17.03114,4.216154,14.00887,23.70083,37.17188,48.08916,57.53815,65.08245,81.26279,110.7997
+trusted + Gaussian center on screen,AL,major_fwhm_deg,deg FWHM,226,23,87.01826,60.14388,13.73889,44.01863,68.30272,115.1669,161.5214,183.0449,235.6577,286.3941,437.6247
+trusted + Gaussian center on screen,AL,minor_fwhm_deg,deg FWHM,226,23,63.79472,40.10527,9.928283,32.98837,55.81119,87.53309,113.2413,135.492,153.2575,191.3592,260.9134
+trusted + Gaussian center on screen,AL,gaussian_fwhm_area_deg2,deg2 at half maximum,226,23,5965.201,8013.399,107.1311,1133.78,2962.639,7974.613,14153.28,18867.17,23142.11,38960.69,62004.81
+trusted + Gaussian center on screen,PM,width_sigma_magnitude_deg,deg sigma,328,16,31.91372,19.22241,6.402901,18.51496,27.94937,41.02812,54.55788,60.10015,67.32504,93.84966,177.6051
+trusted + Gaussian center on screen,PM,height_sigma_magnitude_deg,deg sigma,328,16,40.01601,25.09111,8.365401,22.60052,33.88748,49.57086,67.86563,97.67553,109.3679,125.6007,172.51
+trusted + Gaussian center on screen,PM,major_sigma_magnitude_deg,deg sigma,328,16,41.83083,27.20034,8.365401,22.80739,35.69073,50.72209,70.97261,100.6904,114.7875,142.2954,177.6051
+trusted + Gaussian center on screen,PM,minor_sigma_magnitude_deg,deg sigma,328,16,30.0989,14.93655,6.402901,18.26975,27.5878,39.3345,51.849,57.25325,61.59685,70.01484,78.94604
+trusted + Gaussian center on screen,PM,major_fwhm_deg,deg FWHM,328,16,98.50408,64.05191,19.69901,53.70731,84.04525,119.4414,167.1277,237.1077,270.3039,335.0801,418.228
+trusted + Gaussian center on screen,PM,minor_fwhm_deg,deg FWHM,328,16,70.8775,35.17289,15.07768,43.02198,64.9643,92.62566,122.0951,134.8211,145.0495,164.8723,185.9037
+trusted + Gaussian center on screen,PM,gaussian_fwhm_area_deg2,deg2 at half maximum,328,16,6954.139,7788.556,235.6335,1767.665,4259.416,8595.725,16502.55,23364.13,31183.14,35143.74,54672.13
+trusted + Gaussian center on screen,AM,width_sigma_magnitude_deg,deg sigma,516,25,33.16361,19.14918,5.713703,17.92577,30.48136,43.15131,60.79555,69.72617,77.52904,91.62876,122.6524
+trusted + Gaussian center on screen,AM,height_sigma_magnitude_deg,deg sigma,516,25,41.31041,25.36899,8.040264,23.76883,37.20743,51.63272,70.59204,82.17973,100.5505,132.9482,224.8605
+trusted + Gaussian center on screen,AM,major_sigma_magnitude_deg,deg sigma,516,25,43.31014,26.55915,8.040264,24.15298,38.73277,55.46209,73.68118,89.89508,108.5603,133.1274,224.8605
+trusted + Gaussian center on screen,AM,minor_sigma_magnitude_deg,deg sigma,516,25,31.16387,16.25512,5.713703,17.74614,29.62964,40.53501,53.61428,61.85993,66.93116,77.20852,91.56446
+trusted + Gaussian center on screen,AM,major_fwhm_deg,deg FWHM,516,25,101.9876,62.54201,18.93337,56.87592,91.2087,130.6032,173.5059,211.6867,255.64,313.491,529.506
+trusted + Gaussian center on screen,AM,minor_fwhm_deg,deg FWHM,516,25,73.3853,38.27788,13.45474,41.78897,69.77246,95.45265,126.252,145.669,157.6108,181.8122,215.6178
+trusted + Gaussian center on screen,AM,gaussian_fwhm_area_deg2,deg2 at half maximum,516,25,7475.019,8545.213,203.7279,1831.725,5079.86,9385.24,17594.92,23151.36,30783.09,38723.79,89669.65

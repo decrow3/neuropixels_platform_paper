@@ -1,0 +1,4 @@
+interface:
+  display_name: "Concrete-first analysis"
+  short_description: "Understand concrete cases before summaries"
+  default_prompt: "Use $concrete-first-analysis to investigate this question through inspectable cases and human checkpoints before aggregate conclusions."

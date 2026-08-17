@@ -1,0 +1,30 @@
+{
+  "status": "two-case full-tensor nested covariance-bootstrap checkpoint",
+  "cases": [
+    {
+      "ecephys_session_id": 760345702,
+      "role": "trace point-localizing candidate"
+    },
+    {
+      "ecephys_session_id": 798911424,
+      "role": "trace annular-ambiguity candidate"
+    }
+  ],
+  "features": {
+    "trace": "log2 residual covariance trace",
+    "anisotropy_axis": "(Caz,az-Cel,el)/trace",
+    "anisotropy_cross": "2*Caz,el/trace"
+  },
+  "bootstrap": "cells sampled with replacement within six physical probe blocks; local covariance and every contributing session surface re-estimated each repeat",
+  "conditional_on": "nested leave-one-animal-out CCF-to-RF mean-map fits and their predictions",
+  "bootstrap_repeats": 100,
+  "surface_step_deg": 4.0,
+  "translation_step_deg": 2.0,
+  "outputs": [
+    "Figure_v1_covariance_tensor_nested_bootstrap.png",
+    "tensor_nested_bootstrap_metrics.csv",
+    "tensor_full_data_optima.csv",
+    "tensor_nested_bootstrap_optima.csv.gz",
+    "tensor_full_data_landscapes.csv.gz"
+  ]
+}

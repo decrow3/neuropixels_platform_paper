@@ -1,0 +1,21 @@
+outcome,view,n_areas,hierarchy_slope,hierarchy_intercept,pearson_r,note
+log10_f1_f0,rf_adjusted_common_support,5,-0.005464134053173607,-0.020298333358670758,-0.09342943417043553,descriptive across five adjusted area coefficients
+log10_f1_f0,unadjusted_common_support,5,-0.03806663502288788,-0.06837183048470255,-0.35779016852795864,descriptive across five adjusted area coefficients
+log10_f1_f0,unadjusted_full,5,-0.030659838878710047,-0.050760699792805355,-0.35075986502477025,descriptive across five adjusted area coefficients
+log10_mod_idx,rf_adjusted_common_support,5,-0.15708161283655217,-0.2638689331370736,-0.7850438061641527,descriptive across five adjusted area coefficients
+log10_mod_idx,unadjusted_common_support,5,-0.19611054754922996,-0.28729267860110236,-0.9033023116633168,descriptive across five adjusted area coefficients
+log10_mod_idx,unadjusted_full,5,-0.23348181373045424,-0.262359759868805,-0.992133482020048,descriptive across five adjusted area coefficients
+rf_area_deg2,rf_adjusted_common_support,5,276.32944132894005,195.65907287170143,0.7828372459172327,descriptive across five adjusted area coefficients
+rf_area_deg2,unadjusted_common_support,5,280.2181428485825,259.80991037739875,0.8026416905579605,descriptive across five adjusted area coefficients
+rf_area_deg2,unadjusted_full,5,256.63438617440374,127.84125434455713,0.9608177551778303,descriptive across five adjusted area coefficients
+timescale_ms,rf_adjusted_common_support,5,11.038403355964206,-2.682526565237865,0.7283553435391572,descriptive across five adjusted area coefficients
+timescale_ms,unadjusted_common_support,5,13.103293190994409,2.2200094924378226,0.8606871887832563,descriptive across five adjusted area coefficients
+timescale_ms,unadjusted_full,5,11.207511247364762,2.2353208819951815,0.6996314990857886,descriptive across five adjusted area coefficients
+ttfs_ms,rf_adjusted_common_support,5,11.506214384711269,1.7827605470733094,0.8063274346328939,descriptive across five adjusted area coefficients
+ttfs_ms,unadjusted_common_support,5,11.619913706672659,3.8053854934716655,0.8268611666961172,descriptive across five adjusted area coefficients
+ttfs_ms,unadjusted_full,5,10.49934359318179,4.978868481862904,0.793504893964676,descriptive across five adjusted area coefficients
+log10_f1_f0,same_session_nearest_v1_matching,5,-0.11633105182139776,-0.038742794563313705,-0.5385657518480143,descriptive across five matched area contrasts
+log10_mod_idx,same_session_nearest_v1_matching,5,-0.2032882801631805,-0.2321743871929892,-0.616339353343039,descriptive across five matched area contrasts
+rf_area_deg2,same_session_nearest_v1_matching,5,286.33035486660117,188.75241335866065,0.6340021946207663,descriptive across five matched area contrasts
+timescale_ms,same_session_nearest_v1_matching,5,13.300976194171671,1.771654154937529,0.6776185868404654,descriptive across five matched area contrasts
+ttfs_ms,same_session_nearest_v1_matching,5,4.323827469884229,2.270144220978409,0.8197957524899983,descriptive across five matched area contrasts

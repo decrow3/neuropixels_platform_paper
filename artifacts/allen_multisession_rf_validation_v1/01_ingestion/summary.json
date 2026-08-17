@@ -1,0 +1,12 @@
+{
+  "sessions": 4,
+  "total_visual_units": 3006,
+  "total_qc_units": 1840,
+  "gabor_presentations_per_session": [
+    3645
+  ],
+  "valid_gaze_fraction_range": [
+    0.897119341563786,
+    0.9936899862825789
+  ]
+}

@@ -11,15 +11,17 @@ Same y-axis tick increment across all 4 columns per row.
 sharey between col 0–1 and between col 2–3.
 """
 
-import pandas as pd
+import argparse
 import os
+from pathlib import Path
+import sys
+
+import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 from scipy.stats import linregress, gaussian_kde
-import glob
-import re
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -28,53 +30,60 @@ matplotlib.rcParams['ps.fonttype'] = 42
 np.random.seed(42)
 
 code_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-data_dir = os.path.join(code_directory, 'data')
+if code_directory not in sys.path:
+    sys.path.insert(0, code_directory)
+
+from common.figure3_mousev2 import (  # noqa: E402
+    load_allen_units,
+    load_config,
+    load_mousev2_units,
+)
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument(
+    '--output-dir',
+    type=Path,
+    default=Path(code_directory) / 'Figure3',
+    help='Directory for the generated PNG (default: Figure3).',
+)
+parser.add_argument('--config', type=Path, default=None)
+parser.add_argument('--grating-metrics-dir', type=Path, default=None)
+parser.add_argument('--flash-metrics-dir', type=Path, default=None)
+parser.add_argument(
+    '--flash-variant', choices=('pooled', 'bright', 'dark'), default='pooled'
+)
+parser.add_argument(
+    '--ttfs-display', choices=('mean_matched', 'raw_nwb'), default='mean_matched'
+)
+parser.add_argument(
+    '--within-v1-x-mode',
+    choices=('legacy_pseudo_hierarchy', 'display_only'),
+    default='legacy_pseudo_hierarchy',
+    help='Accepted for checkpoint provenance; this panel is categorical in both modes.',
+)
+parser.add_argument(
+    '--grating-metric', choices=('f1_f0_dg', 'mod_idx_dg'), default='f1_f0_dg'
+)
+parser.add_argument('--population-profile', default=None)
+args = parser.parse_args()
+output_dir = args.output_dir.resolve()
+config = load_config(args.config)
 
 # ── Load original data ────────────────────────────────────────────────────────
-df_orig = pd.read_csv(os.path.join(data_dir, 'unit_table.csv'), low_memory=False)
-fine_to_coarse = {'VISp': 'V1', 'VISl': 'LM', 'VISrl': 'RL',
-                  'VISal': 'AL', 'VISpm': 'PM', 'VISam': 'AM'}
-df_orig['area_coarse'] = df_orig['ecephys_structure_acronym'].map(
-    lambda a: fine_to_coarse.get(a, a))
+df_orig = load_allen_units(
+    args.config, population_profile=args.population_profile
+)
 
 # ── Load all site data ────────────────────────────────────────────────────────
 APPLY_QC = True   # set False to revert to unfiltered units
-
-def _load_one_site(site_dir):
-    needed = ['layer_info.csv', 'change_modulation_data.csv',
-              'timescale_metrics.csv', 'time_to_first_spike.csv']
-    if not all(os.path.isfile(os.path.join(site_dir, f)) for f in needed):
-        return pd.DataFrame()
-    lay  = pd.read_csv(os.path.join(site_dir, 'layer_info.csv'))
-    mod  = pd.read_csv(os.path.join(site_dir, 'change_modulation_data.csv'))
-    ts   = pd.read_csv(os.path.join(site_dir, 'timescale_metrics.csv'))
-    ttfs = pd.read_csv(os.path.join(site_dir, 'time_to_first_spike.csv'))
-    df = lay.merge(mod, on='unit_id').merge(ts, on='unit_id').merge(ttfs, on='unit_id')
-    df = df.rename(columns={
-        'time_to_first_spike': 'time_to_first_spike_fl',
-        'modulation_index':    'f1_f0_dg',
-        'autocorr_tau':        'timescale_ac',
-    })
-    qc_path = os.path.join(site_dir, 'unit_quality.csv')
-    if APPLY_QC and os.path.isfile(qc_path):
-        qc = pd.read_csv(qc_path)[['unit_id', 'default_qc']]
-        df = df.merge(qc, on='unit_id', how='left')
-        df = df[df['default_qc'] == True].drop(columns=['default_qc'])
-    return df
-
-_site_dirs = sorted(glob.glob(os.path.join(data_dir, 'site*_processed')))
-_frames = [_load_one_site(d) for d in _site_dirs]
-_frames = [f for f in _frames if not f.empty]
-df_site = pd.concat(_frames, ignore_index=True, sort=False) if _frames else pd.DataFrame()
-
-if not df_site.empty:
-    def _parse(acronym):
-        m = re.match(r'V1_site(\d+)_([ABCE])', str(acronym))
-        return (int(m.group(1)), m.group(2)) if m else (None, None)
-    parsed = [_parse(a) for a in df_site['ecephys_structure_acronym']]
-    df_site['session_num']  = [x[0] for x in parsed]
-    df_site['probe_letter'] = [x[1] for x in parsed]
-    df_site = df_site[df_site['probe_letter'].notna()].copy()
+df_site = load_mousev2_units(
+    apply_qc=APPLY_QC if args.population_profile is None else False,
+    config_path=args.config,
+    grating_metrics_dir=args.grating_metrics_dir,
+    flash_metrics_dir=args.flash_metrics_dir,
+    flash_variant=args.flash_variant,
+    population_profile=args.population_profile,
+)
 
 # ── Colours ───────────────────────────────────────────────────────────────────
 def orig_color(area):
@@ -93,19 +102,21 @@ _hs = {'LGd':-0.515, 'V1':-0.357, 'LM':-0.093, 'RL':-0.059,
        'LP':0.105, 'AL':0.152, 'PM':0.327, 'AM':0.441}
 
 # ── Metrics ───────────────────────────────────────────────────────────────────
-_metrics    = ['time_to_first_spike_fl', 'f1_f0_dg', 'timescale_ac']
-_row_labels = ['TTFS (ms)', '$\\log_{10}$ F1/F0', 'Response timescale (ms)']
+_grating_label = 'F1/F0' if args.grating_metric == 'f1_f0_dg' else 'modulation index'
+_metrics    = ['time_to_first_spike_fl', args.grating_metric, 'timescale_ac']
+_row_labels = ['TTFS (ms)', f'$\\log_{{10}}$ {_grating_label}', 'Response timescale (ms)']
 _fns        = [lambda v: v * 1000,
                lambda v: np.log10(np.clip(v, 1e-6, None)),
                lambda v: v]
-_tick_inc   = [5, 0.1, 10]
+_grating_tick = 0.1 if args.grating_metric == 'f1_f0_dg' else 0.25
+_tick_inc   = [5, _grating_tick, 10]
 
 def _filt(df_sub, mi):
     sel = pd.Series(True, index=df_sub.index)
     if mi == 0:
         sel &= df_sub['time_to_first_spike_fl'].astype(float) < 0.1
     elif mi == 1:
-        sel &= df_sub['f1_f0_dg'].astype(float) > 0
+        sel &= df_sub[args.grating_metric].astype(float) > 0
     elif mi == 2:
         sel &= df_sub['timescale_ac'].astype(float).between(1, 300)
         sel &= df_sub['spike_count_ac'].astype(float) > 50
@@ -127,7 +138,7 @@ def _ci(v, N=500):
     return np.percentile(est, 97.5) - np.nanmean(est)
 
 sessions    = sorted(df_site['session_num'].unique()) if not df_site.empty else []
-probe_order = ['B', 'C', 'A', 'E']
+probe_order = list(config['display_probe_order'])
 probe_xi    = {p: i for i, p in enumerate(probe_order)}
 n_sess      = len(sessions)
 _jit        = np.linspace(-0.18, 0.18, n_sess) if n_sess > 1 else np.array([0.0])
@@ -328,8 +339,12 @@ for mi in range(3):
                       np.ceil(hi  / inc) * inc + pad)
 
 # ── TTFS offset note ──────────────────────────────────────────────────────────
-axes[0, 0].text(0.02, 0.03,
-    '* ~10 ms display-timing offset\n  relative to original (see other figure)',
+_ttfs_note = (
+    '* ~10 ms display-timing offset\n  relative to original (see other figure)'
+    if args.ttfs_display == 'mean_matched'
+    else '* raw relative to NWB start_time\n  physical light onset uncalibrated'
+)
+axes[0, 0].text(0.02, 0.03, _ttfs_note,
     transform=axes[0, 0].transAxes, fontsize=6.5, color='#888',
     style='italic', va='bottom')
 
@@ -350,6 +365,7 @@ axes[0, 3].text(0.5, 1.01, 'LM→AM\nunits', transform=axes[0,3].transAxes,
                 ha='center', va='bottom', fontsize=8, color='#555')
 
 # ── Save ──────────────────────────────────────────────────────────────────────
-out = os.path.join(code_directory, 'Figure3', 'Figure3_split_comparison.png')
+output_dir.mkdir(parents=True, exist_ok=True)
+out = output_dir / 'Figure3_split_comparison.png'
 plt.savefig(out, dpi=150, bbox_inches='tight')
 print(f'Saved → {out}')

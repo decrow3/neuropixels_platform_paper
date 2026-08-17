@@ -1,0 +1,103 @@
+{
+  "analysis": "Allen BO 1.1 Gaussian RF edge inflation",
+  "inputs": {
+    "support": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+      "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+    },
+    "unit_table": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/unit_table.csv",
+      "sha256": "b8da78472923344c99b2e426af52cef520a5ceb972e9ac3da5388d4844b2ebed"
+    }
+  },
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/quantify_allen_bo11_gaussian_rf_edge_inflation.py",
+    "sha256": "4e30371887e476841a83414e51db0f2d88409b3911d3f116aa835e54684f59f2"
+  },
+  "parameters": {
+    "cohort": "Brain Observatory 1.1",
+    "grid_limits_deg": [
+      10.0,
+      90.0,
+      -30.0,
+      50.0
+    ],
+    "mapped_span_deg": 80.0,
+    "edge_definition_deg": "nearest distance <= 10",
+    "interior_definition_deg": "nearest distance > 20",
+    "bootstrap_repetitions": 20000,
+    "seed": 737581020
+  },
+  "audit": {
+    "support_units": 10919,
+    "support_sessions": 31,
+    "support_areas": [
+      "AL",
+      "AM",
+      "LM",
+      "PM",
+      "RL",
+      "V1"
+    ],
+    "maximum_p_value_rf": 0.009000000000000001,
+    "missing_either_gaussian_dimension": 4,
+    "negative_width_parameters": 238,
+    "negative_height_parameters": 246
+  },
+  "results": {
+    "median_session_edge_to_interior_ratio": 10.962898303877935,
+    "bootstrap_95_percent_interval": [
+      8.439610361943902,
+      12.537203246691128
+    ],
+    "sessions_with_edge_median_larger": 31,
+    "sessions_compared": 31,
+    "two_sided_sign_test_p": 9.313225746154785e-10
+  },
+  "outputs": {
+    "Figure_allen_bo11_gaussian_rf_edge_inflation.png": {
+      "bytes": 309134,
+      "sha256": "ac93efe1d73dd1a7d24aea6331c23307ade23c22d69b8736a0b502930d3b5afb"
+    },
+    "README.md": {
+      "bytes": 3041,
+      "sha256": "4fa4b6540d19430fae050e0eb8e9428bfcaf6048d555be9ce2daad465fdab2ca"
+    },
+    "concrete_cases.csv": {
+      "bytes": 672,
+      "sha256": "05c2b29c5248c738a6709063588c4d89404f1c00c92129a36012ee6585462a9d"
+    },
+    "edge_band_area_summary.csv": {
+      "bytes": 2203,
+      "sha256": "2afc0b01eb8b4451ab74d04d2cd6ec70bce3928213f562ca57403f04d8d69470"
+    },
+    "edge_band_on_screen_stratification.csv": {
+      "bytes": 929,
+      "sha256": "37b71fdda6e58400a5423b308b3bb24d81c81bf0d9a5898609b090a1c51312db"
+    },
+    "edge_band_population_summary.csv": {
+      "bytes": 546,
+      "sha256": "faee021a61008f0adbdaeb7dd8cf8ed0bdcc154ad51758f33306c8ae35ac609b"
+    },
+    "edge_band_session_summary.csv": {
+      "bytes": 10995,
+      "sha256": "41fed460cd57d1e5cc5c892c3af3cc3db1afe70dfa8bb88939ab909a225d0a3c"
+    },
+    "edge_cutoff_sensitivity.csv": {
+      "bytes": 554,
+      "sha256": "dfd599c5fc4336bbfa6ca68cc5e21d833b1c9be53dae2d3d4b05a920935d14b0"
+    },
+    "edge_vs_interior_area_summary.csv": {
+      "bytes": 522,
+      "sha256": "7870d0c25c0cc625c5c3968b10c8dee33dc9a48ae399f6b7808463f17b3fee34"
+    },
+    "edge_vs_interior_paired_sessions.csv": {
+      "bytes": 3200,
+      "sha256": "dd5dfa80ab36f5d6205766ef01f87deb2530798fd297c2fd3c8e918e66457f06"
+    },
+    "unit_level_metrics.csv": {
+      "bytes": 2328008,
+      "sha256": "9896ed1d1df74565d519045e1ebfe32f2b1e2185d7d3d5acab151985ffc6b803"
+    }
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-05T15:34:45.302541-07:00",
+  "started_at": "2026-08-05T15:29:03.845827-07:00",
+  "dandiset": {
+    "dandiset_id": "DANDI:001568",
+    "dandiset_version": "draft"
+  },
+  "sites": [
+    "site2",
+    "site3",
+    "site4",
+    "site5",
+    "site6",
+    "site7",
+    "site8",
+    "site9"
+  ],
+  "flash_definition": {
+    "ttfs_window_ms": [
+      30,
+      200
+    ],
+    "ttfs_bin_ms": 1,
+    "timescale_bin_ms": 10,
+    "timescale_selection_s": [
+      0.04,
+      0.29
+    ],
+    "timescale_selected_bin_centers_s": [
+      0.045,
+      0.055,
+      0.065,
+      0.07500000000000001,
+      0.08499999999999999,
+      0.095,
+      0.10500000000000001,
+      0.11499999999999999,
+      0.125,
+      0.135,
+      0.14500000000000002,
+      0.155,
+      0.165,
+      0.175,
+      0.185,
+      0.195,
+      0.20500000000000002,
+      0.215,
+      0.225,
+      0.235,
+      0.245,
+      0.255,
+      0.265,
+      0.275,
+      0.28500000000000003
+    ],
+    "polarity": {
+      "bright": 1.0,
+      "dark": -1.0
+    },
+    "timing_reference": "NWB interval start_time; uncalibrated physical light onset"
+  },
+  "inputs": [
+    {
+      "site": "site2",
+      "subject_id": 816305,
+      "dandiset_relative_path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169,
+      "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site3",
+      "subject_id": 810531,
+      "dandiset_relative_path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152,
+      "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site4",
+      "subject_id": 810532,
+      "dandiset_relative_path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523,
+      "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site5",
+      "subject_id": 813810,
+      "dandiset_relative_path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191,
+      "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site6",
+      "subject_id": 815152,
+      "dandiset_relative_path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368,
+      "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site7",
+      "subject_id": 816308,
+      "dandiset_relative_path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441,
+      "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site8",
+      "subject_id": 817334,
+      "dandiset_relative_path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420,
+      "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site9",
+      "subject_id": 817335,
+      "dandiset_relative_path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377,
+      "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/unit_metric_comparison.csv",
+      "bytes": 5452229,
+      "sha256": "3d5242e107a3778ecac06f4982bbfa264628a0d27028a238aa39e5147176e4f9"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site_metric_summary.csv",
+      "bytes": 1855,
+      "sha256": "2b4b3767a1205ccd172dd555696eb587f13492c77fd4291f8d1c77a80a9ae84e"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/timing_audit.csv",
+      "bytes": 2416,
+      "sha256": "541a2775baabafbc8de9868cd1801111fa469abe1173c24d7e411a2d6e49eab0"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/flash_metric_diagnostics.png",
+      "bytes": 812982,
+      "sha256": "a970d8483a0df512fe42793f9c5c56ab07c90c7932401af1656c740c0cecc079"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/README.md",
+      "bytes": 811,
+      "sha256": "0d30fc966d8d6c63cf06f3bbdb3adfeb8fa15bf79723b96c4a8cdf4f40ddea6b"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site2/flash_metrics.csv",
+      "bytes": 507869,
+      "sha256": "d837f59d3bdb51380ddc8a73c82b873c9a6f425f5c67903062623d8b30991f2a"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site3/flash_metrics.csv",
+      "bytes": 422042,
+      "sha256": "45407e8ba18ab7b5b60c893df93a8520f9fd9533722e9d52528a030c07b375e9"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site4/flash_metrics.csv",
+      "bytes": 413075,
+      "sha256": "18128003cc31beaf3049341183acaeffa31c6d665a0c1305303c89358756a416"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site5/flash_metrics.csv",
+      "bytes": 562383,
+      "sha256": "91b4db748f41c0b19bc73cc34e9203da3d7f459111898961166cfc3903d61a2e"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site6/flash_metrics.csv",
+      "bytes": 438277,
+      "sha256": "a6461cfe3ea065293e99a5bcdd7f7a98f60c5ff1b61a383bbe6afc9de9529523"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site7/flash_metrics.csv",
+      "bytes": 471053,
+      "sha256": "9f743f05af02fdc0f7188b999a3d65599621d2b8653fd25fd0c769a405673580"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site8/flash_metrics.csv",
+      "bytes": 542758,
+      "sha256": "b75b8b38634ddc91d6e3da47a87db67303435214faa347280b6175d865ca412b"
+    },
+    {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_flash_metrics_v1/site9/flash_metrics.csv",
+      "bytes": 451713,
+      "sha256": "f5a5a9692315a5338faac7cf920c59025d8fa7fc1953202d30bc05cb56563890"
+    }
+  ],
+  "code": {
+    "metrics": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/common/flashes.py",
+      "bytes": 7926,
+      "sha256": "ebb0961163842da8b9f93c68070f14d2e506f7f55530e78c45800a90eada6a5a"
+    },
+    "extractor": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/extract_mousev2_flash_metrics.py",
+      "bytes": 17863,
+      "sha256": "cf4e1ff6b89be787c990f3a0046de676aeb7899a92c1981dea2ea5ff93f44bac"
+    },
+    "nwb_reader": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/generate_retinotopic_csvs.py",
+      "bytes": 19329,
+      "sha256": "22b5a0f88d7a53f9e4ad8a85ea25a478e41bf043be1d7f28d641f5586010902a"
+    },
+    "test": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/tests/test_flashes.py",
+      "bytes": 2595,
+      "sha256": "a6de5de10b4f0cdb458a94332f486031f022fc15a4271c82df596562fe7ae1dd"
+    }
+  },
+  "environment": {
+    "python": "3.10.19"
+  }
+}

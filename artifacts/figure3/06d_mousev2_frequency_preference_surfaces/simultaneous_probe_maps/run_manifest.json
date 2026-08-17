@@ -1,0 +1,103 @@
+{
+  "checkpoint": "06d_mousev2_simultaneous_probe_maps",
+  "status": "complete-quartet translation-aligned sensitivity maps",
+  "inputs": {
+    "rf_table": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_parametric_rf_v1/rf_unit_fits.csv",
+      "sha256": "cc045b3be9edfd25cbf45916a0aad16d4dbde4c4a495f157ef3391b975e9aa1f"
+    },
+    "grating_tables": [
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_grating_metrics_v1/site2/grating_metrics.csv",
+        "sha256": "5c537575fed1fd8a47f87e5bf6d89679f29d8f35b16a03964eec7853092e2018"
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_grating_metrics_v1/site3/grating_metrics.csv",
+        "sha256": "56cbb1f2c9e7c60b62adfc3ea8c3724dacecd49fe18b615791848c3b065fe1fd"
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_grating_metrics_v1/site4/grating_metrics.csv",
+        "sha256": "19b74a765feff07153f5eee8157bb44bd3212e50e926ec2c8220abe323649f53"
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_grating_metrics_v1/site5/grating_metrics.csv",
+        "sha256": "823a930772955323fa88a33f0e6b3612f1291039ce39c943b291a18f09a235bb"
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_grating_metrics_v1/site6/grating_metrics.csv",
+        "sha256": "0c3ec6b8321fac8b54a4ea344a0e4953ff9294c0d755b04141ac9c2bcc301940"
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_grating_metrics_v1/site7/grating_metrics.csv",
+        "sha256": "2169001fb5e64f53a6d1fc14cec6a983cc4904abd25d1ba6b50cfb70a176504a"
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_grating_metrics_v1/site8/grating_metrics.csv",
+        "sha256": "9c1958bedbfe26575b40337544a80430255f1e1b334175c8e9097001997556db"
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_grating_metrics_v1/site9/grating_metrics.csv",
+        "sha256": "31b8e6a93c73a2eea194fa77b3ae8d29d8d373a65f4bb0438031cf169b5b5a5e"
+      }
+    ],
+    "tuning_support": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/imports/mousev2_frequency_tuning_v1/frequency_tuning_support.csv",
+      "sha256": "ee437842ec5c5a6556264568f7d2ad0774a3405357de3b622a5a7a8d892c33fc"
+    }
+  },
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/render_mousev2_simultaneous_probe_maps.py",
+    "sha256": "7995660214edfcbcf9d086523e8cbe9f9469f98b0b7f416419821e72a4303f45"
+  },
+  "parameters": {
+    "probe_order": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "complete_sessions": [
+      "site2",
+      "site3",
+      "site4",
+      "site5",
+      "site6",
+      "site7",
+      "site8",
+      "site9"
+    ],
+    "bandwidth_deg": 12.0,
+    "grid_size": 41,
+    "minimum_effective_sessions": 3.0,
+    "minimum_local_units": 20,
+    "session_weighting": "equal prior weight",
+    "alignment": "median across four probe-specific median RF centers; translation only",
+    "gaze_correction": "none; alignment is sensitivity analysis"
+  },
+  "outputs": {
+    "Figure_mousev2_simultaneous_probe_rf_sf_tf_polar.png": {
+      "bytes": 982434,
+      "sha256": "b6f900fa0ef87ce1fb97d98f40311074219d321cb1199eaf030ccae3364d6b66"
+    },
+    "MOUSEV2_SIMULTANEOUS_PROBE_MAPS.md": {
+      "bytes": 2338,
+      "sha256": "4de290e929a7da497dd49ea8860473548b184054ef1302f9a6dba4069b6d27a6"
+    },
+    "simultaneous_probe_pairwise_surface_summary.csv": {
+      "bytes": 851,
+      "sha256": "62d68dc51ffae8b0efa02131cf82a7d5a9179f5b05d4e598fd30a7acc6877779"
+    },
+    "simultaneous_probe_population.csv": {
+      "bytes": 595,
+      "sha256": "a4bbe6034bb12f952a2e65aec5984b38be751fac028a4c3ef9e89a69aa99bbed"
+    },
+    "simultaneous_probe_session_alignment.csv": {
+      "bytes": 650,
+      "sha256": "a3aef79a1bc39684a8708a6db210d1961217124848f1798d3d2eb89f8e775aa0"
+    },
+    "simultaneous_probe_surface_grid.csv": {
+      "bytes": 839730,
+      "sha256": "dbe1565c148ecbf849c263cb76944bc9ffafbc3568abf99b70077631a488d85b"
+    }
+  }
+}

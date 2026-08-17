@@ -1,0 +1,7 @@
+term,coefficient_log2_area
+intercept,8.72018
+azimuth,0.10968
+elevation,0.0356627
+azimuth_squared,-0.0585594
+azimuth_by_elevation,-0.0348043
+elevation_squared,0.142631

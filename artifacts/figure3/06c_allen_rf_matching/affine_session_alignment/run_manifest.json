@@ -1,0 +1,100 @@
+{
+  "checkpoint": "06c_allen_bo11_affine_session_alignment",
+  "status": "rejected diagnostic; RF-center landmarks are circular for coordinate correction",
+  "input": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/unit_table.csv",
+    "sha256": "b8da78472923344c99b2e426af52cef520a5ceb972e9ac3da5388d4844b2ebed"
+  },
+  "audit_manifest_sha256": "86b89094c217d2b2f26a24329876832ac4a4025776c8498608ef128519582c14",
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/allen_bo11_affine_session_alignment.py",
+    "sha256": "d2bf0d64f9ddf74a90455a3dda538e3d26303243f4de7106f5a296f9e63b014e"
+  },
+  "parameters": {
+    "sessions": [
+      715093703,
+      719161530,
+      721123822,
+      732592105,
+      737581020,
+      739448407,
+      742951821,
+      744228101,
+      746083955,
+      750332458,
+      750749662,
+      751348571,
+      754312389,
+      754829445,
+      755434585,
+      756029989,
+      757216464,
+      757970808,
+      758798717,
+      759883607,
+      760345702,
+      760693773,
+      761418226,
+      762120172,
+      762602078,
+      763673393,
+      773418906,
+      791319847,
+      797828357,
+      798911424,
+      799864342
+    ],
+    "ridge_candidates": [
+      0.01,
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "selected_ridge_lambda": 0.1,
+    "rf_center_weight": "sqrt unit count",
+    "tuning_agreement_weight": "sqrt held-out/reference local units times sqrt effective reference sessions",
+    "bandwidth_deg": 12.0,
+    "grid_size": 41,
+    "minimum_session_units": 10,
+    "minimum_reference_units": 20,
+    "minimum_reference_sessions": 3.0,
+    "minimum_shared_grid_points": 50,
+    "bootstrap_iterations": 5000,
+    "tuning_leakage": "none; transforms and ridge selected from RF centers only"
+  },
+  "outputs": {
+    "ALLEN_BO11_AFFINE_SESSION_ALIGNMENT.md": {
+      "bytes": 2773,
+      "sha256": "c097fd019f967f33bfbaf1b87f93fa520ebcf684147b41e01a5ccb32019f29ff"
+    },
+    "Figure_allen_bo11_affine_sf_tf_agreement.png": {
+      "bytes": 277734,
+      "sha256": "e85447597e6b4f5b42035f3f5d5c8fef937c2980610608711223fb3cf78544a2"
+    },
+    "NONCENTER_ALIGNMENT_FEATURE_PLAN.md": {
+      "bytes": 2335,
+      "sha256": "07723df9902403944fa34d0f89f1d2ecf845d1aeed7fa0878ebdcd729754f87f"
+    },
+    "affine_regularization_rf_cross_validation.csv": {
+      "bytes": 245,
+      "sha256": "3fbc3912c11f70a36dd5abb2e36dfb3289781a225a2d8e86e775a31597ecab18"
+    },
+    "rf_area_center_residuals.csv": {
+      "bytes": 4838,
+      "sha256": "2dd039c9031ac36814fc84a78d2ef6cdfd90d7943a29425d7993a0c5ea42656a"
+    },
+    "session_affine_transforms.csv": {
+      "bytes": 3776,
+      "sha256": "e2eb247caebbcffc9131d90b55a8de0779a0389deabfe7b60ae0b5f94476ef39"
+    },
+    "sf_tf_agreement_summary.csv": {
+      "bytes": 865,
+      "sha256": "632c02333c4b7c69a55b3b4c14271868855b228e1c0c0e5807e347047a5d9840"
+    },
+    "sf_tf_leave_one_session_agreement.csv": {
+      "bytes": 20134,
+      "sha256": "4651ef145cfd0a32f4cc65403c7ecddc133f0069ffab2865c161660f8256d3ed"
+    }
+  }
+}

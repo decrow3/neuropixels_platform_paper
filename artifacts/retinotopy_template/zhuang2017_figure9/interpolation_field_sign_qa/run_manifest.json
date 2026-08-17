@@ -1,0 +1,22 @@
+{
+  "template": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/retinotopy_template/zhuang2017_figure9/retinotopy_contour_grid.npz",
+  "shape_rows_columns": [
+    430,
+    470
+  ],
+  "interpolation": "piecewise linear, then nearest-contour fill outside linear support",
+  "field_sign_definition": "det(grad(azimuth), grad(elevation)) / (|grad(azimuth)| |grad(elevation)|), x right and y up",
+  "gradient_smoothing_sigma_px": 2.0,
+  "weak_gradient_percentile_excluded": 10.0,
+  "domain_pixels": 101780,
+  "azimuth_linear_support_fraction_of_domain": 0.9774611908036942,
+  "elevation_linear_support_fraction_of_domain": 0.9435645509923364,
+  "joint_linear_support_fraction_of_domain": 0.9424837885635685,
+  "field_sign_valid_fraction_of_domain": 0.8482314796620161,
+  "field_sign_positive_fraction_of_valid": 0.47160413746771224,
+  "computed_reversal_pixels": 3326,
+  "computed_reversal_median_distance_to_published_boundary_px": 1.0,
+  "computed_reversal_fraction_within_5px_of_published_boundary": 0.8232110643415514,
+  "computed_reversal_fraction_within_10px_of_published_boundary": 0.9467829224293446,
+  "caveat": "The published mask includes outer and inter-area borders, so reversal-to-border distance is a directional diagnostic, not a segmentation score."
+}

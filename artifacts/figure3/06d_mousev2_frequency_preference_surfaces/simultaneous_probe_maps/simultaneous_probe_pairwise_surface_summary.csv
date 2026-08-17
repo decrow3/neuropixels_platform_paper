@@ -1,0 +1,13 @@
+preference,first_probe,second_probe,contrast,shared_grid_points,shared_grid_fraction,comparison_supported,median_difference_octaves,p10_difference_octaves,p90_difference_octaves,surface_correlation
+sf,A,B,A minus B,26,0.015467,False,,,,
+sf,A,C,A minus C,36,0.0214158,False,,,,
+sf,A,E,A minus E,213,0.12671,True,-0.475856,-0.624488,-0.072639,-0.220895
+sf,B,C,B minus C,200,0.118977,True,-0.251504,-0.38822,-0.0396279,-0.0274411
+sf,B,E,B minus E,0,0,False,,,,
+sf,C,E,C minus E,154,0.0916121,True,-0.483124,-0.609833,-0.226825,-0.859014
+tf,A,B,A minus B,0,0,False,,,,
+tf,A,C,A minus C,2,0.00118977,False,,,,
+tf,A,E,A minus E,107,0.0636526,True,0.278649,0.134772,0.414652,-0.23096
+tf,B,C,B minus C,80,0.0475907,True,0.059076,-0.041264,0.0991406,0.727875
+tf,B,E,B minus E,0,0,False,,,,
+tf,C,E,C minus E,69,0.041047,True,0.413973,0.366201,0.478836,0.928314

@@ -1,15 +1,20 @@
 """
 Figure3_with_V1sites.py
 
-Extends Figure3.py to overlay V1 multi-site (MouseV2) data.
-- Original 8 areas: loaded from data/unit_table.csv (Allen SDK metrics: F1/F0, TTFS, timescale)
-- Site2 probes (A/B/C/E): loaded from data/site2_processed/ (same metrics, recomputed)
-- Both mod_idx_dg datasets use F1/F0, compared on log10 scale
-- Site2 probes are placed at VISp hierarchy score (±small jitter) pending RF-based assignment
+Extends Figure3.py to overlay all configured V1 multi-site (MouseV2) data.
+The grating panel can show either matched F1/F0 or matched Allen modulation
+index from a versioned full-condition import. Site sessions can retain the
+legacy pseudo-hierarchy geometry for regression checks or use explicitly
+non-metric display offsets around VISp. Measured RF position is shown in a
+companion view.
 """
 
-import pandas as pd
+import argparse
 import os
+from pathlib import Path
+import sys
+
+import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -24,12 +29,49 @@ matplotlib.rcParams['ps.fonttype'] = 42
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 code_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-data_dir       = os.path.join(code_directory, 'data')
-site2_dir      = os.path.join(data_dir, 'site2_processed')
+if code_directory not in sys.path:
+    sys.path.insert(0, code_directory)
+
+from common.figure3_mousev2 import (  # noqa: E402
+    load_allen_units,
+    load_config,
+    load_mousev2_units,
+    site_coarse_label,
+    within_v1_x_positions,
+)
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument(
+    '--output-dir',
+    type=Path,
+    default=Path(code_directory) / 'Figure3',
+    help='Directory for the generated PNG (default: Figure3).',
+)
+parser.add_argument('--config', type=Path, default=None)
+parser.add_argument('--grating-metrics-dir', type=Path, default=None)
+parser.add_argument('--flash-metrics-dir', type=Path, default=None)
+parser.add_argument(
+    '--flash-variant', choices=('pooled', 'bright', 'dark'), default='pooled'
+)
+parser.add_argument(
+    '--ttfs-display', choices=('mean_matched', 'raw_nwb'), default='mean_matched'
+)
+parser.add_argument(
+    '--within-v1-x-mode',
+    choices=('legacy_pseudo_hierarchy', 'display_only'),
+    default='legacy_pseudo_hierarchy',
+)
+parser.add_argument(
+    '--grating-metric', choices=('f1_f0_dg', 'mod_idx_dg'), default='f1_f0_dg'
+)
+parser.add_argument('--population-profile', default=None)
+args = parser.parse_args()
+output_dir = args.output_dir.resolve()
+config = load_config(args.config)
 
 # ── Colour palette ───────────────────────────────────────────────────────────
 _V1_BASE = np.array([129, 116, 177]) / 255
-_SITE_LABELS = [f'V1_s{i}' for i in range(2, 10)]  # V1_s2 … V1_s9
+_SITE_LABELS = [f"V1_s{s['site_number']}" for s in config['sessions']]
 
 def get_color_palette(area):
     colors = [[217,141,194],[129,116,177],[78,115,174],[101,178,201],
@@ -44,44 +86,25 @@ def get_color_palette(area):
     return palette.get(area, '#C9C9C9')
 
 # ── Load original data (unit_table.csv — Allen SDK F1/F0, TTFS, timescale) ──
-df_orig = pd.read_csv(os.path.join(data_dir, 'unit_table.csv'), low_memory=False)
-
-fine_to_coarse = {'VISp':'V1','VISl':'LM','VISrl':'RL','VISal':'AL','VISpm':'PM','VISam':'AM'}
-df_orig['area_coarse'] = df_orig['ecephys_structure_acronym'].map(
-    lambda a: fine_to_coarse.get(a, a))
+df_orig = load_allen_units(
+    args.config, population_profile=args.population_profile
+)
 
 # ── Load all V1 site data (site2_processed, site3_processed, …) ──────────────
-def _load_one_site(site_dir):
-    needed = ['layer_info.csv', 'change_modulation_data.csv',
-              'timescale_metrics.csv', 'time_to_first_spike.csv']
-    if not all(os.path.isfile(os.path.join(site_dir, f)) for f in needed):
-        return pd.DataFrame()
-    lay  = pd.read_csv(os.path.join(site_dir, 'layer_info.csv'))
-    mod  = pd.read_csv(os.path.join(site_dir, 'change_modulation_data.csv'))
-    ts   = pd.read_csv(os.path.join(site_dir, 'timescale_metrics.csv'))
-    ttfs = pd.read_csv(os.path.join(site_dir, 'time_to_first_spike.csv'))
-    df = lay.merge(mod, on='unit_id').merge(ts, on='unit_id').merge(ttfs, on='unit_id')
-    return df.rename(columns={
-        'time_to_first_spike': 'time_to_first_spike_fl',
-        'modulation_index':    'f1_f0_dg',
-        'autocorr_tau':        'timescale_ac',
-    })
-
-import glob as _glob
-_site_dirs = sorted(_glob.glob(os.path.join(data_dir, 'site*_processed')))
-print(f'Found {len(_site_dirs)} site directories: {[os.path.basename(d) for d in _site_dirs]}')
-
-_site_frames = [_load_one_site(d) for d in _site_dirs]
-_site_frames = [f for f in _site_frames if not f.empty]
-df_site2 = pd.concat(_site_frames, ignore_index=True, sort=False) if _site_frames else pd.DataFrame()
+print(f"Configured {len(config['sessions'])} site directories: "
+      f"{[s['site'] + '_processed' for s in config['sessions']]}")
+df_site2 = load_mousev2_units(
+    apply_qc=False,
+    config_path=args.config,
+    grating_metrics_dir=args.grating_metrics_dir,
+    flash_metrics_dir=args.flash_metrics_dir,
+    flash_variant=args.flash_variant,
+    population_profile=args.population_profile,
+)
 
 # Map each V1_siteN_X probe label → per-session coarse label V1_sN
 if not df_site2.empty:
-    import re as _re
-    def _site_coarse(acronym):
-        m = _re.match(r'V1_site(\d+)_?', str(acronym))
-        return f'V1_s{m.group(1)}' if m else None
-    df_site2['area_coarse'] = df_site2['ecephys_structure_acronym'].map(_site_coarse)
+    df_site2['area_coarse'] = df_site2['ecephys_structure_acronym'].map(site_coarse_label)
     df_site2 = df_site2[df_site2['area_coarse'].notna()]
     found_sites = sorted(df_site2['area_coarse'].unique())
     print(f'Site sessions loaded: {found_sites}  '
@@ -101,18 +124,25 @@ hierarchy_score = {
     'LGd':-0.515, 'V1':-0.357, 'LM':-0.093, 'RL':-0.059,
     'LP':0.105,   'AL':0.152,  'PM':0.327,   'AM':0.441,
 }
-# Spread site sessions symmetrically around VISp hierarchy score (pending RF assignment)
-_n_sites = len(_SITE_LABELS)
-_jitter  = np.linspace(-0.04 * (_n_sites//2), 0.04 * (_n_sites//2), _n_sites)
-for label, j in zip(_SITE_LABELS, _jitter):
-    hierarchy_score[label] = _visp_hs + j
+# Historical geometry spread sessions over a broad pseudo-hierarchy range.
+# The reviewed mode uses only small, explicitly non-metric display offsets.
+hierarchy_score.update(
+    within_v1_x_positions(
+        _SITE_LABELS,
+        args.within_v1_x_mode,
+        visp_score=_visp_hs,
+        legacy_bounds=(_visp_hs - 0.16, _visp_hs + 0.16),
+        display_half_span=0.035,
+    )
+)
 HS     = [hierarchy_score[a] for a in areas]
 n_areas = len(areas)
 
 # ── Metric configuration ─────────────────────────────────────────────────────
-metrics = ['time_to_first_spike_fl', 'f1_f0_dg', 'timescale_ac']
+_grating_label = 'F1/F0' if args.grating_metric == 'f1_f0_dg' else 'modulation index'
+metrics = ['time_to_first_spike_fl', args.grating_metric, 'timescale_ac']
 labels  = ['Time to first spike (ms)',
-           '$log_{10}$ F1/F0',
+           f'$log_{{10}}$ {_grating_label}',
            'Response decay timescale (ms)']
 bins    = [np.linspace(15, 120, 30),
            np.linspace(-1.5, 2.0, 50),    # log10(F1/F0)
@@ -245,7 +275,7 @@ for i in range(len(metrics)):
                      fmt='none', ecolor=get_color_palette(area), lw=1.2, zorder=3)
 
     # TTFS only: add mean-matched (offset-corrected) copies as hollow stars
-    if i == 0:
+    if i == 0 and args.ttfs_display == 'mean_matched':
         v1_idx   = list(areas).index('V1')
         site_idxs = [list(areas).index(a) for a in site2_areas if a in areas]
         site_vals = [centers[k, 0] for k in site_idxs if np.isfinite(centers[k, 0])]
@@ -273,13 +303,27 @@ handles = [plt.Line2D([0],[0], marker='*', ms=10, linestyle='none',
                        color=get_color_palette(a), markeredgecolor='k',
                        markeredgewidth=0.5, label=a)
            for a in site2_areas]
-handles += [
-    plt.Line2D([0],[0], marker='*', ms=10, linestyle='none',
-               color='white', markeredgecolor='grey', markeredgewidth=1.2,
-               label='TTFS corrected\n(mean-matched to V1)'),
-]
+if args.ttfs_display == 'mean_matched':
+    handles += [
+        plt.Line2D([0],[0], marker='*', ms=10, linestyle='none',
+                   color='white', markeredgecolor='grey', markeredgewidth=1.2,
+                   label='TTFS corrected\n(mean-matched to V1)'),
+    ]
 ax_leg.legend(handles=handles, loc='upper left', fontsize=7, framealpha=0.6,
                title='V1 multi-site sessions', title_fontsize=7)
+if args.within_v1_x_mode == 'display_only':
+    ax_leg.text(
+        0.02,
+        0.02,
+        'MouseV2 horizontal offsets are display-only\n'
+        '(all recordings in V1; no within-V1 hierarchy score)',
+        transform=ax_leg.transAxes,
+        fontsize=7,
+        color='#666',
+        style='italic',
+        ha='left',
+        va='bottom',
+    )
 
 # ── P-value matrix (original 8 areas) ────────────────────────────────────────
 common_names = ['LGN','V1','LM','RL','LP','AL','PM','AM']
@@ -329,8 +373,11 @@ for mi in range(len(metrics)):
     ax3 = plt.subplot(len(metrics), 4, mi*4+3)
     [ax3.spines[s].set_visible(False) for s in ('top','right')]
     ax3.set_xlim(-0.85, 0.65)
+    if mi == len(metrics) - 1 and args.within_v1_x_mode == 'display_only':
+        ax3.set_xlabel('Published inter-area hierarchy score')
 
 plt.tight_layout()
-out_path = os.path.join(code_directory, 'Figure3', 'Figure3_with_V1sites.png')
+output_dir.mkdir(parents=True, exist_ok=True)
+out_path = output_dir / 'Figure3_with_V1sites.png'
 plt.savefig(out_path, dpi=150, bbox_inches='tight')
 print(f'Saved → {out_path}')

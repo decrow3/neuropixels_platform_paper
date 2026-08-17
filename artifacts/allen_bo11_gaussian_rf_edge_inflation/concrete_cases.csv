@@ -1,0 +1,5 @@
+selection,ecephys_unit_id,ecephys_session_id,area,azimuth_rf,elevation_rf,nearest_edge_distance_deg,width_rf,height_rf,maximum_sigma_magnitude_deg,geometric_mean_sigma_deg,area_rf,p_value_rf,on_screen_rf
+"edge, off-screen Gaussian center",950957445,742951821,LM,25,46.667,3.333,389.6501,60.61293,389.6501,153.681,600,0,False
+"edge, on-screen Gaussian center",951876593,761418226,AL,85,10,5,13.87809,15.44367,15.44367,14.63997,600,0,True
+"interior, on-screen Gaussian center",951815700,750332458,V1,45,10,35,21.30289,27.39717,27.39717,24.15862,800,0,True
+"interior, off-screen Gaussian center",951095391,799864342,V1,46,18,32,1244.715,60.02777,1244.715,273.345,500,0,False

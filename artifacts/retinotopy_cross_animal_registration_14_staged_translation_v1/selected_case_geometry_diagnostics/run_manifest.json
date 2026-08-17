@@ -1,0 +1,33 @@
+{
+  "status": "exploratory concrete-case audit",
+  "selection": "maximum, closest-to-median, and minimum staged offset gain over 68 held-out probes",
+  "figure": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/retinotopy_cross_animal_registration_14_staged_translation_v1/selected_case_geometry_diagnostics/Figure_staged_translation_success_median_failure_cases.png",
+  "selection_table": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/retinotopy_cross_animal_registration_14_staged_translation_v1/selected_case_geometry_diagnostics/selected_case_geometry_diagnostics.csv",
+  "training_residual_table": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/retinotopy_cross_animal_registration_14_staged_translation_v1/selected_case_geometry_diagnostics/selected_case_training_probe_residuals.csv",
+  "cases": [
+    {
+      "selection_role": "largest improvement",
+      "session_id": 757216464,
+      "held_out_probe_id": 769322749,
+      "held_out_area": "VISp",
+      "staged_no_offset_error_deg": 36.738387648346446,
+      "staged_error_deg": 10.222355374987757
+    },
+    {
+      "selection_role": "median case",
+      "session_id": 781842082,
+      "held_out_probe_id": 792586891,
+      "held_out_area": "VISrl",
+      "staged_no_offset_error_deg": 6.452713383564727,
+      "staged_error_deg": 3.5476403181816614
+    },
+    {
+      "selection_role": "largest failure",
+      "session_id": 755434585,
+      "held_out_probe_id": 760642628,
+      "held_out_area": "VISp",
+      "staged_no_offset_error_deg": 5.803721231853759,
+      "staged_error_deg": 25.3921515166198
+    }
+  ]
+}

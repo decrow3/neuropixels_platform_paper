@@ -1,0 +1,74 @@
+{
+  "schema_version": 2,
+  "download_root": "/media/huklaban5/Data/MouseV2/allen_v1_bridge",
+  "assets": [
+    {
+      "dandiset_id": "DANDI:000021",
+      "dandiset_version": "0.251116.2246",
+      "asset_id": "2e6df882-f31a-440b-a572-ba717a95bf80",
+      "session_type": "brain_observatory_1.1",
+      "session_id": 746083955,
+      "selection_role": "reproduction_control",
+      "relative_path": "000021/sub-726170927/sub-726170927_ses-746083955.nwb",
+      "bytes": 2562070092,
+      "sha256": "ec65e2205ea6ca54bfae5f04827a435704b2795a77aa8010594b4cb4c128e467",
+      "grating_table": "drifting_gratings_presentations",
+      "expected_grating_presentations": 630,
+      "expected_flash_presentations": 150,
+      "expected_released_v1_units": 50
+    },
+    {
+      "dandiset_id": "DANDI:000022",
+      "dandiset_version": "0.251116.2246",
+      "asset_id": "178c5041-b709-4370-a81b-0ad59d6cfd7b",
+      "session_type": "functional_connectivity",
+      "session_id": 789848216,
+      "selection_role": "reproduction_control",
+      "relative_path": "000022/sub-763808588/sub-763808588_ses-789848216.nwb",
+      "bytes": 1875910964,
+      "sha256": "748113cf923b4dcc632dae138545d59aa018456e3914f12fb666e635c779e1f9",
+      "grating_table": "drifting_gratings_75_repeats_presentations",
+      "expected_grating_presentations": 600,
+      "expected_flash_presentations": 150,
+      "expected_released_v1_units": 44
+    },
+    {
+      "dandiset_id": "DANDI:000021",
+      "dandiset_version": "0.251116.2246",
+      "asset_id": "106e84a7-1c41-43f1-a675-7df17e4aba69",
+      "session_type": "brain_observatory_1.1",
+      "session_id": 737581020,
+      "selection_role": "representative",
+      "relative_path": "000021/sub-718643564/sub-718643564_ses-737581020.nwb",
+      "bytes": 2182040332,
+      "sha256": "6b6fcfc92ec132ce4d3b58839f961f34dedc3c84bf86e4bff29b5bf45ab8c624",
+      "grating_table": "drifting_gratings_presentations",
+      "expected_grating_presentations": 630,
+      "expected_flash_presentations": 150,
+      "expected_released_v1_units": 119
+    },
+    {
+      "dandiset_id": "DANDI:000022",
+      "dandiset_version": "0.251116.2246",
+      "asset_id": "ce65d81b-b33d-41a4-abf3-cb2a6d360b62",
+      "session_type": "functional_connectivity",
+      "session_id": 835479236,
+      "selection_role": "representative",
+      "relative_path": "000022/sub-813701555/sub-813701555_ses-835479236.nwb",
+      "bytes": 2005885500,
+      "sha256": "b8f50db54ced4393d2c0c06007b722a006c91159aed7777ad61834b85138acc7",
+      "grating_table": "drifting_gratings_75_repeats_presentations",
+      "expected_grating_presentations": 600,
+      "expected_flash_presentations": 150,
+      "expected_released_v1_units": 159
+    }
+  ],
+  "common_support": {
+    "orientation_deg": [0.0, 45.0, 90.0, 135.0],
+    "temporal_frequency_hz": [1.0, 2.0, 4.0, 8.0, 15.0],
+    "spatial_frequency_cpd": 0.04,
+    "contrast": 0.8,
+    "analysis_duration_s": 1.0,
+    "trials_per_condition": 15
+  }
+}

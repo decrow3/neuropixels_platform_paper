@@ -1,0 +1,74 @@
+{
+  "checkpoint": "06c_allen_rf_adjusted_response",
+  "status": "first RF-adjusted response checkpoint implemented",
+  "inputs": {
+    "allen_unit_table": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/unit_table.csv",
+      "sha256": "b8da78472923344c99b2e426af52cef520a5ceb972e9ac3da5388d4844b2ebed"
+    },
+    "rf_audit_manifest": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/run_manifest.json",
+      "sha256": "9c37b52e3d7b03943706ca1b2df6341b66de8de1b55776f41a6443f6e511212d",
+      "population": "published_like"
+    },
+    "rf_support": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+      "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+    }
+  },
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/allen_rf_adjusted_response.py",
+    "sha256": "9adbc0cd29e034548ded5ecd69f27343b1413b265234573241ccc9ed2662d5ef"
+  },
+  "parameters": {
+    "common_support": "inside_v1_robust_box",
+    "session_adjustment": "session fixed effects",
+    "uncertainty": "session-clustered covariance",
+    "matching": "same-session 1-nearest V1 RF center with replacement",
+    "match_caliper_deg": 10.0,
+    "n_bootstrap": 10000,
+    "seed": 611
+  },
+  "outputs": {
+    "ALLEN_RF_ADJUSTED_RESPONSE.md": {
+      "bytes": 5295,
+      "sha256": "3c2539667e5b8af7bd6dc87d787650230a701701d772d649f0636b3d30024024"
+    },
+    "Figure_allen_rf_adjusted_response.png": {
+      "bytes": 404566,
+      "sha256": "4e6d75684932c762f599789349765c51ea3faf4b51749478fda2124d6fde4d55"
+    },
+    "hierarchy_associations.csv": {
+      "bytes": 3036,
+      "sha256": "880140a98e3d3af3433d2b27236555529658f0fb55ad7e3801285f6f2d3a31b2"
+    },
+    "matched_area_summary.csv": {
+      "bytes": 2687,
+      "sha256": "c8c140d574f2ca3e1d9b8532a654fd7e66cfe8bb7f7467a7344f5320ac660af1"
+    },
+    "matched_balance.csv": {
+      "bytes": 113890,
+      "sha256": "e00b7156061b6a3a9ea137074e59ee13aafaf078e29603dd6a04875a710548f6"
+    },
+    "matched_session_contrasts.csv": {
+      "bytes": 108203,
+      "sha256": "2b1980a7c8ac7a8894f96f429cdc1fbd465f0bf032101c36d3f4b865bc8e85b8"
+    },
+    "matching_caliper_sensitivity.csv": {
+      "bytes": 12006,
+      "sha256": "80d646081830ee32321ae404719db676f548484fc659325f5cd684b2dd8c4c3d"
+    },
+    "model_area_effects.csv": {
+      "bytes": 24107,
+      "sha256": "744b7b190a93dc4f7c53c7f089e66c9de6341c3b972c7491876b88a8c3336591"
+    },
+    "model_coefficients.csv": {
+      "bytes": 295429,
+      "sha256": "a95e293ae3a0f0753ba42047b27e74f1fa96f8fa84638117f4cc552defb78b97"
+    },
+    "model_fit_summary.csv": {
+      "bytes": 6585,
+      "sha256": "88a5b06143b2d4a41ca86c35d8d1f7c1661f7122e27d3b33bd5650a72fbcd08f"
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-04T15:40:34.315773-07:00",
+  "started_at": "2026-08-04T15:38:14.077132-07:00",
+  "dandiset": {
+    "dandiset_id": "DANDI:001568",
+    "dandiset_version": "draft",
+    "default_root": "/media/huklaban5/Data/MouseV2/001568"
+  },
+  "sites": [
+    "site2",
+    "site3",
+    "site4",
+    "site5",
+    "site6",
+    "site7",
+    "site8",
+    "site9"
+  ],
+  "inputs": [
+    {
+      "site": "site2",
+      "subject_id": 816305,
+      "dandiset_relative_path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169,
+      "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312"
+    },
+    {
+      "site": "site3",
+      "subject_id": 810531,
+      "dandiset_relative_path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152,
+      "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6"
+    },
+    {
+      "site": "site4",
+      "subject_id": 810532,
+      "dandiset_relative_path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523,
+      "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056"
+    },
+    {
+      "site": "site5",
+      "subject_id": 813810,
+      "dandiset_relative_path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191,
+      "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d"
+    },
+    {
+      "site": "site6",
+      "subject_id": 815152,
+      "dandiset_relative_path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368,
+      "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c"
+    },
+    {
+      "site": "site7",
+      "subject_id": 816308,
+      "dandiset_relative_path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441,
+      "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305"
+    },
+    {
+      "site": "site8",
+      "subject_id": 817334,
+      "dandiset_relative_path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420,
+      "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca"
+    },
+    {
+      "site": "site9",
+      "subject_id": 817335,
+      "dandiset_relative_path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "local_path": "/media/huklaban5/Data/MouseV2/001568/sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377,
+      "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df"
+    }
+  ],
+  "commands": [],
+  "outputs": [
+    {
+      "path": "unit_metric_comparison.csv",
+      "bytes": 2831197,
+      "sha256": "46b7dbff1350dea332ed2017a8afc6646e197c579df720313a064b3151a960c9"
+    },
+    {
+      "path": "pilot_preference_validation.csv",
+      "bytes": 869,
+      "sha256": "5961676289d6f2e730787544d60564ea8cf8e5ff4b5f3471c4105fe4fa4c8a97"
+    },
+    {
+      "path": "site_metric_summary.csv",
+      "bytes": 2019,
+      "sha256": "2c3acdc22fa204414dc22e8528c472201d82997b99e36bec44e63c60af0b5eb1"
+    },
+    {
+      "path": "grating_metric_diagnostics.png",
+      "bytes": 545544,
+      "sha256": "0a3e8be824a3ccc8eff80b29ed6eb556f9e6b84d3c3c118fe0da0c0a73fe7666"
+    }
+  ],
+  "code": {
+    "extractor": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/generate_retinotopic_csvs.py",
+      "sha256": "22b5a0f88d7a53f9e4ad8a85ea25a478e41bf043be1d7f28d641f5586010902a"
+    },
+    "metrics": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/common/drifting_gratings.py",
+      "sha256": "d43f3a93eb86238624908f494df6ad5eb3afdb411c6f29923cede821fa04834c"
+    },
+    "runner": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/extract_mousev2_grating_metrics.py",
+      "sha256": "7af675ed6d169b2cd29542148661073234ac38c0014d8de09e0e1ab1408b6105"
+    },
+    "config": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/config/figure3_mousev2.json",
+      "sha256": "6a0dd40d7b8712f65beb317babd1f9a6a80bcb979361e86dd308a5e1e324e331"
+    }
+  },
+  "environment": {
+    "python": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 15:12:24) [GCC 11.2.0]",
+    "executable": "/home/huklaban5/anaconda3/bin/python"
+  }
+}

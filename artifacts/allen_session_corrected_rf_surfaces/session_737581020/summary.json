@@ -1,0 +1,77 @@
+{
+  "session_id": 737581020,
+  "visual_units_fitted": 369,
+  "published_like_qc_units": 214,
+  "allen_success_units": 196,
+  "allen_finite_parameter_units": 345,
+  "corrected_success_units": 367,
+  "corrected_censored_qc_units": 32,
+  "corrected_sigma_upper_bound_qc_units": 17,
+  "corrected_center_bound_qc_units": 18,
+  "primary_matched_surface_units": 180,
+  "primary_by_group": {
+    "HVA": 95,
+    "V1": 85
+  },
+  "median_log2_corrected_over_allen_area_by_group": {
+    "HVA": -4.668975263282242,
+    "V1": -1.336282599379995
+  },
+  "comparison_by_group": {
+    "HVA": {
+      "units": 95,
+      "allen_median_halfmax_area_deg2": 14650.228182881508,
+      "allen_q95_halfmax_area_deg2": 1323579.2507580589,
+      "allen_median_rmse": 20.13777323302687,
+      "allen_spearman_log2_area_vs_edge_distance": -0.11222323174779734,
+      "allen_not_edge_touching_units": 10,
+      "allen_not_edge_touching_median_halfmax_area_deg2": 2076.0272198305875,
+      "allen_edge_touching_units": 85,
+      "allen_edge_touching_median_halfmax_area_deg2": 17104.62475516964,
+      "corrected_median_halfmax_area_deg2": 575.6548957396295,
+      "corrected_q95_halfmax_area_deg2": 2445.462284971891,
+      "corrected_median_rmse": 6.866762836148997,
+      "corrected_spearman_log2_area_vs_edge_distance": 0.21764591956575932,
+      "corrected_not_edge_touching_units": 10,
+      "corrected_not_edge_touching_median_halfmax_area_deg2": 357.3160685891591,
+      "corrected_edge_touching_units": 85,
+      "corrected_edge_touching_median_halfmax_area_deg2": 585.9653294832264
+    },
+    "V1": {
+      "units": 85,
+      "allen_median_halfmax_area_deg2": 1576.2755949268624,
+      "allen_q95_halfmax_area_deg2": 913949.7466055569,
+      "allen_median_rmse": 10.037926127704775,
+      "allen_spearman_log2_area_vs_edge_distance": -0.31062123920870655,
+      "allen_not_edge_touching_units": 76,
+      "allen_not_edge_touching_median_halfmax_area_deg2": 951.3773242279642,
+      "allen_edge_touching_units": 9,
+      "allen_edge_touching_median_halfmax_area_deg2": 686825.3853992954,
+      "corrected_median_halfmax_area_deg2": 341.1655196928341,
+      "corrected_q95_halfmax_area_deg2": 1421.7867227961156,
+      "corrected_median_rmse": 4.159496747691987,
+      "corrected_spearman_log2_area_vs_edge_distance": -0.06155317663635108,
+      "corrected_not_edge_touching_units": 76,
+      "corrected_not_edge_touching_median_halfmax_area_deg2": 346.6805249191975,
+      "corrected_edge_touching_units": 9,
+      "corrected_edge_touching_median_halfmax_area_deg2": 309.8761494055336
+    }
+  },
+  "corrected_model": {
+    "baseline": "nonnegative fitted DC level",
+    "amplitude": "nonnegative",
+    "center_extension_px": 2.0,
+    "sigma_upper_px": {
+      "V1": 4.0,
+      "HVA": 5.0
+    },
+    "enclosing_border": false
+  },
+  "surface": {
+    "coordinates": "direct threshold-map center",
+    "metric": "2*pi*ln(2)*sigma_x*sigma_y; half-maximum ellipse area",
+    "bandwidth_deg": 12.0,
+    "minimum_effective_units": 3.0,
+    "support": "identical published-like QC units with finite Allen parameters and successful non-censored corrected fits"
+  }
+}

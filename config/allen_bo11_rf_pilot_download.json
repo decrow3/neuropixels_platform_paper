@@ -1,0 +1,39 @@
+{
+  "purpose": "Pilot multi-session Allen BO 1.1 RF and gaze analysis",
+  "cache_directory": "/media/huklaban5/Data/MouseV2/allen_bo11_rf_pilot_cache",
+  "minimum_free_space_before_download_gib": 250,
+  "already_local_sessions": [
+    {
+      "ecephys_session_id": 746083955,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000021/sub-726170927/sub-726170927_ses-746083955.nwb",
+      "trusted_interior_v1_units": 21,
+      "trusted_interior_hva_units": 58
+    },
+    {
+      "ecephys_session_id": 756029989,
+      "path": "/mnt/nvme0/ecephys_cache_dir_2/session_756029989/session_756029989.nwb",
+      "trusted_interior_v1_units": 78,
+      "trusted_interior_hva_units": 58
+    }
+  ],
+  "download_sessions": [
+    {
+      "ecephys_session_id": 760693773,
+      "trusted_interior_v1_units": 129,
+      "trusted_interior_hva_units": 93
+    },
+    {
+      "ecephys_session_id": 755434585,
+      "trusted_interior_v1_units": 125,
+      "trusted_interior_hva_units": 95
+    },
+    {
+      "ecephys_session_id": 798911424,
+      "trusted_interior_v1_units": 112,
+      "trusted_interior_hva_units": 105
+    }
+  ],
+  "selection_rule": "Highest trusted-interior V1+HVA unit counts among BO 1.1 sessions marked as having valid eye tracking, excluding sessions already local.",
+  "download_lfp": false,
+  "delete_files_to_make_space": false
+}

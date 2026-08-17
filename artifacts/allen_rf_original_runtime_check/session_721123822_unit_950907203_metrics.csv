@@ -1,0 +1,2 @@
+unit_id,azimuth_rf,elevation_rf,width_rf,height_rf,area_rf,p_value_rf,on_screen_rf,firing_rate_rf,fano_rf,time_to_peak_rf,lifetime_sparseness_rf,run_mod_rf,run_pval_rf
+950907203,75.0,50.0,2514.4563460276927,1574.7493295869326,400.0,0.622,False,3.063613960863455,0.6476190476190476,0.009500000000000001,0.08452450006337707,0.4,0.2030128691443973

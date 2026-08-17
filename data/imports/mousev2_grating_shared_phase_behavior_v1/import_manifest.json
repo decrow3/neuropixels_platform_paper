@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "phase_permutations": 1000,
+  "behavior_permutations": 500,
+  "permutation_seed": 20260806,
+  "population_phase_method": {
+    "starting_phase_removed": true,
+    "intrinsic_unit_phase": "leave-one-trial-out",
+    "primary_prediction": "other-probe consensus",
+    "trial_consensus": "probe-balanced residual phase",
+    "null": "independent within-unit, within-condition trial shuffle"
+  },
+  "behavior_method": {
+    "window_s": [
+      0.0,
+      1.0
+    ],
+    "condition_standardization": true,
+    "association": "phase-angle-only normalized complex association",
+    "time_control": "condition-centered behavior residualized on linear and quadratic presentation ordinal",
+    "null": "within-condition behavior shuffle",
+    "metrics": {
+      "running_abs_median_stim": "absolute running speed",
+      "log_pupil_area_median_stim": "log pupil area",
+      "pupil_x_median_stim": "horizontal pupil position",
+      "pupil_y_median_stim": "vertical pupil position"
+    },
+    "minimum_valid_eye_fraction": 0.5
+  },
+  "inputs": [
+    {
+      "site": "site2",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169,
+      "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site3",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152,
+      "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site4",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523,
+      "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site5",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191,
+      "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site6",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368,
+      "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site7",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441,
+      "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site8",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420,
+      "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site9",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377,
+      "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    }
+  ],
+  "upstream_source_provenance": {
+    "repository": {
+      "name": "openscope_v2species",
+      "commit": "dce48b5840a93fc8fb38c4fc3e76ef1ea5115f8c",
+      "entrypoint": "stimulus_v2species_ephys.py"
+    },
+    "files": [
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/openscope_v2species/stimulus_v2species_ephys.py",
+        "expected_sha256": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "observed_sha256": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "verified": true
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/openscope_v2species/camstim/camstim/sweepstim.py",
+        "expected_sha256": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3",
+        "observed_sha256": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3",
+        "verified": true
+      }
+    ],
+    "phase_schedule": {
+      "source_module": "camstim/camstim/sweepstim.py",
+      "phase_expression": "temporal_frequency_hz * current_frame / fps",
+      "phase_reset_each_presentation": false,
+      "fps": 60.0,
+      "stimulus_frames": 60,
+      "blank_frames": 75,
+      "presentation_stride_frames": 135,
+      "start_phase_expression": "(temporal_frequency_hz * presentation_ordinal * presentation_stride_frames / fps) modulo 1",
+      "expected_unique_start_phases_by_tf_hz": {
+        "1.0": 4,
+        "2.0": 2,
+        "4.0": 1,
+        "8.0": 1,
+        "15.0": 4
+      },
+      "source_sha256": {
+        "stimulus_v2species_ephys.py": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "camstim/camstim/sweepstim.py": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3"
+      }
+    }
+  },
+  "code": {
+    "script_sha256": "fc4c1a44efb77b1115e2ae0dbdbfea975bbb0e658561c26babf81adb148aff76",
+    "analysis_script_sha256": "fc4c1a44efb77b1115e2ae0dbdbfea975bbb0e658561c26babf81adb148aff76",
+    "render_script_sha256": "fc4c1a44efb77b1115e2ae0dbdbfea975bbb0e658561c26babf81adb148aff76",
+    "start_phase_script_sha256": "c2a181519c4a8738618a6ce806dfc4391651e355df36bd4d271c052a3c1d6975",
+    "config_sha256": "6a0dd40d7b8712f65beb317babd1f9a6a80bcb979361e86dd308a5e1e324e331",
+    "stimulus_manifest_sha256": "8492360bbdf709e964832bd0ce15835f9b6faf052dcf50293b037a88f3ff67eb"
+  },
+  "outputs": [
+    {
+      "path": "README.md",
+      "bytes": 2520,
+      "sha256": "74c3407e196e367884501fd93512381dec5deec622d401d9f2b9226949e02117"
+    },
+    {
+      "path": "behavior_center_summary.csv",
+      "bytes": 1663,
+      "sha256": "437117e4ae40e8d9ed77c6232298a6335e4a20aab5dcb2a51713d7502c025092"
+    },
+    {
+      "path": "behavior_permutation_association.csv",
+      "bytes": 2597405,
+      "sha256": "5a070b6cb8d868c5167b6803933dd8dfdb15320dfdac9a902316dd2d52ba59f1"
+    },
+    {
+      "path": "behavior_session_association.csv",
+      "bytes": 12761,
+      "sha256": "7024db6b36a3330ade79b8eaad089171eed24e44ac263b7cef24c92888cb1b68"
+    },
+    {
+      "path": "condition_permutation_metrics.csv",
+      "bytes": 16448424,
+      "sha256": "56489e517470a79ea317e4594d6e3b588eb1207b5f3f49c927a8c6102eed684d"
+    },
+    {
+      "path": "condition_shared_phase_summary.csv",
+      "bytes": 43746,
+      "sha256": "fec09c360b5e25635d2e14f477618c7e3df42e3d61afe1d987db38ad593e88a1"
+    },
+    {
+      "path": "shared_phase_center_summary.csv",
+      "bytes": 746,
+      "sha256": "3e4e446f67518b03cd81d33a9c0fac064d15867627cb75d786e0b98b28f1be9a"
+    },
+    {
+      "path": "session_shared_phase_summary.csv",
+      "bytes": 2469,
+      "sha256": "9d27e9ec6011d8be3a932e41ccd85a0a3a3e3867c1b972882634fbbe1263f650"
+    },
+    {
+      "path": "shared_phase_behavior_diagnostic.png",
+      "bytes": 304852,
+      "sha256": "e12a0d1c85864edc0cc93bf6456d0c60b10c97ed1a5b2bf181f27b00f77707b1"
+    },
+    {
+      "path": "trial_population_phase_behavior.csv",
+      "bytes": 742892,
+      "sha256": "4c98f1fc7a22f55a1e6468d323d9c0f75ef96ce4d5a3a56492ab6da7dd162b89"
+    },
+    {
+      "path": "unit_shared_phase_metrics.csv",
+      "bytes": 1803065,
+      "sha256": "d24843d11e3523999f508353fc150d78412da1e70cd506f5ec580cb53f417f95"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "status": "two-case mechanism drill-down",
+  "cases": [
+    {
+      "ecephys_session_id": 760345702,
+      "role": "bowl-like robust candidate"
+    },
+    {
+      "ecephys_session_id": 798911424,
+      "role": "annular regional-ambiguity case"
+    }
+  ],
+  "objective": "Huber feature mismatch plus 0.75*(1-coverage)",
+  "topology_threshold": "minimum total loss + 0.05",
+  "curvature": "quadratic fit within 10 degrees of grid optimum",
+  "circle_fit": "algebraic circle fit to lowest 20% of finite total-loss grid points",
+  "resampling_limit": "cell bootstrap and leave-one-block-out reuse full-session conditional-scatter descriptors; they quantify matching uncertainty, not covariance-estimation uncertainty",
+  "randomization": "independent deterministic random streams by session and inference type",
+  "null_repeats": 1000,
+  "bootstrap_repeats": 200,
+  "outputs": [
+    "Figure_v1_covariance_localization_geometry.png",
+    "localization_geometry_metrics.csv",
+    "localization_loss_components.csv.gz",
+    "localization_radial_profiles.csv",
+    "localization_conditional_resamples.csv.gz"
+  ]
+}

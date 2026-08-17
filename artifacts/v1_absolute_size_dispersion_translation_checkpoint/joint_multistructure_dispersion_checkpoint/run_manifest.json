@@ -1,0 +1,14 @@
+{
+  "anatomical_bandwidth_um": 250,
+  "rf_bandwidth_deg": 15,
+  "surface_bandwidth_deg": 12,
+  "translation_bound_deg": 30,
+  "shuffle_repeats": 50,
+  "minimum_valid_dispersion": {
+    "V1": 30,
+    "HVA": 50,
+    "LGd": 10
+  },
+  "joint_weight": "clip(exact-support shuffle z,0,3)/3; component relative loss divided by its grid IQR",
+  "exploratory": true
+}

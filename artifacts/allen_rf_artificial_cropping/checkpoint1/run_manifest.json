@@ -1,0 +1,41 @@
+{
+  "checkpoint": "single stable interior RF artificial-crop trajectory",
+  "unit_id": 951867908,
+  "source_map": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/allen_rf_improved_fit_diagnostic/checkpoint1/unit_951867908_observed_map.csv",
+    "sha256": "8e1659e91ac4f0d8e316627ed5ab859ddb377ada8d3ebfe729d84c8f4d52d44b"
+  },
+  "parameters": {
+    "directions": [
+      "top",
+      "bottom",
+      "left",
+      "right"
+    ],
+    "maximum_rows_or_columns_removed": 4,
+    "pixel_spacing_deg": 10.0,
+    "threshold_mask_sd": 1.0
+  },
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/validate_allen_rf_artificial_cropping.py",
+    "sha256": "a89dab83640e1648827c9046b347d3f91796bfe43fcbbc45c24e7cdff415b077"
+  },
+  "outputs": {
+    "Figure_crop_metric_trajectory.png": {
+      "bytes": 271522,
+      "sha256": "7ba85054ccf6a15e803d580c7c0eb4927e2cc0021772fd1528495a142e68e804"
+    },
+    "Figure_top_edge_crop_maps.png": {
+      "bytes": 86242,
+      "sha256": "f437395c62636e384fd8663b2fb77bbff41f669167e1a2dd248158b48191ea4e"
+    },
+    "README.md": {
+      "bytes": 1855,
+      "sha256": "ea4002a34d9dd5c72be0caf66efab17e5d548845a48318bd5bdb19ffc6dc7260"
+    },
+    "artificial_crop_trajectory.csv": {
+      "bytes": 5407,
+      "sha256": "07e200190fc2a0dad56717ad23aa65562a645a296ee1c5f163d3ebcaac5a2e09"
+    }
+  }
+}

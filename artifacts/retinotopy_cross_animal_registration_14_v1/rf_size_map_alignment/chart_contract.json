@@ -1,0 +1,12 @@
+{
+  "question": "Does RF size have a reproducible spatial structure after mapping each animal's anatomy into the common Zhuang frame?",
+  "takeaway_tested": "Registered map coordinates should improve held-out-animal RF-size surface prediction relative to raw CCF anatomy.",
+  "grain": "animal-area score; cells are observations within each held-out animal-area and are not treated as independent animals",
+  "primary_metric": "within-animal-area Spearman correlation of centered log2 half-max RF area with an other-animal prediction",
+  "palette": "blue registered map; gray CCF; gold observed-RF reference; color is paired with labels/position",
+  "outputs": [
+    "Figure_14animal_rf_size_map_alignment_summary.png",
+    "Figure_rf_size_alignment_selected_cases.png",
+    "Figure_14animal_rf_size_whole_map_alignment.png"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "status": "concrete-case exploratory checkpoint",
+  "cases": [
+    {
+      "ecephys_session_id": 759883607,
+      "selection_role": "negative held-out CCF\u2192RF gradient",
+      "criterion": "quadratic held-out gradient R2 < 0",
+      "selection_stage": "fixed before RF-size outcomes",
+      "heldout_gradient_r2_vs_constant": -1.2037376533560544,
+      "median_sampling_fraction": 0.0308159450376754
+    },
+    {
+      "ecephys_session_id": 773418906,
+      "selection_role": "negative held-out CCF\u2192RF gradient",
+      "criterion": "quadratic held-out gradient R2 < 0",
+      "selection_stage": "fixed before RF-size outcomes",
+      "heldout_gradient_r2_vs_constant": -0.603166740658053,
+      "median_sampling_fraction": 0.0541757298810756
+    },
+    {
+      "ecephys_session_id": 829720705,
+      "selection_role": "negative held-out CCF\u2192RF gradient",
+      "criterion": "quadratic held-out gradient R2 < 0",
+      "selection_stage": "fixed before RF-size outcomes",
+      "heldout_gradient_r2_vs_constant": -0.5779969874480144,
+      "median_sampling_fraction": 0.0473954188714441
+    },
+    {
+      "ecephys_session_id": 831882777,
+      "selection_role": "negative held-out CCF\u2192RF gradient",
+      "criterion": "quadratic held-out gradient R2 < 0",
+      "selection_stage": "fixed before RF-size outcomes",
+      "heldout_gradient_r2_vs_constant": -0.0229187779867536,
+      "median_sampling_fraction": 0.0219364821071389
+    },
+    {
+      "ecephys_session_id": 840012044,
+      "selection_role": "negative held-out CCF\u2192RF gradient",
+      "criterion": "quadratic held-out gradient R2 < 0",
+      "selection_stage": "fixed before RF-size outcomes",
+      "heldout_gradient_r2_vs_constant": -0.014302723287408,
+      "median_sampling_fraction": 0.009963398360743
+    },
+    {
+      "ecephys_session_id": 754312389,
+      "selection_role": "strongest positive-gradient control",
+      "criterion": "maximum quadratic held-out gradient R2 in the 45-session audit",
+      "selection_stage": "fixed before RF-size outcomes",
+      "heldout_gradient_r2_vs_constant": 0.8869981687767412,
+      "median_sampling_fraction": 0.2287082095440041
+    }
+  ],
+  "rf_size": "absolute log2 improved axis RF area; no animal normalization; all fits primary",
+  "censor_sensitivity": "parameter-bound values excluded from both training and target size only in sensitivity",
+  "target_independence": "scatter shift estimated on one deterministic cell half and absolute size tested on the other; repeated both directions",
+  "nested_exclusion": "target specimen excluded from every CCF geometry, training scatter translation, and RF-size template",
+  "null": "held-out target sizes permuted over fixed RF locations; covariance shift held fixed",
+  "surface_bandwidth_deg": 12.0,
+  "rf_neighborhood_bandwidth_deg": 15.0,
+  "translation_grid": {
+    "bound_deg": 30.0,
+    "step_deg": 2.0
+  },
+  "outputs": [
+    "Figure_v1_rf_size_corroboration_cases.png",
+    "case_selection.csv",
+    "rf_size_corroboration_summary.csv",
+    "rf_size_corroboration_landscapes.csv.gz",
+    "rf_size_corroboration_nulls.csv.gz"
+  ]
+}

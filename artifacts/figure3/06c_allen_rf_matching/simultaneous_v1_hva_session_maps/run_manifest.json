@@ -1,0 +1,208 @@
+{
+  "checkpoint": "06c_allen_bo11_simultaneous_v1_hva_session_maps",
+  "status": "within-session simultaneous V1-versus-pooled-HVA atlas",
+  "input": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/unit_table.csv",
+    "sha256": "b8da78472923344c99b2e426af52cef520a5ceb972e9ac3da5388d4844b2ebed"
+  },
+  "audit_manifest_sha256": "86b89094c217d2b2f26a24329876832ac4a4025776c8498608ef128519582c14",
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/render_allen_bo11_simultaneous_v1_hva_session_maps.py",
+    "sha256": "5b988b5418fd9073f65640d1410587d09d5918478a81914434dfef9e8b277176"
+  },
+  "parameters": {
+    "sessions": [
+      715093703,
+      719161530,
+      721123822,
+      732592105,
+      737581020,
+      739448407,
+      742951821,
+      744228101,
+      746083955,
+      750332458,
+      750749662,
+      751348571,
+      754312389,
+      754829445,
+      755434585,
+      756029989,
+      757216464,
+      757970808,
+      758798717,
+      759883607,
+      760345702,
+      760693773,
+      761418226,
+      762120172,
+      762602078,
+      763673393,
+      773418906,
+      791319847,
+      797828357,
+      798911424,
+      799864342
+    ],
+    "primary_groups": [
+      "V1",
+      "HVA pooled"
+    ],
+    "area_specific_grids": [
+      "LM",
+      "RL",
+      "AL",
+      "PM",
+      "AM"
+    ],
+    "bandwidth_deg": 12.0,
+    "grid_size": 41,
+    "minimum_local_units": 10,
+    "minimum_lifetime_sparseness": 0.1,
+    "minimum_stimulus_firing_rate": 0.1,
+    "require_unique_preference": true,
+    "cross_session_alignment": "none"
+  },
+  "outputs": {
+    "ALLEN_BO11_SIMULTANEOUS_V1_HVA_SESSION_MAPS.md": {
+      "bytes": 1344,
+      "sha256": "ff96b8b8e973ece2b114795a70189ab1b8f92b948054f98ae369cbbe08278047"
+    },
+    "Figure_allen_bo11_simultaneous_v1_hva_session_atlas.pdf": {
+      "bytes": 3738183,
+      "sha256": "5488c5c6119a5ae10cf593f740484c03ae73681c792a876e604e78ae512c7e4c"
+    },
+    "allen_bo11_simultaneous_v1_hva_population.csv": {
+      "bytes": 10225,
+      "sha256": "af74461804a4e2658a9d3bcd6a0b6b45dfc9a211918c64bb707d377d56bd1359"
+    },
+    "allen_bo11_simultaneous_v1_hva_surface_grid.csv": {
+      "bytes": 54098994,
+      "sha256": "1fefe6fd68dff9fdc4b74d9f22ba10c93ca91f2cf6600105f86b39d3d6bc6bb1"
+    },
+    "session_figures/allen_bo11_session_715093703_v1_hva_rf_sf_tf.png": {
+      "bytes": 502343,
+      "sha256": "c092b8cf7a59d5b2e36fd8af95ef36192a6e43d86b95379478162fc552c7a5fd"
+    },
+    "session_figures/allen_bo11_session_719161530_v1_hva_rf_sf_tf.png": {
+      "bytes": 479469,
+      "sha256": "247b974937351f8d71065ca41bc632e3e1b17d3a1dd19d6bf0aa38d7b891f8b3"
+    },
+    "session_figures/allen_bo11_session_721123822_v1_hva_rf_sf_tf.png": {
+      "bytes": 496420,
+      "sha256": "c7f882d2314254a06f9fed8aa84425f9fe857b02bae9e9aaf118b2777645bc65"
+    },
+    "session_figures/allen_bo11_session_732592105_v1_hva_rf_sf_tf.png": {
+      "bytes": 514181,
+      "sha256": "1bfa1986fb29b046aa9e88fc8072f0356aff550488452eff8fe13ebf674f0710"
+    },
+    "session_figures/allen_bo11_session_737581020_v1_hva_rf_sf_tf.png": {
+      "bytes": 454787,
+      "sha256": "5ca105bc57132a0117d4eb8b057aea26319d95ef70f25724c758ee5f28356d80"
+    },
+    "session_figures/allen_bo11_session_739448407_v1_hva_rf_sf_tf.png": {
+      "bytes": 483620,
+      "sha256": "3e6ceac1f555f197426e7dce11b8821265ea4846586573e23326089c916686db"
+    },
+    "session_figures/allen_bo11_session_742951821_v1_hva_rf_sf_tf.png": {
+      "bytes": 495489,
+      "sha256": "e6d444ffb2a05cc0726268fbed2be23b952080bde888c54ff6bb1d1f02767192"
+    },
+    "session_figures/allen_bo11_session_744228101_v1_hva_rf_sf_tf.png": {
+      "bytes": 467769,
+      "sha256": "6bc52b55e0a1202a54b6e9d72ac6211d5ef59bf21502b7851080f9dcc71b459e"
+    },
+    "session_figures/allen_bo11_session_746083955_v1_hva_rf_sf_tf.png": {
+      "bytes": 485065,
+      "sha256": "9939848e9770b1aa6aa2f4e6d9c15ff94dd1cda8e39dd59795b43bd11bd46a02"
+    },
+    "session_figures/allen_bo11_session_750332458_v1_hva_rf_sf_tf.png": {
+      "bytes": 489058,
+      "sha256": "2c2c26e20ff66cf0f76b53dc8b7289e6dea29e4941808a8622a726a583b52083"
+    },
+    "session_figures/allen_bo11_session_750749662_v1_hva_rf_sf_tf.png": {
+      "bytes": 486548,
+      "sha256": "9428e95881cf410f9bf761142eed4c1a2e5d5a0c1388adc34885ecd078ac7398"
+    },
+    "session_figures/allen_bo11_session_751348571_v1_hva_rf_sf_tf.png": {
+      "bytes": 497417,
+      "sha256": "450d7fe78c5a4a5e021e5146fa9bf204764e7c7578cb6887847e5ef1e8054fe3"
+    },
+    "session_figures/allen_bo11_session_754312389_v1_hva_rf_sf_tf.png": {
+      "bytes": 504175,
+      "sha256": "b23d965113fbaf097ea1eda75c33c4ef71456274df7fffa8c7201ffb4f1abf13"
+    },
+    "session_figures/allen_bo11_session_754829445_v1_hva_rf_sf_tf.png": {
+      "bytes": 473208,
+      "sha256": "2202a35b1b91cc9feea97410dd7e477bf7b992500601273e3b0c265a6e6d26ab"
+    },
+    "session_figures/allen_bo11_session_755434585_v1_hva_rf_sf_tf.png": {
+      "bytes": 511443,
+      "sha256": "6017b1ae4d7f8d0b0666d2113aea115b3bb4b4548267591bef40fd1cc64d0d07"
+    },
+    "session_figures/allen_bo11_session_756029989_v1_hva_rf_sf_tf.png": {
+      "bytes": 509975,
+      "sha256": "01204930defd57eeb712f2dbece4b10933101667da15536a91c8a9c441bc6f70"
+    },
+    "session_figures/allen_bo11_session_757216464_v1_hva_rf_sf_tf.png": {
+      "bytes": 502892,
+      "sha256": "23af81c574ce1487769bd09675a81591e8cfd1f6f83c700691becbd9737c7d72"
+    },
+    "session_figures/allen_bo11_session_757970808_v1_hva_rf_sf_tf.png": {
+      "bytes": 505460,
+      "sha256": "b91edf5986b23a7cede9e33c49733e9007ee70a023392bb7c97455b897aea1a8"
+    },
+    "session_figures/allen_bo11_session_758798717_v1_hva_rf_sf_tf.png": {
+      "bytes": 498562,
+      "sha256": "df90866127eabb1188d8cf4f898e91e59c103086f19ee1244ea87d70eb35e5c4"
+    },
+    "session_figures/allen_bo11_session_759883607_v1_hva_rf_sf_tf.png": {
+      "bytes": 493016,
+      "sha256": "26be07b5f4f7735d6cb413674d62c75e288fb12c3e4be3f0284cd62584f914da"
+    },
+    "session_figures/allen_bo11_session_760345702_v1_hva_rf_sf_tf.png": {
+      "bytes": 494978,
+      "sha256": "35af0a04c08d334fa533a96a1cdc9b8a713bba2f85f9bc907b6cf65b0fea125c"
+    },
+    "session_figures/allen_bo11_session_760693773_v1_hva_rf_sf_tf.png": {
+      "bytes": 509231,
+      "sha256": "25057573d10fc6c6102f85f35c89caa9e85ac9e411a7e426305df121ad076161"
+    },
+    "session_figures/allen_bo11_session_761418226_v1_hva_rf_sf_tf.png": {
+      "bytes": 488486,
+      "sha256": "44a8283938b1018658cddef4f84517e1157c4866f532bd7cb938d0fd9b0ac113"
+    },
+    "session_figures/allen_bo11_session_762120172_v1_hva_rf_sf_tf.png": {
+      "bytes": 486169,
+      "sha256": "104f280e0640dcd2959c373a3ea603ce1bf30b237480b756d380c07ed4cfc31a"
+    },
+    "session_figures/allen_bo11_session_762602078_v1_hva_rf_sf_tf.png": {
+      "bytes": 464728,
+      "sha256": "70fd4df0d28a16a101418d25b13b4e488496bba615fb7e762c7865343ad139ad"
+    },
+    "session_figures/allen_bo11_session_763673393_v1_hva_rf_sf_tf.png": {
+      "bytes": 490222,
+      "sha256": "8b47e45e4d1a781e27b9c7b57171fa633fc73690195a20748125c1fc1f83ab4c"
+    },
+    "session_figures/allen_bo11_session_773418906_v1_hva_rf_sf_tf.png": {
+      "bytes": 488317,
+      "sha256": "c5efd8e69a17baf61c48cea52c1d761ce091ebef98ec66f5d5f27916b64da1f0"
+    },
+    "session_figures/allen_bo11_session_791319847_v1_hva_rf_sf_tf.png": {
+      "bytes": 507694,
+      "sha256": "6ccaca084ef34aa5033c064679640e42b0523269aee9b9ec753672954c06188e"
+    },
+    "session_figures/allen_bo11_session_797828357_v1_hva_rf_sf_tf.png": {
+      "bytes": 494887,
+      "sha256": "81930e297d283a6d52ea37d2fc043c42578f5bff723af5bc26696c2634085601"
+    },
+    "session_figures/allen_bo11_session_798911424_v1_hva_rf_sf_tf.png": {
+      "bytes": 523536,
+      "sha256": "7268cabb17a688be4c99d393ad3d9ccaa7d269e0ef7c63d99307d1453c34c4d2"
+    },
+    "session_figures/allen_bo11_session_799864342_v1_hva_rf_sf_tf.png": {
+      "bytes": 497584,
+      "sha256": "828d11a12c7240496ba7e5cd93d2fd626b89f5f0b9ec20cb1a31aeb0f888f9e8"
+    }
+  }
+}

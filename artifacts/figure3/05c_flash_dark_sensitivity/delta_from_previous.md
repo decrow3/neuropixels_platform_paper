@@ -1,0 +1,27 @@
+# 05c_flash_dark_sensitivity delta from baseline
+
+**Baseline comparison: EXPECTED CHANGE.**
+
+Scientific change: MouseV2 and Allen units are compared using Allen Welch-spectrum modulation index.
+MouseV2 preferred conditions include orientation, temporal frequency, and
+spatial frequency. The existing pooled-SF values remain available as
+`f1_f0_dg_pooled_sf_legacy` and are not overwritten.
+
+- `Figure3_with_V1sites.png`: CHANGED
+- `Figure3_probe_zoom.png`: CHANGED
+- `Figure3_split_comparison.png`: CHANGED
+- `Figure3_stats.md`: CHANGED
+
+The measured-retinotopy diagnostic was also regenerated with the selected metric.
+
+- `Figure3_rf_position.png`
+- `rf_metric_session_probe.csv`
+- `rf_metric_correlations.csv`
+- `rf_position_report.md`
+
+Population profile: `common_qc` was applied to both datasets
+before the metric-specific validity filters.
+
+MouseV2 flash variant: `dark`; TTFS display: `raw_nwb`.
+TTFS is aligned to NWB interval start_time without cross-dataset mean matching.
+Response timescale uses AllenSDK bin-center selection (45–285 ms centers).

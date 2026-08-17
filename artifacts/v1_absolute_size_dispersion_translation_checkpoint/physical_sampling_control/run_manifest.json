@@ -1,0 +1,30 @@
+{
+  "status": "selected-session physical-sampling control checkpoint",
+  "selected_sessions": [
+    742951821,
+    762602078,
+    715093703,
+    760345702,
+    719161530,
+    759883607,
+    835479236
+  ],
+  "physical_coordinate": "probe_vertical_position in microns; available for every V1 unit",
+  "ccf_sensitivity": "first 3D CCF principal component where available",
+  "decomposition": "leave-one-cell-out Gaussian smoothing of covariance trace over probe vertical position; bandwidth selected per session from 40-400 um by cross-fitted MSE",
+  "physical_split": "six nonoverlapping shank-position blocks; alternating blocks assigned to target halves",
+  "null": "residual trace permuted within shank blocks while RF centers, block membership, and shank-predicted component remain fixed",
+  "components": [
+    "raw_covariance_trace",
+    "shank_predicted_trace",
+    "shank_residual_trace"
+  ],
+  "null_repeats": 100,
+  "outputs": [
+    "Figure_v1_dispersion_physical_sampling_control.png",
+    "raw_predicted_residual_translation_optima.csv",
+    "shank_preserving_residual_null.csv",
+    "session_shank_decomposition_audit.csv",
+    "selected_unit_shank_decomposition.csv.gz"
+  ]
+}

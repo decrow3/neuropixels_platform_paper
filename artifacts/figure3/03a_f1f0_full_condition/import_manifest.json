@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-08-04T14:31:38.328496-07:00",
+  "purpose": "Provisional measured RF positions for Figure 3 Iteration 2.",
+  "source_repository": {
+    "commit": "7666f5f2bbd7ce8cb6d46d30d5ad5418436ea960",
+    "branch": "main",
+    "working_tree_clean": false,
+    "working_tree_status": [
+      "M  .gitignore",
+      "AM data_loading_and_preparation.ipynb",
+      "A  dataset_check_plan.md",
+      " M dataset_testing.ipynb",
+      "M  environment.yml",
+      "AM interactive_analysis.py",
+      "A  interactive_analysis0.py",
+      "A  test_receptive_field_analysis.py",
+      "?? compute_stimulus_metrics.py",
+      "?? csd_flash_latency.py",
+      "?? gaze_rf_calibration.py",
+      "?? test_precomputed_metrics.py"
+    ]
+  },
+  "source_implementation": {
+    "path_relative_to_pilot_root": "interactive_analysis.py",
+    "sha256": "d37f03fe811135bb476599cf26ccdfc810310a9dbdd093a0b894c53dd0cb2b5c"
+  },
+  "source_files": [
+    {
+      "subject_id": 816305,
+      "site": "site2",
+      "probe": "A",
+      "path_relative_to_pilot_root": "results/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys/ProbeA/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys_rf_peaks.csv",
+      "bytes": 36858,
+      "sha256": "0c795e7c72c25e7fb4c31aee07b5db76a0ac896f46cb44db36415887af172668"
+    },
+    {
+      "subject_id": 816305,
+      "site": "site2",
+      "probe": "B",
+      "path_relative_to_pilot_root": "results/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys/ProbeB/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys_rf_peaks.csv",
+      "bytes": 32701,
+      "sha256": "9d122e06a483306fe7bfd56bcb052a4bd90dab47dd9939ffe57840885bdb1d2e"
+    },
+    {
+      "subject_id": 816305,
+      "site": "site2",
+      "probe": "C",
+      "path_relative_to_pilot_root": "results/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys/ProbeC/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys_rf_peaks.csv",
+      "bytes": 43841,
+      "sha256": "b618d6efc0a3ae22161772cec92bc64bc99a174c930031f9a8cb6bc5069d3a9b"
+    },
+    {
+      "subject_id": 816305,
+      "site": "site2",
+      "probe": "E",
+      "path_relative_to_pilot_root": "results/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys/ProbeE/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys_rf_peaks.csv",
+      "bytes": 25553,
+      "sha256": "298dff73120d7ed2f12b958f40ccc733b6ec0ada20ce47358cc76e7ab7241604"
+    },
+    {
+      "subject_id": 810531,
+      "site": "site3",
+      "probe": "A",
+      "path_relative_to_pilot_root": "results/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys/ProbeA/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys_rf_peaks.csv",
+      "bytes": 28177,
+      "sha256": "5c6e1e715a188e82620a0859d0a09dcf93c724e5281cd67fac55a71fec547054"
+    },
+    {
+      "subject_id": 810531,
+      "site": "site3",
+      "probe": "B",
+      "path_relative_to_pilot_root": "results/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys/ProbeB/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys_rf_peaks.csv",
+      "bytes": 27268,
+      "sha256": "1da44e452308e4568af347ba0cb48ab1c612cd289026272810e37cb1bb54f8b1"
+    },
+    {
+      "subject_id": 810531,
+      "site": "site3",
+      "probe": "C",
+      "path_relative_to_pilot_root": "results/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys/ProbeC/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys_rf_peaks.csv",
+      "bytes": 29361,
+      "sha256": "cbacaa93994bff3cdc05f0a0eeb8d4876cc369d5685fc6bccaf2f3bbc7dfa24c"
+    },
+    {
+      "subject_id": 810531,
+      "site": "site3",
+      "probe": "E",
+      "path_relative_to_pilot_root": "results/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys/ProbeE/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys_rf_peaks.csv",
+      "bytes": 29622,
+      "sha256": "1fbe0162d08d4c3f8f9a7061b1121bd01afed0bf7c958055abc2a39d956a288f"
+    },
+    {
+      "subject_id": 810532,
+      "site": "site4",
+      "probe": "A",
+      "path_relative_to_pilot_root": "results/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys/ProbeA/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys_rf_peaks.csv",
+      "bytes": 30730,
+      "sha256": "58fa6787956dcf8206bfa26ed56f78c723af43476289c6f1bc0043124cd96446"
+    },
+    {
+      "subject_id": 810532,
+      "site": "site4",
+      "probe": "B",
+      "path_relative_to_pilot_root": "results/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys/ProbeB/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys_rf_peaks.csv",
+      "bytes": 30696,
+      "sha256": "d486992acc78dd3ea7e8d2b2e23dd3cfabec80bb3e36805945807415291e9fa8"
+    },
+    {
+      "subject_id": 810532,
+      "site": "site4",
+      "probe": "C",
+      "path_relative_to_pilot_root": "results/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys/ProbeC/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys_rf_peaks.csv",
+      "bytes": 26409,
+      "sha256": "035c7e2fd5c5a7cafb8d07e970e8cdeb29a10b5aad3fe351362a8afca2130a7c"
+    },
+    {
+      "subject_id": 810532,
+      "site": "site4",
+      "probe": "E",
+      "path_relative_to_pilot_root": "results/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys/ProbeE/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys_rf_peaks.csv",
+      "bytes": 24274,
+      "sha256": "dcd1949b4d9cefe39d466db73452d9884cf5d99c3422b0e804717f9329384a65"
+    },
+    {
+      "subject_id": 813810,
+      "site": "site5",
+      "probe": "A",
+      "path_relative_to_pilot_root": "results/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys/ProbeA/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys_rf_peaks.csv",
+      "bytes": 37689,
+      "sha256": "9c9f8db46f4e9565db057e5f3e8c45e6437c335afc24cfa9eee1364ea8b81b9f"
+    },
+    {
+      "subject_id": 813810,
+      "site": "site5",
+      "probe": "B",
+      "path_relative_to_pilot_root": "results/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys/ProbeB/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys_rf_peaks.csv",
+      "bytes": 35212,
+      "sha256": "92fc20bd051409f42ee84b506578c72a93b37409730f9c93e28173172538c4bf"
+    },
+    {
+      "subject_id": 813810,
+      "site": "site5",
+      "probe": "C",
+      "path_relative_to_pilot_root": "results/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys/ProbeC/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys_rf_peaks.csv",
+      "bytes": 44581,
+      "sha256": "2265fabd3570d7bcae0377fdeb4d4e53ed35cba41b5a3a78e007945f695dffaf"
+    },
+    {
+      "subject_id": 813810,
+      "site": "site5",
+      "probe": "E",
+      "path_relative_to_pilot_root": "results/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys/ProbeE/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys_rf_peaks.csv",
+      "bytes": 35511,
+      "sha256": "1b8a53a9f569a6c02c91912004989eb4704d67283e78b035d1e54d3d25424377"
+    },
+    {
+      "subject_id": 815152,
+      "site": "site6",
+      "probe": "A",
+      "path_relative_to_pilot_root": "results/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys/ProbeA/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys_rf_peaks.csv",
+      "bytes": 30166,
+      "sha256": "5636ca28568217cff763faff6a5908755c7942848b841545e7b1f390ce03406d"
+    },
+    {
+      "subject_id": 815152,
+      "site": "site6",
+      "probe": "B",
+      "path_relative_to_pilot_root": "results/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys/ProbeB/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys_rf_peaks.csv",
+      "bytes": 31142,
+      "sha256": "000f6576399e24ee1ea945a17ca4176438c8893cf075909ac6af2be3c3177355"
+    },
+    {
+      "subject_id": 815152,
+      "site": "site6",
+      "probe": "C",
+      "path_relative_to_pilot_root": "results/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys/ProbeC/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys_rf_peaks.csv",
+      "bytes": 31104,
+      "sha256": "c55b13db1aecf480584073a397146c28b51fd226ff1e6ae49c850a33b9cea1a6"
+    },
+    {
+      "subject_id": 815152,
+      "site": "site6",
+      "probe": "E",
+      "path_relative_to_pilot_root": "results/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys/ProbeE/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys_rf_peaks.csv",
+      "bytes": 26778,
+      "sha256": "7a777eb95779532a3a9d22c3cca337681959159cdcebe9fee704bfb970cc361c"
+    },
+    {
+      "subject_id": 816308,
+      "site": "site7",
+      "probe": "A",
+      "path_relative_to_pilot_root": "results/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys/ProbeA/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys_rf_peaks.csv",
+      "bytes": 27690,
+      "sha256": "dab0e7a95175dafa028039b23ad1935c81bd94b97d39b62c0fd88c3e0e7d2fd2"
+    },
+    {
+      "subject_id": 816308,
+      "site": "site7",
+      "probe": "B",
+      "path_relative_to_pilot_root": "results/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys/ProbeB/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys_rf_peaks.csv",
+      "bytes": 30068,
+      "sha256": "b9826394396f96d91ebdb654de77578505df5798526d88abe7213eb22fe0b9d2"
+    },
+    {
+      "subject_id": 816308,
+      "site": "site7",
+      "probe": "C",
+      "path_relative_to_pilot_root": "results/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys/ProbeC/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys_rf_peaks.csv",
+      "bytes": 42377,
+      "sha256": "2a03401dc019943b0394de1fdddfc98482adfdf0271c7af42b8bb7ea738c99a7"
+    },
+    {
+      "subject_id": 816308,
+      "site": "site7",
+      "probe": "E",
+      "path_relative_to_pilot_root": "results/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys/ProbeE/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys_rf_peaks.csv",
+      "bytes": 27690,
+      "sha256": "153f8e5e580e2fb72267568cc770ea8b0946c86f3ab1a21a3b355990d7ae7bb3"
+    },
+    {
+      "subject_id": 817334,
+      "site": "site8",
+      "probe": "A",
+      "path_relative_to_pilot_root": "results/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys/ProbeA/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys_rf_peaks.csv",
+      "bytes": 35869,
+      "sha256": "7e0115799448baed665ea2a77ddf5c1a44c58ec83a34bfb3f6b8697ced0bc2ab"
+    },
+    {
+      "subject_id": 817334,
+      "site": "site8",
+      "probe": "B",
+      "path_relative_to_pilot_root": "results/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys/ProbeB/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys_rf_peaks.csv",
+      "bytes": 36242,
+      "sha256": "5967b402da1749efb6782dbfdc9ad4ca51c65b2099f5fb83f41803e84530b230"
+    },
+    {
+      "subject_id": 817334,
+      "site": "site8",
+      "probe": "C",
+      "path_relative_to_pilot_root": "results/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys/ProbeC/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys_rf_peaks.csv",
+      "bytes": 43518,
+      "sha256": "d56bb29e42ea632987c86c76c01595d438159ec41eddc6b5dac9914d2ea9775b"
+    },
+    {
+      "subject_id": 817334,
+      "site": "site8",
+      "probe": "E",
+      "path_relative_to_pilot_root": "results/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys/ProbeE/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys_rf_peaks.csv",
+      "bytes": 33819,
+      "sha256": "484c295c04a2f4010523147c591bb475f841e8c3dfd557a96fbaabebcb3188e4"
+    },
+    {
+      "subject_id": 817335,
+      "site": "site9",
+      "probe": "A",
+      "path_relative_to_pilot_root": "results/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys/ProbeA/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys_rf_peaks.csv",
+      "bytes": 27730,
+      "sha256": "e0d51cf3dd178c7493af5d0b15bbb4251188c03bc8f63d333e5f342a74ca1ce3"
+    },
+    {
+      "subject_id": 817335,
+      "site": "site9",
+      "probe": "B",
+      "path_relative_to_pilot_root": "results/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys/ProbeB/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys_rf_peaks.csv",
+      "bytes": 30742,
+      "sha256": "22c8180f61ed41bc777e621c3742e7225c2ae0d16a65b371871d687676635404"
+    },
+    {
+      "subject_id": 817335,
+      "site": "site9",
+      "probe": "C",
+      "path_relative_to_pilot_root": "results/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys/ProbeC/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys_rf_peaks.csv",
+      "bytes": 31245,
+      "sha256": "465dbff6c9c93c844879964c9a834b170532d234746e43e7deb38c705543f739"
+    },
+    {
+      "subject_id": 817335,
+      "site": "site9",
+      "probe": "E",
+      "path_relative_to_pilot_root": "results/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys/ProbeE/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys_rf_peaks.csv",
+      "bytes": 32349,
+      "sha256": "47028e813f9fc97957ef41e0dbb97fae0a8020601872b4ec9d2bf386bae5fa43"
+    }
+  ],
+  "method": {
+    "rf_method": "per_unit_unsmoothed_argmax_spike_counts",
+    "gaze_correction": "none",
+    "probe_center": "median per-unit peak among PilotAnalysis is_qc units",
+    "uncertainty": "unit bootstrap 95% percentile interval of median",
+    "bootstrap_iterations": 5000,
+    "random_seed": 20260804,
+    "pilot_qc_rule": "snr>5, d_prime>2, rp_contamination<0.1, default_qc"
+  },
+  "validation": {
+    "source_file_count": 32,
+    "imported_units": 20374,
+    "mapped_units": 20374,
+    "pilot_qc_units": 4807,
+    "default_qc_units": 11242,
+    "probe_summary_rows": 32,
+    "pilot_qc_subset_of_default_qc": true,
+    "strict_declared_order_sessions": 3,
+    "declared_order_sessions_allowing_ties": 5
+  },
+  "outputs": {
+    "rf_unit_peaks.csv": "4602b346868a84bdd566522a254a8f1204b192ac00aa463904d9942fd11aa37b",
+    "rf_probe_summary.csv": "309c7ba3d60953fa7e781969b65f64ec1c6d0338cff754fca9bc25985079bea9",
+    "rf_probe_ordering.csv": "a185387d9af83579001c15bf66de11ba9173b2f366683da531e2aba8e7829256"
+  },
+  "limitations": [
+    "Per-unit positions are raw grid argmax locations without RF significance testing.",
+    "Pilot QC is unit-quality QC, not RF-quality QC.",
+    "No gaze correction is applied.",
+    "The 9x9 grid discretizes positions to 10-degree steps and edge peaks are common.",
+    "These positions must not be used as the final p_value_rf or area_rf filter."
+  ]
+}

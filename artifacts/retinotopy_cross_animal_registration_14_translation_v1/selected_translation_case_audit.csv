@@ -1,0 +1,4 @@
+session_id,held_out_probe_id,area,selection_role,criterion,criterion_value,baseline_error_deg,translation_error_deg,provenance
+829720705,832129157,VISl,largest held-out gain,maximum RF-vector error reduction,12.140439995342923,42.52111807616155,30.380678080818626,algorithmic selection from nested held-out-probe comparison
+774875821,792602658,VISal,typical effect,closest to median RF-vector error reduction,0.42867969774403747,33.4349615983437,33.00628190059966,algorithmic selection from nested held-out-probe comparison
+757216464,769322749,VISp,translation failure,minimum RF-vector error reduction,-19.149823074296336,2.2822807166628385,21.432103790959175,algorithmic selection from nested held-out-probe comparison

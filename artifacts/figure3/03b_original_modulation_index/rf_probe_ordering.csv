@@ -1,0 +1,9 @@
+site,site_number,subject_id,declared_order,observed_descending_x_order,declared_order_strictly_descending_x,declared_order_descending_x_allowing_ties,spearman_declared_rank_vs_x
+site2,2,816305,B>C>A>E,B>C>A>E,True,True,-1.0
+site3,3,810531,B>C>A>E,B>A>C>E,False,True,-0.9486832980505139
+site4,4,810532,B>C>A>E,B>C>A>E,True,True,-1.0
+site5,5,813810,B>C>A>E,B>C>A>E,False,True,-0.9486832980505139
+site6,6,815152,B>C>A>E,B>C>E>A,False,False,-0.632455532033676
+site7,7,816308,B>C>A>E,B>E>C>A,False,False,-0.39999999999999997
+site8,8,817334,B>C>A>E,B>E>C>A,False,False,-0.39999999999999997
+site9,9,817335,B>C>A>E,B>C>A>E,True,True,-1.0

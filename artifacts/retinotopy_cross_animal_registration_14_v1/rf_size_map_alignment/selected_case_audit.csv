@@ -1,0 +1,4 @@
+session_id,area,selection_role,criterion,criterion_value,ccf_spearman_rho,registered_spearman_rho,observed_rf_spearman_rho,provenance
+756029989,VISal,largest registration gain,maximum registered-map minus CCF Spearman rho,0.8666666666666667,-0.5166666666666667,0.35,0.06666666666666667,algorithmic selection from nested animal-held-out primary scores
+715093703,VISl,typical registration effect,closest to cohort median registered-map minus CCF rho,0.0,0.5174825174825175,0.5174825174825175,-0.3916083916083916,algorithmic selection from nested animal-held-out primary scores
+757216464,VISam,registration failure,minimum registered-map minus CCF Spearman rho,-1.242834534907773,0.6384423980690614,-0.6043921368387115,0.09999999999999999,algorithmic selection from nested animal-held-out primary scores

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {
+      "session_id": 746083955,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000021/sub-726170927/sub-726170927_ses-746083955.nwb",
+      "bytes": 2562070092,
+      "sha256": "ec65e2205ea6ca54bfae5f04827a435704b2795a77aa8010594b4cb4c128e467",
+      "dandiset_id": "DANDI:000021",
+      "asset_id": "2e6df882-f31a-440b-a572-ba717a95bf80"
+    },
+    {
+      "session_id": 789848216,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000022/sub-763808588/sub-763808588_ses-789848216.nwb",
+      "bytes": 1875910964,
+      "sha256": "748113cf923b4dcc632dae138545d59aa018456e3914f12fb666e635c779e1f9",
+      "dandiset_id": "DANDI:000022",
+      "asset_id": "178c5041-b709-4370-a81b-0ad59d6cfd7b"
+    }
+  ],
+  "common_support": {
+    "orientation_deg": [
+      0.0,
+      45.0,
+      90.0,
+      135.0
+    ],
+    "temporal_frequency_hz": [
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      15.0
+    ],
+    "spatial_frequency_cpd": 0.04,
+    "contrast": 0.8,
+    "analysis_duration_s": 1.0,
+    "trials_per_condition": 15
+  },
+  "trial_subsamples": 100,
+  "outputs": [
+    {
+      "path": "README.md",
+      "bytes": 1761,
+      "sha256": "03e049e794cf5122a0c8b7432f9e256fd77f2d73f753e831b213b6f49a379a71"
+    },
+    {
+      "path": "raw_bridge_diagnostic.png",
+      "bytes": 235505,
+      "sha256": "e004ea02c0069715cb5a3af6b0e2491e62874f2fd05bb2dc80029f3c6306c90f"
+    },
+    {
+      "path": "session_summary.csv",
+      "bytes": 20829,
+      "sha256": "5534052f46ff5fc4b8b89fa34acbe70b6e8d6209df5819f2c51223fa8412b817"
+    },
+    {
+      "path": "trial_subsample_metrics.csv",
+      "bytes": 572751,
+      "sha256": "4c225e064f7cccd70375f97f1119e67b11f46e14d1c9e4a0185996958a30d609"
+    },
+    {
+      "path": "unit_metric_validation.csv",
+      "bytes": 15414,
+      "sha256": "6a8e626de5124147e59fa82ffa2ac38af898f472cb554e3b1219921a3b6af188"
+    }
+  ],
+  "code": {
+    "script": "91bca988db967072e9636275577ffffe97d9a0b434285ba04b89219ace66a2bd",
+    "metric": "291d02a1e150e1def4a8f041b49fa23f723da3c4c14ecff78d71e9e6f439a5f2",
+    "reader": "22b5a0f88d7a53f9e4ad8a85ea25a478e41bf043be1d7f28d641f5586010902a",
+    "config": "6d39027bc2e7cd7f35aba864734dc4a838b4d5d2656b62731ba6446f8d45dad9"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "az": {
+    "pearson_r": 0.9949285565411006,
+    "spearman_rho": 0.9893280632411066,
+    "median_absolute_half_difference_deg": 0.9928899981781623
+  },
+  "el": {
+    "pearson_r": 0.9921148284773558,
+    "spearman_rho": 0.9905138339920948,
+    "median_absolute_half_difference_deg": 0.6470628504197666
+  },
+  "two_dimensional": {
+    "median_half_distance_deg": 1.2234412077716492,
+    "sessions_within_10_deg": 45,
+    "sessions": 45
+  }
+}

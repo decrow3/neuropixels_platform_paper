@@ -1,0 +1,5 @@
+display_order,selection_role,selection_criterion,ecephys_unit_id,group,ecephys_structure_acronym,log2_aperture_area_vs_point,aperture_to_point_area_ratio,heldout_deviance_improvement,point_center_distance_inside_grid_deg,aperture_sigma_lower_bound
+1,Typical interior V1,closest uncensored interior fit to V1 median area ratio,951889176,V1,VISp,-0.4109058,0.752150985,-0.000874912812,28.2990117,False
+2,Typical interior HVA,closest uncensored interior fit to HVA median area ratio,951869676,HVA,VISal,-0.176046287,0.885125366,-3.03600631e-05,17.9128566,False
+3,Strongest resolved shrinkage,smallest area ratio among uncensored fits with non-worse held-out deviance,951876700,HVA,VISpm,-1.41735914,0.374397021,0.000179358773,32.0441827,False
+4,Lower-bound diagnostic,predeclared diagnostic case; aperture fit reaches the sigma floor,951888972,V1,VISp,-2.62948761,0.161601488,0.0109596035,21.4889648,True

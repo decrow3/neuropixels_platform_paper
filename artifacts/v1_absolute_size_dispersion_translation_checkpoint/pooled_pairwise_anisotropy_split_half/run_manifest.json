@@ -1,0 +1,34 @@
+{
+  "status": "two-case pooled-pairwise anisotropy reliability checkpoint",
+  "estimand": "A2=sum((daz+i*del)^2)/sum(daz^2+del^2) for residual-RF cell-pair differences",
+  "residual": "observed RF minus nested leave-one-animal-out CCF-to-RF mean-map prediction",
+  "split": "random cell halves stratified within six physical probe blocks",
+  "null": "independent random rotation of each cell residual vector, preserving its magnitude",
+  "inference_unit": "cell/physical block; pair counts are descriptive only",
+  "split_repeats": 1000,
+  "ccf_distance_bands_um": {
+    "all_0_300um": [
+      0.0,
+      300.0
+    ],
+    "near_0_100um": [
+      0.0,
+      100.0
+    ],
+    "middle_100_200um": [
+      100.0,
+      200.0
+    ],
+    "far_200_300um": [
+      200.0,
+      300.0
+    ]
+  },
+  "outputs": [
+    "Figure_v1_pooled_pairwise_anisotropy_split_half.png",
+    "pooled_pairwise_full_data_moments.csv",
+    "pooled_pairwise_split_half_estimates.csv.gz",
+    "pooled_pairwise_split_half_agreement.csv.gz",
+    "pooled_pairwise_split_half_metrics.csv"
+  ]
+}

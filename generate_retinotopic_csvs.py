@@ -19,6 +19,8 @@ import numpy as np
 import pandas as pd
 import h5py
 
+from common.drifting_gratings import compute_drifting_grating_metrics
+
 # Optional SciPy for paper-matching timescale + fits
 try:
     from scipy import signal as scipy_signal
@@ -97,7 +99,8 @@ def _read_dset(fid: h5py.h5f.FileID, f: h5py.File, path: str, col: str) -> Optio
 
 def read_nwb_tables(nwb_path: str) -> NWBExtract:
     log(f"Opening NWB (h5py): {nwb_path}")
-    fid = h5py.h5f.open(nwb_path.encode())
+    # Explicit read-only mode is required for mounted DANDI assets.
+    fid = h5py.h5f.open(nwb_path.encode(), flags=h5py.h5f.ACC_RDONLY)
 
     with h5py.File(nwb_path, "r") as f:
         u_grp = f["units"]
@@ -350,135 +353,6 @@ def compute_timescale_flash_paper(
     return pd.DataFrame(rows)
 
 
-def compute_dg_modulation_index_legacy(
-    units_df: pd.DataFrame,
-    spikes_by_unit: Dict[int, np.ndarray],
-    stim_df: pd.DataFrame,
-) -> pd.DataFrame:
-    """Compute F1/F0 matching Allen SDK's f1_f0_dg metric.
-
-    Matches allensdk/.../stimulus_analysis/drifting_gratings.py::f1_f0():
-      1. Find preferred condition (ori x TF) for each unit by mean spike count.
-      2. For trials at that condition, fold the response into individual grating
-         cycles and average across cycles within each trial (→ one cycle PSTH).
-      3. FFT the single-cycle average: F0 = DC/2, F1 = amplitude at bin 1.
-      4. Return nanmean(F1/F0) across trials where F0 > 0.
-    """
-    rows = []
-
-    if stim_df is None or stim_df.empty or "start_time" not in stim_df.columns:
-        log("Modulation index: stim table missing start_time; filling NaN")
-        return pd.DataFrame(
-            [{"unit_id": int(uid), "modulation_index": np.nan} for uid in units_df.index.values]
-        )
-
-    tf_col = next((c for c in ("temporal_frequency", "temporal_frequency_hz", "tf", "TF")
-                   if c in stim_df.columns), None)
-    if tf_col is None:
-        log("Modulation index: no TF column in stim table; filling NaN")
-        return pd.DataFrame(
-            [{"unit_id": int(uid), "modulation_index": np.nan} for uid in units_df.index.values]
-        )
-
-    ori_col = next((c for c in ("orientation", "ori", "ORI") if c in stim_df.columns), None)
-
-    if "stop_time" in stim_df.columns:
-        dur = np.nanmedian((stim_df["stop_time"] - stim_df["start_time"]).to_numpy(dtype=float))
-        duration_s = float(dur) if np.isfinite(dur) and dur > 0 else 2.0
-    else:
-        duration_s = 2.0
-    duration_ms = int(max(1, min(10000, round(duration_s * 1000.0))))
-
-    # Filter out blank / null trials
-    tf_numeric = pd.to_numeric(stim_df[tf_col], errors="coerce")
-    valid_mask = tf_numeric > 0
-    if ori_col:
-        ori_numeric = pd.to_numeric(stim_df[ori_col], errors="coerce")
-        valid_mask &= ori_numeric.notna()
-    valid = stim_df[valid_mask].copy()
-    valid[tf_col] = tf_numeric[valid_mask].values
-    if ori_col:
-        valid[ori_col] = ori_numeric[valid_mask].values
-
-    if len(valid) < 5:
-        log("Modulation index: too few valid trials; filling NaN")
-        return pd.DataFrame(
-            [{"unit_id": int(uid), "modulation_index": np.nan} for uid in units_df.index.values]
-        )
-
-    # Build condition groups keyed by (ori, tf) or (tf,)
-    group_cols = [ori_col, tf_col] if ori_col else [tf_col]
-    conditions: Dict[tuple, dict] = {}
-    for keys, sub in valid.groupby(group_cols):
-        if not isinstance(keys, tuple):
-            keys = (keys,)
-        tf_val = float(keys[-1])
-        starts = sub["start_time"].to_numpy(dtype=float)
-        if starts.size < 5:
-            continue
-        cycles_per_trial = int(tf_val * duration_s)
-        bins_per_cycle   = duration_ms // cycles_per_trial if cycles_per_trial > 0 else 0
-        if bins_per_cycle < 4 or cycles_per_trial < 1:
-            continue
-        conditions[keys] = dict(starts=starts, tf_val=tf_val,
-                                cycles_per_trial=cycles_per_trial,
-                                bins_per_cycle=bins_per_cycle)
-
-    if not conditions:
-        log("Modulation index: no usable conditions; filling NaN")
-        return pd.DataFrame(
-            [{"unit_id": int(uid), "modulation_index": np.nan} for uid in units_df.index.values]
-        )
-
-    total = len(units_df.index.values)
-    for idx, uid in enumerate(units_df.index.values):
-        if (idx + 1) % 200 == 0:
-            log(f"Modulation index progress: {idx + 1}/{total} units")
-        spikes = spikes_by_unit.get(int(uid), np.array([], dtype=float))
-        if spikes.size == 0:
-            rows.append({"unit_id": int(uid), "modulation_index": np.nan})
-            continue
-
-        # Fast preferred-condition search via simple spike counts (no 1ms binning)
-        best_key, best_mean = None, -1.0
-        for key, cond in conditions.items():
-            i0 = np.searchsorted(spikes, cond["starts"])
-            i1 = np.searchsorted(spikes, cond["starts"] + duration_s)
-            mean_c = float(np.mean(i1 - i0))
-            if mean_c > best_mean:
-                best_mean = mean_c
-                best_key = key
-
-        if best_key is None or best_mean == 0.0:
-            rows.append({"unit_id": int(uid), "modulation_index": np.nan})
-            continue
-
-        # Compute F1/F0 at preferred condition using cycle-fold approach
-        cond = conditions[best_key]
-        x2d = _bin_spikes_trials_1ms_binary(
-            spikes, cond["starts"], duration_ms=duration_ms).astype(np.float32)
-
-        # Fold into (n_trials, cycles_per_trial, bins_per_cycle), average cycles
-        n_bins_used = cond["cycles_per_trial"] * cond["bins_per_cycle"]
-        arr = x2d[:, :n_bins_used].reshape(
-            x2d.shape[0], cond["cycles_per_trial"], cond["bins_per_cycle"])
-        avg_cycle = np.mean(arr, axis=1)          # → (n_trials, bins_per_cycle)
-
-        # FFT of each trial's single-cycle average
-        AMP = 2.0 * np.abs(np.fft.fft(avg_cycle, axis=1)) / cond["bins_per_cycle"]
-        F0  = 0.5 * AMP[:, 0]   # DC / 2 = mean firing rate (spikes per bin)
-        F1  = AMP[:, 1]          # amplitude at first harmonic
-
-        sel = F0 > 0.0
-        if not np.any(sel):
-            rows.append({"unit_id": int(uid), "modulation_index": np.nan})
-            continue
-
-        f1f0 = float(np.nanmean(F1[sel] / F0[sel]))
-        rows.append({"unit_id": int(uid), "modulation_index": f1f0})
-
-    return pd.DataFrame(rows)
-
 # ----------------------------
 # Main
 # ----------------------------
@@ -489,6 +363,11 @@ def main():
     ap.add_argument("--site_name", required=True, help="Force area name (e.g. V1_site2)")
     ap.add_argument("--id_offset", type=int, default=1000000, help="Offset for Unit IDs")
     ap.add_argument("--stim_table", default="drifting_gratings")
+    ap.add_argument(
+        "--only_gratings",
+        action="store_true",
+        help="Write grating_metrics.csv and skip flash/layer metrics.",
+    )
     
     args = ap.parse_args()
     os.makedirs(args.out_dir, exist_ok=True)
@@ -497,6 +376,29 @@ def main():
     stim_name, stim_df = choose_stim_table(ex.intervals_tables, args.stim_table)
     log(f"Stim table '{stim_name}' selected: {len(stim_df)} rows; columns: {list(stim_df.columns)}")
 
+    # Full-condition drifting-grating metrics.  This file keeps Allen's two
+    # temporal-modulation metrics separate and names them canonically.
+    log("Computing DG metrics at preferred orientation x TF x SF condition...")
+    grating_df = compute_drifting_grating_metrics(
+        ex.units_df.index.values, ex.spikes_by_unit, stim_df
+    )
+    grating_df["unit_id"] = grating_df["unit_id"].astype(int) + args.id_offset
+    grating_path = os.path.join(args.out_dir, "grating_metrics.csv")
+    grating_df.to_csv(grating_path, index=False)
+    log(f"Saved grating metrics: {grating_path} ({len(grating_df)} rows)")
+    if args.only_gratings:
+        log("Done (grating-only mode)")
+        return
+
+    # Compatibility export for code that still expects the old filename.  New
+    # analysis code should load grating_metrics.csv and the f1_f0_dg column.
+    mod_df = grating_df[["unit_id", "f1_f0_dg"]].rename(
+        columns={"f1_f0_dg": "modulation_index"}
+    )
+    mod_path = os.path.join(args.out_dir, "change_modulation_data.csv")
+    mod_df.to_csv(mod_path, index=False)
+    log(f"Saved deprecated F1/F0 compatibility export: {mod_path}")
+
     # Find flash stimulus table (needed for TTFS + paper timescale)
     flash_tables = [k for k in ex.intervals_tables.keys() if 'flash' in k.lower()]
     flash_df = ex.intervals_tables[flash_tables[0]] if flash_tables else pd.DataFrame()
@@ -504,14 +406,6 @@ def main():
         log(f"Using flash table '{flash_tables[0]}' with {len(flash_df)} presentations")
     else:
         log("No flash table found")
-
-    # 1) Modulation index (legacy; drifting gratings)
-    log("Computing DG modulation index (legacy method)...")
-    mod_df = compute_dg_modulation_index_legacy(ex.units_df, ex.spikes_by_unit, stim_df)
-    mod_df['unit_id'] = mod_df['unit_id'].astype(int) + args.id_offset
-    mod_path = os.path.join(args.out_dir, "change_modulation_data.csv")
-    mod_df.to_csv(mod_path, index=False)
-    log(f"Saved modulation metrics: {mod_path} ({len(mod_df)} rows)")
 
     # 2) Timescale (paper; flash-locked)
     log("Computing response decay timescale (paper method)...")

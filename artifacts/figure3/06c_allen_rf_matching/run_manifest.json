@@ -1,0 +1,68 @@
+{
+  "checkpoint": "06c_allen_rf_matching",
+  "status": "targeting audit implemented; response adjustment pending",
+  "input": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/unit_table.csv",
+    "sha256": "b8da78472923344c99b2e426af52cef520a5ceb972e9ac3da5388d4844b2ebed",
+    "rows": 99180
+  },
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/allen_rf_matching.py",
+    "sha256": "15ebca4dcdf6a5f8055199acb9621ab0fa29b28b432953d8f7b11fb927f462c1"
+  },
+  "parameters": {
+    "population": "published_like",
+    "support_tail_probability": 0.025,
+    "areas": [
+      "V1",
+      "LM",
+      "RL",
+      "AL",
+      "PM",
+      "AM"
+    ],
+    "rl_targeting_exception": true
+  },
+  "outputs": {
+    "ALLEN_RF_MATCHING.md": {
+      "bytes": 2612,
+      "sha256": "72b27bcad13087b29aaa92c327de64f8013d0ff84953122e1196a127f455f9fd"
+    },
+    "Figure_allen_rf_matching.png": {
+      "bytes": 206435,
+      "sha256": "208b05a79e9e7a007fdc77d29e4202036e8c0c0574136a970ee9f85160a78ce0"
+    },
+    "rf_common_support_summary.csv": {
+      "bytes": 1458,
+      "sha256": "54fb99eb65e3492862989ea71d223a1253329fe9cc77a11ee23b9bdb8e3b22f1"
+    },
+    "rf_paired_hva_v1_offsets.csv": {
+      "bytes": 55128,
+      "sha256": "96d4308de09095a9e3da9c8293e6f2f2321f621830df1a1076ce770b2a28dd87"
+    },
+    "rf_paired_offset_summary.csv": {
+      "bytes": 1210,
+      "sha256": "1cd966e0378a7ea69f783482b7d7fdbc0d7935b51e97e6345d660f264779ad23"
+    },
+    "rf_population_flow.csv": {
+      "bytes": 3208,
+      "sha256": "a6f37ccd334b4445d6df3aee0bdfca9dc655ffd992621f0ca8e2d93026e5e50a"
+    },
+    "rf_population_sensitivity.csv": {
+      "bytes": 3743,
+      "sha256": "d93e29f3057108471084a23c52e0e9e66f7020943b0a2359223c5703bb7a09d1"
+    },
+    "rf_probe_summary.csv": {
+      "bytes": 56305,
+      "sha256": "87dc733dab1c263e6cab37f9aa226cf56d6b7d66ea2814f31198ed0338e0bf22"
+    },
+    "rf_session_area_summary.csv": {
+      "bytes": 49705,
+      "sha256": "e6e6f4018f2beefdeb1aca50dcaabf01811fe1d6777c72e467ca47f4735766ca"
+    },
+    "rf_unit_common_support.csv": {
+      "bytes": 2634933,
+      "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+    }
+  }
+}

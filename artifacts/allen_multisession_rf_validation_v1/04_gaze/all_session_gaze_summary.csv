@@ -1,0 +1,5 @@
+session_id,chosen_candidate,chosen_gain_x,chosen_gain_y,calibration_units,evaluation_units,median_evaluation_test_gain,fraction_evaluation_gain_positive,median_evaluation_log2_area_ratio,median_evaluation_log2_amplitude_ratio,valid_gaze_fraction,gaze_dx_sd_deg,gaze_dy_sd_deg
+746083955,gx_0_gy_0.5,0,0.5,64,80,0.000296199574,0.6125,0.00145294468,0.000899062642,0.943484225,1.13342632,1.2485471
+755434585,gx_0_gy_0,0,0,64,80,0,0,0,0,0.897119342,0.769523047,3.76663632
+760693773,gx_0_gy_0,0,0,64,80,0,0,0,0,0.968449931,0.580973401,1.24788467
+798911424,gx_0_gy_0,0,0,64,80,0,0,0,0,0.993689986,0.514271336,2.84286938

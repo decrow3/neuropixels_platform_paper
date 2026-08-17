@@ -8,14 +8,16 @@ Zoomed scatter: each metric vs. position, showing:
 Purpose: compare within-V1 probe-to-probe variance to the inter-area gradient.
 """
 
-import pandas as pd
+import argparse
 import os
+from pathlib import Path
+import sys
+
+import pandas as pd
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from scipy.stats import linregress
-import glob
-import re
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -23,48 +25,62 @@ matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 
 code_directory = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-data_dir = os.path.join(code_directory, 'data')
+if code_directory not in sys.path:
+    sys.path.insert(0, code_directory)
+
+from common.figure3_mousev2 import (  # noqa: E402
+    load_allen_units,
+    load_config,
+    load_mousev2_units,
+    within_v1_x_positions,
+)
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument(
+    '--output-dir',
+    type=Path,
+    default=Path(code_directory) / 'Figure3',
+    help='Directory for the generated PNG (default: Figure3).',
+)
+parser.add_argument('--config', type=Path, default=None)
+parser.add_argument('--grating-metrics-dir', type=Path, default=None)
+parser.add_argument('--flash-metrics-dir', type=Path, default=None)
+parser.add_argument(
+    '--flash-variant', choices=('pooled', 'bright', 'dark'), default='pooled'
+)
+parser.add_argument(
+    '--ttfs-display', choices=('mean_matched', 'raw_nwb'), default='mean_matched'
+)
+parser.add_argument(
+    '--within-v1-x-mode',
+    choices=('legacy_pseudo_hierarchy', 'display_only'),
+    default='legacy_pseudo_hierarchy',
+)
+parser.add_argument(
+    '--grating-metric', choices=('f1_f0_dg', 'mod_idx_dg'), default='f1_f0_dg'
+)
+parser.add_argument('--population-profile', default=None)
+args = parser.parse_args()
+output_dir = args.output_dir.resolve()
+config = load_config(args.config)
 
 # ── Load original data (Allen SDK metrics) ────────────────────────────────────
-df_orig = pd.read_csv(os.path.join(data_dir, 'unit_table.csv'), low_memory=False)
-fine_to_coarse = {'VISp': 'V1', 'VISl': 'LM', 'VISrl': 'RL',
-                  'VISal': 'AL', 'VISpm': 'PM', 'VISam': 'AM'}
-df_orig['area_coarse'] = df_orig['ecephys_structure_acronym'].map(
-    lambda a: fine_to_coarse.get(a, a))
+df_orig = load_allen_units(
+    args.config, population_profile=args.population_profile
+)
 
 # ── Load all MouseV2 site data ────────────────────────────────────────────────
-def _load_one_site(site_dir):
-    needed = ['layer_info.csv', 'change_modulation_data.csv',
-              'timescale_metrics.csv', 'time_to_first_spike.csv']
-    if not all(os.path.isfile(os.path.join(site_dir, f)) for f in needed):
-        return pd.DataFrame()
-    lay  = pd.read_csv(os.path.join(site_dir, 'layer_info.csv'))
-    mod  = pd.read_csv(os.path.join(site_dir, 'change_modulation_data.csv'))
-    ts   = pd.read_csv(os.path.join(site_dir, 'timescale_metrics.csv'))
-    ttfs = pd.read_csv(os.path.join(site_dir, 'time_to_first_spike.csv'))
-    df = lay.merge(mod, on='unit_id').merge(ts, on='unit_id').merge(ttfs, on='unit_id')
-    return df.rename(columns={
-        'time_to_first_spike': 'time_to_first_spike_fl',
-        'modulation_index':    'f1_f0_dg',
-        'autocorr_tau':        'timescale_ac',
-    })
-
-_site_dirs = sorted(glob.glob(os.path.join(data_dir, 'site*_processed')))
-_frames = [_load_one_site(d) for d in _site_dirs]
-_frames = [f for f in _frames if not f.empty]
-df_site = pd.concat(_frames, ignore_index=True, sort=False) if _frames else pd.DataFrame()
-
-if not df_site.empty:
-    def _parse(acronym):
-        m = re.match(r'V1_site(\d+)_([ABCE])', str(acronym))
-        return (int(m.group(1)), m.group(2)) if m else (None, None)
-    parsed = [_parse(a) for a in df_site['ecephys_structure_acronym']]
-    df_site['session_num']  = [x[0] for x in parsed]
-    df_site['probe_letter'] = [x[1] for x in parsed]
-    df_site = df_site[df_site['probe_letter'].notna()].copy()
-    print(f'Site data: {len(df_site)} units, '
-          f'{len(df_site["session_num"].unique())} sessions, '
-          f'probes {sorted(df_site["probe_letter"].unique())}')
+df_site = load_mousev2_units(
+    apply_qc=False,
+    config_path=args.config,
+    grating_metrics_dir=args.grating_metrics_dir,
+    flash_metrics_dir=args.flash_metrics_dir,
+    flash_variant=args.flash_variant,
+    population_profile=args.population_profile,
+)
+print(f'Site data: {len(df_site)} units, '
+      f'{len(df_site["session_num"].unique())} sessions, '
+      f'probes {sorted(df_site["probe_letter"].unique())}')
 
 # ── Colour palettes ───────────────────────────────────────────────────────────
 def orig_color(area):
@@ -80,21 +96,34 @@ orig_areas = ('LGd', 'V1', 'LM', 'RL', 'LP', 'AL', 'PM', 'AM')
 _hs = {'LGd': -0.515, 'V1': -0.357, 'LM': -0.093, 'RL': -0.059,
        'LP':   0.105, 'AL':  0.152, 'PM':  0.327, 'AM':  0.441}
 
-# Probe groups inserted in the gap between V1 (-0.357) and LM (-0.093)
-# Order: B, C, A, E (retinotopic/anatomical order)
-probe_letters = ('B', 'C', 'A', 'E')
-_gap_l, _gap_r = -0.32, -0.12
-probe_x = dict(zip(probe_letters, np.linspace(_gap_l, _gap_r, 4)))
+# The legacy view inserts probe labels between V1 and LM as if they had numeric
+# hierarchy positions. The reviewed display-only view centers categorical
+# offsets on VISp and never fits a trend through them.
+probe_letters = tuple(config['display_probe_order'])
+probe_x = within_v1_x_positions(
+    probe_letters,
+    args.within_v1_x_mode,
+    visp_score=_hs['V1'],
+    legacy_bounds=(-0.32, -0.12),
+    display_half_span=0.06,
+)
+_gap_l, _gap_r = min(probe_x.values()), max(probe_x.values())
 
 sessions = sorted(df_site['session_num'].unique()) if not df_site.empty else []
 n_sess = len(sessions)
-_jitter = np.linspace(-0.018, 0.018, n_sess) if n_sess > 1 else np.array([0.0])
+_session_half_span = 0.006 if args.within_v1_x_mode == 'display_only' else 0.018
+_jitter = (
+    np.linspace(-_session_half_span, _session_half_span, n_sess)
+    if n_sess > 1
+    else np.array([0.0])
+)
 sess_jit = {s: _jitter[i] for i, s in enumerate(sessions)}
 
 # ── Metrics ───────────────────────────────────────────────────────────────────
-_metrics = ['time_to_first_spike_fl', 'f1_f0_dg', 'timescale_ac']
+_grating_label = 'F1/F0' if args.grating_metric == 'f1_f0_dg' else 'modulation index'
+_metrics = ['time_to_first_spike_fl', args.grating_metric, 'timescale_ac']
 _labels  = ['Time to first spike (ms)',
-            '$\\log_{10}$ F1/F0',
+            f'$\\log_{{10}}$ {_grating_label}',
             'Response decay timescale (ms)']
 _fns     = [lambda v: v * 1000,
             lambda v: np.log10(np.clip(v, 1e-6, None)),
@@ -105,7 +134,7 @@ def _filt(df_sub, mi):
     if mi == 0:
         sel &= df_sub['time_to_first_spike_fl'].astype(float) < 0.1
     elif mi == 1:
-        sel &= df_sub['f1_f0_dg'].astype(float) > 0
+        sel &= df_sub[args.grating_metric].astype(float) > 0
     elif mi == 2:
         sel &= df_sub['timescale_ac'].astype(float).between(1, 300)
         sel &= df_sub['spike_count_ac'].astype(float) > 50
@@ -163,7 +192,7 @@ for mi in range(3):
     if not df_site.empty:
         # For TTFS: compute correction shift so probe means align to original V1
         ttfs_shift = 0.0
-        if mi == 0:
+        if mi == 0 and args.ttfs_display == 'mean_matched':
             v1_v = _get(df_orig[df_orig['area_coarse'] == 'V1'], 0)
             v1_mean = np.nanmean(v1_v) if len(v1_v) >= 5 else np.nan
             all_probe_means = []
@@ -204,8 +233,12 @@ for mi in range(3):
                             fmt='none', ecolor=probe_color[probe], lw=1.5, zorder=5,
                             capsize=3, capthick=1.5)
 
-        # Regression line through the 4 probe grand means
-        if len(probe_grand_means) >= 3:
+        # A regression is meaningful only for the historical pseudo-hierarchy
+        # geometry. Display-only categorical offsets have no numeric scale.
+        if (
+            args.within_v1_x_mode == 'legacy_pseudo_hierarchy'
+            and len(probe_grand_means) >= 3
+        ):
             px = np.array([probe_grand_means[p][0] for p in probe_letters
                            if p in probe_grand_means])
             py = np.array([probe_grand_means[p][1] for p in probe_letters
@@ -221,19 +254,47 @@ for mi in range(3):
 # ── X-axis labels ─────────────────────────────────────────────────────────────
 common_names = ['LGN', 'V1', 'LM', 'RL', 'LP', 'AL', 'PM', 'AM']
 ax = axes[-1]
-tick_x   = [_hs[a] for a in orig_areas] + [probe_x[p] for p in probe_letters]
-tick_lab = common_names + [f'V1_{p}' for p in probe_letters]
+if args.within_v1_x_mode == 'display_only':
+    tick_x = [_hs[a] for a in orig_areas]
+    tick_lab = common_names
+else:
+    tick_x = [_hs[a] for a in orig_areas] + [probe_x[p] for p in probe_letters]
+    tick_lab = common_names + [f'V1_{p}' for p in probe_letters]
 ax.set_xticks(tick_x)
 ax.set_xticklabels(tick_lab, rotation=40, ha='right', fontsize=9)
 ax.set_xlim(-0.75, 0.60)
-ax.set_xlabel('← Hierarchy score →   (probe groups placed near VISp)',
-              fontsize=9)
+if args.within_v1_x_mode == 'display_only':
+    ax.set_xlabel(
+        'Published inter-area hierarchy score '
+        '(MouseV2 probe offsets at VISp are display-only)',
+        fontsize=9,
+    )
+else:
+    ax.set_xlabel('← Hierarchy score →   (probe groups placed near VISp)',
+                  fontsize=9)
 
 # Region annotation above top panel
-axes[0].annotate('within-V1 probes (8 sessions)',
+_position_note = (
+    'within-V1 probes (display-only x offsets; no hierarchy scores)'
+    if args.within_v1_x_mode == 'display_only'
+    else 'within-V1 probes (8 sessions)'
+)
+axes[0].annotate(_position_note,
                  xy=(np.mean([_gap_l, _gap_r]), axes[0].get_ylim()[1]),
                  fontsize=8.5, ha='center', va='bottom', color='#666',
                  xytext=(0, 4), textcoords='offset points')
+if args.ttfs_display == 'raw_nwb':
+    axes[0].text(
+        0.01,
+        0.03,
+        '* MouseV2 raw relative to NWB start_time; physical light onset uncalibrated',
+        transform=axes[0].transAxes,
+        fontsize=7.5,
+        color='#777',
+        style='italic',
+        ha='left',
+        va='bottom',
+    )
 
 # ── Legend ────────────────────────────────────────────────────────────────────
 from matplotlib.lines import Line2D
@@ -249,6 +310,7 @@ axes[0].legend(handles=probe_handles, loc='upper right', fontsize=8,
                framealpha=0.75, title='V1 multi-site sessions', title_fontsize=8)
 
 # ── Save ──────────────────────────────────────────────────────────────────────
-out = os.path.join(code_directory, 'Figure3', 'Figure3_probe_zoom.png')
+output_dir.mkdir(parents=True, exist_ok=True)
+out = output_dir / 'Figure3_probe_zoom.png'
 plt.savefig(out, dpi=150, bbox_inches='tight')
 print(f'Saved → {out}')

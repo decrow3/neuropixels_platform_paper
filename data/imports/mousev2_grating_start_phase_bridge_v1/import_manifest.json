@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "phase_permutations": 100,
+  "permutation_seed": 20260805,
+  "condition_support": {
+    "duration_s": 1.0,
+    "trials": 15,
+    "spatial_frequency_cpd": 0.04,
+    "contrast": 0.8
+  },
+  "source_provenance": {
+    "repository": {
+      "name": "openscope_v2species",
+      "commit": "dce48b5840a93fc8fb38c4fc3e76ef1ea5115f8c",
+      "entrypoint": "stimulus_v2species_ephys.py"
+    },
+    "files": [
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/openscope_v2species/stimulus_v2species_ephys.py",
+        "expected_sha256": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "observed_sha256": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "verified": true
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/openscope_v2species/camstim/camstim/sweepstim.py",
+        "expected_sha256": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3",
+        "observed_sha256": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3",
+        "verified": true
+      }
+    ],
+    "phase_schedule": {
+      "source_module": "camstim/camstim/sweepstim.py",
+      "phase_expression": "temporal_frequency_hz * current_frame / fps",
+      "phase_reset_each_presentation": false,
+      "fps": 60.0,
+      "stimulus_frames": 60,
+      "blank_frames": 75,
+      "presentation_stride_frames": 135,
+      "start_phase_expression": "(temporal_frequency_hz * presentation_ordinal * presentation_stride_frames / fps) modulo 1",
+      "expected_unique_start_phases_by_tf_hz": {
+        "1.0": 4,
+        "2.0": 2,
+        "4.0": 1,
+        "8.0": 1,
+        "15.0": 4
+      },
+      "source_sha256": {
+        "stimulus_v2species_ephys.py": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "camstim/camstim/sweepstim.py": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "site": "site2",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169,
+      "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site3",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152,
+      "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site4",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523,
+      "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site5",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191,
+      "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site6",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368,
+      "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site7",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441,
+      "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site8",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420,
+      "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site9",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377,
+      "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    }
+  ],
+  "code": {
+    "script_sha256": "c2a181519c4a8738618a6ce806dfc4391651e355df36bd4d271c052a3c1d6975",
+    "metric_sha256": "291d02a1e150e1def4a8f041b49fa23f723da3c4c14ecff78d71e9e6f439a5f2",
+    "config_sha256": "6a0dd40d7b8712f65beb317babd1f9a6a80bcb979361e86dd308a5e1e324e331",
+    "stimulus_manifest_sha256": "8492360bbdf709e964832bd0ce15835f9b6faf052dcf50293b037a88f3ff67eb"
+  },
+  "outputs": [
+    {
+      "path": "README.md",
+      "bytes": 2712,
+      "sha256": "9c5003dfe3cf2dd82a10235f27dd9bd67dc934e448dc5a4ddd94621fcbab9859"
+    },
+    {
+      "path": "analysis_centers.csv",
+      "bytes": 1242,
+      "sha256": "790b49376878408862705c3f84e8f5cca23a463dc58eb33cd0fab79c7792f86c"
+    },
+    {
+      "path": "phase_schedule_audit.csv",
+      "bytes": 3412,
+      "sha256": "32b02d07af9c767f73a8adc298bd0ac5513571c9ba200020fcc7615ef8e59d2c"
+    },
+    {
+      "path": "session_summary.csv",
+      "bytes": 5413,
+      "sha256": "457133e1b5267c9d39d0037432fb1b29869e3188a1f34ee8219e384ae1f8e82e"
+    },
+    {
+      "path": "start_phase_bridge.png",
+      "bytes": 297676,
+      "sha256": "5082c0f82efbd8862a0cf8770f36a57e87f5ed89517b65926863350beea7e634"
+    },
+    {
+      "path": "tf_center_summary.csv",
+      "bytes": 1361,
+      "sha256": "7a39105b336b22ec9f822667f4768adc39d31153abcb8c577b99f183290443cb"
+    },
+    {
+      "path": "tf_session_summary.csv",
+      "bytes": 7887,
+      "sha256": "bde607976f513a79f06012a6ebbe7892014388b64358d2696a02e52bd20b9d55"
+    },
+    {
+      "path": "unit_start_phase_metrics.csv",
+      "bytes": 3440986,
+      "sha256": "f84d36ac794fb9e9138172a63117131c27a558431a5a1698aab0f6f63b037d66"
+    }
+  ]
+}

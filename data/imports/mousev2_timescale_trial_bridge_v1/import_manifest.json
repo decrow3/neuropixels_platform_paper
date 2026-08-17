@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "trial_subsamples": 10,
+  "trial_support": {
+    "pooled": 150,
+    "bright": 75,
+    "dark": 75
+  },
+  "timescale_window_edges_s": [
+    0.04,
+    0.05,
+    0.06,
+    0.07,
+    0.08,
+    0.09,
+    0.1,
+    0.11,
+    0.12,
+    0.13,
+    0.14,
+    0.15,
+    0.16,
+    0.17,
+    0.18,
+    0.19,
+    0.2,
+    0.21,
+    0.22,
+    0.23,
+    0.24,
+    0.25,
+    0.26,
+    0.27,
+    0.28,
+    0.29
+  ],
+  "inputs": [
+    {
+      "site": "site2",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169,
+      "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312",
+      "sha256_source": "data/imports/mousev2_flash_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site3",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152,
+      "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6",
+      "sha256_source": "data/imports/mousev2_flash_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site4",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523,
+      "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056",
+      "sha256_source": "data/imports/mousev2_flash_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site5",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191,
+      "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d",
+      "sha256_source": "data/imports/mousev2_flash_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site6",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368,
+      "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c",
+      "sha256_source": "data/imports/mousev2_flash_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site7",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441,
+      "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305",
+      "sha256_source": "data/imports/mousev2_flash_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site8",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420,
+      "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca",
+      "sha256_source": "data/imports/mousev2_flash_metrics_v1/import_manifest.json"
+    },
+    {
+      "site": "site9",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377,
+      "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df",
+      "sha256_source": "data/imports/mousev2_flash_metrics_v1/import_manifest.json"
+    }
+  ],
+  "code": {
+    "script_sha256": "0309e98c28a37ffa12230f852f0ea0e868d674d0b5fa1aea9c8e73f5536ab75c",
+    "metric_sha256": "20b65252a6477569f6ed6b2425d040b06068aef9d3eadfe88ddb0ebcbb80f240",
+    "config_sha256": "6a0dd40d7b8712f65beb317babd1f9a6a80bcb979361e86dd308a5e1e324e331"
+  },
+  "outputs": [
+    {
+      "path": "README.md",
+      "bytes": 873,
+      "sha256": "f2981c512d336e486d2884405259367ddb4938d32da6456eee72dd737bccd8e9"
+    },
+    {
+      "path": "analysis_centers.csv",
+      "bytes": 1023,
+      "sha256": "0ac7223933fc28897359bb2904539d7451619fdf1dfee34ac7a7194640033ff2"
+    },
+    {
+      "path": "session_summary.csv",
+      "bytes": 8557,
+      "sha256": "fa53045ec9215189f9f832bb7059848bedcbb3140218055f29799d6d4ee9d2a7"
+    },
+    {
+      "path": "timescale_trial_bridge.png",
+      "bytes": 182739,
+      "sha256": "0f6c3e4bc4ceccd51ae5bd575b3df332710b78b2df59b8808285967b058809f4"
+    },
+    {
+      "path": "unit_subsample_metrics.csv",
+      "bytes": 11609590,
+      "sha256": "8c98733299a4bf5ab664819164a0b722ae84f90b5187ba46ce044e9241cc82bd"
+    }
+  ]
+}

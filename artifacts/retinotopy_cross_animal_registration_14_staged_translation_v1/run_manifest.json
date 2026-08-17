@@ -1,0 +1,54 @@
+{
+  "status": "exploratory staged geometry-first visual-translation checkpoint",
+  "model": {
+    "geometry_stage": "translation-invariant pairwise RF-vector differences plus named-area, domain, and affine geometry constraints",
+    "translation_stage": "robust median observed-minus-frozen-template RF vector",
+    "held_out_rule": "held penetration excluded from both geometry and translation estimation",
+    "candidate_offset_scales": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "production_offset_scale": 0.75
+  },
+  "held_out_probe": {
+    "folds": 68,
+    "staged_no_offset_median_error_deg": 24.439308190324173,
+    "staged_translation_median_error_deg": 22.482447792318204,
+    "joint_translation_median_error_deg": 16.605448431598468,
+    "staged_median_gain_vs_no_offset_deg": 2.730833092611392,
+    "staged_mean_gain_vs_no_offset_deg": 2.88456807144296,
+    "staged_folds_improved_vs_no_offset": 39,
+    "staged_median_gain_vs_joint_deg": -2.0422543361199175,
+    "staged_folds_improved_vs_joint": 22,
+    "conventional_no_translation_median_error_deg": 15.3087665968221,
+    "staged_median_gain_vs_conventional_no_translation_deg": -2.8628889870985406,
+    "staged_folds_improved_vs_conventional_no_translation": 21
+  },
+  "offset_stability": {
+    "median_raw_LOPO_rms_deviation_deg": 5.598330352174779,
+    "maximum_raw_LOPO_rms_deviation_deg": 9.651599812485408,
+    "median_retained_offset_magnitude_deg": 11.630574229078206
+  },
+  "rf_size_validation": {
+    "V1": {
+      "median_raw_mae_log2": 0.897969884908674,
+      "median_corrected_mae_log2": 0.9177576916872784,
+      "median_paired_gain_log2": -0.02956922856330324,
+      "animals_improved": 5
+    },
+    "HVA": {
+      "median_raw_mae_log2": 0.7607584131066647,
+      "median_corrected_mae_log2": 0.7857903168254162,
+      "median_paired_gain_log2": -0.004399245213193292,
+      "animals_improved": 7
+    }
+  },
+  "limitations": [
+    "The numerical start uses absolute RF position but is training-only; the converged staged objective contains no absolute RF term.",
+    "With only three to six penetrations per animal, area constraints still materially identify the cortical warp.",
+    "Offset-scale choices are exploratory on these 14 animals; unseen animals remain the confirmatory test."
+  ]
+}

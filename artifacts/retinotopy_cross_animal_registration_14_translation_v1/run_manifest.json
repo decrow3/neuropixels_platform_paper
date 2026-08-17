@@ -1,0 +1,57 @@
+{
+  "status": "exploratory latent visual-translation registration",
+  "shared_frame": {
+    "azimuth_convention": "native",
+    "reflection": 1
+  },
+  "model": {
+    "visual_offset": "profiled robust median observed-minus-template RF vector, shrunk by globally/nested selected scale",
+    "anatomical_anchor": "Zhuang named-area distance plus domain and affine geometry penalties",
+    "candidate_offset_scales": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "production_offset_scale": 0.25
+  },
+  "held_out_probe": {
+    "folds": 68,
+    "baseline_median_error_deg": 15.3087665968221,
+    "translation_median_error_deg": 16.605448431598468,
+    "median_improvement_deg": 0.4028408025706369,
+    "folds_improved": 38
+  },
+  "visual_offsets": {
+    "median_magnitude_deg": 3.169596200075829,
+    "maximum_magnitude_deg": 4.5482013745471415,
+    "azimuth_range_deg": [
+      -0.9129457096178584,
+      3.90276265295714
+    ],
+    "elevation_range_deg": [
+      -1.6547890209023213,
+      4.3253007388436115
+    ]
+  },
+  "rf_size_validation": {
+    "V1": {
+      "median_raw_mae_log2": 0.897969884908674,
+      "median_corrected_mae_log2": 0.910207428157913,
+      "median_paired_gain_log2": -0.0010193560572287486,
+      "animals_improved": 7
+    },
+    "HVA": {
+      "median_raw_mae_log2": 0.7607584131066647,
+      "median_corrected_mae_log2": 0.7568237717914806,
+      "median_paired_gain_log2": -0.0006184349411197942,
+      "animals_improved": 7
+    }
+  },
+  "limitations": [
+    "Offset-scale and production choices are exploratory on these 14 animals; new animals are confirmatory.",
+    "Area constraints identify the cortical-versus-visual translation decomposition; without them the two translations are not separately identifiable.",
+    "The offset is assumed constant across all probes and visual areas within a session."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "checkpoint": "initial cell and within-probe gradient evidence",
+  "status": "exploratory; no map refit at this checkpoint",
+  "session_id": 798911424,
+  "input": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/retinotopy_registration_pilot/session_798911424/cell_scatter_CCF_RF_support.csv",
+  "cells": 275,
+  "penetrations": 6,
+  "cell_role": "reduce uncertainty of each penetration RF centroid",
+  "gradient_role": "one directional derivative per RF coordinate along each probe's sampled AP/ML trajectory",
+  "gradient_test": "four-fold leave-one-contiguous-position-bin-out linear prediction versus a training-set median constant",
+  "bootstrap_draws": 2000,
+  "seed": 1729,
+  "important_limitations": [
+    "Cells on a penetration are not independent registration landmarks.",
+    "A probe supplies only a one-dimensional directional derivative, not the full two-dimensional map gradient.",
+    "Cell bootstrap intervals ignore shared fit/systematic errors and should not be interpreted as population confidence intervals.",
+    "Apparent gradients may include laminar or probe-track effects and have not yet been tested against the warped Zhuang gradient direction."
+  ]
+}

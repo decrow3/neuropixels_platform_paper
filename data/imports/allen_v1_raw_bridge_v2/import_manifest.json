@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "inputs": [
+    {
+      "session_id": 746083955,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000021/sub-726170927/sub-726170927_ses-746083955.nwb",
+      "bytes": 2562070092,
+      "sha256": "ec65e2205ea6ca54bfae5f04827a435704b2795a77aa8010594b4cb4c128e467",
+      "dandiset_id": "DANDI:000021",
+      "asset_id": "2e6df882-f31a-440b-a572-ba717a95bf80",
+      "selection_role": "reproduction_control"
+    },
+    {
+      "session_id": 789848216,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000022/sub-763808588/sub-763808588_ses-789848216.nwb",
+      "bytes": 1875910964,
+      "sha256": "748113cf923b4dcc632dae138545d59aa018456e3914f12fb666e635c779e1f9",
+      "dandiset_id": "DANDI:000022",
+      "asset_id": "178c5041-b709-4370-a81b-0ad59d6cfd7b",
+      "selection_role": "reproduction_control"
+    },
+    {
+      "session_id": 737581020,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000021/sub-718643564/sub-718643564_ses-737581020.nwb",
+      "bytes": 2182040332,
+      "sha256": "6b6fcfc92ec132ce4d3b58839f961f34dedc3c84bf86e4bff29b5bf45ab8c624",
+      "dandiset_id": "DANDI:000021",
+      "asset_id": "106e84a7-1c41-43f1-a675-7df17e4aba69",
+      "selection_role": "representative"
+    },
+    {
+      "session_id": 835479236,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000022/sub-813701555/sub-813701555_ses-835479236.nwb",
+      "bytes": 2005885500,
+      "sha256": "b8f50db54ced4393d2c0c06007b722a006c91159aed7777ad61834b85138acc7",
+      "dandiset_id": "DANDI:000022",
+      "asset_id": "ce65d81b-b33d-41a4-abf3-cb2a6d360b62",
+      "selection_role": "representative"
+    }
+  ],
+  "common_support": {
+    "orientation_deg": [
+      0.0,
+      45.0,
+      90.0,
+      135.0
+    ],
+    "temporal_frequency_hz": [
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      15.0
+    ],
+    "spatial_frequency_cpd": 0.04,
+    "contrast": 0.8,
+    "analysis_duration_s": 1.0,
+    "trials_per_condition": 15
+  },
+  "trial_subsamples": 100,
+  "outputs": [
+    {
+      "path": "README.md",
+      "bytes": 3239,
+      "sha256": "b4b8401d711fa8da6c3fea87e128c3ac7a2bb53ea6d9f73a440352f87264567b"
+    },
+    {
+      "path": "raw_bridge_diagnostic.png",
+      "bytes": 245480,
+      "sha256": "b6460ed013efb2ea580db88fc57cd9bbc73889f419c270e401ec3543861cc2ac"
+    },
+    {
+      "path": "session_selection_audit.csv",
+      "bytes": 8369,
+      "sha256": "f7e57a636b9dbcb355c886de79ebbfc531bfc5e6b0158a2ff4be8ea1a38652c3"
+    },
+    {
+      "path": "session_summary.csv",
+      "bytes": 48187,
+      "sha256": "2f0a2e7a38b16c1ff415f2870e4bb0154bf3639316098253f6a039ed8652ebd6"
+    },
+    {
+      "path": "trial_subsample_metrics.csv",
+      "bytes": 2938793,
+      "sha256": "4a8726dd232b19aab0491e71de38f397643896c237ed9a7009e43a93691a5e11"
+    },
+    {
+      "path": "unit_metric_validation.csv",
+      "bytes": 66255,
+      "sha256": "e051179d333ca6b970c3caf2ae062ed3dbf688a5ec3e50e5d559f23ea3cdcd2f"
+    }
+  ],
+  "code": {
+    "script": "1333815924dbab0671815d3b321daa0a3f5ad54eade81eb553fe94a0ac8d63ab",
+    "metric": "291d02a1e150e1def4a8f041b49fa23f723da3c4c14ecff78d71e9e6f439a5f2",
+    "reader": "22b5a0f88d7a53f9e4ad8a85ea25a478e41bf043be1d7f28d641f5586010902a",
+    "config": "12a69299c8a6f9e4c04fd8861fb6289e048340ec025728a6c6d665f4928f61d1"
+  }
+}

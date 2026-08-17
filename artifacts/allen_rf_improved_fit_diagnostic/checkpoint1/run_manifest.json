@@ -1,0 +1,50 @@
+{
+  "checkpoint": "initial concrete evidence",
+  "nwb": {
+    "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000021/sub-718643564/sub-718643564_ses-737581020.nwb",
+    "sha256": "6b6fcfc92ec132ce4d3b58839f961f34dedc3c84bf86e4bff29b5bf45ab8c624"
+  },
+  "unit_ids": [
+    951867908,
+    951868026
+  ],
+  "models": {
+    "allen": "five-parameter unbounded least-squares Gaussian without baseline",
+    "baseline_wide": "nonnegative baseline/amplitude; center [-16,24], sigma [0.2,50] pixels",
+    "baseline_screen_bounded": "nonnegative baseline/amplitude; center [0,8], sigma [0.35,4] pixels"
+  },
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/diagnose_allen_rf_fit_cases.py",
+    "sha256": "1e4c1af8630c08af5269535715d36086ce9b6ba90d0dc5023aecb4904074505c"
+  },
+  "outputs": {
+    "README.md": {
+      "bytes": 3066,
+      "sha256": "e5cd3f1c20d6e857ac4ce9f8df56fe5024dfc509c71e17eb7db1708f59ec62e5"
+    },
+    "Figure_concrete_rf_fit_diagnostic.png": {
+      "bytes": 149037,
+      "sha256": "220bc354cb2d79599fda4bba8fb4bf35eb755129b8cc078d2feefa940c480b68"
+    },
+    "fit_comparison.csv": {
+      "bytes": 1345,
+      "sha256": "2e725bc123b0922153e740144f84004aae38dd04028ea8cf5e7d920cebe8653a"
+    },
+    "unit_951867908_observed_map.csv": {
+      "bytes": 218,
+      "sha256": "8e1659e91ac4f0d8e316627ed5ab859ddb377ada8d3ebfe729d84c8f4d52d44b"
+    },
+    "unit_951867908_threshold_mask.csv": {
+      "bytes": 162,
+      "sha256": "e24d3a53c4621ee267b0d53fa8b0afa948fd1a652cce6eb8bc7ffa4a380ae070"
+    },
+    "unit_951868026_observed_map.csv": {
+      "bytes": 243,
+      "sha256": "0e3df59f846c1c0a850520935767cab47fb94390303756634f8d0e00b86b4ad9"
+    },
+    "unit_951868026_threshold_mask.csv": {
+      "bytes": 162,
+      "sha256": "4efc57a9531cec24f7176f2c30a2b588f522cbc4ab387e3d36fc18f202910583"
+    }
+  }
+}

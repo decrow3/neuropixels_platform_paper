@@ -1,0 +1,17 @@
+{
+  "session_id": 739448407,
+  "visual_units": 434,
+  "published_like_qc_units": 224,
+  "gabor_presentations": 3645,
+  "valid_gaze_presentations": 0,
+  "valid_gaze_fraction": 0.0,
+  "gaze": {
+    "gaze_center_spherical_x_deg": NaN,
+    "gaze_center_spherical_y_deg": NaN,
+    "orientation_values_deg": [
+      0.0,
+      45.0,
+      90.0
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+session_id,specimen_id,improved_rf_cells,ccf_localized_target_area_cells,localized_penetrations,localized_areas,status
+746083955,726170935,152,2,1,1,excluded: fewer than 3 localized penetrations
+755434585,730760270,263,190,4,4,eligible
+760693773,738651054,260,0,0,0,excluded: no CCF-localized improved-RF cells
+798911424,775876828,275,275,6,5,eligible

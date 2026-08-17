@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "condition_support": {
+    "duration_s": 1.0,
+    "trials": 15,
+    "orientation_deg": [
+      0.0,
+      45.0,
+      90.0,
+      135.0
+    ],
+    "temporal_frequency_hz": [
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      15.0
+    ],
+    "spatial_frequency_cpd": 0.04,
+    "contrast": 0.8
+  },
+  "fc_subsamples": 25,
+  "inputs": [
+    {
+      "dataset": "MouseV2",
+      "session_id": 2,
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169,
+      "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "dataset": "MouseV2",
+      "session_id": 3,
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152,
+      "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "dataset": "MouseV2",
+      "session_id": 4,
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523,
+      "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "dataset": "MouseV2",
+      "session_id": 5,
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191,
+      "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "dataset": "MouseV2",
+      "session_id": 6,
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368,
+      "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "dataset": "MouseV2",
+      "session_id": 7,
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441,
+      "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "dataset": "MouseV2",
+      "session_id": 8,
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420,
+      "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "dataset": "MouseV2",
+      "session_id": 9,
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377,
+      "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df",
+      "sha256_source": "data/imports/mousev2_grating_metrics_v1/import_manifest.json"
+    },
+    {
+      "dataset": "Allen",
+      "session_id": 746083955,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000021/sub-726170927/sub-726170927_ses-746083955.nwb",
+      "bytes": 2562070092,
+      "sha256": "ec65e2205ea6ca54bfae5f04827a435704b2795a77aa8010594b4cb4c128e467"
+    },
+    {
+      "dataset": "Allen",
+      "session_id": 789848216,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000022/sub-763808588/sub-763808588_ses-789848216.nwb",
+      "bytes": 1875910964,
+      "sha256": "748113cf923b4dcc632dae138545d59aa018456e3914f12fb666e635c779e1f9"
+    },
+    {
+      "dataset": "Allen",
+      "session_id": 737581020,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000021/sub-718643564/sub-718643564_ses-737581020.nwb",
+      "bytes": 2182040332,
+      "sha256": "6b6fcfc92ec132ce4d3b58839f961f34dedc3c84bf86e4bff29b5bf45ab8c624"
+    },
+    {
+      "dataset": "Allen",
+      "session_id": 835479236,
+      "path": "/media/huklaban5/Data/MouseV2/allen_v1_bridge/000022/sub-813701555/sub-813701555_ses-835479236.nwb",
+      "bytes": 2005885500,
+      "sha256": "b8f50db54ced4393d2c0c06007b722a006c91159aed7777ad61834b85138acc7"
+    }
+  ],
+  "code": {
+    "script_sha256": "8501a4b67ce222846994a82d13a61f6eed0008cda54cbbb0df02308d60ad080c",
+    "grating_metric_sha256": "291d02a1e150e1def4a8f041b49fa23f723da3c4c14ecff78d71e9e6f439a5f2",
+    "mouse_config_sha256": "6a0dd40d7b8712f65beb317babd1f9a6a80bcb979361e86dd308a5e1e324e331",
+    "allen_config_sha256": "12a69299c8a6f9e4c04fd8861fb6289e048340ec025728a6c6d665f4928f61d1"
+  },
+  "outputs": [
+    {
+      "path": "README.md",
+      "bytes": 1898,
+      "sha256": "f96cb69429a53a7cc4832b452c42cf04bbe9d2621a94fa99572bd524b8f02ea7"
+    },
+    {
+      "path": "center_summary.csv",
+      "bytes": 4260,
+      "sha256": "a7c6cb0b69a879a29692c7608a0789bb3ca741d804641e2b18a0b32802d1db74"
+    },
+    {
+      "path": "phase_bridge_diagnostic.png",
+      "bytes": 541226,
+      "sha256": "1c515874f1f4cc348533e3801d568cd7019cf1bde58501343e5398f9ba0b50cd"
+    },
+    {
+      "path": "session_summary.csv",
+      "bytes": 27629,
+      "sha256": "3d4c77a7dcda50ed29e115c6047e7b38b8688eb78f8d1395ffdcb1fdb1251574"
+    },
+    {
+      "path": "tf_summary.csv",
+      "bytes": 15581,
+      "sha256": "b0b967aaa80640e0e19bfdf9766c982a6b02138f2402d78da5da7e7ca5d860db"
+    },
+    {
+      "path": "adjusted_phase_diagnostic.csv",
+      "bytes": 1020,
+      "sha256": "065818b9722cdf27dda107e63195fb8460c3dd84ff2f1e70286475c2b6743271"
+    },
+    {
+      "path": "unit_phase_metrics.csv",
+      "bytes": 7857615,
+      "sha256": "9d329fd0ad1d7721abca5603304c42d8278c7e846743fd9e55afafb8eda907e6"
+    }
+  ]
+}

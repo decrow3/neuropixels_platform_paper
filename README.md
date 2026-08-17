@@ -1,328 +1,293 @@
-# Neuropixels Platform Paper
+# Neuropixels Platform Paper — Retinotopic V1 Analysis
 
-<img src="icon.png" width="400">
+This repository contains the figure-generation code from the Allen Institute
+Neuropixels platform paper and an ongoing extension that compares response
+properties across retinotopic recording locations within mouse V1.
 
-This repository contains code for generating the figures in the pre-print describing the scientific findings from the Allen Institute's [Neuropixels data collection platform](https://portal.brain-map.org/explore/circuits/visual-coding-neuropixels).
+The active analysis asks whether variation between higher visual areas exceeds
+the variation observed across spatially separated probes within V1, after
+accounting for the visual-field locations actually sampled in both datasets.
+Allen targeted V1 and most higher visual areas near a common retinotopic
+location, but intended targeting is not treated as evidence that the achieved
+unit populations were RF-matched. The public Allen RF centers will therefore
+be audited and incorporated into the primary model and matching sensitivities.
+The three response metrics currently compared are:
 
-Most of the figures can be generated from publicly available NWB files and unit tables, available via the AllenSDK. See [the AllenSDK documentation](https://allensdk.readthedocs.io/en/latest/visual_coding_neuropixels.html) for an overview of the dataset and example notebooks for accessing it.
+- time to first spike (TTFS) after a flash;
+- drifting-grating modulation, using released log10 `mod_idx_dg` with log10
+  F1/F0 as a co-primary bridge diagnostic; and
+- flash-evoked response decay timescale.
 
-Each figure in the pre-print has a folder with associated code. Data required for figure generation that's not available in the October 2019 release (e.g., from the change detection experiments) is included in the `data` directory.
+The scientific motivation is described in [problemstatement.md](problemstatement.md).
+The original dataset and paper are described by the
+[Allen Visual Coding Neuropixels resource](https://portal.brain-map.org/explore/circuits/visual-coding-neuropixels).
 
-This repository is still a work in progress; we will continue to clean up the code and add documentation throughout the review process.
+> **Current claim status:** exploratory and within-dataset only. Raw bridge
+> analyses show that matching grating duration, condition support, and trial
+> count does not remove the Allen–multi-site V1 modulation-index gap, although it
+> nearly closes the F1/F0 gap. The frozen *MouseV2* project acquisition source further
+> shows that unreset grating start phase causes a material part of the
+> trial-average coherence loss. Carrying that source-defined correction through
+> the unchanged Welch estimator raises the multi-site V1 equal-session center from
+> −0.098 to +0.019 log10 in all eight sessions, but leaves −0.069/−0.104 gaps
+> to representative Allen BO/FC sessions. Residual phase is weakly shared
+> across probes but does not provide an additional repair. The absolute Allen
+> V1 modulation point is therefore not yet a calibrated multi-site V1 reference. See
+> the reproducible
+> [V1 cross-dataset bridge](artifacts/figure3/06b_v1_dataset_bridge/V1_DATASET_BRIDGE.md)
+> and its raw-data acceptance analysis before using the area-versus-probe result.
 
+## Repository layout
 
-## Level of Support
+| Path | Purpose |
+| --- | --- |
+| `ANALYSIS_ROADMAP.md` | Living, checkpointed analysis plan, including the V1 calibration and achieved-RF matching claim gates. |
+| `generate_retinotopic_csvs.py` | Extract the three response metrics and probe metadata from a MouseV2 NWB file. |
+| `data/site*_processed/` | Per-session metric and unit-quality tables for the new V1 recordings. |
+| `Figure3/Figure3_with_V1sites.py` | Reproduce the original Figure 3 layout with the new V1 sessions overlaid. |
+| `Figure3/Figure3_probe_zoom.py` | Show session-level V1 probe measurements in the context of the published hierarchy. |
+| `Figure3/Figure3_split_comparison.py` | Directly compare within-V1 probe variation with post-V1 area variation. |
+| `scripts/eta_squared_comparison.py` | Session-level effect-size analysis using eta-squared and bias-corrected omega-squared. |
+| `scripts/v1_dataset_bridge.py` | Diagnose Allen/MouseV2 V1 offsets, Allen stimulus-set heterogeneity, Welch-grid non-equivalence, and the claim gate. |
+| `scripts/allen_rf_matching.py` | Audit achieved Allen V1/HVA RF centers, paired session offsets, and RF common support without altering the released table. |
+| `scripts/allen_rf_adjusted_response.py` | Fit within-session RF-adjusted Allen area models and same-session V1 matching sensitivities with balance/attrition reporting. |
+| `scripts/allen_frequency_preference_surfaces.py` | Estimate session-balanced nonlinear SF/TF preference surfaces over achieved Allen RF azimuth/elevation, with optional metric-specific tuning enrichment and paired-session V1 differences. |
+| `scripts/extract_mousev2_frequency_tuning.py` | Fit joint Poisson log-Gaussian SF × log-Gaussian TF × von-Mises orientation models, retain empirical diagnostics, and gate continuous preferences by tuning, reliability, fit quality, and identifiability. |
+| `scripts/extract_mousev2_parametric_rf.py` | Fit trial-level Poisson rotated-elliptical-Gaussian RF models and gate centers by significance, reliability, fit quality, and identifiability. |
+| `scripts/mousev2_frequency_preference_surfaces.py` | Reproduce pooled and probe-resolved maps using only supported parametric RF centers and SF/TF preferences. |
+| `scripts/extract_mousev2_grating_common_support.py` | Recompute all MouseV2 units on the Allen SF = 0.04 condition subset and render the first raw bridge diagnostic. |
+| `scripts/extract_allen_v1_bridge.py` | Reproduce released Allen grating metrics from verified raw NWBs and recompute representative sessions on the common 1-s/15-trial support. |
+| `scripts/mousev2_timescale_trial_bridge.py` | Downsample MouseV2 to Allen's 75 bright + 75 dark flashes and quantify timescale and fit-selection sensitivity. |
+| `scripts/v1_grating_phase_bridge.py` | Decompose harmonized grating responses into single-trial amplitude, coherent amplitude, phase consistency, and target/off-target spectral power. |
+| `scripts/mousev2_grating_start_phase_bridge.py` | Reconstruct MouseV2 grating start phase from the frozen acquisition code and test source-phase adjustment against TF-specific and permutation controls. |
+| `scripts/mousev2_grating_corrected_welch_bridge.py` | Replace only the source-phase-dependent carrier component and rerun the unchanged Welch modulation index with TF, sign, and permutation controls. |
+| `scripts/mousev2_grating_shared_phase_behavior.py` | Test whether source-corrected residual phase is shared across probes or covaries with running and eye state. |
+| `reports/multisite_v1_allen_v1_differences/MULTISITE_V1_ALLEN_V1_DIFFERENCES.pdf` | Plain-language, illustrated synthesis of the observed multi-site V1–Allen V1 differences, resolved protocol effects, and remaining comparison limits. |
+| `scripts/render_multisite_v1_allen_v1_difference_report.py` | Regenerate the synthesis report, its summary figure, HTML, and PDF from the versioned Markdown source. |
+| `scripts/compute_probe_ccg.py` | Compute jitter-corrected cross-probe CCG feedforwardness scores. |
+| `scripts/extract_unit_quality.py` | Extract quality metrics for the new V1 units. |
+| `Figure1/`–`Figure4/`, `ExtDataFigure*/` | Historical scripts and outputs from the original platform paper. |
+| `reference/` | Exploratory modern-NWB code; not part of the main batch pipeline. |
 
-We are not currently supporting this code, but simply releasing it to the community AS IS.  We are not able to provide any guarantees of support. The community is welcome to submit issues, but you should not expect an active response.
+## Current processed dataset
 
+The repository currently contains processed tables for eight multi-site V1
+sessions from the *MouseV2* project, `site2` through `site9`. Each session
+contains probes A, B, C, and E. Together, the tables contain 20,374 units before
+metric-specific and quality filters.
 
-## Terms of Use
+Each `data/siteN_processed/` directory is expected to contain:
 
-See [Allen Institute Terms of Use](https://alleninstitute.org/legal/terms-use/)
+| File | Key outputs |
+| --- | --- |
+| `change_modulation_data.csv` | `unit_id`, `modulation_index` (F1/F0) |
+| `time_to_first_spike.csv` | `unit_id`, `time_to_first_spike` in seconds |
+| `timescale_metrics.csv` | `unit_id`, `autocorr_tau`, fit error, spike count |
+| `layer_info.csv` | depth, layer, and `V1_siteN_<probe>` label |
+| `unit_quality.csv` | NWB quality metrics and `default_qc` flag |
 
+`data/unit_table.csv` is the original AllenSDK unit table used for the published
+areas. The current V1 comparison scripts merge the per-site tables at runtime;
+they do not require the new sites to be appended to `unit_table.csv`.
+
+## Environment
+
+`environment.yml` preserves the original paper-era environment (Python 3.7 and
+AllenSDK 2.2). It is useful for historical scripts but is not a complete
+environment specification for the MouseV2 extension.
+
+The current scripts require Python 3 plus NumPy, pandas, SciPy, Matplotlib,
+h5py, statsmodels, and scikit-learn. AllenSDK is only required for scripts that
+access the original Allen cache or reconstruct the original unit table.
+
+For a modern environment, install the dependencies with your preferred Conda
+or virtual-environment workflow. Do not mix an old AllenSDK environment with
+user-site PyNWB/HDMF packages; incompatible NWB schema versions can produce
+misleading reader errors.
+
+## Process a MouseV2 session
+
+The generator reads the NWB file directly with h5py, avoiding the older
+AllenSDK NWB reader. Run it from the repository root:
+
+```bash
+python generate_retinotopic_csvs.py \
+  --nwb /path/to/session.nwb \
+  --out_dir data/site10_processed \
+  --site_name V1_site10 \
+  --id_offset 10000000
+```
+
+The equivalent wrapper is:
+
+```bash
+scripts/run_retinotopic_site.sh \
+  --nwb /path/to/session.nwb \
+  --out_dir data/site10_processed \
+  --site_name V1_site10 \
+  --id_offset 10000000
+```
+
+Use a unique `id_offset` for every session. By convention, site N uses
+`N * 1,000,000`.
+
+The NWB file must contain:
+
+- a units table with indexed spike times;
+- a flash interval table with `start_time` for TTFS and timescale estimation;
+- a drifting-gratings interval table with `start_time`, `stop_time`,
+  orientation, and temporal frequency; and
+- preferably `device_name` in the units table so units can be assigned to
+  probes A, B, C, or E.
+
+The generator does not currently compute receptive-field metrics or assign
+cortical layers. `cortical_layer` is therefore left missing unless a separate
+assignment step supplies it.
+
+## Generate the current figures
+
+Run these commands from the repository root:
+
+```bash
+python Figure3/Figure3_with_V1sites.py
+python Figure3/Figure3_probe_zoom.py
+python Figure3/Figure3_split_comparison.py
+```
+
+They produce:
+
+- `Figure3/Figure3_with_V1sites.png` — distributions, CDFs, hierarchy
+  correlations, and pairwise significance matrices;
+- `Figure3/Figure3_probe_zoom.png` — session means for each V1 probe overlaid
+  on the published hierarchy; and
+- `Figure3/Figure3_split_comparison.png` — within-V1 versus post-V1 spreads.
+
+The scripts discover all complete `data/site*_processed/` directories. Missing
+or incomplete site directories are skipped.
+
+## Statistical comparison
+
+Run:
+
+```bash
+python scripts/eta_squared_comparison.py
+```
+
+The analysis first aggregates units to session-by-group means to reduce
+pseudoreplication. It then compares four V1 probe groups with six post-V1 area
+groups using omega-squared, with session-resampled bootstrap confidence
+intervals. It writes the figure captions, methods, results, and caveats to
+`Figure3/Figure3_stats.md`.
+
+The default analysis applies `default_qc == True` to MouseV2 units when the
+quality table is present. Original Allen units are already drawn from the
+published unit table and its established filtering pipeline.
+
+## Cross-probe CCG analysis
+
+`scripts/compute_probe_ccg.py` computes jitter-corrected CCG peak offsets and a
+feedforwardness score for all cross-probe unit pairs. It currently contains a
+machine-specific `NWB_BASE` and a fixed site-to-subject map, so update those
+values before running on another system.
+
+```bash
+# One-session smoke test
+python scripts/compute_probe_ccg.py --test
+
+# All configured sessions
+python scripts/compute_probe_ccg.py
+```
+
+The result is saved as `data/processed_data/probe_ccg_results.npz`.
+
+## Metric definitions
+
+TTFS uses 1 ms binary bins and takes the first spike between 30 and 200 ms after
+flash onset. Values are stored in seconds in the per-site CSV and converted to
+milliseconds for plotting.
+
+F1/F0 is calculated at each unit's preferred drifting-grating condition. Spike
+trains are folded into stimulus cycles, and the DC and first-harmonic FFT
+components provide F0 and F1.
+
+Response timescale uses 10 ms flash-locked spike-count bins over 0–2 seconds.
+The trial autocorrelation from the 40–290 ms post-flash response window is
+averaged and fit with an exponential. `autocorr_tau` is stored in milliseconds.
+
+## Known limitations
+
+- The new V1 probe groups are placed near the published VISp hierarchy score
+  for display. Their x-positions are not RF-derived hierarchy estimates.
+- Receptive-field metrics are not yet generated for the MouseV2 sessions.
+- Allen's ISI-guided insertion targets were retinotopically aligned for V1, LM,
+  AL, AM, and PM, with an explicit geometric-center accommodation for RL. This
+  controls intended targeting, not necessarily the distribution of achieved
+  unit RF centers. The paper reports RF-size distributions and area-level mean
+  RF outlines, but not session-level RF-center offsets or dispersion. The
+  Iteration 6C now estimates those quantities from `azimuth_rf` and
+  `elevation_rf`; its paired audit finds substantial residual offsets. The
+  primary inferential comparison must preserve Allen session dependence and
+  test whether visual-area effects survive RF adjustment. The first adjusted
+  checkpoint finds metric-specific attenuation rather than a uniform result;
+  its matching balance/attrition trade-off keeps the claim gate open. See
+  Iteration 6C in
+  [ANALYSIS_ROADMAP.md](ANALYSIS_ROADMAP.md#iteration-6c--verify-achieved-allen-retinotopic-matching-and-define-the-rf-adjusted-comparison).
+- The released Allen table supports nonlinear preferred-SF and preferred-TF
+  surfaces over RF azimuth/elevation for Brain Observatory sessions. These are
+  preference-bin surfaces, not full tuning curves: Allen measured SF with
+  static gratings and TF with drifting gratings, while Functional Connectivity
+  presented only one TF. HVA-minus-V1 maps use V1 from the same session set and
+  mask cells without local multi-session support.
+- New-data TTFS may include a display-timing offset relative to the original
+  Allen recordings. Within-dataset comparisons are unaffected, but absolute
+  cross-dataset latency differences require care.
+- Allen `mod_idx_dg` is not an equivalent absolute cross-dataset metric:
+  Allen uses 2-s gratings and a 1,024-sample Welch segment, whereas MouseV2
+  uses 1-s gratings and a 1,000-sample segment. The released frequency lookup
+  therefore evaluates different physical bins. Raw common-window recomputation
+  leaves MouseV2 about 0.19–0.22 log10 below representative Allen sessions,
+  while harmonized F1/F0 differs by only about 0.03–0.04 log10. Allen V1 also
+  pools two stimulus sets with different modulation-index centers. The raw
+  phase bridge shows that MouseV2 has comparable or higher single-trial F1
+  amplitude but lower weighted phase coherence (0.387 versus 0.539/0.516), so
+  the discrepancy emerges during coherent trial averaging. MouseV2's acquisition
+  code advances phase from the absolute frame without resetting at presentation
+  onset; reconstructing this schedule raises coherence from 0.387 to 0.433, but
+  leaves residual gaps of 0.106/0.083 versus representative Allen BO/FC.
+  Matched-trial residual phase is weakly shared across probes (alignment 0.173
+  versus a 0.141 shuffled null; 1,000-permutation equal-session p = 0.001), but
+  applying the other-probe estimate changes
+  coherence from 0.433 to 0.429 rather than restoring it. Condition- and
+  block-time-controlled associations with a 50% valid-eye-coverage requirement
+  remain for running and pupil x/y, not pupil area; these are descriptive
+  candidate-state signals, not evidence that behavior causes the cross-dataset
+  offset.
+- Matching MouseV2 from 300 to Allen's balanced 150 flashes lowers its
+  equal-session timescale mean from 47.53 to 45.92 ms and the validity fraction
+  from 0.207 to 0.168. A roughly 2.04-ms offset from Allen Brain Observatory
+  remains and should not be interpreted biologically until RF/layer and other
+  population support are matched.
+- Some historical figure scripts and the CCG pipeline contain developer-local
+  paths. The three current Figure 3 scripts resolve repository paths
+  automatically.
+- The bootstrap in `eta_squared_comparison.py` resamples sessions within each
+  group. Correlation between areas recorded in the same Allen session is not
+  modeled fully.
+- The active bridge code has automated tests, but a fully locked modern
+  extraction environment is still needed.
+
+## Historical paper code
+
+Most original figures can be generated from publicly available NWB files and
+unit tables through AllenSDK. The historical scripts are retained as released
+and may assume the original cache layout, dependency versions, or local paths.
+They should be treated as archival reproduction code rather than as the entry
+point for the MouseV2 analysis.
+
+## Support and license
+
+This code is provided as-is without active support. Contributions are welcome;
+see [CONTRIBUTING.md](CONTRIBUTING.md). Licensing terms are in
+[LICENSE.txt](LICENSE.txt), and author information is in [AUTHORS.rst](AUTHORS.rst).
 
 © 2019 Allen Institute for Brain Science
-
-
-
-
-
-## NEW DATA TEST
-# Align new V1 data to include
-# Example Run
-python generate_retinotopic_csvs.py \
-  --nwb /path/to/site2.nwb \
-  --out_dir ./data/site2_processed \
-  --site_name V1_site2 \
-  --id_offset 1000000
-
-python generate_retinotopic_csvs.py \
-  --nwb /path/to/site3.nwb \
-  --out_dir ./data/site3_processed \
-  --site_name V1_site3 \
-  --id_offset 2000000
-
-
-
-
-Project Proposal:
-A critical re-examination of the mouse visual system
-MOTIVATION: Beyond V1, the mouse visual cortex has been parcellated into several higher order visual areas (Fig 1A). These area delineations are largely based on anatomical (Fig 1B, Wang & Burkhalter, 2007) and functional (Garrett et al., 2014; Kalatsky & Stryker, 2003) signatures of a reversal in the progression of the visual field. Such reversals indicate a new map of the visual field, and therefore a new visual area, under the assumption of simple and linear retinotopic mapping. However, recent work (Sedigh-Sarvestani et al., 2020; Yu, Rowley et al., 2020) has shown that visual field reversals are a hallmark of non-linear retinotopic mapping within single higher order visual areas of primates and tree shrews (Fig 1B). This prompted us to ask whether the higher order areas of the mouse, delineated by reversals, may in fact be a single area V2. This would be consistent with the partial visual field coverage of higher order areas in the mouse (Zhuang et al., 2017), which only when combined provide near-full coverage of the visual field. In addition, the existence of a single area V2 in mice would make the visual cortex of this species consistent with other rodents, and mammals, who exhibit a single area V2 beyond V1(Rosa & Krubitzer, 1999). As it stands, the current definition of visual areas in the mouse makes the organization of visual cortex in this species distinct from nearly all other studied mammals, questioning the generalizability and translational potential of findings in the mouse.
-If this hypothesis is true, how can we explain the observed anatomical and functional differences reported between the higher order visual areas? These include differences in spectral sensitivity (Denman et al., 2018; Rhim et al., 2017), temporal and spatial frequency preferences (Marshel et al., 2011), receptive field size, latency, binocular disparity and several other features. The simplest explanation is that these functional differences are reflective of the different visual field bias of each area (Sedigh-Sarvestani & Fitzpatrick, 2022). For instance, we would expect differences in spatiotemporal frequency and receptive field size between area RL and P, simply due to their bias towards lower central and upper peripheral parts of the visual field. In fact, a survey of the published literature suggests that nearly all functional differences reported across the higher order areas of the mouse are consistent with continuous changes across the retinotopic map – similar to continuous spectrum of functional properties across the retinotopic map of V1 and other single visual areas. Similarly, we suggest retinotopic bias can also explain observed anatomical differences used to delineate a cortical hierarchy (D’Souza et al., 2022; Harris et al., 2019; Wang et al., 2011). For instance, it has been reported that the laminar density of feedback projections from higher order areas back to V1 critically depends on the precise retinotopic match between the target and source regions (Morimoto et al., 2021). This suggests that failing to account for retinotopic bias of higher order visual areas can produce a cortical hierarchy that largely follows retinotopy (Fig 1A), bearing striking resemblance to the hierarchies reported in the literature (D’Souza et al., 2022; Harris et al., 2019).
-Hypothesis: Higher order areas of the mouse visual system (except POR) are parts of a single area V2. Observed differences between higher order areas can be attributed to biased visual field representation.
-We find that many differences attributed to distinct higher order visual areas can be better explained by a single area V2 if one considers two simple facts: visual field reversals within an area are possible under non-linear retinotopic maps and 2) anatomical and functional difference exist along the gradient of retinotopy within
-Figure 1: Higher order visual areas in the mouse are sub-parts of a single area V2. A critical re-examination of functional and anatomical data supporting the current view of multiple higher order visual areas (A), coupled with new evidence of visual field reversals within single areas in the tree shrew (B), and macaque (not shown) supports a new view (C) wherein a single area V2 borders V1 in the mouse, similar to most other mammals.
-the same visual area. However, we lack a particular dataset that could either critically strengthen or refute this hypothesis: Neural activity recorded from different retinotopic regions of V1. This data is needed to determine the degree to which functional properties change across the retinotopic map in mouse V1. This measure will allow us to determine whether functional property differences observed across the higher order visual areas go beyond what would be expected from retinotopic bias. We expect that once retinotopic biases are accounted for, the hierarchy of mouse higher order visual areas will collapse into two levels: V1, and a second level consisting of all higher order areas except POR (Fig 1C).
-Aim 1: Record 6 single-plane sites across V1 using calcium imaging.
-Aim 2: Record multiple sites across the retinotopic map of V1 (at least 4) with Neuropixels.
-EXPERIMENTAL DESIGN: The experimental design is identical to the existing Observatory passive viewing datasets, with one major difference. We propose to record from multiple sites across the retinotopic map of V1 (Fig 2). We would need separate cohorts of mice for single-plane calcium imaging across 6 sites, and Neuropixels recordings across 4 sites, in V1. We propose imaging since most publications on functional properties of the mouse visual cortex rely on calcium imaging. We propose electrophysiology to obtain high-temporal precision responses needed to calculate latency, F1/F0, RF size etc to reproduce the hierarchical analysis in (D’Souza et al., 2022; Siegle et al., 2021)
-The visual stimulus will be a subset of that used in the Observatory (Brain Observatory 1.1), and will include drifting gratings, natural scenes, and locally sparse noise. We will also need to begin each session with Gabor patches and full-field flashes used to map receptive fields (Siegle et al., 2021).
-Stim
-Depth
-Cre-line
-Area
-# Mice
-Cell-matching?
-Drifting Gratings (DG)
-Sparse Noise
-Natural images
-Gabor Patches Full-field Flash
-Layer 2/3
-Cux2-CreERT2;Camk2a-tTA; Ai93(TITL-GCaMP6f)
-VISp: 1
-3
-Parent
-VISp: 2
-3
-To DG
-VISp: 3
-3
-To DG
-VISp: 4
-3
-To DG
-VISp: 5
-3
-To DG
-VISp: 6
-3
-To DG
-Stim
-Mouse-line
-Probe
-Area
-# Mice
-Priority
-Drifting Gratings (DG)
-Sparse Noise
-Natural images
-Gabor Patches Full-field Flash
-C57BL/6J
-1
-VISp: 1
-3
-Essential
-2
-VISp: 2
-3
-Essential
-3
-VISp: 4
-3
-Essential
-4
-VISp: 5
-3
-Secondary
-ANALYSIS PLAN: Armed with data on the degree of functional difference arising from retinotopic location within a single visual area, we will determine: 1) If reported functional differences across the higher order visual areas go beyond what can be explained by retinotopic bias. 2) Whether a hierarchy emerges among higher order visual areas once retinotopic biases are accounted for and 3) Whether functional differences across the two axes of the visual field are similar or different in magnitude. The last point will help tie functional differences across the retinotopic map to ethological needs and demands of the animal. If awarded, lab ok members will handle analysis, under the advisement of the authors, and our Allen Institute partners. PhD student #1: 50% effort, PhD student #2: 50% effort.
-
-## Retinotopic V1 Analysis - New Data Workflow
-
-To extend the hierarchical analysis across retinotopic gradients within V1, new Neuropixels recordings from multiple V1 locations will be incorporated as distinct "areas" in the existing analysis framework:
-
-### Data Organization
-
-New V1 recording sites are labeled as separate areas to preserve the existing dataset:
-- **V1** (original): Center V1, from Allen Brain Observatory passive viewing
-- **V1_site2** through **V1_site6** (new): Recordings from peripheral, upper, lower, and other retinotopic locations
-
-Each site is treated as an independent "area" in the analysis, allowing direct comparison of functional properties across the retinotopic map within a single cortical area.
-
-### Metric Computation
-
-For each new V1 site, compute the same four metric CSVs as the original analysis:
-
-1. **change_modulation_data.csv** — Response modulation to stimulus changes
-   - Requires: spike times, trial labels (change/no-change)
-   - Output: modulation index per unit
-
-2. **time_to_first_spike.csv** — Response latency
-   - Requires: spike times, stimulus onset times
-   - Output: time-to-first-spike (ms) per unit
-
-3. **timescale_metrics.csv** — Response decay timescale
-   - Requires: spike times, stimulus presentation windows
-   - Output: autocorrelation timescale, response decay tau per unit
-
-4. **layer_info.csv** — Cortical layer and depth
-   - Requires: unit depth/position, CCF coordinates
-   - Output: layer assignment, cortical depth per unit
-
-Additionally, include RF mapping metrics (from sparse noise and Gabor patches):
-- **area_rf** — Receptive field area (deg²)
-- **rf_center_x, rf_center_y** — RF location (deg, visual field coordinates)
-- **p_value_rf** — RF significance
-
-### Data Integration
-
-1. **Merge all CSVs** into a unified metric table:
-   ```python
-   # Append new site metrics to existing Observatory data
-   all_metrics = pd.concat([existing_data, new_site_data], ignore_index=True)
-   ```
-
-2. **Run [`common/create_units_table.py`](common/create_units_table.py )**
-   - Merges all metric CSVs
-   - Downloads AllenSDK data (RF metrics, unit quality)
-   - Outputs: `unit_table.csv` with all areas (V1, V1_site2–V1_site6, LGd, LP, higher visual areas)
-
-3. **Run [`Figure3/Figure3.py`](Figure3/Figure3.py )**
-   - Accepts expanded area tuple:
-     ```python
-     areas = ('LGd', 'V1', 'V1_site2', 'V1_site3', 'V1_site4', 'V1_site5', 'V1_site6', 'LP', ...)
-     ```
-   - Generates comparison figure showing latency, modulation, timescale across all areas/sites
-   - Visualizes within-V1 retinotopic gradients vs. inter-area hierarchy
-
-### Expected Output
-
-Figure showing:
-- Latency distributions across V1 sites → retinotopic gradient within V1
-- Modulation index across V1 sites → compare to higher areas
-- Response timescale across V1 sites → functional property gradient
-- Hierarchy correlations with retinotopic position vs. anatomical area designation
-In closing, we want to emphasize that area delineations are not merely semantics. They influence experimental design, bias the interpretation of experimental data, and influence cross-species understanding. Our hypothesis that the mouse has a single area V2 would bring the mouse visual system into alignment with that of other mammals. In addition, it generates a common set of rules for delineating visual areas across species - namely coverage of visual field and distinct anatomical and functional differences between areas. We believe the Allen Institute is uniquely positioned to help test our hypothesis, given the role they have played in establishing the organization of the mouse visual system. In our view, the OpenScope offers a perfect opportunity to test this timely hypothesis.
-Figure 2: Design includes several sites in V1
-Denman, D. J., Luviano, J. A., Ollerenshaw, D. R., Cross, S., Williams, D., Buice, M. A., Olsen, S. R., & Reid, R. C. (2018). Mouse color and wavelength-specific luminance contrast sensitivity are non-uniform across visual space. eLife, 7. https://doi.org/10.7554/ELIFE.31209
-D’Souza, R. D., Wang, Q., Ji, W., Meier, A. M., Kennedy, H., Knoblauch, K., & Burkhalter, A. (2022). Hierarchical and nonhierarchical features of the mouse visual cortical network. Nature Communications, 13(1), 503. https://doi.org/10.1038/s41467-022-28035-y
-Garrett, M. E., Nauhaus, I., Marshel, J. H., & Callaway, E. M. (2014). Topography and Areal Organization of Mouse Visual Cortex. Journal of Neuroscience, 34(37), 12587–12600. https://doi.org/10.1523/JNEUROSCI.1124-14.2014
-Harris, J. A., Mihalas, S., Hirokawa, K. E., Whitesell, J. D., Choi, H., Bernard, A., Bohn, P., Caldejon, S., Casal, L., Cho, A., Feiner, A., Feng, D., Gaudreault, N., Gerfen, C. R., Graddis, N., Groblewski, P. A., Henry, A. M., Ho, A., Howard, R., … Zeng, H. (2019). Hierarchical organization of cortical and thalamic connectivity. Nature, 575(7781), 195–202. https://doi.org/10.1038/s41586-019-1716-z
-Kalatsky, V. A., & Stryker, M. P. (2003). New paradigm for optical imaging: Temporally encoded maps of intrinsic signal. Neuron, 38(4), 529–545. https://doi.org/10.1016/S0896-6273(03)00286-1
-Marshel, J. H., Garrett, M. E., Nauhaus, I., & Callaway, E. M. (2011). Functional specialization of seven mouse visual cortical areas. Neuron, 72(6), 1040–1054. https://doi.org/10.1016/j.neuron.2011.12.004
-Morimoto, M. M., Uchishiba, E., & Saleem, A. B. (2021). Organization of feedback projections to mouse primary visual cortex. iScience, 24(5), 102450. https://doi.org/10.1016/j.isci.2021.102450
-Rhim, I., Coello-Reyes, G., Ko, H. K., & Nauhaus, I. (2017). Maps of cone opsin input to mouse V1 and higher visual areas. Journal of Neurophysiology, 117(4), 1674–1682. https://doi.org/10.1152/jn.00849.2016
-Rosa, M. G. P., & Krubitzer, L. A. (1999). The evolution of visual cortex: Where is V2? Trends in Neurosciences, 22(6), 242–248. https://doi.org/10.1016/S0166-2236(99)01398-3
-Sedigh-Sarvestani, M., & Fitzpatrick, D. (2022). What and Where: Location-Dependent Feature Sensitivity as a Canonical Organizing Principle of the Visual System. Frontiers in Neural Circuits, 16, 18. https://doi.org/10.3389/FNCIR.2022.834876/BIBTEX
-Sedigh-Sarvestani, M., Lee, K. S., Satterfield, R., Shultz, N., & Fitzpatrick, D. (2020). A sinusoidal transform of the visual field in cortical area V2. bioRxiv, 2. https://doi.org/10.1101/2020.12.08.416651
-Siegle, J. H., Jia, X., Durand, S., Gale, S., Bennett, C., Graddis, N., Heller, G., Ramirez, T. K., Choi, H., Luviano, J. A., Groblewski, P. A., Ahmed, R., Arkhipov, A., Bernard, A., Billeh, Y. N., Brown, D., Buice, M. A., Cain, N., Caldejon, S., … Koch, C. (2021). Survey of spiking in the mouse visual system reveals functional hierarchy. Nature, 592(7852), 86–92. https://doi.org/10.1038/s41586-020-03171-x
-Wang, Q., & Burkhalter, A. (2007). Area map of mouse visual cortex. Journal of Comparative Neurology, 502(3), 339–357. https://doi.org/10.1002/cne.21286
-Wang, Q., Gao, E., & Burkhalter, A. (2011). Gateways of ventral and dorsal streams in mouse visual cortex. Journal of Neuroscience, 31(5), 1905–1918. https://doi.org/10.1523/JNEUROSCI.3488-10.2011
-Yu, H.-H., Rowley, D., Price, N., Rosa, M., & Zavitz, E. (2020). A twisted visual field map in the primate cortex predicted by topographic continuity. Science Advances, 6(6), eaaz8763. https://doi.org/10.1101/682187
-Zhuang, J., Ng, L., Williams, D., Valley, M., Li, Y., Garrett, M., & Waters, J. (2017). An extended retinotopic map of mouse cortex. eLife, 6, 1–29. https://doi.org/10.7554/elife.18372
-
-## Run on Local Dataset
-
-Use this quick-start to process and analyze a local Neuropixels dataset located at `/media/huklaban5/Data/MouseV2/001568/`.
-
-### Prerequisites
-- Create and activate the Conda env: `environment.yml`
-
-```bash
-conda env create -f environment.yml
-conda activate neuropixels-platform
-```
-
-- Confirm the dataset contains NWB files and stimulus/metadata required for DG, sparse noise, flash, and natural images.
-
-### 1) Generate per-site metric CSVs
-
-Run `generate_retinotopic_csvs.py` for each recording. Replace paths if your NWB filenames differ.
-
-```bash
-# Example for one recording in 001568
-python generate_retinotopic_csvs.py \
-   --nwb \
-   "/media/huklaban5/Data/MouseV2/001568/session1.nwb" \
-   --out_dir "./data/site2_processed" \
-   --site_name "V1_site2" \
-   --id_offset 1000000
-
-# Repeat for additional recordings/sites with unique out_dir/site_name/id_offset
-python generate_retinotopic_csvs.py \
-   --nwb \
-   "/media/huklaban5/Data/MouseV2/001568/session2.nwb" \
-   --out_dir "./data/site3_processed" \
-   --site_name "V1_site3" \
-   --id_offset 2000000
-```
-
-Outputs expected in each `data/site*_processed/` folder:
-- `change_modulation_data.csv`
-- `time_to_first_spike.csv`
-- `timescale_metrics.csv`
-- `layer_info.csv`
-
-Optional RF outputs (if available): `rf_metrics.csv` with `area_rf`, `rf_center_x`, `rf_center_y`, `p_value_rf`.
-
-### 2) Build unified unit table
-
-Merge Observatory + local site metrics into `data/unit_table.csv`.
-
-```bash
-python common/create_units_table.py
-```
-
-Notes:
-- The script looks for existing Observatory CSVs in `data/` and new site CSVs under `data/site*_processed/`.
-- It standardizes column names (e.g., `modulation_index` → `mod_idx_dg`, `autocorr_tau` → `timescale_ac`, `time_to_first_spike` → `time_to_first_spike_fl`).
-- Ensure `ecephys_unit_id` is present or provided via `--id_offset` mapping in the generator.
-
-### 3) Generate Figure 3
-
-Run the updated Figure 3 script to include new V1 sites as distinct areas.
-
-```bash
-python Figure3/Figure3.py
-```
-
-Results:
-- Saves high-resolution figure `Figure3_restored_style.png` in `Figure3/`.
-- Prints area coverage diagnostics and summary counts.
-
-### Tips
-- If your dataset path or filenames differ, update the `--nwb` arguments and `--site_name` to match your retinotopic location naming.
-- For additional sites, increment `--id_offset` to keep unit IDs unique across recordings.
-- If RF metrics are missing, the analysis will run but RF-specific panels and filters are skipped.
-
-## 2026-02 Updates (New V1 Sites)
-
-This repo now computes the Figure 3 functional metrics for new V1 NWBs using **PyNWB I/O** + **paper/legacy math**, to minimize method drift vs the platform paper.
-
-### What changed
-
-`generate_retinotopic_csvs.py` now writes the four per-site CSVs with **paper-compatible schemas**:
-
-1) `time_to_first_spike.csv`
-- Uses `functions/time_to_first_spike.compute_first_spike` (legacy).
-- Binning: **1 ms**.
-- Window: **30–200 ms** post-flash onset (flash-locked).
-- Output: `time_to_first_spike` in **seconds** (matches `data/time_to_first_spike.csv` in this repo).
-
-2) `timescale_metrics.csv`
-- Matches `Figure3/timescale_calculation.py` (paper method).
-- Binning: **10 ms** (0–2 s after flash), fit window **40–290 ms**.
-- Autocorr: 2D autocorr across trials, averaged, then exponential fit.
-- Output columns: `autocorr_tau` (ms), `err_ac`, `spike_count_ac`.
-
-3) `change_modulation_data.csv`
-- Computes drifting-gratings modulation index using `functions/modulation_index.main` (legacy).
-- Uses the trial-averaged 1 ms PSTH per temporal frequency and reports the **max MI over TF**.
-- Output: `modulation_index`.
-
-4) `layer_info.csv`
-- Ensures `cortical_depth`, `cortical_layer` exist (layer currently left as NaN unless you add an assignment rule).
-- Writes `ecephys_structure_acronym` as `${site_name}_${probeLetter}` when `device_name` exists.
-
-### Known limitations / assumptions
-
-- Requires stimulus tables in `nwbfile.intervals` that include:
-  - A *flash* table with `start_time` (for TTFS + timescale).
-  - A drifting-gratings table with `start_time` plus a temporal frequency column (one of: `temporal_frequency`, `temporal_frequency_hz`, `tf`, `TF`).
-- Requires SciPy for timescale fitting and MI computation.
-- RF metrics for new sites (`area_rf`, `rf_center_x/y`, `p_value_rf`) are **not generated** by `generate_retinotopic_csvs.py` yet.
-- `common/create_units_table.py` still has hard-coded `cache_directory` / `code_directory` paths; update those locally if needed.
-
-### Plan from here
-
-1) Run `generate_retinotopic_csvs.py` for `site2`–`site5` (or more), confirming each `data/site*_processed/` folder contains:
-   - `change_modulation_data.csv`
-   - `time_to_first_spike.csv`
-   - `timescale_metrics.csv`
-   - `layer_info.csv`
-
-2) Run `python common/create_units_table.py` to append these sites into `data/unit_table.csv`.
-
-3) Run `python Figure3/Figure3.py` and verify the expected columns are present for the new sites:
-   - `mod_idx_dg`, `time_to_first_spike_fl`, `timescale_ac`
-
-4) (Optional but recommended) Add RF metric generation for the new NWBs (sparse-noise / gabor pipelines) so Figure 3 filtering and RF panels can match the original paper more closely.

@@ -1,0 +1,84 @@
+{
+  "checkpoint": "06c_allen_bo11_v1_rf_size_translation_alignment",
+  "status": "exploratory RF-size-only translation; tuning held out",
+  "inputs": {
+    "support": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+      "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+    },
+    "tuning_grid": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/tuning_weighted_session_surfaces/allen_bo11_tuning_weighted_surface_grid.csv",
+      "sha256": "f3b6becc5157f8cab71d6daf051de5004e3297d78f411a3ad11404440e84ebef"
+    }
+  },
+  "parameters": {
+    "sessions": [
+      715093703,
+      719161530,
+      721123822,
+      732592105,
+      737581020,
+      739448407,
+      742951821,
+      744228101,
+      746083955,
+      750332458,
+      750749662,
+      751348571,
+      754312389,
+      754829445,
+      755434585,
+      756029989,
+      757216464,
+      757970808,
+      758798717,
+      759883607,
+      760345702,
+      760693773,
+      761418226,
+      762120172,
+      762602078,
+      763673393,
+      773418906,
+      791319847,
+      797828357,
+      798911424,
+      799864342
+    ],
+    "edge_exclusion_deg": 20.0,
+    "bandwidth_deg": 8.0,
+    "translation_bound_deg": 20.0,
+    "regularization_weight": 0.08,
+    "tuning_used_for_fit": false
+  },
+  "outputs": {
+    "ALLEN_BO11_V1_RF_SIZE_TRANSLATION_ALIGNMENT.md": {
+      "bytes": 996,
+      "sha256": "70167f921cbf3dd8672dd6c2a5d58b7e43cd7750d1928bb24f45855b9218adc4"
+    },
+    "selected_v1_rf_size_translations.csv": {
+      "bytes": 4704,
+      "sha256": "c6f0a8782a920fdc9a50a302b124bb13c262167a3669c61e918035a3185bb2e5"
+    },
+    "v1_rf_size_split_half_reliability.csv": {
+      "bytes": 117,
+      "sha256": "2c549793711821b492505e1ad47ed8361498d7385a23893a7b1731e10164748f"
+    },
+    "Figure_allen_bo11_v1_rf_size_translation_alignment.png": {
+      "bytes": 839691,
+      "sha256": "312b75b00d3b7f1e42742fdd0513ec707981ce3f6abbf193200d00a081a17d74"
+    },
+    "v1_rf_size_translation_tuning_summary.csv": {
+      "bytes": 536,
+      "sha256": "15a178b76b2229e53f0696c96354123bf2a8583bc89631bf056115b49380590d"
+    },
+    "v1_rf_size_translation_profiles.csv": {
+      "bytes": 203152,
+      "sha256": "bbdd884e5f2f954915ebee9ca2036c47ae57cac34b22d4f747f040f79c0c7de3"
+    },
+    "v1_rf_size_split_half_transforms.csv": {
+      "bytes": 8008,
+      "sha256": "7f55473de2436b63e065811a5da1ac0425e4df10cd719849a3dd8402a66a32f4"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "anatomical_bandwidth_um": 250,
+  "rf_neighborhood_bandwidth_deg": 15,
+  "hva_mean_maps_separate_by_area": true,
+  "hva_dispersion_pooled_after_area_specific_residualization": true,
+  "lgd_source": "raw Gabor aperture fits with positive held-out spatial gain"
+}

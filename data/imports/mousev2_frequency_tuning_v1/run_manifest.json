@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "status": "trial-derived marginal SF x TF surfaces with gated preferences",
+  "inputs": [
+    {
+      "site": "site2",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169
+    },
+    {
+      "site": "site3",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152
+    },
+    {
+      "site": "site4",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523
+    },
+    {
+      "site": "site5",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191
+    },
+    {
+      "site": "site6",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368
+    },
+    {
+      "site": "site7",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441
+    },
+    {
+      "site": "site8",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420
+    },
+    {
+      "site": "site9",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377
+    }
+  ],
+  "parameters": {
+    "fdr_method": "Benjamini-Hochberg across all extracted units",
+    "fdr_alpha": 0.05,
+    "minimum_split_half_spearman_brown": 0.3,
+    "minimum_parametric_pseudo_r2": 0.1,
+    "minimum_trials_per_sf_tf_cell": 10,
+    "response": "spike count in nominal 1.0-s presentation",
+    "parametric_fit_population": "independently defined Pilot-QC units",
+    "surface": "joint Poisson log-Gaussian(SF) x log-Gaussian(TF) x von-Mises(orientation)",
+    "split": "alternating repeats balanced across nuisance conditions"
+  },
+  "code": {
+    "extractor": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/extract_mousev2_frequency_tuning.py",
+    "extractor_sha256": "8e181efb767d8ee6622c24277a407cecd7257d3e10f586e7a898df03d7cf1905",
+    "metrics": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/common/drifting_gratings.py",
+    "metrics_sha256": "85f294a22f0c87dd82b71e15aa0c25e04163bc23f1ae7acae2f5c9c8ffd56b9d",
+    "parametric_model": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/common/parametric_models.py",
+    "parametric_model_sha256": "88eac791ffec274b6c5c534578cbe566f3ac010df391fe4d5ad672213465efbe"
+  },
+  "outputs": {
+    "README.md": {
+      "bytes": 1663,
+      "sha256": "8eee5bf11265f6266c9976969a7274ff1369f8c96715447b7da0293aaf37dc03"
+    },
+    "frequency_tuning_support.csv": {
+      "bytes": 5619841,
+      "sha256": "ee437842ec5c5a6556264568f7d2ad0774a3405357de3b622a5a7a8d892c33fc"
+    },
+    "site2/frequency_tuning_surface.csv.gz": {
+      "bytes": 865325,
+      "sha256": "dc659323465166e692634cb5c48e70deaefb5ae793a54da8a9d8ca246c572625"
+    },
+    "site3/frequency_tuning_surface.csv.gz": {
+      "bytes": 728142,
+      "sha256": "424c9a87156e3d2ab0ac0d1c2ed9e40d30e481179039fe618dacc3adc1ff9e74"
+    },
+    "site4/frequency_tuning_surface.csv.gz": {
+      "bytes": 713493,
+      "sha256": "790ef6b5985ef795c27e9d8e2e094dcf63f9a4dfc96a1252a1cd04cac232207e"
+    },
+    "site5/frequency_tuning_surface.csv.gz": {
+      "bytes": 950088,
+      "sha256": "6325b7fddd4a32df7397647c5257ebcb9812a3f448dcda6b92d9c3f3f0fb18fd"
+    },
+    "site6/frequency_tuning_surface.csv.gz": {
+      "bytes": 744812,
+      "sha256": "411dec57296fc91b21ce6966209a846e0ccf772c8d3b01449834f74419073095"
+    },
+    "site7/frequency_tuning_surface.csv.gz": {
+      "bytes": 823864,
+      "sha256": "a82ce8a984998116bc58974166526637dea522e4312390fca0b9130024f5ad91"
+    },
+    "site8/frequency_tuning_surface.csv.gz": {
+      "bytes": 909000,
+      "sha256": "0c4f9f9c3172606d7c96c1169e944703433f8d4b2953ba3342d225538969966b"
+    },
+    "site9/frequency_tuning_surface.csv.gz": {
+      "bytes": 772877,
+      "sha256": "d2f60bea0efb4d78fa3da879c814fcacd0f3ef9f1cac7467cbaf3f6c46d4a75d"
+    }
+  }
+}

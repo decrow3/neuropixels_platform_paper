@@ -1,0 +1,51 @@
+{
+  "checkpoint": "corpus cross-animal registration and transfer audit",
+  "status": "exploratory; only two animals are anatomically eligible",
+  "common_convention": "100_minus_azimuth",
+  "common_cortical_reflection": 1,
+  "eligible_sessions": [
+    755434585,
+    798911424
+  ],
+  "excluded_sessions": [
+    {
+      "session_id": 746083955,
+      "specimen_id": 726170935,
+      "improved_rf_cells": 152,
+      "ccf_localized_target_area_cells": 2,
+      "localized_penetrations": 1,
+      "localized_areas": 1,
+      "status": "excluded: fewer than 3 localized penetrations"
+    },
+    {
+      "session_id": 760693773,
+      "specimen_id": 738651054,
+      "improved_rf_cells": 260,
+      "ccf_localized_target_area_cells": 0,
+      "localized_penetrations": 0,
+      "localized_areas": 0,
+      "status": "excluded: no CCF-localized improved-RF cells"
+    }
+  ],
+  "counts": {
+    "registered_animals": 2,
+    "registered_cells": 465,
+    "registered_probes": 10,
+    "gradient_probes": 10,
+    "cross_animal_transfer_folds": 9
+  },
+  "transfer": {
+    "mean_baseline_error_deg": 21.643952209378963,
+    "mean_transferred_error_deg": 25.52930764025429,
+    "mean_improvement_deg": -3.885355430875325,
+    "median_improvement_deg": -0.5006514586421815,
+    "folds_improved": 4
+  },
+  "validation": "leave one whole probe out; fit remaining probes in same animal; residual correction comes only from other animal probes in the same area",
+  "limitations": [
+    "Only two of four improved-RF sessions have enough CCF-localized penetrations.",
+    "With two animals, other-animal transfer is a pairwise replication test, not a learned population prior.",
+    "The per-animal map is currently a global anatomy-constrained affine.",
+    "Gradient transfer is not attempted because one directional derivative per area/animal does not identify a full 2D local gradient."
+  ]
+}

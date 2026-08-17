@@ -1,0 +1,50 @@
+{
+  "checkpoint": "06c_allen_bo11_v1_rf_size_interior",
+  "input": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+    "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+  },
+  "parameters": {
+    "cohort": "Brain Observatory 1.1",
+    "area": "V1",
+    "grid_limits_deg": [
+      10.0,
+      90.0,
+      -30.0,
+      50.0
+    ],
+    "edge_exclusion_deg": 20.0,
+    "bandwidth_deg": 12.0,
+    "minimum_effective_sessions": 5.0
+  },
+  "outputs": {
+    "allen_bo11_v1_rf_size_edge_cutoff_sensitivity.csv": {
+      "bytes": 863,
+      "sha256": "e21540ceb2320945fa79947245b11e8e28a5c22837b8d186325910e2a4a5172f"
+    },
+    "allen_bo11_v1_rf_size_interior_units.csv": {
+      "bytes": 329341,
+      "sha256": "dabe6b7724c50efaadb6d3b168d6a2974583f4591c7ee8ab4336bd5c319af9cf"
+    },
+    "allen_bo11_v1_rf_size_interior_radial.csv": {
+      "bytes": 324,
+      "sha256": "1307e8952cb48b9856dadb97556bf00e71da7eaebc0540c826116750a065ef08"
+    },
+    "allen_bo11_v1_rf_size_interior_coordinates.csv": {
+      "bytes": 912,
+      "sha256": "be9a3b5cbd87f8d0f10e098195453ad78ac1234f829ae2a8ad227fd17c2bdd1f"
+    },
+    "Figure_allen_bo11_v1_rf_size_by_azimuth_elevation.png": {
+      "bytes": 337508,
+      "sha256": "bf74fb60bbfb9fda12bafc8ddcd24b11f244339d8b07d8df5b3107f832d4bee8"
+    },
+    "Figure_allen_bo11_v1_rf_size_interior.png": {
+      "bytes": 585670,
+      "sha256": "4d2b3cc7b63d260feff1b4062ad8575eb09be9ce152a33fc005f205d80268db3"
+    },
+    "ALLEN_BO11_V1_RF_SIZE_INTERIOR.md": {
+      "bytes": 934,
+      "sha256": "d5afd910eff141acb378e20e3c11bb31feb1ff0cd215dbf5effcab5b97e3b723"
+    }
+  }
+}

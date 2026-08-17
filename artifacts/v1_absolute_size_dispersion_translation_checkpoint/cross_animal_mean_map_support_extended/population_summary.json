@@ -1,0 +1,21 @@
+{
+  "usable_sessions": 45,
+  "excluded_sessions": [],
+  "primary_model": "quadratic",
+  "median_heldout_gradient_r2": 0.3240490008723016,
+  "fraction_gradient_r2_positive": 0.8888888888888888,
+  "median_sampling_fraction": 0.02184118932268331,
+  "fraction_sampling_below_10_percent": 0.9333333333333333,
+  "affine_quadratic_r2_spearman": 0.9779973649538867,
+  "physical_blocks": 6,
+  "rf_neighborhood_bandwidth_deg": 15.0,
+  "ridge": 0.05,
+  "outputs": [
+    "Figure_v1_cross_animal_support_population_summary.png",
+    "Figure_v1_cross_animal_support_selected_cases.png",
+    "all_session_model_audit.csv",
+    "selected_followup_cases.csv",
+    "all_session_block_predictions.csv.gz",
+    "all_session_unit_support_decomposition.csv.gz"
+  ]
+}

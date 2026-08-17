@@ -1,0 +1,5 @@
+edge_band_deg,units,sessions,median_maximum_sigma_deg,q25_maximum_sigma_deg,q75_maximum_sigma_deg,q90_maximum_sigma_deg,median_geometric_mean_sigma_deg,fraction_larger_than_mapped_span,fraction_gaussian_center_off_screen
+0–5,3483,31,331.5286,115.2592,816.9475,2002.035,132.4192,0.7912719,0.9066896
+>5–10,1498,31,163.9407,36.30157,621.7873,1396.257,90.76413,0.6121495,0.722964
+>10–20,2239,31,54.56381,26.95356,106.4063,787.5903,44.66506,0.3372041,0.3197856
+>20–40,3695,31,28.16321,14.74036,47.34817,71.41811,25.46694,0.07740189,0.02489851

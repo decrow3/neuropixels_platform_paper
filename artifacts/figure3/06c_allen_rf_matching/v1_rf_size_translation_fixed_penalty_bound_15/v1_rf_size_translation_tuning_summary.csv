@@ -1,0 +1,5 @@
+group,preference,sessions,median_correlation_raw,median_correlation_aligned,median_paired_correlation_change,median_rmse_raw_octaves,median_rmse_aligned_octaves,median_paired_rmse_change_octaves,median_coverage_raw,median_coverage_aligned
+HVA pooled,sf,31,0.148888,0.168623,0.0266235,0.240661,0.247502,-0.00464738,1,1
+HVA pooled,tf,31,0.36653,0.220717,-0.177114,0.360797,0.366325,0.0205091,1,1
+V1,sf,31,0.00191219,0.0322392,-0.0244659,0.249912,0.246313,0.0110607,1,1
+V1,tf,31,0.481616,0.577659,0.00706804,0.140907,0.150746,0.00759292,1,1

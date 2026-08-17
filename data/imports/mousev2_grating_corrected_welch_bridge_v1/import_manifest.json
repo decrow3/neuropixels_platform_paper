@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "phase_permutations": 100,
+  "permutation_seed": 20260809,
+  "condition_support": {
+    "duration_s": 1.0,
+    "trials": 15,
+    "spatial_frequency_cpd": 0.04,
+    "contrast": 0.8
+  },
+  "correction_method": {
+    "component": "preferred temporal-frequency DFT component only",
+    "source_rotation": "exp(-2j*pi*source_start_phase_cycles)",
+    "noncarrier_psth_preserved": true,
+    "mean_rate_preserved": true,
+    "estimator": "unchanged released Welch modulation index",
+    "controls": [
+      "phase permutation",
+      "opposite sign",
+      "4/8-Hz stable phase"
+    ]
+  },
+  "inputs": [
+    {
+      "site": "site2",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169,
+      "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site3",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152,
+      "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site4",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523,
+      "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site5",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191,
+      "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site6",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368,
+      "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site7",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441,
+      "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site8",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420,
+      "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    },
+    {
+      "site": "site9",
+      "path": "/media/huklaban5/Data/MouseV2/001568/sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377,
+      "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df",
+      "sha256_source": "data/imports/mousev2_grating_start_phase_bridge_v1/import_manifest.json"
+    }
+  ],
+  "upstream_source_provenance": {
+    "repository": {
+      "name": "openscope_v2species",
+      "commit": "dce48b5840a93fc8fb38c4fc3e76ef1ea5115f8c",
+      "entrypoint": "stimulus_v2species_ephys.py"
+    },
+    "files": [
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/openscope_v2species/stimulus_v2species_ephys.py",
+        "expected_sha256": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "observed_sha256": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "verified": true
+      },
+      {
+        "path": "/home/huklaban5/Documents/MouseV2/openscope_v2species/camstim/camstim/sweepstim.py",
+        "expected_sha256": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3",
+        "observed_sha256": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3",
+        "verified": true
+      }
+    ],
+    "phase_schedule": {
+      "source_module": "camstim/camstim/sweepstim.py",
+      "phase_expression": "temporal_frequency_hz * current_frame / fps",
+      "phase_reset_each_presentation": false,
+      "fps": 60.0,
+      "stimulus_frames": 60,
+      "blank_frames": 75,
+      "presentation_stride_frames": 135,
+      "start_phase_expression": "(temporal_frequency_hz * presentation_ordinal * presentation_stride_frames / fps) modulo 1",
+      "expected_unique_start_phases_by_tf_hz": {
+        "1.0": 4,
+        "2.0": 2,
+        "4.0": 1,
+        "8.0": 1,
+        "15.0": 4
+      },
+      "source_sha256": {
+        "stimulus_v2species_ephys.py": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+        "camstim/camstim/sweepstim.py": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3"
+      }
+    }
+  },
+  "code": {
+    "script_sha256": "9fd5a4d8aa21278e96ebdd299a18867d052a5e3b5fc7c30b94080aa5c8ae27f4",
+    "analysis_script_sha256": "9fd5a4d8aa21278e96ebdd299a18867d052a5e3b5fc7c30b94080aa5c8ae27f4",
+    "render_script_sha256": "9fd5a4d8aa21278e96ebdd299a18867d052a5e3b5fc7c30b94080aa5c8ae27f4",
+    "start_phase_script_sha256": "c2a181519c4a8738618a6ce806dfc4391651e355df36bd4d271c052a3c1d6975",
+    "welch_metric_sha256": "291d02a1e150e1def4a8f041b49fa23f723da3c4c14ecff78d71e9e6f439a5f2",
+    "config_sha256": "6a0dd40d7b8712f65beb317babd1f9a6a80bcb979361e86dd308a5e1e324e331",
+    "stimulus_manifest_sha256": "8492360bbdf709e964832bd0ce15835f9b6faf052dcf50293b037a88f3ff67eb",
+    "phase_bridge_manifest_sha256": "e153da1db03cb87867933a4773fd8fd94723a5c512a118d78dc859d6b8aaee7b"
+  },
+  "validation": {
+    "max_raw_mod_idx_absolute_difference": 3.552713678800501e-15,
+    "max_raw_reconstruction_absolute_error": 5.551115123125783e-17,
+    "max_absolute_mean_rate_change": 4.163336342344337e-17
+  },
+  "outputs": [
+    {
+      "path": "README.md",
+      "bytes": 2468,
+      "sha256": "686655b0a3c2fca492c8b144dc0acf9a38ad8949ea19bb6db4b83dfcbce5e3be"
+    },
+    {
+      "path": "analysis_centers.csv",
+      "bytes": 1144,
+      "sha256": "329e29df71d0c0ca886dbbf1b7e8a393de64404d5ff35a84fca974a71c5db723"
+    },
+    {
+      "path": "corrected_welch_bridge.png",
+      "bytes": 324652,
+      "sha256": "f454ac541557d3b0757f8be36bf8dd1d302d240f18b6f8f7c89c430d7f31ecc7"
+    },
+    {
+      "path": "paired_session_tests.csv",
+      "bytes": 1263,
+      "sha256": "05a59ece308f1166b8124a47421e55061369ab2db7d4a07ce541f6853c4c3d45"
+    },
+    {
+      "path": "session_summary.csv",
+      "bytes": 7286,
+      "sha256": "4788bb47e5b85b9c8f212a6c29557b37171e54437f55cbafe84810655259d2f1"
+    },
+    {
+      "path": "tf_center_summary.csv",
+      "bytes": 1107,
+      "sha256": "db39e1cc40c00fd1fa381deba5a8f46010cbaf705a3e8ddf9424b2d6f2101d4d"
+    },
+    {
+      "path": "tf_session_summary.csv",
+      "bytes": 6685,
+      "sha256": "2b27059f7534a84eabb4c840a745c93a326de0e4327b927b424a7117cc705f36"
+    },
+    {
+      "path": "unit_corrected_welch_metrics.csv",
+      "bytes": 15168687,
+      "sha256": "e434646c584fc5544701e7327050b248725fcbe6f9ad61f83afc838cfec10f2d"
+    }
+  ]
+}

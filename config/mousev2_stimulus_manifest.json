@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-08-04",
+  "source_repository": {
+    "name": "openscope_v2species",
+    "commit": "dce48b5840a93fc8fb38c4fc3e76ef1ea5115f8c",
+    "entrypoint": "stimulus_v2species_ephys.py"
+  },
+  "observed_nwb_sessions": ["site2", "site3", "site4", "site5", "site6", "site7", "site8", "site9"],
+  "blocks": {
+    "receptive_field_gabors": {
+      "position_x_deg": [-40, -30, -20, -10, 0, 10, 20, 30, 40],
+      "position_y_deg": [-40, -30, -20, -10, 0, 10, 20, 30, 40],
+      "orientation_deg": [0, 45, 90],
+      "temporal_frequency_hz": [4.0],
+      "spatial_frequency_cpd": [0.08],
+      "contrast": [0.8],
+      "stimulus_duration_s": 0.25,
+      "blank_duration_s": 0.0,
+      "repeats": 20,
+      "expected_presentations": 4860
+    },
+    "drifting_gratings": {
+      "orientation_deg": [0, 45, 90, 135],
+      "temporal_frequency_hz": [1.0, 2.0, 4.0, 8.0, 15.0],
+      "spatial_frequency_cpd": [0.02, 0.04, 0.08, 0.16, 0.32],
+      "contrast": [0.8],
+      "stimulus_duration_s": 1.0,
+      "blank_duration_s": 1.25,
+      "repeats": 15,
+      "expected_presentations": 1500,
+      "phase_schedule": {
+        "source_module": "camstim/camstim/sweepstim.py",
+        "phase_expression": "temporal_frequency_hz * current_frame / fps",
+        "phase_reset_each_presentation": false,
+        "fps": 60.0,
+        "stimulus_frames": 60,
+        "blank_frames": 75,
+        "presentation_stride_frames": 135,
+        "start_phase_expression": "(temporal_frequency_hz * presentation_ordinal * presentation_stride_frames / fps) modulo 1",
+        "expected_unique_start_phases_by_tf_hz": {
+          "1.0": 4,
+          "2.0": 2,
+          "4.0": 1,
+          "8.0": 1,
+          "15.0": 4
+        },
+        "source_sha256": {
+          "stimulus_v2species_ephys.py": "5df6a2829159d038c938c36bffd9a9dd3cc93eb69fb43013124630324b459a2e",
+          "camstim/camstim/sweepstim.py": "5d5e89d0f62ffcbf86a7a3c56f50e41cc322d6bb56ea891edce064faf40a0ee3"
+        }
+      }
+    },
+    "full_field_flashes": {
+      "contrast": [1.0, -1.0],
+      "temporal_frequency_hz": [0.0],
+      "spatial_frequency_cpd": [0.0],
+      "orientation_deg": [0],
+      "stimulus_duration_s": 0.25,
+      "blank_duration_s": 2.0,
+      "repeats": 150,
+      "expected_presentations": 300
+    }
+  },
+  "analysis_notes": [
+    "Preferred drifting-grating conditions must include orientation, temporal frequency, and spatial frequency.",
+    "RF calculations must account for position and orientation.",
+    "Flash polarity pooling requires an explicit sensitivity check.",
+    "NWB start_time timing provenance and independent display latency remain to be validated."
+  ]
+}

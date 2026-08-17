@@ -1,0 +1,44 @@
+{
+  "nwb": {
+    "path": "/media/huklaban5/Data/MouseV2/allen_bo11_rf_pilot_cache/session_755434585/session_755434585.nwb",
+    "sha256": "1a50c37dd514ce753d7c0c0d64adc4ebd8233b9e49a5225b171e101ecfc07220"
+  },
+  "unit_table": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/unit_table.csv",
+    "sha256": "b8da78472923344c99b2e426af52cef520a5ceb972e9ac3da5388d4844b2ebed"
+  },
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/fit_allen_session_corrected_rf_surfaces.py",
+    "sha256": "2f2f6864165b4f7ffee1d7303b46a91717168485c281f61bc8a597cc2f180ea5"
+  },
+  "outputs": {
+    "Figure_rf_fit_correction_diagnostics.png": {
+      "bytes": 249876,
+      "sha256": "1bb65768919379cb4adb8f2650b83aed8cf6df6556d2be5ec933ad63766d5589"
+    },
+    "Figure_uncorrected_vs_corrected_rf_size_surfaces.png": {
+      "bytes": 1340230,
+      "sha256": "08ad8f3abdb4848038fbe608d5248b5bde1c5fca8a58ba679cbb069bf28b4e24"
+    },
+    "README.md": {
+      "bytes": 1413,
+      "sha256": "cd9000ebc85c06d4642e2c9a5ac3eebffbc665aded4e6fe6da139bda59a15d73"
+    },
+    "rf_size_surfaces.csv": {
+      "bytes": 695971,
+      "sha256": "865093f49b742d6ee30979bd8c8d671d12c0d662776db8c9b5348e1c2eb40957"
+    },
+    "session_rf_fit_population.csv": {
+      "bytes": 243339,
+      "sha256": "637a60af37235e0d69ec065380264410cd4218887dacd2578cbd747ce840867d"
+    },
+    "summary.json": {
+      "bytes": 3005,
+      "sha256": "17da05e91f41737a1eb2b766c99240bcacfcb5e3523b52caefe0dc85f57d178f"
+    },
+    "surface_matched_qc_population.csv": {
+      "bytes": 136105,
+      "sha256": "1313a9656063c51eca423052871a1384110538ca0d5be396ea91d2b75d4cb28b"
+    }
+  }
+}

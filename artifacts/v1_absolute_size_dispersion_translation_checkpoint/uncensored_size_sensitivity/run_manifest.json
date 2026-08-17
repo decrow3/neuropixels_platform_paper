@@ -1,0 +1,49 @@
+{
+  "status": "exploratory concrete-case checkpoint",
+  "input": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/allen_full_rf_production_v1/03_aggregate/all_session_unit_geometry_fits.csv",
+  "input_sha256": "d5e3a82d3cd277f65a916a5139ba49fbe6f860f91642db9011e138193c829dea",
+  "unit_table": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/unit_table.csv",
+  "sessions": 54,
+  "v1_units": 5529,
+  "methods": {
+    "rf_size": "absolute log2 axis-aligned analytic-aperture RF area; no animal normalization",
+    "edge_rule": "no RF-center edge exclusion",
+    "parameter_bound_rule": "all RF centers retained; parameter-bound area values omitted only from RF-size surfaces",
+    "dispersion": "15-degree Gaussian local covariance trace and normalized anisotropy components",
+    "template": "leave-one-animal-out equal-session mean surfaces",
+    "split_half": "target cells split independently; same full external template used for both halves",
+    "translation": "grid search +/-30 deg in 2-deg steps",
+    "sf_tf": "not used"
+  },
+  "feature_scales": {
+    "log2_rf_area": 1.3907971917870334,
+    "dispersion_log2_trace": 0.3834387492563251,
+    "dispersion_anisotropy_x": 0.1497967030045138,
+    "dispersion_anisotropy_xy": 0.13193090215004757
+  },
+  "selected_sessions": [
+    {
+      "ecephys_session_id": 742951821,
+      "selection_role": "most reproducible non-bound case",
+      "criterion": "minimum combined split-half vector difference among sessions with >=60 V1 units"
+    },
+    {
+      "ecephys_session_id": 762602078,
+      "selection_role": "median reproducibility non-bound case",
+      "criterion": "middle combined split-half vector difference among sessions with >=60 V1 units"
+    },
+    {
+      "ecephys_session_id": 715093703,
+      "selection_role": "failure-prone case",
+      "criterion": "boundary optimum prioritized, then maximum combined split-half vector difference"
+    }
+  ],
+  "outputs": [
+    "Figure_v1_absolute_size_dispersion_translation_cases.png",
+    "selected_case_audit.csv",
+    "selected_case_objective_landscapes.csv.gz",
+    "translation_optima_all_sessions.csv",
+    "session_support_summary.csv",
+    "v1_unit_descriptors.csv.gz"
+  ]
+}

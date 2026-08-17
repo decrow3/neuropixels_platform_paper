@@ -1,0 +1,87 @@
+{
+  "checkpoint": "06c_allen_bo11_ccf_retinotopy_alignment",
+  "status": "held-out V1 CCF-to-RF translation model",
+  "inputs": {
+    "support": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+      "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+    },
+    "unit_table": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/data/unit_table.csv",
+      "sha256": "b8da78472923344c99b2e426af52cef520a5ceb972e9ac3da5388d4844b2ebed"
+    }
+  },
+  "parameters": {
+    "ccf_columns": [
+      "anterior_posterior_ccf_coordinate",
+      "dorsal_ventral_ccf_coordinate",
+      "left_right_ccf_coordinate"
+    ],
+    "candidate_degrees": [
+      1,
+      2
+    ],
+    "selected_model": "linear",
+    "ridge": 10.0,
+    "translation_bound_deg": 15.0,
+    "fit_population": "V1 only",
+    "held_out": "ecephys_session_id",
+    "available_sessions": [
+      715093703,
+      719161530,
+      721123822,
+      744228101,
+      750749662,
+      751348571,
+      754312389,
+      754829445,
+      755434585,
+      756029989,
+      757216464,
+      757970808,
+      758798717,
+      759883607,
+      760345702,
+      761418226,
+      762602078,
+      763673393,
+      773418906,
+      791319847,
+      797828357,
+      798911424,
+      799864342
+    ],
+    "missing_sessions": [
+      732592105,
+      737581020,
+      739448407,
+      742951821,
+      746083955,
+      750332458,
+      760693773,
+      762120172
+    ]
+  },
+  "outputs": {
+    "ccf_retinotopy_unit_predictions.csv": {
+      "bytes": 372613,
+      "sha256": "96ecb98a419ad14b369fd4c1589d1f99c1af99adbb659ef6e4a3abf0b1b48fd7"
+    },
+    "ccf_retinotopy_model_cv.csv": {
+      "bytes": 83,
+      "sha256": "1b7b7e6f7f46c21d924e047326fb8f0d476a577c4569a534ea798ef9de25d6fa"
+    },
+    "selected_ccf_retinotopy_transforms.csv": {
+      "bytes": 3203,
+      "sha256": "ccc7e8e2d1ffd46693825b125038eaea2e15df0d91d20b2a4a446d4251c8ffd1"
+    },
+    "ALLEN_BO11_CCF_RETINOTOPY_ALIGNMENT.md": {
+      "bytes": 790,
+      "sha256": "f8cf77e5df258f420e2ba855375b3f59460d3350a2b10a7c1d264ae91e9831db"
+    },
+    "Figure_allen_bo11_ccf_to_rf_prediction.png": {
+      "bytes": 414926,
+      "sha256": "38b1195d5063b56e148f116c870df8350e7ba96d3de2c27d2d994ac470d12e30"
+    }
+  }
+}

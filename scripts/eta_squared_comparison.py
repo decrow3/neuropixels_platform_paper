@@ -18,22 +18,62 @@ Bootstrap 95% CIs resample sessions within groups to respect the
 remaining between-session dependency.
 """
 
+import argparse
+from pathlib import Path
+import sys
+
 import pandas as pd
 import numpy as np
 import os
-import glob
-import re
 import warnings
 
 warnings.filterwarnings('ignore')
 np.random.seed(42)
 
 code_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-data_dir = os.path.join(code_dir, 'data')
+if code_dir not in sys.path:
+    sys.path.insert(0, code_dir)
+
+from common.figure3_mousev2 import (  # noqa: E402
+    load_allen_units,
+    load_config,
+    load_mousev2_units,
+)
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument(
+    '--output-dir',
+    type=Path,
+    default=Path(code_dir) / 'Figure3',
+    help='Directory for the generated Markdown report (default: Figure3).',
+)
+parser.add_argument('--config', type=Path, default=None)
+parser.add_argument('--grating-metrics-dir', type=Path, default=None)
+parser.add_argument('--flash-metrics-dir', type=Path, default=None)
+parser.add_argument(
+    '--flash-variant', choices=('pooled', 'bright', 'dark'), default='pooled'
+)
+parser.add_argument(
+    '--ttfs-display', choices=('mean_matched', 'raw_nwb'), default='mean_matched'
+)
+parser.add_argument(
+    '--within-v1-x-mode',
+    choices=('legacy_pseudo_hierarchy', 'display_only'),
+    default='legacy_pseudo_hierarchy',
+)
+parser.add_argument(
+    '--grating-metric', choices=('f1_f0_dg', 'mod_idx_dg'), default='f1_f0_dg'
+)
+parser.add_argument('--population-profile', default=None)
+args = parser.parse_args()
+output_dir = args.output_dir.resolve()
+config = load_config(args.config)
 
 # ── Metric definitions ────────────────────────────────────────────────────────
-_metrics       = ['time_to_first_spike_fl', 'f1_f0_dg', 'timescale_ac']
-_metric_labels = ['TTFS (ms)', 'log10 F1/F0', 'Timescale (ms)']
+_grating_name = 'F1/F0' if args.grating_metric == 'f1_f0_dg' else 'modulation index'
+_grating_label = f'log10 {_grating_name}'
+_metrics       = ['time_to_first_spike_fl', args.grating_metric, 'timescale_ac']
+_metric_labels = ['TTFS (ms)', _grating_label, 'Timescale (ms)']
 _fns           = [lambda v: v * 1000,
                   lambda v: np.log10(np.clip(v, 1e-6, None)),
                   lambda v: v]
@@ -43,7 +83,7 @@ def _filt_mask(df, mi):
     if mi == 0:
         sel &= df['time_to_first_spike_fl'].astype(float) < 0.1
     elif mi == 1:
-        sel &= df['f1_f0_dg'].astype(float) > 0
+        sel &= df[args.grating_metric].astype(float) > 0
     elif mi == 2:
         sel &= df['timescale_ac'].astype(float).between(1, 300)
         if 'spike_count_ac' in df.columns:
@@ -58,51 +98,21 @@ def _transform(v, mi):
 
 # ── Load V1 site data ─────────────────────────────────────────────────────────
 APPLY_QC = True   # set False to revert to unfiltered units
-
-def _load_one_site(site_dir):
-    needed = ['layer_info.csv', 'change_modulation_data.csv',
-              'timescale_metrics.csv', 'time_to_first_spike.csv']
-    if not all(os.path.isfile(os.path.join(site_dir, f)) for f in needed):
-        return pd.DataFrame()
-    lay  = pd.read_csv(os.path.join(site_dir, 'layer_info.csv'))
-    mod  = pd.read_csv(os.path.join(site_dir, 'change_modulation_data.csv'))
-    ts   = pd.read_csv(os.path.join(site_dir, 'timescale_metrics.csv'))
-    ttfs = pd.read_csv(os.path.join(site_dir, 'time_to_first_spike.csv'))
-    df = lay.merge(mod, on='unit_id').merge(ts, on='unit_id').merge(ttfs, on='unit_id')
-    df = df.rename(columns={
-        'time_to_first_spike': 'time_to_first_spike_fl',
-        'modulation_index':    'f1_f0_dg',
-        'autocorr_tau':        'timescale_ac',
-    })
-    qc_path = os.path.join(site_dir, 'unit_quality.csv')
-    if APPLY_QC and os.path.isfile(qc_path):
-        qc = pd.read_csv(qc_path)[['unit_id', 'default_qc']]
-        df = df.merge(qc, on='unit_id', how='left')
-        df = df[df['default_qc'] == True].drop(columns=['default_qc'])
-    return df
-
-_site_dirs = sorted(glob.glob(os.path.join(data_dir, 'site*_processed')))
-_frames = [_load_one_site(d) for d in _site_dirs]
-_frames = [f for f in _frames if not f.empty]
-df_site = pd.concat(_frames, ignore_index=True, sort=False) if _frames else pd.DataFrame()
-
-if not df_site.empty:
-    def _parse(acronym):
-        m = re.match(r'V1_site(\d+)_([ABCE])', str(acronym))
-        return (int(m.group(1)), m.group(2)) if m else (None, None)
-    parsed = [_parse(a) for a in df_site['ecephys_structure_acronym']]
-    df_site['session_num']  = [x[0] for x in parsed]
-    df_site['probe_letter'] = [x[1] for x in parsed]
-    df_site = df_site[df_site['probe_letter'].notna()].copy()
+df_site = load_mousev2_units(
+    apply_qc=APPLY_QC if args.population_profile is None else False,
+    config_path=args.config,
+    grating_metrics_dir=args.grating_metrics_dir,
+    flash_metrics_dir=args.flash_metrics_dir,
+    flash_variant=args.flash_variant,
+    population_profile=args.population_profile,
+)
 
 # ── Load Allen data ───────────────────────────────────────────────────────────
-df_orig = pd.read_csv(os.path.join(data_dir, 'unit_table.csv'), low_memory=False)
-fine_to_coarse = {'VISp': 'V1', 'VISl': 'LM', 'VISrl': 'RL',
-                  'VISal': 'AL', 'VISpm': 'PM', 'VISam': 'AM'}
-df_orig['area_coarse'] = df_orig['ecephys_structure_acronym'].map(
-    lambda a: fine_to_coarse.get(a, a))
+df_orig = load_allen_units(
+    args.config, population_profile=args.population_profile
+)
 
-probe_groups = ['B', 'C', 'A', 'E']
+probe_groups = list(config['display_probe_order'])
 area_groups  = ['LM', 'RL', 'LP', 'AL', 'PM', 'AM']
 
 # ── Build session×group mean tables ──────────────────────────────────────────
@@ -194,13 +204,7 @@ def _unit_counts(df, group_col, groups, mi):
 
 # also collect raw unit counts before/after QC for the new session data
 n_units_raw = len(df_site) if not df_site.empty else 0
-# reload without QC to get unfiltered count (just check if unit_quality was merged in)
-_raw_frames = []
-for d in _site_dirs:
-    needed = ['layer_info.csv']
-    if os.path.isfile(os.path.join(d, needed[0])):
-        _raw_frames.append(len(pd.read_csv(os.path.join(d, 'layer_info.csv'))))
-n_units_total_raw = sum(_raw_frames)
+n_units_total_raw = sum(int(session['expected_units']) for session in config['sessions'])
 
 # ── Main analysis ─────────────────────────────────────────────────────────────
 N_BOOT = 5000
@@ -268,7 +272,30 @@ print("  · P(Δ≤0): bootstrap probability that ω²_areas ≤ ω²_probes.")
 # ── Write companion markdown ──────────────────────────────────────────────────
 from datetime import date as _date
 
-qc_label = "yes (`default_qc == True`)" if APPLY_QC else "no"
+if args.population_profile is None:
+    qc_label = "yes (`default_qc == True`)" if APPLY_QC else "no"
+    _population_caption_lines = [
+        "Unit quality filter: `default_qc == True` (NWB units table flag; ≈ 55% of units pass)",
+        "applied to new session data to match Allen's pre-filtered unit population.",
+    ]
+    _population_method_lines = [
+        "New session data: `default_qc == True` flag from NWB units table",
+        f"({n_units_total_raw} total units → {n_units_raw} passing QC, "
+        f"{100*n_units_raw/n_units_total_raw:.0f}%).",
+        "Allen data: unit_table.csv is pre-filtered to `quality == 'good'` units only.",
+    ]
+else:
+    qc_label = f"yes (`{args.population_profile}`)"
+    _population_caption_lines = [
+        f"Named population profile `{args.population_profile}` is applied to Allen and MouseV2",
+        "before the metric-specific validity filters.",
+    ]
+    _population_method_lines = [
+        f"Both datasets use the named `{args.population_profile}` profile.",
+        f"MouseV2: {n_units_total_raw} total units → {n_units_raw} selected "
+        f"({100*n_units_raw/n_units_total_raw:.0f}%).",
+        f"Allen: 99,180 total units → {len(df_orig)} selected before area restriction.",
+    ]
 
 def _fmt(v):
     """Format a float, showing negative ω² as '< 0'."""
@@ -280,6 +307,96 @@ def _ci(lo, hi):
 
 n_new_sessions = df_site['session_num'].nunique() if not df_site.empty else 0
 n_new_probes   = df_site['probe_letter'].nunique() if not df_site.empty else 0
+_new_grating = pd.to_numeric(df_site[args.grating_metric], errors='coerce')
+_allen_grating = pd.to_numeric(
+    df_orig.loc[df_orig['area_coarse'] == 'V1', args.grating_metric], errors='coerce'
+)
+_new_grating_median = float(np.nanmedian(_new_grating[_new_grating > 0]))
+_allen_grating_median = float(np.nanmedian(_allen_grating[_allen_grating > 0]))
+if args.grating_metrics_dir is None:
+    _metric_caption_lines = [
+        "Each row shows one response metric: time-to-first-spike (TTFS, ms), log₁₀ F1/F0",
+        "(drifting gratings modulation ratio), and response decay timescale (ms).",
+    ]
+    _grating_method_lines = [
+        "F1/F0 computed using Allen SDK cycle-fold method (preferred orientation × TF,",
+        "fold into single cycle, FFT; F0 = ½·amplitude[DC], F1 = amplitude[1st harmonic]).",
+    ]
+elif args.grating_metric == 'f1_f0_dg':
+    _metric_caption_lines = [
+        "Each row shows one response metric: time-to-first-spike (TTFS, ms), log₁₀ F1/F0,",
+        "and response decay timescale (ms).",
+    ]
+    _grating_method_lines = [
+        "F1/F0 uses AllenSDK cycle-fold mathematics at the preferred full orientation × TF × SF condition."
+    ]
+else:
+    _metric_caption_lines = [
+        "Each row shows one response metric: time-to-first-spike (TTFS, ms), log₁₀ modulation index,",
+        "and response decay timescale (ms).",
+    ]
+    _grating_method_lines = [
+        "Modulation index uses AllenSDK's Welch-spectrum z-score at the preferred full orientation × TF × SF condition."
+    ]
+
+if args.flash_metrics_dir is None:
+    _flash_method_lines = []
+else:
+    _flash_method_lines = [
+        f"MouseV2 flash metrics use the `{args.flash_variant}` presentation set; Allen uses its released pooled-flash values.",
+        "TTFS is the median first occupied 1-ms bin from 30–200 ms. Timescale uses",
+        "25 AllenSDK-centered 10-ms bins (centers 45–285 ms) and the released exponential fit.",
+    ]
+
+if args.ttfs_display == 'raw_nwb':
+    _ttfs_caption_lines = [
+        "MouseV2 TTFS is shown raw relative to NWB flash `start_time`; no cross-dataset",
+        "mean matching or latency correction is applied. Physical light-onset timing and",
+        "display latency are not encoded in the NWB and remain uncalibrated.",
+    ]
+    _ttfs_caveat_lines = [
+        "- **TTFS timing provenance**: MouseV2 interval starts exactly match the NWB's",
+        "  processed stimulus timestamp series, but no photodiode trace or physical",
+        "  light-onset metadata is present. Absolute Allen–MouseV2 offsets are not interpreted.",
+    ]
+else:
+    _ttfs_caption_lines = [
+        "TTFS values for new sessions carry a ~10 ms display-timing offset relative to",
+        "the original Allen data (different stimulus delivery hardware); this is a",
+        "systematic scalar shift and does not affect relative probe or area comparisons.",
+    ]
+    _ttfs_caveat_lines = [
+        "- **TTFS timing offset**: New sessions show ~10 ms longer TTFS than Allen data,",
+        "  attributable to different stimulus display hardware (different monitor refresh",
+        "  latency). This is a scalar shift affecting absolute values but not variance structure.",
+    ]
+
+if args.within_v1_x_mode == 'display_only':
+    _full_position_caption_lines = [
+        "New MouseV2 session means use small horizontal display offsets around the published VISp score.",
+        "Those offsets are not within-V1 hierarchy scores and are not used in inference.",
+    ]
+    _zoom_position_caption_lines = [
+        "(dashed) are shown for context.",
+        "MouseV2 probes use categorical display offsets centered on VISp; no numerical",
+        "within-V1 hierarchy coordinate is assigned and no trend is fitted through probe means.",
+    ]
+    _position_caveat_lines = [
+        "- **Within-V1 location**: the recordings are anatomically localized within V1,",
+        "  but the probes have no validated hierarchy scores comparable to the published",
+        "  inter-area values. Categorical probe and measured RF coordinates are kept separate.",
+    ]
+    _multiple_comparison_caption = "Benjamini–Hochberg FDR corrected"
+else:
+    _full_position_caption_lines = [
+        "New V1 probe means are placed at the VISp hierarchy score.",
+    ]
+    _zoom_position_caption_lines = [
+        "(dashed) are shown for context. A linear fit through the within-V1 probe means",
+        "(solid grey, shaded 95% band) illustrates within-V1 spatial variance.",
+    ]
+    _position_caveat_lines = []
+    _multiple_comparison_caption = "Bonferroni corrected"
 
 md_lines = [
     f"# Figure 3 — Statistical Companion",
@@ -293,18 +410,17 @@ md_lines = [
     f"### `Figure3_with_V1sites.png`",
     f"",
     f"**Response properties across the mouse visual hierarchy, with new multi-site V1 data overlaid.**",
-    f"Each row shows one response metric: time-to-first-spike (TTFS, ms), log₁₀ F1/F0",
-    f"(drifting gratings modulation ratio), and response decay timescale (ms).",
+    *_metric_caption_lines,
     f"*Left two columns*: probability density and cumulative distribution functions",
     f"for each visual area (LGN → AM), coloured by hierarchy position (Allen CCF).",
     f"New multi-site V1 sessions (n = {n_new_sessions} sessions, probes B/C/A/E, coloured by probe)",
     f"are overlaid on the V1 distributions.",
     f"*Third column*: area medians plotted against published hierarchy score",
     f"(Siegle et al. 2021); dashed line is OLS regression with r and p values.",
-    f"New V1 probe means are placed at the VISp hierarchy score.",
-    f"*Fourth column*: pairwise significance matrix (Mann–Whitney U, Bonferroni corrected).",
-    f"F1/F0 computed using Allen SDK cycle-fold method (preferred orientation × TF,",
-    f"fold into single cycle, FFT; F0 = ½·amplitude[DC], F1 = amplitude[1st harmonic]).",
+    *_full_position_caption_lines,
+    f"*Fourth column*: pairwise significance matrix (Mann–Whitney U, {_multiple_comparison_caption}).",
+    *_grating_method_lines,
+    *_flash_method_lines,
     f"",
     f"### `Figure3_probe_zoom.png`",
     f"",
@@ -313,11 +429,8 @@ md_lines = [
     f"Each coloured dot is the session mean for one probe (B, C, A, E) in one of",
     f"n = {n_new_sessions} new multi-site sessions; error bars show probe mean ± SEM across sessions.",
     f"Original Allen area means (open circles, coloured by area) and OLS regression",
-    f"(dashed) are shown for context. A linear fit through the within-V1 probe means",
-    f"(solid grey, shaded 95% band) illustrates within-V1 spatial variance.",
-    f"TTFS values for new sessions carry a ~10 ms display-timing offset relative to",
-    f"the original Allen data (different stimulus delivery hardware); this is a",
-    f"systematic scalar shift and does not affect relative probe or area comparisons.",
+    *_zoom_position_caption_lines,
+    *_ttfs_caption_lines,
     f"",
     f"### `Figure3_split_comparison.png`",
     f"",
@@ -337,8 +450,7 @@ md_lines = [
     f"Both panels use the same y-axis tick increment per row to allow direct",
     f"visual comparison of spread; absolute offsets between panels are expected",
     f"(different recording hardware/populations) and do not affect the variance comparison.",
-    f"Unit quality filter: `default_qc == True` (NWB units table flag; ≈ 55% of units pass)",
-    f"applied to new session data to match Allen's pre-filtered unit population.",
+    *_population_caption_lines,
     f"",
     f"---",
     f"",
@@ -383,10 +495,7 @@ md_lines = [
     f"",
     f"### Unit quality filter",
     f"",
-    f"New session data: `default_qc == True` flag from NWB units table",
-    f"({n_units_total_raw} total units → {n_units_raw} passing QC, "
-    f"{100*n_units_raw/n_units_total_raw:.0f}%).",
-    f"Allen data: unit_table.csv is pre-filtered to `quality == 'good'` units only.",
+    *_population_method_lines,
     f"",
     f"### Results",
     f"",
@@ -399,11 +508,17 @@ rows_table = [
     "| Metric | Dataset | k | Session obs | η² | ω² | 95% CI (ω²) | Δω² (areas−probes) | 95% CI (Δω²) | P(Δ≤0) |",
     "|--------|---------|---|-------------|----|----|-------------|-------------------|--------------|--------|",
 ]
+_grating_interpretation = (
+    ('no between-group structure in either dataset',
+     'F1/F0 does not track the hierarchy at session-mean level')
+    if args.grating_metric == 'f1_f0_dg'
+    else ('between-group structure is reported for the selected grating metric',
+          'interpret this row together with its bootstrap interval')
+)
 interp_map = {
     'TTFS (ms)':       ('after QC, within-V1 probe variance is comparable to between-area variance',
                         'no clear hierarchy > V1 distinction'),
-    'log10 F1/F0':     ('no between-group structure in either dataset',
-                        'F1/F0 does not track the hierarchy at session-mean level'),
+    _grating_label:    _grating_interpretation,
     'Timescale (ms)':  ('areas show real ω²; probes near zero — directional but underpowered with 8 sessions',
                         'direction consistent with hierarchy; not statistically distinguishable'),
 }
@@ -445,11 +560,10 @@ for label in _metric_labels:
 md_lines += [
     f"### Caveats",
     f"",
-    f"- **TTFS timing offset**: New sessions show ~10 ms longer TTFS than Allen data,",
-    f"  attributable to different stimulus display hardware (different monitor refresh",
-    f"  latency). This is a scalar shift affecting absolute values but not variance structure.",
-    f"- **F1/F0 population offset**: After QC, new-session V1 median F1/F0 ≈ 1.01 vs",
-    f"  Allen V1 median ≈ 0.77. Residual offset may reflect remaining population",
+    *_ttfs_caveat_lines,
+    *_position_caveat_lines,
+    f"- **{_grating_name} population offset**: After QC, new-session V1 median {_grating_name} ≈ {_new_grating_median:.2f} vs",
+    f"  Allen V1 median ≈ {_allen_grating_median:.2f}. Residual offset may reflect remaining population",
     f"  differences (e.g., absence of receptive-field quality filter in new sessions).",
     f"- **Underpowered comparison for TTFS and timescale**: With only {n_new_sessions} new",
     f"  sessions, ω²_probes has wide CIs. The comparison requires ~40 sessions to match",
@@ -459,7 +573,8 @@ md_lines += [
     f"  is conservative.",
 ]
 
-out_md = os.path.join(code_dir, 'Figure3', 'Figure3_stats.md')
-with open(out_md, 'w') as fh:
+output_dir.mkdir(parents=True, exist_ok=True)
+out_md = output_dir / 'Figure3_stats.md'
+with out_md.open('w') as fh:
     fh.write('\n'.join(md_lines) + '\n')
 print(f"\nMarkdown written → {out_md}")

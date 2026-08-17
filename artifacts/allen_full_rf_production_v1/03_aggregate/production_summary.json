@@ -1,0 +1,10 @@
+{
+  "completed_utc": "2026-08-16T12:23:50.520423+00:00",
+  "sessions": 58,
+  "fit_units": 20879,
+  "model_rows": 41758,
+  "total_model_cpu_hours": 16.397038391407555,
+  "median_model_seconds": 1.09626452,
+  "p99_model_seconds": 7.630097647000003,
+  "maximum_model_seconds": 222.63176
+}

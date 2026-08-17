@@ -1,0 +1,110 @@
+{
+  "checkpoint": "zhuang2017_figure9_initial_evidence",
+  "status": "primary source-derived template; visual approval required before downstream warps",
+  "source": {
+    "article": "https://elifesciences.org/articles/18372",
+    "figure_url": "https://iiif.elifesciences.org/lax/18372%2Felife-18372-fig9-v2.tif/full/full/0/default.tif",
+    "figure": 9,
+    "panels": {
+      "C": "altitude",
+      "D": "azimuth"
+    },
+    "sha256": "55b3957e0d17233c3c778d9ebeebda43949b6cf6813064f412f749adad70bc9e",
+    "width_px": 1001,
+    "height_px": 1452,
+    "license": "CC BY 4.0"
+  },
+  "parameters": {
+    "panel_bounds_source_px": {
+      "altitude": [
+        0,
+        535,
+        470,
+        965
+      ],
+      "azimuth": [
+        500,
+        535,
+        970,
+        965
+      ]
+    },
+    "source_crop_px": [
+      0,
+      475,
+      1001,
+      985
+    ],
+    "contour_interval_deg": 5,
+    "contour_color_error_threshold": 0.08,
+    "contour_min_rgb_range": 70,
+    "base_color_rule": "frequent exact source colors within 0.015 RGB distance of matplotlib jet",
+    "boundary_rule": "max RGB <= 35; connected components >= 3 pixels; printed legends masked",
+    "common_frame": "panel D crop",
+    "coordinate_interpolation": "none"
+  },
+  "registration": {
+    "panel_C_to_D_translation_px": [
+      -1,
+      0
+    ],
+    "method": "integer translation minimizing mean distance between duplicated black borders",
+    "mean_symmetric_boundary_distance_px": 0.3415608422940728,
+    "median_symmetric_boundary_distance_px": 0.0,
+    "p95_symmetric_boundary_distance_px": 1.4142135623730951
+  },
+  "counts": {
+    "altitude_contour_pixels": 16627,
+    "azimuth_contour_pixels": 20753,
+    "contour_point_rows": 37380,
+    "panel_C_boundary_pixels": 7920,
+    "panel_D_boundary_pixels": 7526
+  },
+  "qa": {
+    "altitude_levels_deg": [
+      -25.0,
+      -20.0,
+      -15.0,
+      -10.0,
+      -5.0,
+      0.0,
+      5.0,
+      10.0,
+      15.0,
+      20.0,
+      25.0,
+      30.0
+    ],
+    "azimuth_levels_deg": [
+      0.0,
+      5.0,
+      10.0,
+      15.0,
+      20.0,
+      25.0,
+      30.0,
+      35.0,
+      40.0,
+      45.0,
+      50.0,
+      55.0,
+      60.0,
+      65.0,
+      70.0,
+      75.0,
+      80.0,
+      85.0,
+      90.0
+    ],
+    "median_altitude_color_error": 0.0,
+    "median_azimuth_color_error": 0.0
+  },
+  "chart_contract": {
+    "question": "Does the extraction preserve Figure 9C/D degree-labelled contours and their shared border geometry?",
+    "takeaway": "Published evidence and decoded layers must agree before interpolation or Han/CCF registration.",
+    "family": "spatial image and contour QA",
+    "renderer": "static Matplotlib",
+    "palette": "published jet scale; black borders; cyan/magenta border audit",
+    "output": "Figure_template_extraction_QA.png"
+  }
+}

@@ -1,0 +1,5 @@
+session_id,nwb_path,nwb_gib,cache_mib,visual_units,qc_units,qc_fraction,gabor_presentations,valid_gaze_fraction,gaze_dx_sd_deg,gaze_dy_sd_deg
+746083955,/media/huklaban5/Data/MouseV2/allen_v1_bridge/000021/sub-726170927/sub-726170927_ses-746083955.nwb,2.38611371,4.80871487,555,318,0.572972973,3645,0.943484225,1.13342632,1.2485471
+755434585,/media/huklaban5/Data/MouseV2/allen_bo11_rf_pilot_cache/session_755434585/session_755434585.nwb,2.08213976,2.07748222,794,479,0.603274559,3645,0.897119342,0.769523047,3.76663632
+760693773,/media/huklaban5/Data/MouseV2/allen_bo11_rf_pilot_cache/session_760693773/session_760693773.nwb,2.66737549,2.13053322,771,532,0.69001297,3645,0.968449931,0.580973401,1.24788467
+798911424,/media/huklaban5/Data/MouseV2/allen_bo11_rf_pilot_cache/session_798911424/session_798911424.nwb,2.66756519,2.20322514,886,511,0.576749436,3645,0.993689986,0.514271336,2.84286938

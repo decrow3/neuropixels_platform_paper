@@ -1,0 +1,73 @@
+cohort,area,stage,units
+Brain Observatory 1.1,V1,target_area,4796
+Brain Observatory 1.1,V1,finite_rf_center,3985
+Brain Observatory 1.1,V1,significant_rf,3366
+Brain Observatory 1.1,V1,rf_only,3336
+Brain Observatory 1.1,V1,published_like,3186
+Brain Observatory 1.1,V1,intersection,1583
+Brain Observatory 1.1,LM,target_area,2482
+Brain Observatory 1.1,LM,finite_rf_center,2117
+Brain Observatory 1.1,LM,significant_rf,1739
+Brain Observatory 1.1,LM,rf_only,1705
+Brain Observatory 1.1,LM,published_like,1268
+Brain Observatory 1.1,LM,intersection,656
+Brain Observatory 1.1,RL,target_area,3325
+Brain Observatory 1.1,RL,finite_rf_center,2830
+Brain Observatory 1.1,RL,significant_rf,1983
+Brain Observatory 1.1,RL,rf_only,1945
+Brain Observatory 1.1,RL,published_like,1752
+Brain Observatory 1.1,RL,intersection,913
+Brain Observatory 1.1,AL,target_area,3450
+Brain Observatory 1.1,AL,finite_rf_center,2959
+Brain Observatory 1.1,AL,significant_rf,2280
+Brain Observatory 1.1,AL,rf_only,2223
+Brain Observatory 1.1,AL,published_like,2036
+Brain Observatory 1.1,AL,intersection,1116
+Brain Observatory 1.1,PM,target_area,2112
+Brain Observatory 1.1,PM,finite_rf_center,1732
+Brain Observatory 1.1,PM,significant_rf,1190
+Brain Observatory 1.1,PM,rf_only,1170
+Brain Observatory 1.1,PM,published_like,1107
+Brain Observatory 1.1,PM,intersection,571
+Brain Observatory 1.1,AM,target_area,3153
+Brain Observatory 1.1,AM,finite_rf_center,2676
+Brain Observatory 1.1,AM,significant_rf,1897
+Brain Observatory 1.1,AM,rf_only,1849
+Brain Observatory 1.1,AM,published_like,1790
+Brain Observatory 1.1,AM,intersection,1011
+Functional Connectivity,V1,target_area,3807
+Functional Connectivity,V1,finite_rf_center,3108
+Functional Connectivity,V1,significant_rf,2457
+Functional Connectivity,V1,rf_only,2438
+Functional Connectivity,V1,published_like,2325
+Functional Connectivity,V1,intersection,1257
+Functional Connectivity,LM,target_area,2453
+Functional Connectivity,LM,finite_rf_center,2146
+Functional Connectivity,LM,significant_rf,1696
+Functional Connectivity,LM,rf_only,1674
+Functional Connectivity,LM,published_like,1613
+Functional Connectivity,LM,intersection,878
+Functional Connectivity,RL,target_area,2688
+Functional Connectivity,RL,finite_rf_center,2093
+Functional Connectivity,RL,significant_rf,1393
+Functional Connectivity,RL,rf_only,1373
+Functional Connectivity,RL,published_like,1306
+Functional Connectivity,RL,intersection,673
+Functional Connectivity,AL,target_area,3016
+Functional Connectivity,AL,finite_rf_center,2591
+Functional Connectivity,AL,significant_rf,1763
+Functional Connectivity,AL,rf_only,1724
+Functional Connectivity,AL,published_like,1671
+Functional Connectivity,AL,intersection,965
+Functional Connectivity,PM,target_area,2103
+Functional Connectivity,PM,finite_rf_center,1751
+Functional Connectivity,PM,significant_rf,1150
+Functional Connectivity,PM,rf_only,1133
+Functional Connectivity,PM,published_like,1076
+Functional Connectivity,PM,intersection,590
+Functional Connectivity,AM,target_area,3045
+Functional Connectivity,AM,finite_rf_center,2586
+Functional Connectivity,AM,significant_rf,1806
+Functional Connectivity,AM,rf_only,1754
+Functional Connectivity,AM,published_like,1699
+Functional Connectivity,AM,intersection,981

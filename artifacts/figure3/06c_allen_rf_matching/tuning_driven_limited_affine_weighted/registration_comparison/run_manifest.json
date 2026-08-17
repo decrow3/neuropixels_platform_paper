@@ -1,0 +1,83 @@
+{
+  "checkpoint": "06c_allen_bo11_three_registration_comparison",
+  "status": "raw versus V1-RF-center translation versus tuning-fitted affine",
+  "inputs": {
+    "surface_grid": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/tuning_weighted_session_surfaces/allen_bo11_tuning_weighted_surface_grid.csv",
+      "sha256": "f3b6becc5157f8cab71d6daf051de5004e3297d78f411a3ad11404440e84ebef"
+    },
+    "tuning_transforms": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/tuning_driven_limited_affine_weighted/limited_affine_transform_history.csv",
+      "sha256": "e1b05bac6c1a84e4aa168348a7a2b98647680fbe00f744738a4aea0f86654b33"
+    },
+    "rf_units": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+      "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+    }
+  },
+  "code": {
+    "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/render_allen_bo11_registration_comparison.py",
+    "sha256": "a44048a1acdfd9564cdf902539c7936cab330c36b76871776e05694930d1dfba"
+  },
+  "parameters": {
+    "sessions": [
+      715093703,
+      719161530,
+      721123822,
+      732592105,
+      737581020,
+      739448407,
+      742951821,
+      744228101,
+      746083955,
+      750332458,
+      750749662,
+      751348571,
+      754312389,
+      754829445,
+      755434585,
+      756029989,
+      757216464,
+      757970808,
+      758798717,
+      759883607,
+      760345702,
+      760693773,
+      761418226,
+      762120172,
+      762602078,
+      763673393,
+      773418906,
+      791319847,
+      797828357,
+      798911424,
+      799864342
+    ],
+    "v1_center_statistic": "within-session median of supported V1 RF unit centers",
+    "v1_center_reference": "cross-session median of session V1 RF centers",
+    "middle_row_transform": "translation only; shared by V1 and HVA SF/TF maps",
+    "minimum_shared_grid_points": 50
+  },
+  "outputs": {
+    "ALLEN_BO11_THREE_REGISTRATION_COMPARISON.md": {
+      "bytes": 1061,
+      "sha256": "3c1e654d8785bcbae0628d817b55c5788799472d5496c3024ccd79a4032ea171"
+    },
+    "Figure_allen_bo11_three_registration_stacked_templates.png": {
+      "bytes": 1074201,
+      "sha256": "2e3cfeb6b358c88aa5e7720d6269fef3b53914ddff747af6988346390477c829"
+    },
+    "three_registration_agreement_summary.csv": {
+      "bytes": 1033,
+      "sha256": "06ed1e8c182f5b3028d022b0f724b20f8e5b1acbd2e60a8f8caec4fa8252cefe"
+    },
+    "three_registration_session_map_agreement.csv": {
+      "bytes": 23211,
+      "sha256": "ff0bfc6d3979db538701b7dcb2dcabf266fb6f120372f38ee3e7733ac2a46586"
+    },
+    "v1_rf_center_translation_audit.csv": {
+      "bytes": 1628,
+      "sha256": "66f15f37068ac23ee49bbcdb756dda0dce8ad12b31f5d380361ab780c5f900f0"
+    }
+  }
+}

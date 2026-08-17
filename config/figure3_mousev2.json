@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "data_directory": "data",
+  "allen_unit_table": "data/unit_table.csv",
+  "nwb_input": {
+    "dandiset_id": "DANDI:001568",
+    "dandiset_version": "draft",
+    "default_root": "/media/huklaban5/Data/MouseV2/001568"
+  },
+  "probe_labels": ["A", "B", "C", "E"],
+  "display_probe_order": ["B", "C", "A", "E"],
+  "required_site_files": [
+    "layer_info.csv",
+    "change_modulation_data.csv",
+    "timescale_metrics.csv",
+    "time_to_first_spike.csv",
+    "unit_quality.csv"
+  ],
+  "sessions": [
+    {"site": "site2", "site_number": 2, "subject_id": 816305, "id_offset": 2000000, "expected_units": 2732, "nwb_relative_path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb", "expected_nwb_bytes": 9644162169},
+    {"site": "site3", "site_number": 3, "subject_id": 810531, "id_offset": 3000000, "expected_units": 2251, "nwb_relative_path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb", "expected_nwb_bytes": 8962011152},
+    {"site": "site4", "site_number": 4, "subject_id": 810532, "id_offset": 4000000, "expected_units": 2202, "nwb_relative_path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb", "expected_nwb_bytes": 8890335523},
+    {"site": "site5", "site_number": 5, "subject_id": 813810, "id_offset": 5000000, "expected_units": 2996, "nwb_relative_path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb", "expected_nwb_bytes": 9988273191},
+    {"site": "site6", "site_number": 6, "subject_id": 815152, "id_offset": 6000000, "expected_units": 2353, "nwb_relative_path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb", "expected_nwb_bytes": 9062818368},
+    {"site": "site7", "site_number": 7, "subject_id": 816308, "id_offset": 7000000, "expected_units": 2512, "nwb_relative_path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb", "expected_nwb_bytes": 9350128441},
+    {"site": "site8", "site_number": 8, "subject_id": 817334, "id_offset": 8000000, "expected_units": 2925, "nwb_relative_path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb", "expected_nwb_bytes": 9826457420},
+    {"site": "site9", "site_number": 9, "subject_id": 817335, "id_offset": 9000000, "expected_units": 2403, "nwb_relative_path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb", "expected_nwb_bytes": 9210736377}
+  ],
+  "analysis_profiles": {
+    "pipeline_baseline_unfiltered": {
+      "default_qc": false,
+      "used_by": ["Figure3_with_V1sites.py", "Figure3_probe_zoom.py"]
+    },
+    "pipeline_baseline_qc": {
+      "default_qc": true,
+      "used_by": ["Figure3_split_comparison.py", "eta_squared_comparison.py"]
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "condition_support": {
+    "orientation_deg": [
+      0.0,
+      45.0,
+      90.0,
+      135.0
+    ],
+    "temporal_frequency_hz": [
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      15.0
+    ],
+    "spatial_frequency_cpd": 0.04,
+    "contrast": 0.8,
+    "trials_per_condition": 15,
+    "analysis_duration_s": 1.0
+  },
+  "sessions": [
+    "site2",
+    "site3",
+    "site4",
+    "site5",
+    "site6",
+    "site7",
+    "site8",
+    "site9"
+  ],
+  "nwb_inputs": [
+    {
+      "site": "site2",
+      "path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "bytes": 9644162169
+    },
+    {
+      "site": "site3",
+      "path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "bytes": 8962011152
+    },
+    {
+      "site": "site4",
+      "path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "bytes": 8890335523
+    },
+    {
+      "site": "site5",
+      "path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "bytes": 9988273191
+    },
+    {
+      "site": "site6",
+      "path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "bytes": 9062818368
+    },
+    {
+      "site": "site7",
+      "path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "bytes": 9350128441
+    },
+    {
+      "site": "site8",
+      "path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "bytes": 9826457420
+    },
+    {
+      "site": "site9",
+      "path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "bytes": 9210736377
+    }
+  ],
+  "per_site_outputs": [
+    {
+      "path": "site2/grating_metrics.csv",
+      "sha256": "1834d8e32a75c27552273471b69cc8d2d359f9fec40474525fb205b393daa207"
+    },
+    {
+      "path": "site3/grating_metrics.csv",
+      "sha256": "8e8d7d7c7d0e00da47ed348f687e7ba08d8881bae6e4c5ac4bd59c3f9b393249"
+    },
+    {
+      "path": "site4/grating_metrics.csv",
+      "sha256": "b9a6b0505ccb42e3cd4f704778ab6b1960206f8167218b641809acee8e4614c2"
+    },
+    {
+      "path": "site5/grating_metrics.csv",
+      "sha256": "5760e7cab575a8f434d02a55b6993fb5eadcd4a21216295ccefacea80ebc2c82"
+    },
+    {
+      "path": "site6/grating_metrics.csv",
+      "sha256": "e00d603de61d9a3053806a0dde45106f3652f86fdf7744340f4e6e7d5d580599"
+    },
+    {
+      "path": "site7/grating_metrics.csv",
+      "sha256": "51b58b75576d770cceb90e2b6c83a585f01c36918b288ebed1c1ebd8d49c0a61"
+    },
+    {
+      "path": "site8/grating_metrics.csv",
+      "sha256": "8b211ebdddd67afe9be0296e097deca89d0aac7cfb22395a7614e45fd1ae9435"
+    },
+    {
+      "path": "site9/grating_metrics.csv",
+      "sha256": "6b398a0d5eadb0b9fc0db62627fea06ed76eb6653137a0337f2ceadaa5c9dfcf"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "unit_metric_comparison.csv",
+      "bytes": 2301720,
+      "sha256": "c2ee21c309ed365211a68dcf55e7ec4aa4863514c9537b1b9b2adf14a5ea1dbd"
+    },
+    {
+      "path": "site_summary.csv",
+      "bytes": 1629,
+      "sha256": "d22b766b9e5d1277cea85b5b0c3ca7de01fd4d00fb52c73544dea6e1e5094898"
+    },
+    {
+      "path": "README.md",
+      "bytes": 851,
+      "sha256": "2e4f3a01299c33f093ef5bfc8324bf461f170e2759d485ed3dd3d2ed84fb7792"
+    },
+    {
+      "path": "common_support_diagnostic.png",
+      "bytes": 188155,
+      "sha256": "5bba74937d34dc5a29fe35765fe387c53211c1aa68aef074d6001f020b0d561b"
+    }
+  ],
+  "code": {
+    "script": "0db1dd6d84b63758fde9613565089390d5a0d48ab62319533d12c0d06991dfea",
+    "metric": "291d02a1e150e1def4a8f041b49fa23f723da3c4c14ecff78d71e9e6f439a5f2",
+    "nwb_reader": "22b5a0f88d7a53f9e4ad8a85ea25a478e41bf043be1d7f28d641f5586010902a",
+    "config": "6a0dd40d7b8712f65beb317babd1f9a6a80bcb979361e86dd308a5e1e324e331"
+  }
+}

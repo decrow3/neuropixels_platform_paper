@@ -1,0 +1,52 @@
+{
+  "checkpoint": "06c_allen_bo11_absolute_rf_size_polynomial_registration",
+  "status": "exploratory absolute-RF-size low-dimensional registration",
+  "inputs": {
+    "support": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+      "sha256": "0e6fa9dadf3b0f945346d27a574cd1bb9d1ecd2b0072da6c295347115ca10767"
+    },
+    "tuning_grid": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/tuning_weighted_session_surfaces/allen_bo11_tuning_weighted_surface_grid.csv",
+      "sha256": "f3b6becc5157f8cab71d6daf051de5004e3297d78f411a3ad11404440e84ebef"
+    },
+    "session_table": {
+      "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/figure3/06c_allen_rf_matching/v1_absolute_rf_size_polynomial_edge35/selected_absolute_rf_size_polynomial_translations.csv",
+      "sha256": "9f4ef513618511c566fa87519814c560ce9c40e34892547b8df718d0e1ce46b7"
+    }
+  },
+  "parameters": {
+    "sessions": [
+      715093703,
+      721123822,
+      744228101,
+      750749662,
+      751348571,
+      754312389,
+      754829445,
+      755434585,
+      756029989,
+      757216464,
+      757970808,
+      758798717,
+      759883607,
+      760345702,
+      762602078,
+      763673393,
+      773418906,
+      791319847,
+      797828357,
+      798911424,
+      799864342
+    ],
+    "edge_exclusion_deg": 25.0,
+    "response": "absolute log2 RF area; no session centering, scaling, or intercept",
+    "polynomial_degree": 2,
+    "degree_forced": true,
+    "selected_regularization_weight": 0.3,
+    "regularization_forced": true,
+    "translation_bound_deg": 30.0,
+    "minimum_units_for_shift": 5,
+    "selection": "minimum session-balanced within-session-fold CV RMSE"
+  }
+}

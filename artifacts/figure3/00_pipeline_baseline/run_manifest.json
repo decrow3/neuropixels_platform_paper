@@ -1,0 +1,465 @@
+{
+  "run_id": "00_pipeline_baseline",
+  "captured_at": "2026-08-04T11:56:09.097158-07:00",
+  "purpose": "Freeze the unchanged first-pass MouseV2 Figure 3 pipeline.",
+  "scientific_change_from_pre_rerun": false,
+  "commands": [
+    "python Figure3/Figure3_with_V1sites.py",
+    "python Figure3/Figure3_probe_zoom.py",
+    "python Figure3/Figure3_split_comparison.py",
+    "python scripts/eta_squared_comparison.py"
+  ],
+  "command_exit_codes": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "session_subject_map": {
+    "site2": 816305,
+    "site3": 810531,
+    "site4": 810532,
+    "site5": 813810,
+    "site6": 815152,
+    "site7": 816308,
+    "site8": 817334,
+    "site9": 817335
+  },
+  "probe_labels": [
+    "A",
+    "B",
+    "C",
+    "E"
+  ],
+  "random_seeds": {
+    "Figure3_with_V1sites.py": 10,
+    "Figure3_probe_zoom.py": 42,
+    "Figure3_split_comparison.py": 42,
+    "eta_squared_comparison.py": 42
+  },
+  "analysis_profiles": {
+    "Figure3_with_V1sites.py": {
+      "default_qc": false
+    },
+    "Figure3_probe_zoom.py": {
+      "default_qc": false
+    },
+    "Figure3_split_comparison.py": {
+      "default_qc": true
+    },
+    "eta_squared_comparison.py": {
+      "default_qc": true
+    },
+    "metric_validity": {
+      "ttfs": "finite time_to_first_spike < 0.1 seconds",
+      "f1_f0": "finite modulation_index > 0",
+      "timescale": "finite 1 <= autocorr_tau <= 300 ms, spike_count_ac > 50, and err_ac < 20"
+    }
+  },
+  "repositories": {
+    "neuropixels_platform_paper": {
+      "commit": "3995e2bee144ed7a3d7463fd3836d34da6c725e6",
+      "branch": "master",
+      "working_tree_clean": false,
+      "working_tree_status": [
+        " M Figure3/Figure3_probe_zoom.png",
+        " M Figure3/Figure3_split_comparison.png",
+        " M Figure3/Figure3_stats.md",
+        " M Figure3/Figure3_with_V1sites.png",
+        " M README.md",
+        " M reference/README.md",
+        "?? ANALYSIS_ROADMAP.md",
+        "?? artifacts/",
+        "?? scripts/capture_figure3_baseline.py"
+      ]
+    },
+    "openscope_v2species": {
+      "commit": "dce48b5840a93fc8fb38c4fc3e76ef1ea5115f8c",
+      "branch": "main",
+      "working_tree_clean": true,
+      "working_tree_status": []
+    },
+    "PilotAnalysis": {
+      "commit": "7666f5f2bbd7ce8cb6d46d30d5ad5418436ea960",
+      "branch": "main",
+      "working_tree_clean": false,
+      "working_tree_status": [
+        "M  .gitignore",
+        "AM data_loading_and_preparation.ipynb",
+        "A  dataset_check_plan.md",
+        " M dataset_testing.ipynb",
+        "M  environment.yml",
+        "AM interactive_analysis.py",
+        "A  interactive_analysis0.py",
+        "A  test_receptive_field_analysis.py",
+        "?? compute_stimulus_metrics.py",
+        "?? csd_flash_latency.py",
+        "?? gaze_rf_calibration.py",
+        "?? test_precomputed_metrics.py"
+      ]
+    }
+  },
+  "environment": {
+    "python": "3.12.4",
+    "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.35",
+    "packages": {
+      "numpy": "1.26.4",
+      "pandas": "2.2.2",
+      "scipy": "1.13.1",
+      "matplotlib": "3.8.4",
+      "statsmodels": "0.14.2",
+      "Pillow": "10.3.0"
+    },
+    "declared_environment": {
+      "path": "environment.yml",
+      "bytes": 154,
+      "sha256": "434d6abc2817bfaa9b956c741d8581267c793920556544db8cbb4fb18bf872cc"
+    }
+  },
+  "code": [
+    {
+      "path": "Figure3/Figure3_with_V1sites.py",
+      "bytes": 15643,
+      "sha256": "46c7e3590b5e4dc123e94898ccab27d22cf3d4d01cf5b6ac27e8ac03e5a769ec"
+    },
+    {
+      "path": "Figure3/Figure3_probe_zoom.py",
+      "bytes": 12360,
+      "sha256": "4865abc11b835bae2e5406c898094eeec2cc74caf8fa3e0b7df64213bd5c72cf"
+    },
+    {
+      "path": "Figure3/Figure3_split_comparison.py",
+      "bytes": 16685,
+      "sha256": "2c1b05bac9ba8e85e1da5016fc8fa24b123cf541bbf07d78b6b17b78e45aecee"
+    },
+    {
+      "path": "scripts/eta_squared_comparison.py",
+      "bytes": 22311,
+      "sha256": "b1b88c3edb09c9cb7226a98090c1d0fbf774b15aa6108ebcb6e4b1a010b6a19d"
+    },
+    {
+      "path": "scripts/capture_figure3_baseline.py",
+      "bytes": 15480,
+      "sha256": "5e668d65ea9d080590ea593f237eb2c8ac029a84d28e333eabacfd6bd68dc999"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "data/unit_table.csv",
+      "bytes": 125943968,
+      "sha256": "b8da78472923344c99b2e426af52cef520a5ceb972e9ac3da5388d4844b2ebed"
+    },
+    {
+      "path": "data/site2_processed/layer_info.csv",
+      "bytes": 75210,
+      "sha256": "7d166f879105b05e14daa4499bd1b348fbb956e642cfcc7230e6942068ba0a64"
+    },
+    {
+      "path": "data/site2_processed/change_modulation_data.csv",
+      "bytes": 72369,
+      "sha256": "cb26bf0f75d703f3c20b7bb64dc918c08fdb96a44c6a09e42ccf2aa07e3503ca"
+    },
+    {
+      "path": "data/site2_processed/timescale_metrics.csv",
+      "bytes": 136660,
+      "sha256": "6e32c8dcb552ebcecb4e6269b81039ce8e3d5ffc47cc2aa92798b823b55a976a"
+    },
+    {
+      "path": "data/site2_processed/time_to_first_spike.csv",
+      "bytes": 37292,
+      "sha256": "6d88d6628e767b84b71b7eb03a649c0e9a67dd6154a5b6b6cd4ea7840b429f0d"
+    },
+    {
+      "path": "data/site2_processed/unit_quality.csv",
+      "bytes": 263181,
+      "sha256": "2449c1072d18bebd94e346625a17e81fb20886695b8a51c6ee862f429c7c93c0"
+    },
+    {
+      "path": "data/site3_processed/layer_info.csv",
+      "bytes": 62505,
+      "sha256": "ae8c4e75ba50ba2fc5cd33817bdf6e5eb5efdebbdfaf56d933c806ae8362adb1"
+    },
+    {
+      "path": "data/site3_processed/change_modulation_data.csv",
+      "bytes": 60049,
+      "sha256": "a173089b2e50a6d1810df5a7e57c3955e0ee294ff22fc4ca1c9def2047e00529"
+    },
+    {
+      "path": "data/site3_processed/timescale_metrics.csv",
+      "bytes": 112823,
+      "sha256": "e1f03bf7a9179bf30cfed438edd06f30419c98d7a3cabeff953e5c8b9db0984c"
+    },
+    {
+      "path": "data/site3_processed/time_to_first_spike.csv",
+      "bytes": 31431,
+      "sha256": "4587d648947ccfc8c0dc04e73b71ddd2eb96ab7fcd5b7c237fa939f1e7ee0175"
+    },
+    {
+      "path": "data/site3_processed/unit_quality.csv",
+      "bytes": 213281,
+      "sha256": "9a72d240a4ff336b049cec128d2850f2094d3bb1bc48b93310326bc2e63487a9"
+    },
+    {
+      "path": "data/site4_processed/layer_info.csv",
+      "bytes": 60864,
+      "sha256": "863aabc5dde3d8aff519a73d40e25efcd788298dfe0244b4f88550ed2640c1a5"
+    },
+    {
+      "path": "data/site4_processed/change_modulation_data.csv",
+      "bytes": 58456,
+      "sha256": "a982b5c4da766856052b2292f2b05805fee4d8826a77db39670fa0f72d4f6ae5"
+    },
+    {
+      "path": "data/site4_processed/timescale_metrics.csv",
+      "bytes": 110502,
+      "sha256": "7d990e7ad26051b426d904dab18198d985960f7484301a8160739ff3ec7a01e7"
+    },
+    {
+      "path": "data/site4_processed/time_to_first_spike.csv",
+      "bytes": 30620,
+      "sha256": "ebebedbed8608b24ef19edec30631c22700d39c6d854487c1a776871af27d14c"
+    },
+    {
+      "path": "data/site4_processed/unit_quality.csv",
+      "bytes": 209341,
+      "sha256": "b839e8db116c081ca8dbc70a012cf386fff19d40b6dd1d5d21293c5a0fe4160e"
+    },
+    {
+      "path": "data/site5_processed/layer_info.csv",
+      "bytes": 82951,
+      "sha256": "735255341f0b0496b7c1e00395830ed9db3a6b55bf12d9b419c6d70fc2f674dc"
+    },
+    {
+      "path": "data/site5_processed/change_modulation_data.csv",
+      "bytes": 79676,
+      "sha256": "24ff07fc1d8faca04022671cafd28fe46a61ec8bc6d63d4a109cbca370677824"
+    },
+    {
+      "path": "data/site5_processed/timescale_metrics.csv",
+      "bytes": 150533,
+      "sha256": "8355cacb7eff1d501e9151b2a3afbd01d8696dddaa732eb11b2261ac88d8026c"
+    },
+    {
+      "path": "data/site5_processed/time_to_first_spike.csv",
+      "bytes": 41871,
+      "sha256": "f11d4b6da3af48eeed07d164a1cb07fa363a745d3749a3b1b3f2393724b5cecd"
+    },
+    {
+      "path": "data/site5_processed/unit_quality.csv",
+      "bytes": 282221,
+      "sha256": "15cece2d36a7af9e21e1dd481443e137479709063f8ea1cce755d3dd4b969cce"
+    },
+    {
+      "path": "data/site6_processed/layer_info.csv",
+      "bytes": 65089,
+      "sha256": "ab4a13768a6774fc969b0cdc6733836ee3bf5f9af306cb9ac6b3ae9e82d9dc5f"
+    },
+    {
+      "path": "data/site6_processed/change_modulation_data.csv",
+      "bytes": 62621,
+      "sha256": "7176f671d55997cf757a1f3eaa51059df47f8230a6bff45d28ad7a9bb31e8a01"
+    },
+    {
+      "path": "data/site6_processed/timescale_metrics.csv",
+      "bytes": 117809,
+      "sha256": "a97c332f84bd679fe5066f417d40a2cda866e6550e027667bd62bc193cd90333"
+    },
+    {
+      "path": "data/site6_processed/time_to_first_spike.csv",
+      "bytes": 32107,
+      "sha256": "15f4fb0a56d00fedd323338fbf2270c96544c5e134bf0bc8297f8108aef0fe77"
+    },
+    {
+      "path": "data/site6_processed/unit_quality.csv",
+      "bytes": 226583,
+      "sha256": "8e98ce2c19a21e3ef18beffc0766923422911e128581c6e7c1a624c2dcc08be6"
+    },
+    {
+      "path": "data/site7_processed/layer_info.csv",
+      "bytes": 69469,
+      "sha256": "a99840489b9421521db6a1bce7f7e0adab259ee503a59d0c3b0a28a14fffa316"
+    },
+    {
+      "path": "data/site7_processed/change_modulation_data.csv",
+      "bytes": 67008,
+      "sha256": "0a9d22940fc57395a60d518e1f92c803021fa7b2fda39b28237143449af6619d"
+    },
+    {
+      "path": "data/site7_processed/timescale_metrics.csv",
+      "bytes": 126162,
+      "sha256": "e9cb1eda498f03f7d6e756834e558ca759ba931489e2b108dc9ccdaeb269b4d9"
+    },
+    {
+      "path": "data/site7_processed/time_to_first_spike.csv",
+      "bytes": 34909,
+      "sha256": "90743d29ba81881393ca9c0d6b651243cd51d178a9026bdbb9aed587911cc6f5"
+    },
+    {
+      "path": "data/site7_processed/unit_quality.csv",
+      "bytes": 238983,
+      "sha256": "b405f2423d3afac59c47e116636727d401cfa01f556ed8a36993514e9fa79d7c"
+    },
+    {
+      "path": "data/site8_processed/layer_info.csv",
+      "bytes": 80807,
+      "sha256": "367c091115e720bf9461a4cbea54f88b1ad08eef2614523f35834c02f34f4c46"
+    },
+    {
+      "path": "data/site8_processed/change_modulation_data.csv",
+      "bytes": 77559,
+      "sha256": "e49dc2547b4e6786f3da93380835f404fe76c9e78b23f92d5d82ada7f4e4cd52"
+    },
+    {
+      "path": "data/site8_processed/timescale_metrics.csv",
+      "bytes": 145973,
+      "sha256": "9ccc995ae216c0b4af3dadddb0fb99eaac0d21f75723ff5763560ca453af79a0"
+    },
+    {
+      "path": "data/site8_processed/time_to_first_spike.csv",
+      "bytes": 39990,
+      "sha256": "9493258fa7d844b739ad3f6d8f9b60bec10394df3661c7c2b1d04beebd921a33"
+    },
+    {
+      "path": "data/site8_processed/unit_quality.csv",
+      "bytes": 280750,
+      "sha256": "2520f173739e31d432c359e2a687ba21b21e1630338e321aeddb799d2d6ac839"
+    },
+    {
+      "path": "data/site9_processed/layer_info.csv",
+      "bytes": 66566,
+      "sha256": "eeff24212166718ec0220a002c2756fecacd7dc41b056bd8527037a4490c05ae"
+    },
+    {
+      "path": "data/site9_processed/change_modulation_data.csv",
+      "bytes": 64208,
+      "sha256": "6d58976f7d3ea3b8b2965bdd9e83aea59a82cdb95a626270ab8fe03c1afb48c2"
+    },
+    {
+      "path": "data/site9_processed/timescale_metrics.csv",
+      "bytes": 120788,
+      "sha256": "69aabac8aa9e55e18e5fd6d1324c40c1f0101729fff4a5820889764ace51d14a"
+    },
+    {
+      "path": "data/site9_processed/time_to_first_spike.csv",
+      "bytes": 33605,
+      "sha256": "551ec0c781dc49ac256c44f8e5cf1a00e93b38fd53f94e362a5016c373ac15f3"
+    },
+    {
+      "path": "data/site9_processed/unit_quality.csv",
+      "bytes": 226475,
+      "sha256": "4f26c4452a9053b92874281ccd03f34f5d8cae99ecb2a8d09b878fdb32ccd8b4"
+    }
+  ],
+  "outputs": {
+    "Figure3_with_V1sites.png": {
+      "pre_rerun": {
+        "path": "artifacts/figure3/00_pipeline_baseline/pre_rerun/Figure3_with_V1sites.png",
+        "bytes": 695701,
+        "sha256": "5d7b87b521676595b5d056f7f450f1f5cd52c5719f4d259175d0c2c515ab6aff"
+      },
+      "rerun": {
+        "path": "artifacts/figure3/00_pipeline_baseline/rerun/Figure3_with_V1sites.png",
+        "bytes": 695700,
+        "sha256": "87d16240e384b9e766ebd2941b4332b1fa0280a77b949505d9dee70e132963de"
+      },
+      "file_bytes_identical": false,
+      "pre_rerun_pixels": {
+        "width": 3282,
+        "height": 1783,
+        "mode": "RGBA",
+        "pixel_sha256": "c78c86f21a1c499f4645618fd8d4eff81c63df9ddf3ea12d65a0770dcd8f95ff"
+      },
+      "rerun_pixels": {
+        "width": 3282,
+        "height": 1783,
+        "mode": "RGBA",
+        "pixel_sha256": "c78c86f21a1c499f4645618fd8d4eff81c63df9ddf3ea12d65a0770dcd8f95ff"
+      },
+      "pixels_identical": true
+    },
+    "Figure3_probe_zoom.png": {
+      "pre_rerun": {
+        "path": "artifacts/figure3/00_pipeline_baseline/pre_rerun/Figure3_probe_zoom.png",
+        "bytes": 180317,
+        "sha256": "c70334f487348036cae589c3dc053a6f2fedaafb42dc6cbeef6c05883a1e8f1e"
+      },
+      "rerun": {
+        "path": "artifacts/figure3/00_pipeline_baseline/rerun/Figure3_probe_zoom.png",
+        "bytes": 180316,
+        "sha256": "b94a7a544c192fc1b12439841bb35e896498766b79d89f33c0e5a8e60acc2a19"
+      },
+      "file_bytes_identical": false,
+      "pre_rerun_pixels": {
+        "width": 1559,
+        "height": 1512,
+        "mode": "RGBA",
+        "pixel_sha256": "a30dde821bea84bd019da425c0f4fce4af21f4f8e7132f936acb7aa3dae272b4"
+      },
+      "rerun_pixels": {
+        "width": 1559,
+        "height": 1512,
+        "mode": "RGBA",
+        "pixel_sha256": "a30dde821bea84bd019da425c0f4fce4af21f4f8e7132f936acb7aa3dae272b4"
+      },
+      "pixels_identical": true
+    },
+    "Figure3_split_comparison.png": {
+      "pre_rerun": {
+        "path": "artifacts/figure3/00_pipeline_baseline/pre_rerun/Figure3_split_comparison.png",
+        "bytes": 263409,
+        "sha256": "1aaff51c5df521e95adfb70e3c794287bbe7a59f7154a227357c49d550de90c5"
+      },
+      "rerun": {
+        "path": "artifacts/figure3/00_pipeline_baseline/rerun/Figure3_split_comparison.png",
+        "bytes": 263408,
+        "sha256": "a1c734abbecc6b3ac57222eefe4ee55b6e5ac268d4b94eddf2ee2393ba16ef38"
+      },
+      "file_bytes_identical": false,
+      "pre_rerun_pixels": {
+        "width": 1987,
+        "height": 1295,
+        "mode": "RGBA",
+        "pixel_sha256": "b7c4bcf3bba5f5dcafda2875150feff5c9ed04a510ee9ef02cb1fda8284039c9"
+      },
+      "rerun_pixels": {
+        "width": 1987,
+        "height": 1295,
+        "mode": "RGBA",
+        "pixel_sha256": "b7c4bcf3bba5f5dcafda2875150feff5c9ed04a510ee9ef02cb1fda8284039c9"
+      },
+      "pixels_identical": true
+    },
+    "Figure3_stats.md": {
+      "pre_rerun": {
+        "path": "artifacts/figure3/00_pipeline_baseline/pre_rerun/Figure3_stats.md",
+        "bytes": 8052,
+        "sha256": "ca52b94c12ae83a53132954ccd99fa157f5c979f768e90f0d63d0d8b20c92f4f"
+      },
+      "rerun": {
+        "path": "artifacts/figure3/00_pipeline_baseline/rerun/Figure3_stats.md",
+        "bytes": 8052,
+        "sha256": "ec491808b8c0d0437b995d3995e3c8c23f2e67a764182a0f53c561109f492def"
+      },
+      "file_bytes_identical": false,
+      "identical_ignoring_generated_date": true
+    }
+  },
+  "counts": {
+    "raw_mousev2_units": 20374,
+    "default_qc_mousev2_units": 11242,
+    "metric_count_table": "metric_counts.csv",
+    "exclusion_table": "exclusions.csv"
+  },
+  "known_limitations": [
+    "The current F1/F0 preferred condition groups orientation and temporal frequency while pooling the five spatial frequencies.",
+    "The paper reference uses mod_idx_dg, while the MouseV2 overlay currently uses F1/F0 under a renamed modulation_index column.",
+    "Published receptive-field significance and area filters are absent.",
+    "default_qc is used by the split comparison and statistics, but not by the hierarchy overlay or probe zoom.",
+    "Probe positions are placeholders ordered B, C, A, E rather than measured receptive-field centers.",
+    "All targeted probe units are labeled V1 and cortical layer is unavailable.",
+    "Some plots show a TTFS mean-matching shift to Allen V1 rather than an independent display-timing calibration.",
+    "The statistics bootstrap probes independently rather than preserving the matched within-session probe vector.",
+    "LP is included with the post-V1 cortical areas despite being thalamic.",
+    "The CCG output is a single-session smoke test and is not part of this baseline figure bundle."
+  ]
+}

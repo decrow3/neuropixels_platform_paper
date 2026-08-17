@@ -1,0 +1,8 @@
+section,question,type,dataset,source
+inventory_chart,Visual and RF/QC units by session,bar,inventory,inventory
+baseline_chart,Released threshold metrics reproduced,bar,baseline_long,baseline
+geometry_v1_chart,V1 latent RF area by stimulus model,bar,geometry_v1,geometry
+geometry_hva_chart,Pooled-HVA latent RF area by stimulus model,bar,geometry_hva,geometry
+gaze_chart,Held-out benefit of the selected gaze transform,bar,gaze,gaze
+synthetic_chart,Synthetic eye-trace recovery versus population size,line,synthetic,synthetic
+area_chart,Spatial RF-size variation by visual area,scatter,area,area

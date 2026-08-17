@@ -1,0 +1,59 @@
+{
+  "checkpoint": "frozen fourteen-animal hierarchical registration",
+  "status": "exploratory; production fits complete for the frozen cohort; pooling evaluated with nested animal holdout",
+  "sessions": [
+    715093703,
+    755434585,
+    756029989,
+    757216464,
+    768515987,
+    774875821,
+    778240327,
+    781842082,
+    786091066,
+    794812542,
+    798911424,
+    829720705,
+    831882777,
+    847657808
+  ],
+  "selection": {
+    "spatial_model": "aperture",
+    "unit_split": "evaluation",
+    "areas": [
+      "VISp",
+      "VISl",
+      "VISal",
+      "VISrl",
+      "VISam"
+    ],
+    "requires_finite_rf_center_and_ccf": true,
+    "selected_cells": 2827,
+    "probe_area_landmarks": 68
+  },
+  "shared_frame": {
+    "azimuth_convention": "native",
+    "cortical_reflection": 1
+  },
+  "validation": {
+    "inner": "select residual pooling configuration using animals other than the outer held-out animal",
+    "outer": "evaluate selected configuration on every probe fold from one unseen animal",
+    "independent_unit": "probe/area landmark; animal is the outer generalization unit",
+    "baseline_median_error_deg": 14.995345665054383,
+    "hierarchical_median_error_deg": 14.3279584901092,
+    "median_improvement_deg": 0.9900933880135581,
+    "mean_improvement_deg": 3.3135757326218567,
+    "folds_improved": 44,
+    "folds": 68
+  },
+  "gradient_diagnostic": {
+    "probes": 68,
+    "azimuth_sign_agreement": 0.6176470588235294,
+    "elevation_sign_agreement": 0.4411764705882353
+  },
+  "limitations": [
+    "The shared-frame and residual families are selected on this exploratory fourteen-animal cohort.",
+    "Animal transforms remain global anatomy-constrained affines; local animal warps are not yet fitted.",
+    "Censored RF-size fits are retained when their RF centers are finite because size censoring does not itself invalidate location."
+  ]
+}

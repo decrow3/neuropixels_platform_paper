@@ -1,0 +1,4 @@
+group,evaluation_units,median_test_deviance_improvement,fraction_test_deviance_improved,median_test_rmse_improvement,median_log2_area_ratio,median_log2_amplitude_ratio,failure_or_censored_fraction
+V1,23,0.00036585567,0.60869565,-6.5859319e-05,0.0027097205,0.0051209688,0.043478261
+HVA,137,0.00011647047,0.54744526,5.3826248e-05,-0.0065032427,0.0040633115,0.15328467
+all,160,0.0001749953,0.55625,3.1284656e-05,-0.0048130634,0.0040977575,0.1375
