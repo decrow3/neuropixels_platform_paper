@@ -1,0 +1,32 @@
+{
+  "fixed_scale_px_per_mm": 104.56068512631896,
+  "fixed_reflection_ml": true,
+  "fitted_rotation_deg": -8.12094168777519,
+  "fitted_translation_px": [
+    41.112076997454324,
+    -2.4210335626895834
+  ],
+  "fitted_rf_offset_deg": [
+    36.98258052628457,
+    -3.0076618011009977
+  ],
+  "v1_anchor_ccf_ap_ml_mm": [
+    8.722045454545453,
+    8.005045454545455
+  ],
+  "v1_seed_xy_px": [
+    200,
+    240
+  ],
+  "objective": 2.9380225825035806,
+  "valid_fraction": 1.0,
+  "median_vector_error_deg": 18.39928438531175,
+  "area_agreement_overall": 0.6875,
+  "area_agreement_by_area": {
+    "VISal": 0.39285714285714285,
+    "VISam": 0.5185185185185185,
+    "VISl": 0.6153846153846154,
+    "VISp": 0.9545454545454546,
+    "VISrl": 0.7714285714285715
+  }
+}

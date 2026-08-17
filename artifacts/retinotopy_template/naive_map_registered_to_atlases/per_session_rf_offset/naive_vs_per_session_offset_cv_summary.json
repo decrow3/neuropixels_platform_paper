@@ -1,0 +1,17 @@
+{
+  "n_folds": 225,
+  "raw": {
+    "median_improvement_deg": -0.9523219806294065,
+    "fraction_folds_improved": 0.4444444444444444,
+    "wilcoxon_p": 0.033056035380477036
+  },
+  "capped": {
+    "median_improvement_deg": -0.9383413908255669,
+    "fraction_folds_improved": 0.4488888888888889,
+    "wilcoxon_p": 0.11270579520727214,
+    "cap_radius_deg": 21.15629391755514
+  },
+  "naive_median_held_error_deg": 27.646887983196855,
+  "per_session_median_held_error_deg": 29.527867893814967,
+  "capped_median_held_error_deg": 28.83966518085532
+}

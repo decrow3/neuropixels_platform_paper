@@ -1,0 +1,69 @@
+{
+  "domains": {
+    "cortex": {
+      "groups": [
+        "V1",
+        "HVA"
+      ],
+      "bandwidth": 250.0,
+      "grid_step": 100.0,
+      "grid_margin": 300.0,
+      "min_effective_n": 20.0,
+      "min_cell_count": 3
+    },
+    "lgd": {
+      "groups": [
+        "LGd"
+      ],
+      "bandwidth": 400.0,
+      "grid_step": 100.0,
+      "grid_margin": 300.0,
+      "min_effective_n": 8.0,
+      "min_cell_count": 3
+    }
+  },
+  "ccf_columns": [
+    "anterior_posterior_ccf_coordinate",
+    "left_right_ccf_coordinate"
+  ],
+  "radius_multiple": 3.0,
+  "ridge": 0.05,
+  "huber_c": 1.5,
+  "shuffle_repeats": 200,
+  "min_session_cells": 8,
+  "field_summary": {
+    "cortex": {
+      "domain": "cortex",
+      "grid_nodes": 1600,
+      "grid_nodes_with_jacobian": 1278,
+      "median_effective_n": 886.7191410895791,
+      "reliable_cell_fraction": 0.3244557947221209
+    },
+    "lgd": {
+      "domain": "lgd",
+      "grid_nodes": 224,
+      "grid_nodes_with_jacobian": 224,
+      "median_effective_n": 458.0334453240345,
+      "reliable_cell_fraction": 1.0
+    }
+  },
+  "eligible_sessions_16": [
+    715093703,
+    719161530,
+    750749662,
+    751348571,
+    754312389,
+    754829445,
+    755434585,
+    756029989,
+    757970808,
+    760345702,
+    763673393,
+    766640955,
+    768515987,
+    771990200,
+    779839471,
+    799864342
+  ],
+  "note": "V1+HVA fit as one connected domain (single shared translation, no per-area intercept); LGd fit and weighted separately per reliability, not fused into the shape fit."
+}

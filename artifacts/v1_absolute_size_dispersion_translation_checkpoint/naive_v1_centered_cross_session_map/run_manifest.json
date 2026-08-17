@@ -1,0 +1,16 @@
+{
+  "min_v1_cells_per_session": 5,
+  "sessions_total": 52,
+  "sessions_with_v1_anchor": 45,
+  "pooled_cells": 14989,
+  "normalized_rf_x_percentiles": {
+    "0.02": -51.810717182400005,
+    "0.5": -0.5598779999999977,
+    "0.98": 50.867357059999996
+  },
+  "normalized_rf_y_percentiles": {
+    "0.02": -38.93369179312,
+    "0.5": 0.283081000000001,
+    "0.98": 44.1654458552
+  }
+}

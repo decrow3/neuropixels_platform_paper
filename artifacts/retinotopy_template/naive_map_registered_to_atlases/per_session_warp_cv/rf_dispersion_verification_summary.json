@@ -1,0 +1,30 @@
+{
+  "metric": "within-probe residual dispersion (trace of covariance around probe's own mean), deg^2, lower=better",
+  "min_cells_per_probe": 5,
+  "medians_deg2": {
+    "offset_only": 513.5120282570489,
+    "rotation_offset": 514.4460401142788,
+    "scale_offset": 518.2545927272485,
+    "rotation_scale_offset": 521.1987017443191
+  },
+  "paired_vs_offset_only": {
+    "rotation_offset": {
+      "n_probes": 225,
+      "median_improvement_deg2": -0.20998922292920952,
+      "fraction_probes_improved": 0.4222222222222222,
+      "wilcoxon_p": 0.3735576129562084
+    },
+    "scale_offset": {
+      "n_probes": 223,
+      "median_improvement_deg2": -0.23165800351227972,
+      "fraction_probes_improved": 0.4798206278026906,
+      "wilcoxon_p": 0.6334286964980955
+    },
+    "rotation_scale_offset": {
+      "n_probes": 223,
+      "median_improvement_deg2": -0.7192480130873946,
+      "fraction_probes_improved": 0.4663677130044843,
+      "wilcoxon_p": 0.8617282849696659
+    }
+  }
+}

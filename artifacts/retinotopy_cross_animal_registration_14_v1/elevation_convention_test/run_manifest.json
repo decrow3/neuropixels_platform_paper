@@ -1,0 +1,58 @@
+{
+  "status": "diagnostic: does an independent elevation-sign convention fix the frozen 14-animal elevation-gradient disagreement",
+  "sessions": [
+    715093703,
+    755434585,
+    756029989,
+    757216464,
+    768515987,
+    774875821,
+    778240327,
+    781842082,
+    786091066,
+    794812542,
+    798911424,
+    829720705,
+    831882777,
+    847657808
+  ],
+  "candidate_axes": {
+    "azimuth_convention": [
+      "native",
+      "100_minus_azimuth"
+    ],
+    "elevation_convention": [
+      "native",
+      "flipped"
+    ],
+    "cortical_reflection": [
+      -1,
+      1
+    ]
+  },
+  "selected_frame": {
+    "azimuth_convention": "native",
+    "elevation_convention": "native",
+    "cortical_reflection": 1
+  },
+  "before_after": [
+    {
+      "frame": "frozen_14animal_no_elevation_axis",
+      "elevation_sign_agreement": 0.4411764705882353,
+      "azimuth_sign_agreement": 0.6176470588235294,
+      "elevation_pearson_r": -0.15578244962626325,
+      "elevation_pearson_p": 0.20459824104519508,
+      "elevation_spearman_r": -0.1742947665763255,
+      "elevation_spearman_p": 0.1551623556243674
+    },
+    {
+      "frame": "with_elevation_axis",
+      "elevation_sign_agreement": 0.4264705882352941,
+      "azimuth_sign_agreement": 0.6323529411764706,
+      "elevation_pearson_r": -0.1484969571349991,
+      "elevation_pearson_p": 0.2268363366161402,
+      "elevation_spearman_r": -0.18086730811773527,
+      "elevation_spearman_p": 0.13993801815855855
+    }
+  ]
+}

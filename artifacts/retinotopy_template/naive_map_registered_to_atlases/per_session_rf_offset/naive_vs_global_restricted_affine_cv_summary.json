@@ -1,0 +1,18 @@
+{
+  "n_folds": 45,
+  "median_improvement_deg": 1.7422400706319152,
+  "fraction_folds_improved": 0.7777777777777778,
+  "wilcoxon_p": 0.00015508091047422567,
+  "naive_median_held_error_deg": 25.798798597680793,
+  "affine_median_held_error_deg": 25.288729456008554,
+  "dtheta_grid_deg": [
+    -15.0,
+    15.0
+  ],
+  "dscale_grid": [
+    0.85,
+    1.15
+  ],
+  "chosen_dtheta_median_deg": 8.57142857142857,
+  "chosen_dscale_median": 1.0428571428571427
+}

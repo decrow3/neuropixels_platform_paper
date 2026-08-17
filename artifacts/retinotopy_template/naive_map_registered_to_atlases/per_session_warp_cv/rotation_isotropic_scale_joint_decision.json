@@ -1,0 +1,9 @@
+{
+  "median_improvement_deg": 1.9565918675076182,
+  "fraction_folds_improved": 0.6205357142857143,
+  "wilcoxon_p": 0.00036776642470567227,
+  "n_folds": 224,
+  "adopted": true,
+  "practical_bar_deg": 1.0,
+  "alpha": 0.05
+}
