@@ -81,7 +81,7 @@ def main() -> None:
     axes[0].legend(fontsize=8, loc="lower left")
 
     fig.suptitle("Gradient-anchored probe shanks + RF-location scatter over the Zhuang V1 retinotopic map\n"
-                  "(o=shallowest unit, sq=deepest; point color = that unit's own observed RF value)",
+                  "(o=deepest unit, sq=shallowest; point color = that unit's own observed RF value)",
                   fontsize=12.5)
     figure_path = SHANK_DIR / "Figure_mousev2_probe_shanks_rf_location_on_zhuang_map_gradient_anchored.png"
     fig.savefig(figure_path, dpi=170)

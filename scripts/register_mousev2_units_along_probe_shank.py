@@ -7,7 +7,9 @@ figure from `mousev2_rf_size_dispersion_surfaces.py`.
 
 Model per probe: position(depth) = p0 + t(depth) * (p1 - p0), where p0, p1 are the line's two
 endpoints in Zhuang V1 pixel space (continuous, not grid-snapped) and t is depth linearly
-rescaled to [0, 1] (0 = shallowest unit, 1 = deepest). Fit p0, p1 (4 free parameters) by
+rescaled to [0, 1] (0 = deepest unit, 1 = shallowest -- cortical_depth is raw probe_vertical_position,
+measured from the probe tip, so larger values are closer to the surface; confirmed 2026-08-17,
+this label was previously backwards here). Fit p0, p1 (4 free parameters) by
 minimizing Huber loss between each unit's own predicted RF value (bilinearly interpolated at its
 depth-implied position) and its observed RF value, offset by that session's delta -- alternating
 with a delta refit, same joint scheme used throughout this project's registration work.
@@ -231,7 +233,7 @@ def main() -> None:
     for probe, color in PROBE_COLORS.items():
         ax.plot([], [], color=color, linewidth=1.6, label=f"probe {probe}")
     ax.legend(fontsize=8)
-    ax.set(title="MouseV2 probe shanks as depth-constrained lines in Zhuang V1\n(o=shallowest unit, sq=deepest)",
+    ax.set(title="MouseV2 probe shanks as depth-constrained lines in Zhuang V1\n(o=deepest unit, sq=shallowest)",
            xlabel="Zhuang common-map x (px)", ylabel="Zhuang common-map y (px; down+)", aspect="equal")
     height, width = template["domain"].shape
     ax.set_xlim(0, width); ax.set_ylim(height, 0)

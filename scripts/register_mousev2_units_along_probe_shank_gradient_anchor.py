@@ -266,7 +266,7 @@ def main() -> None:
     for probe, color in PROBE_COLORS.items():
         ax.plot([], [], color=color, linewidth=1.6, label=f"probe {probe}")
     ax.legend(fontsize=8)
-    ax.set(title="Gradient-anchored shanks: anchor=6E position (star),\ndirection=map-gradient inversion, length=RF-span angle\n(o=shallowest, sq=deepest)",
+    ax.set(title="Gradient-anchored shanks: anchor=6E position (star),\ndirection=map-gradient inversion, length=RF-span angle\n(o=deepest, sq=shallowest)",
            xlabel="Zhuang common-map x (px)", ylabel="Zhuang common-map y (px; down+)", aspect="equal")
     height, width = template["domain"].shape
     ax.set_xlim(0, width); ax.set_ylim(height, 0)

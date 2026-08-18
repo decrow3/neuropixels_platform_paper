@@ -126,7 +126,7 @@ def main() -> None:
                 ax.legend(fontsize=8, loc="lower left")
 
     fig.suptitle(f"{SITE}: Nelder-Mead (top row) vs. gradient-anchored (bottom row) probe-shank registration\n"
-                 "(o=shallowest unit, sq=deepest; point color = observed RF value + session delta, matching what the fit targets)",
+                 "(o=deepest unit, sq=shallowest; point color = observed RF value + session delta, matching what the fit targets)",
                  fontsize=13)
     fig.tight_layout()
     figure_path = OUTPUT / f"Figure_nm_vs_gradient_anchored_{SITE}.png"

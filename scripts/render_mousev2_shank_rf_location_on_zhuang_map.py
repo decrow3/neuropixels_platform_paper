@@ -86,7 +86,7 @@ def main() -> None:
     axes[0].legend(fontsize=8, loc="lower left")
 
     fig.suptitle("MouseV2 probe shanks + RF-location scatter over the Zhuang V1 retinotopic map\n"
-                  "(o=shallowest unit, sq=deepest; point color = observed RF value + session delta, matching what the fit targets)",
+                  "(o=deepest unit, sq=shallowest; point color = observed RF value + session delta, matching what the fit targets)",
                   fontsize=12.5)
     figure_path = SHANK_DIR / "Figure_mousev2_probe_shanks_rf_location_on_zhuang_map.png"
     fig.savefig(figure_path, dpi=170)
