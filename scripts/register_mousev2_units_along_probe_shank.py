@@ -48,6 +48,50 @@ MIN_UNITS_PER_PROBE = 15
 MAX_OUTER_ITER = 4
 PROBE_COLORS = {"A": "#d73027", "B": "#4575b4", "C": "#1a9850", "E": "#8073ac"}
 
+# Mirrors render_mousev2_direction_search_depth_spread.py's trim_deep_depth_outliers (added
+# 2026-08-18 per user direction): a probe's recorded tip occasionally includes a few cells well
+# past the rest of its own population's center of mass (white-matter / adjacent-structure
+# stragglers), which inflates the probe's apparent depth SPAN -- and with it, both this script's
+# depth-normalized `t` axis and the depth-span-implied expected_shank_length_px regularization
+# target -- even though those cells aren't representative of where the bulk of the probe's
+# responsive units actually sit. Robust (median + MAD), only trims the DEEP tail (smallest
+# cortical_depth = closest to the physical tip, per the depth-convention note above).
+DEPTH_OUTLIER_MAD_THRESHOLD = 3.0
+
+
+def trim_deep_depth_outliers(group: pd.DataFrame) -> pd.DataFrame:
+    depth = group.cortical_depth.to_numpy(float)
+    center = np.median(depth)
+    mad = np.median(np.abs(depth - center))
+    if mad < 1e-6:
+        return group
+    deep_z = (center - depth) / mad
+    return group[deep_z <= DEPTH_OUTLIER_MAD_THRESHOLD]
+
+
+# Mirrors render_mousev2_direction_search_depth_spread.py's smooth_along_depth (added 2026-08-18
+# per user direction): even with 4 free endpoint params (vs. that script's 1 angle param), a
+# single noisy unit can still pull the fitted line -- fitting against each probe's own smoothed
+# (robust rank-based rolling median) azimuth/elevation-vs-depth trend instead of the raw per-unit
+# scatter keeps any one outlier's influence local rather than swinging the whole line. Plotted
+# dots and the output CSV still carry the RAW per-unit values -- see that script's docstring for
+# the full rationale, identical here.
+DEPTH_SMOOTH_WINDOW_FRACTION = 1 / 4
+
+
+def smooth_along_depth(t: np.ndarray, values: np.ndarray, window_fraction: float = DEPTH_SMOOTH_WINDOW_FRACTION) -> np.ndarray:
+    order = np.argsort(t)
+    n = len(t)
+    window = max(3, int(round(n * window_fraction)))
+    half = window // 2
+    values_ordered = values[order]
+    smoothed_ordered = np.array([
+        np.median(values_ordered[max(0, i - half):min(n, i + half + 1)]) for i in range(n)
+    ])
+    smoothed = np.empty(n)
+    smoothed[order] = smoothed_ordered
+    return smoothed
+
 # MouseV2's "cortical_depth" is raw probe_vertical_position (distance along the physical shank
 # from a reference point; see generate_retinotopic_csvs.py L419-424) -- NOT a laminar/pia-normal
 # depth, and we don't independently know these probes' insertion angle. Per-probe angle is
@@ -66,6 +110,23 @@ PROBE_COLORS = {"A": "#d73027", "B": "#4575b4", "C": "#1a9850", "E": "#8073ac"}
 RF_DEPTH_SPAN_TABLE = ROOT / "artifacts/figure3/06h_mousev2_csd_insertion_angle/mousev2_rf_depth_span.csv"
 REGULARIZATION_WEIGHT = 3.0
 
+# Direction prior (2026-08-18, per user direction): the shank-line fit above has no anatomical
+# anchor for which way the line should run -- both endpoints are free RF-value-matched points, so
+# a fit can (and does, for noisy probes) come out with the DEEP end (p0, t=0, near the physical
+# tip) farther from V1's center than the SHALLOW/entry end (p1, t=1) -- backwards for how these
+# probes were actually inserted. For the time being we assume every probe was aimed roughly at V1
+# (probes were deliberately angled from a shared craniotomy to reach different retinotopic
+# positions -- see the angle-estimation note above), i.e. the deep end should sit within +/-90 deg
+# of "toward V1 center" as seen from the shallow end, not stronger than that (we do not know or
+# assume the true tilt magnitude/azimuth, only that it isn't aimed away from V1). The shallow-end
+# anchor for "away from" is each probe's own independent ANATOMY-derived Zhuang position from
+# `register_mousev2_area_borders_to_zhuang.py` (built off the hand-traced/extracted V1 outlines --
+# the "per-animal map registration" -- not from RF values, so this is a genuinely independent
+# direction prior, not circular with the fit it regularizes). Probes missing from that table (no
+# anatomical registration available) simply get no direction penalty.
+ANATOMICAL_PROBE_POSITIONS = ROOT / "artifacts/figure3/06j_mousev2_area_borders_registered_to_zhuang/probe_anatomical_position.csv"
+DIRECTION_REGULARIZATION_WEIGHT = 2.0
+
 
 def load_depth_table() -> pd.DataFrame:
     frames = []
@@ -76,7 +137,7 @@ def load_depth_table() -> pd.DataFrame:
 
 def fit_probe_line(depths_t: np.ndarray, observed: np.ndarray, delta: np.ndarray,
                     az_interp, el_interp, domain_distance_interp, init_p0: np.ndarray, init_p1: np.ndarray,
-                    expected_shank_length_px: float | None = None):
+                    expected_shank_length_px: float | None = None, inward_direction: np.ndarray | None = None):
     def predicted_positions(p0, p1):
         return p0[None, :] + depths_t[:, None] * (p1 - p0)[None, :]
 
@@ -93,7 +154,13 @@ def fit_probe_line(depths_t: np.ndarray, observed: np.ndarray, delta: np.ndarray
         if expected_shank_length_px is not None and expected_shank_length_px > 0:
             fitted_length = max(float(np.linalg.norm(p1 - p0)), 1e-3)
             length_penalty = REGULARIZATION_WEIGHT * float(np.log(fitted_length / expected_shank_length_px)) ** 2
-        return loss + 0.5 * domain_penalty + length_penalty
+        direction_penalty = 0.0
+        if inward_direction is not None:
+            shank_vector = p0 - p1  # entry (shallow) -> tip (deep)
+            shank_norm = max(float(np.linalg.norm(shank_vector)), 1e-6)
+            cos_toward_center = float(np.dot(shank_vector, inward_direction)) / shank_norm
+            direction_penalty = DIRECTION_REGULARIZATION_WEIGHT * min(cos_toward_center, 0.0) ** 2
+        return loss + 0.5 * domain_penalty + length_penalty + direction_penalty
 
     x0 = np.concatenate([init_p0, init_p1])
     result = minimize(objective, x0=x0, method="Nelder-Mead",
@@ -129,6 +196,19 @@ def main() -> None:
     angle_table = pd.read_csv(RF_DEPTH_SPAN_TABLE).set_index(["site", "probe"])["estimated_angle_from_vertical_deg"]
     print(f"loaded per-probe angle estimates for {len(angle_table)} probes, px_per_mm={px_per_mm:.1f}")
 
+    visp_rows, visp_cols = np.nonzero(visp_mask)
+    visp_centroid_rc = np.array([visp_rows.mean(), visp_cols.mean()])
+    anatomical = pd.read_csv(ANATOMICAL_PROBE_POSITIONS).set_index(["site", "probe"])[["zhuang_row", "zhuang_col"]]
+    inward_direction_table = {}
+    for key, anchor in anatomical.iterrows():
+        anchor_rc = anchor.to_numpy(float)
+        offset = visp_centroid_rc - anchor_rc
+        norm = np.linalg.norm(offset)
+        if norm > 1e-6:
+            inward_direction_table[key] = offset / norm
+    print(f"loaded anatomical entry-point anchors for {len(inward_direction_table)} probes "
+          f"(direction regularization toward VISp centroid at row={visp_centroid_rc[0]:.1f}, col={visp_centroid_rc[1]:.1f})")
+
     rf = pd.read_csv(RF_FITS, low_memory=False)
     units = rf.loc[rf.pilot_qc & rf.rf_model_supported].copy()
     units["azimuth_deg"] = units.supported_rf_center_x_deg + azimuth_offset
@@ -146,11 +226,18 @@ def main() -> None:
     for site, session_units in units.groupby("site"):
         probes = {}
         for probe, group in session_units.groupby("probe"):
+            n_before_trim = len(group)
+            group = trim_deep_depth_outliers(group)
+            if len(group) < n_before_trim:
+                print(f"{site} probe {probe}: trimmed {n_before_trim - len(group)} deep-outlier "
+                      f"unit(s) ({n_before_trim} -> {len(group)})")
             if len(group) < MIN_UNITS_PER_PROBE:
                 continue
             depth = group.cortical_depth.to_numpy(float)
             t = (depth - depth.min()) / max(depth.max() - depth.min(), 1e-6)
-            observed = group[["azimuth_deg", "elevation_deg"]].to_numpy(float)
+            observed_raw = group[["azimuth_deg", "elevation_deg"]].to_numpy(float)
+            observed = np.column_stack([smooth_along_depth(t, observed_raw[:, 0]),
+                                         smooth_along_depth(t, observed_raw[:, 1])])
             # init from a simple per-unit nearest-match regression against depth
             targets = observed
             distances = np.sum((candidates[:, None, :] - targets[None, :, :]) ** 2, axis=2)
@@ -168,9 +255,11 @@ def main() -> None:
                 expected_shank_length_px = expected_tangential_mm * px_per_mm
             else:
                 expected_shank_length_px = None
-            probes[probe] = {"t": t, "observed": observed, "n_units": len(group),
+            inward_direction = inward_direction_table.get((site, probe))
+            probes[probe] = {"t": t, "observed": observed, "observed_raw": observed_raw, "n_units": len(group),
                               "init_p0": init_p0, "init_p1": init_p1, "unit_ids": group.unit_id.to_numpy(),
-                              "expected_shank_length_px": expected_shank_length_px, "angle_deg": angle_deg}
+                              "expected_shank_length_px": expected_shank_length_px, "angle_deg": angle_deg,
+                              "inward_direction": inward_direction}
         if not probes:
             continue
 
@@ -180,7 +269,8 @@ def main() -> None:
             for probe, info in probes.items():
                 p0, p1, positions, predicted, loss = fit_probe_line(
                     info["t"], info["observed"], delta, az_interp, el_interp, domain_distance_interp,
-                    info["init_p0"], info["init_p1"], expected_shank_length_px=info["expected_shank_length_px"])
+                    info["init_p0"], info["init_p1"], expected_shank_length_px=info["expected_shank_length_px"],
+                    inward_direction=info["inward_direction"])
                 fitted[probe] = {"p0": p0, "p1": p1, "positions": positions, "predicted": predicted, "loss": loss}
             pooled_residual = np.concatenate([
                 fitted[probe]["predicted"] - probes[probe]["observed"] for probe in probes
@@ -189,21 +279,32 @@ def main() -> None:
 
         for probe, info in probes.items():
             fit = fitted[probe]
+            inward_direction = info["inward_direction"]
+            cos_toward_center = np.nan
+            if inward_direction is not None:
+                shank_vector = fit["p0"] - fit["p1"]
+                shank_norm = np.linalg.norm(shank_vector)
+                if shank_norm > 1e-6:
+                    cos_toward_center = float(np.dot(shank_vector, inward_direction)) / shank_norm
             probe_line_rows.append({
                 "site": site, "probe": probe, "n_units": info["n_units"], "fit_loss": fit["loss"],
                 "p0_row": fit["p0"][0], "p0_col": fit["p0"][1], "p1_row": fit["p1"][0], "p1_col": fit["p1"][1],
                 "shank_length_px": float(np.linalg.norm(fit["p1"] - fit["p0"])),
                 "rf_span_estimated_angle_deg": info["angle_deg"],
                 "expected_shank_length_px": info["expected_shank_length_px"],
+                "has_anatomical_direction_prior": inward_direction is not None,
+                "cos_angle_toward_v1_center": cos_toward_center,
             })
-            for unit_id, position, predicted, observed in zip(
-                info["unit_ids"], fit["positions"], fit["predicted"], info["observed"]
+            for unit_id, position, predicted, observed_smoothed, observed_raw in zip(
+                info["unit_ids"], fit["positions"], fit["predicted"], info["observed"], info["observed_raw"]
             ):
                 per_unit_rows.append({
                     "site": site, "probe": probe, "unit_id": unit_id,
                     "inferred_row": position[0], "inferred_col": position[1],
                     "predicted_azimuth_deg": predicted[0], "predicted_elevation_deg": predicted[1],
-                    "observed_azimuth_deg": observed[0], "observed_elevation_deg": observed[1],
+                    "observed_azimuth_deg": observed_raw[0], "observed_elevation_deg": observed_raw[1],
+                    "observed_azimuth_deg_smoothed": observed_smoothed[0],
+                    "observed_elevation_deg_smoothed": observed_smoothed[1],
                 })
         session_delta_rows.append({"site": site, "delta_azimuth_deg": delta[0], "delta_elevation_deg": delta[1],
                                     "n_probes": len(probes)})
@@ -219,6 +320,12 @@ def main() -> None:
     print(f"probes fit as shank lines: {len(probe_lines)}, sessions: {len(session_deltas)}, units: {len(per_unit)}")
     print(f"median shank length in Zhuang px: {probe_lines.shank_length_px.median():.1f}")
     print(f"median fit loss (huber, deg): {probe_lines.fit_loss.median():.3f}")
+    with_prior = probe_lines[probe_lines.has_anatomical_direction_prior]
+    if len(with_prior):
+        n_within_90 = int((with_prior.cos_angle_toward_v1_center >= 0).sum())
+        print(f"direction prior: {len(with_prior)}/{len(probe_lines)} probes had an anatomical anchor; "
+              f"{n_within_90}/{len(with_prior)} fitted within +/-90deg of 'toward V1 center' "
+              f"(median cos={with_prior.cos_angle_toward_v1_center.median():+.2f})")
 
     # -- figure: shank lines over V1, colored by probe, + per-unit RF size along shanks --
     fig, axes = plt.subplots(1, 2, figsize=(14, 7))

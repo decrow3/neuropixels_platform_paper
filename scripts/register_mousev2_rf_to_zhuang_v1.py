@@ -82,7 +82,21 @@ def load_mousev2_units(azimuth_offset: float, elevation_offset: float) -> pd.Dat
 
 def calibrate_harmonization_offsets(visp_azimuth: np.ndarray, visp_elevation: np.ndarray) -> tuple[float, float]:
     """Empirically calibrate the MouseV2 x/y -> azimuth/elevation offsets by matching pooled
-    medians against V1's own atlas distribution, rather than trusting a borrowed constant."""
+    medians against V1's own atlas distribution, rather than trusting a borrowed constant.
+
+    2026-08-18: a multiplicative GAIN on top of this offset was tried and reverted. It was
+    calibrated by matching pooled IQR of MouseV2's raw RF values against the IQR of the Zhuang
+    V1 MASK's per-pixel value spread (every VISp pixel's azimuth/elevation), and found a large
+    azimuth gain (~1.31). That directly contradicts `rescale_zhuang_field_to_naive_span.py`'s
+    prior, more careful diagnosis of this exact question -- comparing the Zhuang field against an
+    INDEPENDENT densely-pooled multi-session empirical RF map ("naive"), not MouseV2 data -- which
+    found azimuth's IQR already matched almost exactly (~0.99) and left it deliberately unscaled;
+    only elevation had a real, deliberate gain baked into `..._span_matched.npz` already. The
+    gain attempt's comparison was apples-to-oranges: MouseV2's raw spread reflects wherever its
+    ~27 probes happened to land (a scattered SAMPLE of V1), not V1's full anatomical retinotopic
+    RANGE (the atlas mask's own pixel spread) -- a sampling-coverage gap, not a calibration gap,
+    and would appear even with perfect calibration. Trusting the prior, better-controlled
+    validation for both axes: no gain, offset only, as below."""
     rf = pd.read_csv(RF_FITS, low_memory=False)
     supported = rf.loc[rf.pilot_qc & rf.rf_model_supported]
     raw_x_median = supported.supported_rf_center_x_deg.median()
@@ -242,6 +256,11 @@ def main() -> None:
 
     manifest = {
         "calibrated_azimuth_offset_deg": azimuth_offset, "calibrated_elevation_offset_deg": elevation_offset,
+        "gain_note": "A multiplicative gain on top of this offset was tried (2026-08-18) and reverted -- see "
+            "calibrate_harmonization_offsets docstring. Trusting rescale_zhuang_field_to_naive_span.py's prior, "
+            "better-controlled validation against an independent empirical RF map: azimuth needs no gain "
+            "(~0.99 IQR match), elevation's gain is already baked into azimuth_span_matched_deg/"
+            "elevation_span_matched_deg upstream. Offset only, both axes.",
         "borrowed_azimuth_offset_deg_for_reference": 50.0, "borrowed_elevation_offset_deg_for_reference": 10.0,
         "n_candidates": len(candidates), "min_units_per_probe": MIN_UNITS_PER_PROBE,
         "min_supported_probes_per_session": MIN_SUPPORTED_PROBES_PER_SESSION,
