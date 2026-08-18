@@ -1,0 +1,13 @@
+{
+  "allen_reference_thickness_um": 680.0,
+  "allen_reference_n_probes": 1,
+  "allen_true_thickness_um": 740.0,
+  "allen_detection_overestimate_fraction": -0.08108108108108109,
+  "search_window_um": [
+    1500.0,
+    3500.0
+  ],
+  "median_mousev2_thickness_um": 480.0,
+  "median_estimated_angle_deg": 0.0,
+  "caveat": "Only one Allen LFP-equipped probe was available locally; this is an n=1 reference, not a robust multi-session baseline. The detector has a known ~24% over-estimation bias (validated against known VISl histology on the same probe) which should mostly cancel in the ratio but is not guaranteed to cancel exactly."
+}

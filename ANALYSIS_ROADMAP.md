@@ -38,6 +38,7 @@ not prevent us from improving and viewing the main three-metric analysis now.
 | 6B — V1 cross-dataset bridge | Source-corrected Welch diagnostic completed 2026-08-09; claim gate remains closed pending multi-session Allen and population matching | [`V1_DATASET_BRIDGE`](artifacts/figure3/06b_v1_dataset_bridge/V1_DATASET_BRIDGE.md) |
 | 6C — achieved Allen retinotopy | Targeting audit and first RF-adjusted response checkpoint completed 2026-08-11; balance/model sensitivity and MouseV2 bridge remain | [`ALLEN_RF_MATCHING`](artifacts/figure3/06c_allen_rf_matching/ALLEN_RF_MATCHING.md), [`RF_ADJUSTED_RESPONSE`](artifacts/figure3/06c_allen_rf_matching/response_adjustment/ALLEN_RF_ADJUSTED_RESPONSE.md) |
 | 6D — MouseV2 frequency-preference surfaces | Parametric trial-derived RF and SF/TF/orientation models completed 2026-08-11; gaze correction remains unavailable | [`MOUSEV2_FREQUENCY_PREFERENCE_SURFACES`](artifacts/figure3/06d_mousev2_frequency_preference_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_SURFACES.md) |
+| 6E-6H — RF-inverted V1 registration, size/dispersion mapping, shank-geometry correction | Completed 2026-08-17; per-probe insertion angle estimated via RF-significant-unit depth span vs. a 24-probe Allen reference (CSD-based absolute-depth landmark detection tried first, retained on record but not trusted for angle claims -- see summary) | [`MOUSEV2_PROBE_SHANK_REGISTRATION`](artifacts/figure3/06g_mousev2_rf_units_along_probe_shank/MOUSEV2_PROBE_SHANK_REGISTRATION.md) |
 
 Iteration 0 reran all four current entry points successfully. The regenerated
 figures are pixel-identical to the preserved inputs, and the statistical report
@@ -147,6 +148,32 @@ log10 modulation index by only +0.009 (site range −0.019 to +0.036), while
 log10 F1/F0 increases by +0.061. The SF/condition-space difference therefore
 does not explain the large modulation-index offset. The remaining executable
 bridge requires raw Allen Brain Observatory and Functional Connectivity NWBs.
+
+Iterations 6E-6H build the spatial axis MouseV2 otherwise lacks entirely (no CCF
+in these NWBs) by inverting the registration direction used everywhere else in
+this project: RF value → inferred V1 position, restricted to Zhuang's V1
+compartment (the recordings are known to be in V1, which removes almost all
+inversion ambiguity). A harmonization-offset bug was found and fixed in the
+process (elevation was off by ~11.5 deg; azimuth was fine). The registration is
+validated by a sign-unambiguous, never-fit-on check: probe letter explains ~80%
+of inferred-position variance across independently-registered sessions
+(omega-squared, p<0.0005). Mapping RF size and dispersion onto that registration
+(6F) exposed a geometric problem: independent per-unit matching does not respect
+the fact that a probe is a straight physical shank, so units scattered rather
+than forming a line. Iteration 6G fixes this with a depth-constrained line model
+per probe. That fit is underdetermined without knowing insertion angle, which is
+not recorded in these NWBs; iteration 6H tried five methods to estimate it,
+including CSD source/sink landmark detection validated against a real Allen
+ground-truth probe -- informative about the extraction pipeline's correctness
+but ultimately not trustworthy for absolute-depth angle claims because MouseV2
+and Allen almost certainly do not share a `probe_vertical_position` zero-point
+convention. What worked instead: the along-probe depth SPAN of RF-significant
+units (a relative measure, immune to that zero-point problem), compared against
+a real 24-probe Allen V1 reference -- MouseV2 spans are significantly larger
+(Mann-Whitney p=2.2e-08) consistently across all 27 probes, giving a plausible
+median 55.3 deg estimated insertion angle from vertical. Full narrative,
+failure modes, and caveats in
+[`MOUSEV2_PROBE_SHANK_REGISTRATION.md`](artifacts/figure3/06g_mousev2_rf_units_along_probe_shank/MOUSEV2_PROBE_SHANK_REGISTRATION.md).
 
 ## Experiment-to-analysis chain
 

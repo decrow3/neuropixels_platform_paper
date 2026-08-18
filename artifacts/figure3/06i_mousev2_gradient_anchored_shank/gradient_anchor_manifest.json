@@ -1,0 +1,21 @@
+{
+  "n_probes": 27,
+  "direction_source_counts": {
+    "gradient_inversion": 27
+  },
+  "length_source_counts": {
+    "rf_depth_span_angle": 27
+  },
+  "median_shank_length_px": 86.53287622917418,
+  "median_jacobian_cond": 1.7853491835088013,
+  "median_fit_residual_deg": 30.2976509376766,
+  "n_probes_endpoint_outside_domain_gt10px": 12,
+  "cond_threshold": 50.0,
+  "jacobian_min_points": 25,
+  "jacobian_radii_px": [
+    20.0,
+    35.0,
+    50.0,
+    70.0
+  ]
+}

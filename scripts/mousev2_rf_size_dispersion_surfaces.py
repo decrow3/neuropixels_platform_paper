@@ -1,0 +1,192 @@
+#!/usr/bin/env python3
+"""RF size and RF dispersion for MouseV2, mapped onto the RF-inferred V1 position from
+`register_mousev2_rf_to_zhuang_v1.py`, compared against Allen's V1 "roughly matching group"
+(`v1_absolute_size_dispersion_translation_checkpoint/v1_unit_descriptors.csv.gz`).
+
+RF size: already fit per unit (`rf_sigma_major_deg`, `rf_sigma_minor_deg`, elliptical Gaussian).
+Reported as ellipse area deg^2 = pi * sigma_major * sigma_minor, log2-scaled to match Allen's
+`log2_rf_area` convention -- NOT claimed to be a methodologically identical estimator (different
+stimulus family/fit target), only descriptively comparable, consistent with the caveat already
+on record for the SF/TF surface comparison (06d).
+
+RF dispersion: genuinely new for MouseV2. Unlike Allen (independent CCF anatomy lets you compute
+residual RF scatter around a smooth anatomy-based mean), MouseV2's only position axis IS derived
+from RF value, so an anatomy-residual dispersion would be circular. The non-circular analog used
+throughout this project (`verify_warp_variants_via_rf_dispersion.py`) is WITHIN-PROBE RF-center
+scatter: a probe's units all sit at one fixed physical location, so the trace of the covariance
+of their RF centers around the probe's own robust center is a genuine local-dispersion measure,
+untouched by the position-inference step.
+
+Per-unit anatomical position: extends the per-PROBE registration to per-UNIT resolution, reusing
+that session's already-fitted delta (from `mousev2_session_delta.csv`) and the same calibrated
+harmonization offsets (from `registration_manifest.json`) -- each unit's OWN RF value is matched
+to its nearest V1 candidate position, giving continuous within-probe spatial resolution instead
+of collapsing every unit in a probe to one point.
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from matplotlib.colors import Normalize
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from fit_multistructure_fixed_effect_translation import huber_location  # noqa: E402
+from register_allen_session_to_zhuang import build_template  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[1]
+ZHUANG_TEMPLATE = ROOT / "artifacts/retinotopy_template/zhuang2017_figure9/retinotopy_contour_grid.npz"
+ZHUANG_SPAN_MATCHED = (
+    ROOT / "artifacts/retinotopy_template/zhuang2017_figure9/interpolation_field_sign_qa"
+    / "interpolated_fields_and_field_sign_domain_patched_span_matched.npz"
+)
+RF_FITS = ROOT / "data/imports/mousev2_parametric_rf_v1/rf_unit_fits.csv"
+REGISTRATION_DIR = ROOT / "artifacts/figure3/06e_mousev2_rf_registered_to_zhuang_v1"
+ALLEN_V1 = ROOT / "artifacts/v1_absolute_size_dispersion_translation_checkpoint/v1_unit_descriptors.csv.gz"
+OUTPUT = ROOT / "artifacts/figure3/06f_mousev2_rf_size_dispersion_surfaces"
+
+MIN_UNITS_PER_PROBE = 15
+PROBE_COLORS = {"A": "#d73027", "B": "#4575b4", "C": "#1a9850", "E": "#8073ac"}
+
+
+def main() -> None:
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    template = build_template(ZHUANG_TEMPLATE)
+    visp_mask = template["area_masks"]["VISp"]
+    smoothed = {k: v for k, v in np.load(ZHUANG_SPAN_MATCHED).items()}
+    az_field = smoothed["azimuth_span_matched_deg"]
+    el_field = smoothed["elevation_span_matched_deg"]
+    candidate_rows, candidate_cols = np.nonzero(visp_mask & np.isfinite(az_field) & np.isfinite(el_field))
+    candidates = np.column_stack([az_field[candidate_rows, candidate_cols], el_field[candidate_rows, candidate_cols]])
+
+    reg_manifest = json.loads((REGISTRATION_DIR / "registration_manifest.json").read_text())
+    azimuth_offset = reg_manifest["calibrated_azimuth_offset_deg"]
+    elevation_offset = reg_manifest["calibrated_elevation_offset_deg"]
+    session_delta = pd.read_csv(REGISTRATION_DIR / "mousev2_session_delta.csv").set_index("site")
+    print(f"using calibrated offsets az={azimuth_offset:+.2f}, el={elevation_offset:+.2f}, "
+          f"per-session delta for {len(session_delta)} sites")
+
+    rf = pd.read_csv(RF_FITS, low_memory=False)
+    units = rf.loc[rf.pilot_qc & rf.rf_model_supported].copy()
+    units["azimuth_deg"] = units.supported_rf_center_x_deg + azimuth_offset
+    units["elevation_deg"] = units.supported_rf_center_y_deg + elevation_offset
+    units["rf_area_deg2"] = np.pi * units.rf_sigma_major_deg * units.rf_sigma_minor_deg
+    units["log2_rf_area"] = np.log2(units.rf_area_deg2)
+    units = units.loc[units.site.isin(session_delta.index)].copy()
+
+    # per-unit inferred position: reuse that unit's session delta, nearest-match its OWN RF value
+    inferred_row = np.full(len(units), -1)
+    inferred_col = np.full(len(units), -1)
+    for site, group in units.groupby("site"):
+        delta = np.array([session_delta.loc[site, "delta_azimuth_deg"], session_delta.loc[site, "delta_elevation_deg"]])
+        targets = group[["azimuth_deg", "elevation_deg"]].to_numpy(float) + delta
+        distances = np.sum((candidates[:, None, :] - targets[None, :, :]) ** 2, axis=2)
+        best = np.argmin(distances, axis=0)
+        pos = units.index.get_indexer(group.index)
+        inferred_row[pos] = candidate_rows[best]
+        inferred_col[pos] = candidate_cols[best]
+    units["inferred_row"] = inferred_row
+    units["inferred_col"] = inferred_col
+    units.to_csv(OUTPUT / "mousev2_unit_inferred_position_and_size.csv", index=False)
+    print(f"per-unit inferred positions: {len(units)} units across {units.site.nunique()} sessions")
+
+    # RF dispersion: within-probe RF-center scatter (trace of covariance), non-circular
+    dispersion_rows = []
+    for (site, probe), group in units.groupby(["site", "probe"]):
+        if len(group) < MIN_UNITS_PER_PROBE:
+            continue
+        rf_centers = group[["azimuth_deg", "elevation_deg"]].to_numpy(float)
+        center = huber_location(rf_centers)
+        centered = rf_centers - center
+        trace_deg2 = float(np.mean(np.sum(centered ** 2, axis=1)))
+        probe_row = group[["inferred_row", "inferred_col"]].mode().iloc[0]
+        dispersion_rows.append({
+            "site": site, "probe": probe, "n_units": len(group),
+            "dispersion_trace_deg2": trace_deg2, "log2_dispersion_trace": np.log2(trace_deg2),
+            "median_log2_rf_area": float(group.log2_rf_area.median()),
+            "inferred_row": int(probe_row.inferred_row), "inferred_col": int(probe_row.inferred_col),
+        })
+    dispersion_table = pd.DataFrame(dispersion_rows)
+    dispersion_table.to_csv(OUTPUT / "mousev2_probe_rf_dispersion.csv", index=False)
+
+    allen = pd.read_csv(ALLEN_V1)
+    print("\n=== MouseV2 vs. Allen V1 -- descriptive comparison (different stimulus/estimator; not a matched test) ===")
+    print(f"RF area (log2 deg^2): MouseV2 median={units.log2_rf_area.median():.2f} (n={len(units)}), "
+          f"Allen V1 median={allen.log2_rf_area.median():.2f} (n={len(allen)})")
+    print(f"RF dispersion trace (log2 deg^2): MouseV2 median={dispersion_table.log2_dispersion_trace.median():.2f} "
+          f"(n={len(dispersion_table)} probes), Allen V1 median={allen.dispersion_log2_trace.median():.2f} "
+          f"(n={allen.dispersion_log2_trace.notna().sum()} units, different unit-of-analysis: per-probe vs. per-unit-neighborhood)")
+
+    summary = {
+        "mousev2_n_units": len(units), "mousev2_n_probes_with_dispersion": len(dispersion_table),
+        "mousev2_median_log2_rf_area": float(units.log2_rf_area.median()),
+        "allen_v1_median_log2_rf_area": float(allen.log2_rf_area.median()),
+        "mousev2_median_log2_dispersion_trace": float(dispersion_table.log2_dispersion_trace.median()),
+        "allen_v1_median_log2_dispersion_trace": float(allen.dispersion_log2_trace.median()),
+        "caveat": "descriptive comparison only -- different stimulus families/estimators (see 06d) and "
+                  "different dispersion unit-of-analysis (MouseV2: within-probe; Allen: within-250um-CCF-neighborhood)",
+    }
+    (OUTPUT / "comparison_summary.json").write_text(json.dumps(summary, indent=2))
+
+    # -- figures --
+    fig, axes = plt.subplots(2, 2, figsize=(15, 13))
+    boundary = template["boundary"].astype(float)
+
+    ax = axes[0, 0]
+    ax.contour(boundary, levels=[0.5], colors="#333333", linewidths=0.55)
+    norm = Normalize(vmin=units.log2_rf_area.quantile(0.02), vmax=units.log2_rf_area.quantile(0.98))
+    scatter = ax.scatter(units.inferred_col, units.inferred_row, c=units.log2_rf_area, cmap="viridis",
+                          norm=norm, s=10, alpha=0.6, rasterized=True)
+    fig.colorbar(scatter, ax=ax, fraction=0.046, label="log2 RF area (deg^2)")
+    ax.set(title="MouseV2 RF size across V1 (per-unit inferred position)",
+           xlabel="Zhuang common-map x (px)", ylabel="Zhuang common-map y (px; down+)", aspect="equal")
+    height, width = template["domain"].shape
+    ax.set_xlim(0, width); ax.set_ylim(height, 0)
+
+    ax = axes[0, 1]
+    ax.contour(boundary, levels=[0.5], colors="#333333", linewidths=0.55)
+    norm = Normalize(vmin=dispersion_table.log2_dispersion_trace.min(), vmax=dispersion_table.log2_dispersion_trace.max())
+    scatter = ax.scatter(dispersion_table.inferred_col, dispersion_table.inferred_row,
+                          c=dispersion_table.log2_dispersion_trace, cmap="magma", norm=norm,
+                          s=90, edgecolors="white", linewidths=0.8)
+    fig.colorbar(scatter, ax=ax, fraction=0.046, label="log2 within-probe RF dispersion trace (deg^2)")
+    ax.set(title=f"MouseV2 RF dispersion across V1 (per-probe, n={len(dispersion_table)})",
+           xlabel="Zhuang common-map x (px)", ylabel="Zhuang common-map y (px; down+)", aspect="equal")
+    ax.set_xlim(0, width); ax.set_ylim(height, 0)
+
+    ax = axes[1, 0]
+    bins = np.linspace(min(units.log2_rf_area.min(), allen.log2_rf_area.min()),
+                        max(units.log2_rf_area.max(), allen.log2_rf_area.max()), 40)
+    ax.hist(allen.log2_rf_area, bins=bins, density=True, alpha=0.5, label=f"Allen V1 (n={len(allen)})", color="#4575b4")
+    ax.hist(units.log2_rf_area, bins=bins, density=True, alpha=0.5, label=f"MouseV2 (n={len(units)})", color="#d73027")
+    ax.set(title="RF size distribution: MouseV2 vs. Allen V1\n(descriptive -- different stimulus/estimator)",
+           xlabel="log2 RF area (deg^2)", ylabel="density")
+    ax.legend(fontsize=9)
+
+    ax = axes[1, 1]
+    allen_disp = allen.dispersion_log2_trace.dropna()
+    bins = np.linspace(min(dispersion_table.log2_dispersion_trace.min(), allen_disp.min()),
+                        max(dispersion_table.log2_dispersion_trace.max(), allen_disp.max()), 30)
+    ax.hist(allen_disp, bins=bins, density=True, alpha=0.5, label=f"Allen V1 (per-unit-neighborhood, n={len(allen_disp)})", color="#4575b4")
+    ax.hist(dispersion_table.log2_dispersion_trace, bins=bins, density=True, alpha=0.5,
+            label=f"MouseV2 (per-probe, n={len(dispersion_table)})", color="#d73027")
+    ax.set(title="RF dispersion distribution: MouseV2 vs. Allen V1\n(different unit-of-analysis -- not a matched test)",
+           xlabel="log2 dispersion trace (deg^2)", ylabel="density")
+    ax.legend(fontsize=9)
+
+    fig.suptitle("MouseV2 RF size + dispersion mapped to RF-inferred V1 position, vs. Allen V1", fontsize=13)
+    fig.tight_layout()
+    fig.savefig(OUTPUT / "Figure_mousev2_rf_size_dispersion_vs_allen.png", dpi=170)
+    plt.close(fig)
+    print(f"\n{OUTPUT / 'Figure_mousev2_rf_size_dispersion_vs_allen.png'}")
+
+
+if __name__ == "__main__":
+    main()
