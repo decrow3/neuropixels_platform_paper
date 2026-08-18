@@ -1,4 +1,0 @@
-session_id,selection_role,criterion,criterion_value,mean_correlation_gain,provenance
-715093703,largest held-out gain,maximum cross-half RMSE gain,0.0,0.0,algorithmic selection from selected cross-half translation model
-715093703,typical effect,closest to median cross-half RMSE gain,0.0,0.0,algorithmic selection from selected cross-half translation model
-715093703,translation failure,minimum cross-half RMSE gain,0.0,0.0,algorithmic selection from selected cross-half translation model

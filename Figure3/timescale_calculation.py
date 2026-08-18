@@ -16,13 +16,9 @@ import xarray as xr
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.ndimage.filters import gaussian_filter1d
-
-from scipy.ndimage.filters import gaussian_filter1d
 from scipy.stats import pearsonr
 from scipy import signal
 from scipy.optimize import curve_fit
-
-from scipy.ndimage.filters import gaussian_filter1d
 
 from allensdk.brain_observatory.ecephys.ecephys_project_cache import EcephysProjectCache
 from allensdk.brain_observatory.ecephys.stimulus_analysis.flashes import Flashes

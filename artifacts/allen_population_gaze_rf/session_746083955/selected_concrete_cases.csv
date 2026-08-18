@@ -1,6 +1,0 @@
-ecephys_unit_id,selection_role,selection_criterion,group,ecephys_structure_acronym,unit_split,test_deviance_improvement,log2_area_ratio,log2_amplitude_ratio
-951888972,predeclared compact V1,selected before gaze results,V1,VISp,evaluation,0.00072604067,0.005151799,0.0058878514
-951871840,largest sharpening with prediction gain,minimum log2 area ratio among evaluation units with positive test gain,HVA,VISrl,evaluation,0.012113478,-0.72928367,-0.51553538
-951871827,largest held-out improvement,maximum test deviance improvement,HVA,VISrl,evaluation,0.015144567,-0.38082438,13.007556
-951872387,typical held-out change,closest to median test deviance improvement,HVA,VISrl,evaluation,0.00019064395,0.014052834,-0.0070394288
-951880921,largest held-out worsening,minimum test deviance improvement,HVA,VISpm,evaluation,-0.020283966,-1.9130747,4.2737783

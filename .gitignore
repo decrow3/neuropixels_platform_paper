@@ -108,3 +108,10 @@ venv.bak/
 
 # Large data files
 data/**/*.csv
+
+# Exploratory run outputs (regenerable, large)
+artifacts/
+
+# Regenerated figure outputs saved to repo root
+/Figure3_refactored.png
+/Figure3_restored_style.png

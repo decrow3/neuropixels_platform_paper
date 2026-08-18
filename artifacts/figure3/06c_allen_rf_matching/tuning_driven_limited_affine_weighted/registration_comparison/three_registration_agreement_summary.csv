@@ -1,9 +1,0 @@
-group,preference,sessions,median_correlation_raw,median_correlation_aligned,median_paired_correlation_change,median_rmse_raw_octaves,median_rmse_aligned_octaves,median_paired_rmse_change_octaves,median_coverage_raw,median_coverage_aligned,registration
-HVA pooled,sf,31,0.148888,0.0462017,-0.0352422,0.240661,0.255698,0.000134471,1,1,v1_rf_center_translation
-HVA pooled,tf,31,0.36653,0.377303,-0.0279182,0.360797,0.353828,0.00864485,1,1,v1_rf_center_translation
-V1,sf,31,0.00191219,0.127508,0.0173435,0.249912,0.299406,0.000492552,1,1,v1_rf_center_translation
-V1,tf,31,0.481616,0.665056,0.0212234,0.140907,0.142915,0.00148741,1,1,v1_rf_center_translation
-HVA pooled,sf,31,0.148888,0.387151,0.332969,0.240661,0.23772,-0.0254729,1,1,tuning_fitted_affine
-HVA pooled,tf,31,0.36653,0.596436,0.0444126,0.360797,0.350717,-0.00874016,1,1,tuning_fitted_affine
-V1,sf,31,0.00191219,0.353461,0.079819,0.249912,0.280901,0.00582863,1,1,tuning_fitted_affine
-V1,tf,31,0.481616,0.544242,0.0139317,0.140907,0.158415,0.00649887,1,1,tuning_fitted_affine

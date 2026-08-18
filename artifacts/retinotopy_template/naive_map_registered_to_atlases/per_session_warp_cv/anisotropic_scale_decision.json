@@ -1,7 +1,0 @@
-{
-  "adopted": false,
-  "median_improvement_deg": 0.4535548863253922,
-  "fraction_folds_improved": 0.5688888888888889,
-  "wilcoxon_p": 0.05236721090265615,
-  "n_folds": 225
-}

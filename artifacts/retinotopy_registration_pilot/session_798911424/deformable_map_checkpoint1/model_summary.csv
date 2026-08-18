@@ -1,4 +1,0 @@
-model,in_sample_median_rf_error_deg,in_sample_mean_rf_error_deg,lopo_median_rf_error_deg,lopo_mean_rf_error_deg,mean_named_area_distance_px,azimuth_offset_deg,elevation_offset_deg,azimuth_scale,elevation_scale,residual_length_mm,residual_ridge
-geometry_only,18.602611,18.320305,19.325201,20.175802,0.14636179,0,0,1,1,,
-range_expansion,10.93654,11.592254,20.484254,21.621633,0.27604589,6.8815275,15.305481,1.0184284,1.3110542,,
-smooth_residual,1.0638155,1.4844789,15.553104,18.02969,0.27604589,6.8815275,15.305481,1.0184284,1.3110542,0.35,0.1

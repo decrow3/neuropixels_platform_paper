@@ -38,11 +38,3 @@ def compute_mean_first_spike(first_spike):
         mu.append(np.median(first_spike[n, np.where(first_spike[n,:]>0)]))
     mu=np.array(mu)
     return mu
-
-
-def main(psth_pref, start_time=30, end_time=500):
-    """
-    psth_pref: neuron*trial*time
-    """
-    first_spike = ttf.compute_first_spike(psth_pref, start_time=30, end_time=500)
-    return first_spike

@@ -1,6 +1,0 @@
-ridge_lambda,held_out_area_predictions,weighted_mean_error_deg,weighted_median_error_deg,selected
-0.01,149,24.2474,21.0175,False
-0.1,149,19.2235,16.5747,True
-1,149,20.5701,19.2734,False
-10,149,21.6303,19.6863,False
-100,149,20.5578,18.2583,False

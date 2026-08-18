@@ -1,6 +1,0 @@
-ecephys_session_id,selection_role,criterion,criterion_value,reference_model,selection_method
-754829445,largest estimated sampling correction,median_sampling_fraction,0.4143477932825813,quadratic,algorithmic after complete-cohort fitting
-754312389,strongest held-out gradient,heldout_gradient_r2_vs_constant,0.8869981687767412,quadratic,algorithmic after complete-cohort fitting
-797828357,typical held-out gradient,distance_from_median_r2,0.0,quadratic,algorithmic after complete-cohort fitting
-759883607,worst held-out gradient,heldout_gradient_r2_vs_constant,-1.2037376533560544,quadratic,algorithmic after complete-cohort fitting
-781842082,largest affine-quadratic disagreement,model_r2_disagreement,0.13714396706133425,quadratic,algorithmic after complete-cohort fitting

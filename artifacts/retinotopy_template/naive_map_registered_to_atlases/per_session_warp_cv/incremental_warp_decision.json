@@ -1,9 +1,0 @@
-{
-  "rotation": {
-    "adopted": false,
-    "median_improvement_deg": 0.8877058691347806,
-    "fraction_folds_improved": 0.6266666666666667,
-    "wilcoxon_p": 1.0419467181352558e-05,
-    "n_folds": 225
-  }
-}

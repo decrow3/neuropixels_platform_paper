@@ -1,5 +1,0 @@
-model,crop_fits,median_absolute_log2_sigma_error,q90_absolute_log2_sigma_error,median_center_error_deg,q90_center_error_deg,failure_or_bound_fraction,median_data_rmse
-Allen no baseline,64,0.097088595,1.798031,0.84433689,213.00606,0.109375,
-Baseline + DC ring,64,0.035028407,0.39967019,0.32406036,6.1900388,0.0625,2.8049415
-Baseline extended,64,0.048870421,0.46019976,0.34923996,7.0790152,0.078125,2.8044903
-Baseline screen-bounded,64,0.042033087,0.39999914,0.34923785,7.1427733,0.21875,2.8044903

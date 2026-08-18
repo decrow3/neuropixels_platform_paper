@@ -1,7 +1,0 @@
-metric,coordinate,n_session_probe,spearman_rho,spearman_p_descriptive
-time_to_first_spike_fl,rf_center_x_deg,32,-0.16709579511949224,0.3606753369322748
-time_to_first_spike_fl,rf_center_y_deg,32,-0.08014918345792152,0.6627958622735718
-mod_idx_dg,rf_center_x_deg,32,0.24281107728301213,0.1805576589529385
-mod_idx_dg,rf_center_y_deg,32,0.15469352891179258,0.39790496792654173
-timescale_ac,rf_center_x_deg,32,-0.05426883524528152,0.7679981768838191
-timescale_ac,rf_center_y_deg,32,-0.0904247197986807,0.6225931367585006

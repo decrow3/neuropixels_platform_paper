@@ -1,3 +1,0 @@
-property,observed_median_r2,null_mean_r2,p_r2,observed_frac_positive,null_mean_frac_positive,p_frac_positive
-f1_f0_dg,0.008907288977293815,-0.000362980466615515,0.0,0.7222222222222222,0.4457037037037037,0.0
-run_mod_rf,0.005099265461507685,7.188281840590316e-05,0.006,0.7,0.48488,0.0

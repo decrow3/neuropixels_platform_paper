@@ -1,9 +1,0 @@
-model,azimuth_convention,cortical_reflection,objective,penetration_rf_rmse_deg,penetration_median_vector_error_deg,mean_named_area_distance_px,penetrations_in_named_area,penetrations
-joint_anatomy_rf,native,-1,11.2628806,23.6625572,35.0631659,19.3670457,0,6
-joint_anatomy_rf,native,1,1.5388705,16.1868089,19.7374539,1.01162779,4,6
-joint_anatomy_rf,100_minus_azimuth,-1,11.5380619,26.2017819,33.6899908,19.1840206,1,6
-joint_anatomy_rf,100_minus_azimuth,1,1.56390477,16.6582422,20.2928386,0.325934254,5,6
-rf_only,native,-1,0.629812316,9.30900504,5.99280946,172.499516,0,6
-rf_only,native,1,0.666680082,9.97996022,8.33317203,168.620319,0,6
-rf_only,100_minus_azimuth,-1,0.842991998,10.040585,14.0290413,186.026457,0,6
-rf_only,100_minus_azimuth,1,0.4891419,7.78661209,8.33828893,121.730284,1,6

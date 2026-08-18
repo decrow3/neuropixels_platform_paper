@@ -1,7 +1,0 @@
-ecephys_session_id,selection_role,criterion,selection_stage,heldout_gradient_r2_vs_constant,median_sampling_fraction
-759883607,negative held-out CCF→RF gradient,quadratic held-out gradient R2 < 0,fixed before RF-size outcomes,-1.2037376533560544,0.0308159450376754
-773418906,negative held-out CCF→RF gradient,quadratic held-out gradient R2 < 0,fixed before RF-size outcomes,-0.603166740658053,0.0541757298810756
-829720705,negative held-out CCF→RF gradient,quadratic held-out gradient R2 < 0,fixed before RF-size outcomes,-0.5779969874480144,0.0473954188714441
-831882777,negative held-out CCF→RF gradient,quadratic held-out gradient R2 < 0,fixed before RF-size outcomes,-0.0229187779867536,0.0219364821071389
-840012044,negative held-out CCF→RF gradient,quadratic held-out gradient R2 < 0,fixed before RF-size outcomes,-0.014302723287408,0.009963398360743
-754312389,strongest positive-gradient control,maximum quadratic held-out gradient R2 in the 45-session audit,fixed before RF-size outcomes,0.8869981687767412,0.2287082095440041

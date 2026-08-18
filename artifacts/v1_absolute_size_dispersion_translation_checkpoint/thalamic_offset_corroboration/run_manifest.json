@@ -1,7 +1,0 @@
-{
-  "primary_selection": "on_screen_rf == True",
-  "sensitivity_selection": "on_screen_rf == True and p_value_rf < 0.01",
-  "model_selection": "highest median leave-one-animal-out centered block R2, separately by nucleus and selection",
-  "v1_offsets_fixed_before_thalamic_analysis": true,
-  "interpretation_limit": "Released thalamic and cortical RFs share stimulus and RF pipeline, but use independent cells and anatomical maps."
-}

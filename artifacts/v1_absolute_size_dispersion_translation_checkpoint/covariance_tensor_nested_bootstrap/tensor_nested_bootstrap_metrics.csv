@@ -1,7 +1,0 @@
-ecephys_session_id,role,component,full_shift_azimuth_deg,full_shift_elevation_deg,bootstrap_median_distance_deg,bootstrap_p90_distance_deg,bootstrap_p95_distance_deg,bootstrap_boundary_fraction,bootstrap_azimuth_iqr_deg,bootstrap_elevation_iqr_deg
-760345702,trace point-localizing candidate,trace,10.0,0.0,5.82842712474619,14.183944039213964,16.142910846890775,0.0,6.0,4.5
-760345702,trace point-localizing candidate,anisotropy,-14.0,30.0,28.0236756105914,69.9714227381436,72.22568928136344,0.9,54.0,56.5
-760345702,trace point-localizing candidate,full_tensor,4.0,-4.0,12.727679557769608,22.090722034374522,24.08318915758459,0.01,10.0,10.0
-798911424,trace annular-ambiguity candidate,trace,-28.0,-12.0,41.23105625617661,64.58866994184832,68.41052550594829,0.48,42.5,48.0
-798911424,trace annular-ambiguity candidate,anisotropy,-10.0,30.0,8.0,20.0,20.420304802543633,1.0,16.0,0.0
-798911424,trace annular-ambiguity candidate,full_tensor,-8.0,30.0,8.0,60.0,60.29925372672534,0.89,12.5,0.0

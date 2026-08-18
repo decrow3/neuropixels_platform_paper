@@ -1,5 +1,0 @@
-ecephys_unit_id,selection_role,selection_quantile,selection_target_sigma_deg,eligible_group_units,group,ecephys_structure_acronym,azimuth_rf,elevation_rf,area_rf,width_rf,height_rf,released_major_sigma_deg,distance_to_nearest_edge_deg,p_value_rf,snr,firing_rate_dg
-951869357,V1 typical,0.5,14.66018,64,V1,VISp,58,16,500,7.6786098,15.081379,15.081379,32,0,4.9868071,0.50990313
-951868602,V1 upper quartile,0.75,24.847245,64,V1,VISp,60,17.143,700,24.611452,24.362766,24.611452,30,0,2.0884948,2.0639693
-951879810,HVA typical,0.5,14.014122,6,HVA,VISl,45,25,400,7.6586152,11.309895,11.309895,25,0,1.9099561,4.1676506
-951880367,HVA upper quartile,0.75,25.65398,6,HVA,VISl,46.667,28.889,900,27.682506,28.632523,28.632523,21.111,0,2.4427584,3.9394385

@@ -1,9 +1,0 @@
-{
-  "mousev2_n_units": 1110,
-  "mousev2_n_probes_with_dispersion": 27,
-  "mousev2_median_log2_rf_area": 8.440256573516876,
-  "allen_v1_median_log2_rf_area": 7.834738547933204,
-  "mousev2_median_log2_dispersion_trace": 8.347146652041296,
-  "allen_v1_median_log2_dispersion_trace": 6.26688803445453,
-  "caveat": "descriptive comparison only -- different stimulus families/estimators (see 06d) and different dispersion unit-of-analysis (MouseV2: within-probe; Allen: within-250um-CCF-neighborhood)"
-}

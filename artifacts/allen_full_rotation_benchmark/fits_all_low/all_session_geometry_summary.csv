@@ -1,5 +1,0 @@
-session_id,group,spatial_model,evaluation_units,rotation_units,median_axis_area_deg2,median_rotation_test_gain,fraction_rotation_gain_positive,median_rotation_area_ratio,axis_censored_fraction,rotation_bound_fraction
-744228101,HVA,aperture,65,65,720.444706,0.000579917861,0.6,1,0.246153846,0.246153846
-744228101,HVA,point,65,65,795.909342,0.000589358789,0.553846154,1.00078828,0.123076923,0.0923076923
-744228101,V1,aperture,28,28,246.806069,6.10258273e-06,0.571428571,0.999934691,0.178571429,0.25
-744228101,V1,point,28,28,373.310045,-0.000347083195,0.428571429,0.99408576,0,0.0357142857

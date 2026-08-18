@@ -1,7 +1,0 @@
-ecephys_session_id,estimate,component,shift_azimuth_deg,shift_elevation_deg,minimum_loss,at_search_boundary
-760345702,full_data,trace,10.0,0.0,0.3877456661333314,False
-760345702,full_data,anisotropy,-14.0,30.0,0.10088845868875677,True
-760345702,full_data,full_tensor,4.0,-4.0,0.22410413943407093,False
-798911424,full_data,trace,-28.0,-12.0,0.12646462488345078,False
-798911424,full_data,anisotropy,-10.0,30.0,0.43925387115524606,True
-798911424,full_data,full_tensor,-8.0,30.0,0.3485745743889287,True

@@ -1,3 +1,0 @@
-session_id,selection_role,session_type,visual_units,published_like_units,extraction_wall_seconds,extraction_peak_rss_gib,evaluation_rotation_wall_seconds,all_unit_rotation_wall_seconds,fit_peak_rss_mib
-744228101,minimum published-like population among newly downloaded sessions,brain_observatory_1.1,377,186,40.98,19.38,268.44,449.26,231.91
-786091066,maximum published-like population among newly downloaded sessions,functional_connectivity,865,621,49.81,16.99,1149.49,1869.36,253.28

@@ -1,5 +1,0 @@
-group,preference,paired_sessions,median_correlation_raw,median_correlation_affine,median_correlation_change,correlation_change_ci_low,correlation_change_ci_high,correlation_change_wilcoxon_p,median_rmse_raw_octaves,median_rmse_affine_octaves,median_rmse_change_octaves,rmse_change_ci_low,rmse_change_ci_high,rmse_change_wilcoxon_p
-HVA pooled,sf,31,0.125621,0.161269,-0.00772812,-0.177504,0.163464,0.869576,0.262386,0.227845,-0.0582918,-0.0728955,-0.0440976,1.76951e-08
-HVA pooled,tf,31,0.44049,0.498138,0.0925908,-0.0289576,0.261811,0.224087,0.338075,0.261687,-0.0714428,-0.105075,-0.0394955,0.000195351
-V1,sf,31,-0.0667981,-0.206387,-0.0696739,-0.194217,0.0374579,0.263893,0.271153,0.237144,-0.0141546,-0.034932,-0.00631671,0.00973693
-V1,tf,31,0.663492,0.632566,-0.0533935,-0.187427,0.0291744,0.367257,0.157024,0.141285,-0.0187441,-0.0287696,0.000621121,0.0664211

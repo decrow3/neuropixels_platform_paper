@@ -1,18 +1,5 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
-def test_color_palette(name):
-    
-    areas = ['VISp','VISl','VISal','VISrl','VISpm','VISam','DG','CA3','CA1','POST','SUB','LGd','LP','LD','APN','MRN']
-    
-    plt.figure(478)
-    plt.clf()
-    
-    for idx, area in enumerate(areas):
-        val = np.random.rand(1) + 1
-        plt.bar(idx, val, width=0.5, color=get_color_palette(area, name=name))
-
-# %%
 
 def get_color_palette(area, name='Allen CCF'):
     

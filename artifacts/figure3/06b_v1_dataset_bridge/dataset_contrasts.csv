@@ -1,7 +1,0 @@
-metric,contrast,mouse_sessions,allen_sessions,difference_equal_session_means,bootstrap_95ci_low,bootstrap_95ci_high
-log10_mod_idx,MouseV2 V1 minus Allen Brain Observatory 1.1,8,32,-0.14721814237480985,-0.1847046406438853,-0.10933332077211623
-log10_mod_idx,MouseV2 V1 minus Allen Functional Connectivity,8,24,-0.30649549972868906,-0.36400213779710106,-0.2437058985138291
-log10_f1_f0,MouseV2 V1 minus Allen Brain Observatory 1.1,8,32,0.08606628453205911,0.058965064001846396,0.11447223704493405
-log10_f1_f0,MouseV2 V1 minus Allen Functional Connectivity,8,24,0.07297680077050753,0.042545052153860556,0.1041920839545025
-timescale_valid_ms,MouseV2 V1 minus Allen Brain Observatory 1.1,8,30,3.652511731027957,0.4882639277999471,6.87996890815272
-timescale_valid_ms,MouseV2 V1 minus Allen Functional Connectivity,8,20,4.32357115539854,0.5864834794255782,7.914004863656561

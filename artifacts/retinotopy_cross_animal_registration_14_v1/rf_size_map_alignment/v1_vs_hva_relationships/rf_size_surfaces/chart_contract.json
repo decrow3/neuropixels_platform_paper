@@ -1,9 +1,0 @@
-{
-  "question": "What smooth RF-size surface is supported over observed RF azimuth/elevation, separately in V1 and HVAs?",
-  "family": "heatmap with cross-animal support contours",
-  "grain": "full-data animal-balanced consensus; one local smooth per animal before averaging",
-  "bandwidth_selection": "leave-one-animal-out rank prediction, separately for V1 and HVA",
-  "palette": "viridis for absolute positive area; blue/red diverging for signed animal-normalized deviations; blue support",
-  "support_rule": "at least 3 effective and 3 nearby cells per animal; display consensus for at least 7 animals",
-  "output": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/artifacts/retinotopy_cross_animal_registration_14_v1/rf_size_map_alignment/v1_vs_hva_relationships/rf_size_surfaces/Figure_V1_HVA_RF_size_surfaces_over_RF_location.png"
-}
