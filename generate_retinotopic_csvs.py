@@ -82,10 +82,7 @@ def _read_dset(fid: h5py.h5f.FileID, f: h5py.File, path: str, col: str) -> Optio
         dset_id = h5py.h5d.open(fid, path.encode())
         t = dset_id.get_type()
         if isinstance(t, (h5py.h5t.TypeFloatID, h5py.h5t.TypeIntegerID)):
-            arr = _read_numeric_dset(fid, path)
-            if col in _STR_NUMERIC_COLS:
-                return arr
-            return arr
+            return _read_numeric_dset(fid, path)
         else:
             raw = f[path][:]
             decoded = np.array([v.decode() if isinstance(v, bytes) else str(v) for v in raw])
@@ -124,6 +121,13 @@ def read_nwb_tables(nwb_path: str) -> NWBExtract:
             if col in _SKIP_COLS or col in ("spike_times", "spike_times_index"):
                 continue
             arr = _read_dset(fid, f, f"/units/{col}", col)
+            if col == "device_name" and (arr is None or len(arr) != n_units):
+                raise RuntimeError(
+                    f"'device_name' is present in the NWB units table but failed to "
+                    f"read cleanly (got {'None' if arr is None else f'{len(arr)} rows, expected {n_units}'}). "
+                    f"Refusing to silently fall back to a single site-wide area label "
+                    f"for all probes; fix the underlying read failure instead."
+                )
             if arr is not None and len(arr) == n_units:
                 units_data[col] = arr
         units_df = pd.DataFrame(units_data)
@@ -400,8 +404,11 @@ def main():
     log(f"Saved deprecated F1/F0 compatibility export: {mod_path}")
 
     # Find flash stimulus table (needed for TTFS + paper timescale)
-    flash_tables = [k for k in ex.intervals_tables.keys() if 'flash' in k.lower()]
+    flash_tables = sorted(k for k in ex.intervals_tables.keys() if 'flash' in k.lower())
     flash_df = ex.intervals_tables[flash_tables[0]] if flash_tables else pd.DataFrame()
+    if len(flash_tables) > 1:
+        log(f"WARNING: {len(flash_tables)} flash-like tables found {flash_tables}; "
+            f"using '{flash_tables[0]}' (alphabetically first)")
     if flash_tables:
         log(f"Using flash table '{flash_tables[0]}' with {len(flash_df)} presentations")
     else:

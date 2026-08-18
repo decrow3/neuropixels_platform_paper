@@ -32,10 +32,12 @@ def prepare_flash_presentations(table: pd.DataFrame) -> pd.DataFrame:
         raise ValueError(f"Flash table is missing columns {missing}")
 
     result = table.copy()
-    for column in required | ({"contrast"} if "contrast" in result else set()):
+    for column in required:
         result[column] = pd.to_numeric(result[column], errors="coerce")
     if result[list(required)].isna().any().any():
         raise ValueError("Flash table contains nonnumeric timing or contrast values")
+    # Polarity (contrast for MouseV2, color for Allen) is coerced and
+    # validated separately below, not here.
     polarity_column = None
     for candidate in ("contrast", "color"):
         if candidate not in result:

@@ -78,9 +78,12 @@ df_site = load_mousev2_units(
     flash_variant=args.flash_variant,
     population_profile=args.population_profile,
 )
-print(f'Site data: {len(df_site)} units, '
-      f'{len(df_site["session_num"].unique())} sessions, '
-      f'probes {sorted(df_site["probe_letter"].unique())}')
+if not df_site.empty:
+    print(f'Site data: {len(df_site)} units, '
+          f'{len(df_site["session_num"].unique())} sessions, '
+          f'probes {sorted(df_site["probe_letter"].unique())}')
+else:
+    print('Site data: 0 units')
 
 # ── Colour palettes ───────────────────────────────────────────────────────────
 def orig_color(area):

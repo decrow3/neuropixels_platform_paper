@@ -16,11 +16,12 @@ import matplotlib.pyplot as plt
 def get_psd(sig, fs=1000., nperseg=256, plot=False,  method='default'):
     if method=='default':
         f, psd = signal.periodogram(sig, fs=fs, scaling='spectrum')
-        
-    if method=='welch':
+    elif method=='welch':
         # nperseg: default is 256. Window size. Should be the 2^n value closest to signal length
         f, psd = signal.welch(sig, fs=fs, nperseg=nperseg)
-            
+    else:
+        raise ValueError(f"Unrecognized method '{method}'; expected 'default' or 'welch'")
+
     if plot==True:
         plt.plot(f, psd)
         #plt.yscale('log')
@@ -32,11 +33,17 @@ def get_psd(sig, fs=1000., nperseg=256, plot=False,  method='default'):
 def get_complex_MI(psd, freq, tf=4):
     """
     ref: 2019 Zoccolan: Nonlinear Processing of Shape Information in Rat Lateral Extrastriate Cortex
-    MI>3 indicates the signal 
+    MI>3 indicates the signal
     """
-    MI = abs((psd[np.where(abs(freq-tf)==min(abs(freq-tf)))[0]] - 
-              np.mean(psd))/np.sqrt(np.mean(psd**2)-np.mean(psd)**2))
-    return MI
+    # freq indexes the last axis of psd (frequency bins); for multi-trial
+    # input (repeat*freq), the target frequency must be selected along
+    # that axis, not the leading (repeat) axis.
+    freq_idx = np.argmin(np.abs(freq - tf))
+    target = np.take(psd, freq_idx, axis=-1)
+    mean_psd = np.mean(psd, axis=-1)
+    var_psd = np.mean(psd**2, axis=-1) - mean_psd**2
+    MI = np.abs((target - mean_psd) / np.sqrt(var_psd))
+    return np.atleast_1d(MI)
 
 def main(data, fs, TF_pref, nperseg=256):
     """

@@ -256,19 +256,28 @@ def _split_half_reliability(
     responses: np.ndarray, codes: np.ndarray, split: np.ndarray, cell_count: int
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     means = []
+    trial_counts = []
     for half in (0, 1):
         selected = split == half
         totals, trials = aggregate_presentations(
             responses[:, selected], codes[selected], cell_count
         )
-        means.append(totals / trials[None, :])
-    x = means[0] - np.mean(means[0], axis=1, keepdims=True)
-    y = means[1] - np.mean(means[1], axis=1, keepdims=True)
+        trial_counts.append(trials)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            means.append(totals / trials[None, :])
+    # A stimulus cell with zero presentations in either half divides by
+    # zero above; excluding it here keeps that one cell's inf/NaN from
+    # silently contaminating every unit's correlation across all cells.
+    valid_cells = (trial_counts[0] > 0) & (trial_counts[1] > 0)
+    means0 = means[0][:, valid_cells]
+    means1 = means[1][:, valid_cells]
+    x = means0 - np.mean(means0, axis=1, keepdims=True)
+    y = means1 - np.mean(means1, axis=1, keepdims=True)
     denominator = np.sqrt(np.sum(x**2, axis=1) * np.sum(y**2, axis=1))
     with np.errstate(divide="ignore", invalid="ignore"):
         correlation = np.sum(x * y, axis=1) / denominator
     correlation = np.clip(correlation, -1.0, 1.0)
-    df = cell_count - 2
+    df = int(valid_cells.sum()) - 2
     statistic = np.full(len(correlation), np.nan)
     interior = np.isfinite(correlation) & (np.abs(correlation) < 1)
     statistic[interior] = correlation[interior] * np.sqrt(

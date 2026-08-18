@@ -143,7 +143,7 @@ def get_color_palette(area, name='Allen CCF'):
                 }
         
     else:
-        raise Error('No matching palette name')
+        raise ValueError('No matching palette name')
         
     if area in palette.keys():
         

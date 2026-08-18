@@ -50,12 +50,12 @@ def calculate_autocorrelation_timescale(dataset, timespan = (0.04, 0.29), unit_i
                             ).data
     else:
         spikes = dataset.sel(
-                              unit_id = units.index.values[unit_idx],
-                              time_relative_to_stimulus_onset = 
+                              unit_id = unit_id,
+                              time_relative_to_stimulus_onset =
                               slice(t1, t2)
                               ).data
-        
-    
+
+
     nbins = spikes.shape[1]
 
     ac_matrix = autocorr2D(spikes)
@@ -64,8 +64,12 @@ def calculate_autocorrelation_timescale(dataset, timespan = (0.04, 0.29), unit_i
     ACCG = ACCG[nbins//2:]
     t = np.linspace(0,nbins/2*10,len(ACCG))
 
-    params, error = fit_exp(t, ACCG)
-    
+    try:
+        params, error = fit_exp(t, ACCG)
+    except (ValueError, RuntimeError):
+        params = [np.nan, np.nan, np.nan]
+        error = [np.nan, np.nan, np.nan]
+
     timescale = params[1]
     err = error[1]
     spike_count = np.sum(spikes)
@@ -84,11 +88,11 @@ def calculate_intrinsic_timescale(dataset, timespan = (1.0, 2.0), unit_id=None):
                             ).data
     else:
         spikes = dataset.sel(
-                              unit_id = units.index.values[unit_idx],
-                              time_relative_to_stimulus_onset = 
+                              unit_id = unit_id,
+                              time_relative_to_stimulus_onset =
                               slice(t1, t2)
                               ).data
- 
+
     nbins = spikes.shape[1]
 
     rsc_matrix, T = intrinsic_timescale(spikes)
@@ -97,7 +101,7 @@ def calculate_intrinsic_timescale(dataset, timespan = (1.0, 2.0), unit_id=None):
 
     try:
         params, error = fit_exp(t, T[1:50])
-    except ValueError:
+    except (ValueError, RuntimeError):
         params = [np.nan, np.nan, np.nan]
         error = [np.nan, np.nan, np.nan]
 
@@ -317,24 +321,26 @@ plt.subplot(3,2,1)
 centers = np.zeros((8,))
 errorbars = np.zeros((8,))
 
+max_value = 0.025
+
 for area_idx, area in enumerate(areas):
-    
+
     sub_df = df[(df.area == area) &
                 (df[metric] < 300) &
-                (df[metric] > 1) & 
-                (df.spike_count_ac > 50) & 
+                (df[metric] > 1) &
+                (df.spike_count_ac > 50) &
                 (df.err_ac < 20)]
 
     y = sub_df[metric].values
-    
+
     centers[area_idx] = measure_of_central_tendency(y)
     errorbars[area_idx] = get_bootstrap_95ci(y, measure_of_central_tendency)
-    
+
     h, b = np.histogram(y, bins=np.linspace(0,120,40), density=True)
 
     h_filt = gaussian_filter1d(h,1.5)
-    
-    max_value = np.max([np.max(h_filt), 0.025])
+
+    max_value = np.max([np.max(h_filt), max_value])
 
     plt.plot(b[:-1],h_filt,color=get_color_palette(areas[area_idx], color_palette))
     plt.xlabel('Response decay timescale')
@@ -383,23 +389,25 @@ plt.subplot(3,2,3)
 centers = np.zeros((8,))
 errorbars = np.zeros((8,))
 
+max_value = 0.025
+
 for area_idx, area in enumerate(areas):
-    
+
     sub_df = df[(df.area == area) &
                 (df[metric] < 400) &
-                (df[metric] > 5) & 
-                (df.spike_count_it > 100) & 
+                (df[metric] > 5) &
+                (df.spike_count_it > 100) &
                 (df.err_it < 100)]
     y = sub_df[metric]
-    
+
     centers[area_idx] = measure_of_central_tendency(y)
     errorbars[area_idx] = get_bootstrap_95ci(y, measure_of_central_tendency)
-    
+
     h, b = np.histogram(y, bins=np.linspace(0,200,40), density=True)
 
     h_filt = gaussian_filter1d(h,1.5)
-    
-    max_value = np.max(h_filt)
+
+    max_value = np.max([np.max(h_filt), max_value])
 
     plt.plot(b[:-1],h_filt,color=get_color_palette(areas[area_idx], color_palette))
     plt.xlabel('Intrinsic timescale')

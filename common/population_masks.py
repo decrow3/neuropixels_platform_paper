@@ -114,17 +114,17 @@ def population_mask(
             table, dataset=dataset
         )
 
+    if dataset != "mousev2":
+        raise PopulationUnavailableError(
+            "Population profile 'pilot_rf_qc_diagnostic' is MouseV2-only and "
+            "cannot define a cross-dataset comparison"
+        )
     _require_columns(
         table,
         ("pilot_qc",),
         profile="pilot_rf_qc_diagnostic",
         dataset=dataset,
     )
-    if dataset != "mousev2":
-        raise PopulationUnavailableError(
-            "Population profile 'pilot_rf_qc_diagnostic' is MouseV2-only and "
-            "cannot define a cross-dataset comparison"
-        )
     return table["pilot_qc"].fillna(False).astype(bool)
 
 

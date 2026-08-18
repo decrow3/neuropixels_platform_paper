@@ -135,7 +135,11 @@ def welch_modulation_index(
     response = np.asarray(response_psth, dtype=float)
     if response.size == 0:
         return np.nan
-    frequencies, psd = signal.welch(response, fs=sample_rate_hz, nperseg=1024)
+    # nperseg=1024 matches AllenSDK's mod_idx_dg default; SciPy silently caps
+    # it to len(response) when the PSTH is shorter (~1000 samples for a 1-s
+    # grating), so make that explicit rather than relying on the warning.
+    nperseg = min(1024, response.size)
+    frequencies, psd = signal.welch(response, fs=sample_rate_hz, nperseg=nperseg)
     mean_psd = float(np.mean(psd))
     if mean_psd == 0.0:
         return 0.0

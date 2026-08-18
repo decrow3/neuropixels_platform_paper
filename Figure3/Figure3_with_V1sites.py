@@ -73,7 +73,7 @@ config = load_config(args.config)
 _V1_BASE = np.array([129, 116, 177]) / 255
 _SITE_LABELS = [f"V1_s{s['site_number']}" for s in config['sessions']]
 
-def get_color_palette(area):
+def _build_color_palette():
     colors = [[217,141,194],[129,116,177],[78,115,174],[101,178,201],
               [88,167,106],[202,183,120],[219,132,87],[194,79,84]]
     to_f = lambda c: tuple(v/255 for v in c)
@@ -83,7 +83,12 @@ def get_color_palette(area):
     tints = np.linspace(0.35, 1.0, len(_SITE_LABELS))
     for label, t in zip(_SITE_LABELS, tints):
         palette[label] = tuple(1 - t * (1 - _V1_BASE))
-    return palette.get(area, '#C9C9C9')
+    return palette
+
+_COLOR_PALETTE = _build_color_palette()
+
+def get_color_palette(area):
+    return _COLOR_PALETTE.get(area, '#C9C9C9')
 
 # ── Load original data (unit_table.csv — Allen SDK F1/F0, TTFS, timescale) ──
 df_orig = load_allen_units(
