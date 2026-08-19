@@ -37,8 +37,9 @@ not prevent us from improving and viewing the main three-metric analysis now.
 | 6A — known within-V1 locations | Completed 2026-08-05; exact anatomical coordinates optional | [`ITERATION6_SUMMARY`](artifacts/figure3/ITERATION6_SUMMARY.md) |
 | 6B — V1 cross-dataset bridge | Source-corrected Welch diagnostic completed 2026-08-09; claim gate remains closed pending multi-session Allen and population matching | [`V1_DATASET_BRIDGE`](artifacts/figure3/06b_v1_dataset_bridge/V1_DATASET_BRIDGE.md) |
 | 6C — achieved Allen retinotopy | Targeting audit and first RF-adjusted response checkpoint completed 2026-08-11; balance/model sensitivity and MouseV2 bridge remain | [`ALLEN_RF_MATCHING`](artifacts/figure3/06c_allen_rf_matching/ALLEN_RF_MATCHING.md), [`RF_ADJUSTED_RESPONSE`](artifacts/figure3/06c_allen_rf_matching/response_adjustment/ALLEN_RF_ADJUSTED_RESPONSE.md) |
-| 6D — MouseV2 frequency-preference surfaces | Parametric trial-derived RF and SF/TF/orientation models completed 2026-08-11; gaze correction remains unavailable | [`MOUSEV2_FREQUENCY_PREFERENCE_SURFACES`](artifacts/figure3/06d_mousev2_frequency_preference_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_SURFACES.md) |
-| 6E-6H — RF-inverted V1 registration, size/dispersion mapping, shank-geometry correction | Completed 2026-08-17; per-probe insertion angle estimated via RF-significant-unit depth span vs. a 24-probe Allen reference (CSD-based absolute-depth landmark detection tried first, retained on record but not trusted for angle claims -- see summary) | [`MOUSEV2_PROBE_SHANK_REGISTRATION`](artifacts/figure3/06g_mousev2_rf_units_along_probe_shank/MOUSEV2_PROBE_SHANK_REGISTRATION.md) |
+| 6D — MouseV2 frequency-preference surfaces | Parametric trial-derived RF and SF/TF/orientation models completed 2026-08-11; refreshed 2026-08-18 on the full 8-session dataset after a same-day core-pipeline correctness-bugfix commit (RF split-half-reliability divide-by-zero, Welch nperseg cap); counts unchanged (843 SF, 528 TF mapped). Gaze correction remains unavailable | [`MOUSEV2_FREQUENCY_PREFERENCE_SURFACES`](artifacts/figure3/06d_mousev2_frequency_preference_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_SURFACES.md) |
+| 6E-6H — RF-inverted V1 registration, size/dispersion mapping, shank-geometry correction | Completed 2026-08-17; per-probe insertion angle estimated via RF-significant-unit depth span vs. a 24-probe Allen reference (CSD-based absolute-depth landmark detection tried first, retained on record but not trusted for angle claims -- see summary). Refreshed 2026-08-18 alongside 6D (same bugfix). RF-size/dispersion figure's per-unit cortical position was switched same day from 06g's free-fit (found to drift a median 95px from the true anatomical entry point) to the anatomy-anchored direction-search position -- see 6P | [`MOUSEV2_PROBE_SHANK_REGISTRATION`](artifacts/figure3/06g_mousev2_rf_units_along_probe_shank/MOUSEV2_PROBE_SHANK_REGISTRATION.md) |
+| 6P — SF/TF preference over cortical (Zhuang) position | Completed 2026-08-18; cortical-space counterpart to 6D. Revised same day: initially used 06g's free 2-endpoint per-unit line fit, found to drift a median 95px from the true anatomical entry point (`render_allen_vs_mousev2_units_on_map_comparison.py`); switched to the anatomy-anchored direction-search position (entry fixed to 06j, only shank angle is fit) -- that angle remains PUTATIVE, not fully resolved (median cos-to-inward +0.15). Extended 2026-08-19 with an Allen V1 row at real CCF position (2,398 units, independent of RF value), fit with the same surface method, plus a MouseV2-minus-Allen difference map (SF r=0.83, 1.31x; TF r=-0.18, 1.09x -- ratios match 06d's retinotopic-space numbers), descriptive only | [`MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES`](artifacts/figure3/06p_mousev2_frequency_preference_cortical_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES.md) |
 
 Iteration 0 reran all four current entry points successfully. The regenerated
 figures are pixel-identical to the preserved inputs, and the statistical report
@@ -1123,6 +1124,93 @@ pooled-HVA tuning maps.
 The displayed four-row comparison is now restricted to the 23 CCF-available
 sessions for all rows. On that common subset, V1-RF-center changes are V1 SF
 +0.022, V1 TF +0.057, pooled-HVA SF -0.003, and pooled-HVA TF -0.039.
+
+### Iteration 6P — Map SF/TF preference and RF size/dispersion onto anatomy-registered cortical space
+
+Two things prompted this iteration. First, a same-day core-pipeline correctness-bugfix commit
+(`1c65aa5`, 2026-08-18) changed `common/parametric_models.py` (RF split-half reliability divided
+by zero for any stimulus grid cell with zero trials in one half, silently contaminating every
+unit's reliability score -- such cells are now excluded) and `common/drifting_gratings.py`
+(explicit Welch `nperseg` cap). `rf_unit_fits.csv` and `frequency_tuning_support.csv` -- inputs to
+essentially every downstream checkpoint in this section -- predated that fix, so
+`extract_mousev2_parametric_rf.py` and `extract_mousev2_frequency_tuning.py` were rerun first
+(--overwrite, all 8 sessions), followed by 06d, 06e, 06f, 06g, and 06j in dependency order. Counts
+were unchanged (1,110 RF-supported units; 843 SF- and 528 TF-mapped preferences; matches the figures
+already on record), i.e. the fix was behavior-preserving for this population, but the checkpoints
+now reflect the current code rather than an unverified assumption that they still did.
+
+Second, as of 06j (completed 2026-08-18), an anatomy-based cortical registration exists that is
+independent of RF value (photo area-border shape matching, per-probe resolution), alongside the
+pre-existing RF-inferred registration (06e/06g, continuous per-unit resolution but NOT independent
+of RF value for RF-derived quantities). Both SF/TF preference and RF size/dispersion were
+previously only mapped onto retinotopic space (06d) or the RF-inferred cortical position (06f).
+This iteration extends both onto cortical space using **both** coordinate frames together, never
+merging them into one number:
+
+- New checkpoint [`06p_mousev2_frequency_preference_cortical_surfaces`](artifacts/figure3/06p_mousev2_frequency_preference_cortical_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES.md)
+  (`scripts/mousev2_frequency_preference_cortical_surfaces.py`) reuses 06d's SF/TF eligibility
+  gating and the same session-balanced Gaussian kernel smoother, evaluated over Zhuang pixel space
+  (bandwidths ~250/375/500 µm, a comparable coverage fraction of V1's ~2 mm span to 06d's 8/12/16°
+  bandwidths over the ~80° retinotopic range) instead of azimuth/elevation.
+- `scripts/mousev2_rf_size_dispersion_surfaces.py` (06f) now also overlays a per-probe anatomy
+  position on its two existing cortical-space panels (RF size, RF dispersion).
+
+**Correction, same day:** both of the above initially used 06g's per-unit position
+(`register_mousev2_units_along_probe_shank.py`, a free 2-endpoint line fit from RF values alone,
+no anatomical anchor). 06g's own docstring already named 06f's *earlier* independent per-unit
+nearest-RF-value match (no anchor and no line constraint at all) as an artifact it was built to
+fix; but `render_allen_vs_mousev2_units_on_map_comparison.py` separately found that 06g's own
+free-fit entry endpoint sits a median 95px from the true anatomical entry point -- about half of
+V1's own diameter -- so 06g is not anatomically grounded either. Both 06f and 06p were switched to
+`direction_search_unit_positions.csv` (`render_mousev2_direction_search_depth_spread.py`, written
+into the 06j directory) instead: entry point FIXED to the independent anatomy-registered position
+(06j, never consults RF value), length from an independently-derived depth-span estimate, and only
+ONE free parameter (shank angle theta) fit from each probe's own RF-vs-depth trend, hard-restricted
+to a ±90° "toward V1 center" cone. Same per-unit coverage as 06g (985/1,110 RF-supported units,
+26/27 probes). Rerun 2026-08-18 on the corrected RF fits: 26/26 probes fit within the cone, but the
+median cosine to the inward direction is only +0.15 (near-orthogonal) and the median Huber fit loss
+is ~42°.
+
+**PUTATIVE, NOT FULLY RESOLVED:** that single angle parameter is weakly identified by the data.
+Every plotted probe DIRECTION in 06f and 06p should be read as a plausible, anatomically-constrained
+guess, not a resolved measurement -- only the anchored entry point (06j) is independent of RF value
+and trusted. A visible consequence in 06f's per-unit RF-size panel: units within a probe now form a
+clean line segment (the earlier independent-per-unit-match cloud is gone), but that line's own angle
+could still be wrong. Because both figures' primary position now shares its entry point with the 06j
+overlay by construction, the overlay is no longer a fully independent cross-check at the shallow
+end -- `mousev2_probe_anatomy_vs_rf_inferred_position.csv` (06f) now measures how far the fitted
+line's median-depth position drifts from its own anchor (median 28.5px), not two independent
+estimates. Same SF/TF gating, stimulus/estimator, and gaze-correction caveats as 06d apply
+unchanged.
+
+**Allen V1 row added to 06p (2026-08-19):** a bottom row now plots Allen Brain Observatory 1.1 V1
+single units at their real CCF-registered position (`data/unit_table.csv`, projected into Zhuang
+pixel space with `render_allen_vs_mousev2_units_on_map_comparison.py`'s `allen_ccf_to_zhuang_px`)
+-- genuinely independent of RF/SF/TF value, unlike either MouseV2 row. Inclusive gate, matching
+`allen_frequency_preference_surfaces.py`'s default checkpoint: 3,186 V1 support units, of which
+2,398 (75.3%) have a valid CCF position and are plotted; 98.6% of those land inside the VISp mask
+(the remainder is one session's registration outlier, within the underlying naive-map-to-Zhuang
+geometry's own ~18deg median vector error, not excluded). SF and TF panels share one color scale
+between the MouseV2 surface and the Allen row (pooled 2-98% range, per user direction) so spatial
+PATTERN is comparable across rows, at the cost of one population's range looking more saturated
+given the descriptive MouseV2-vs-Allen preference offset already on record (06d). Descriptive
+spatial-pattern comparison only, not a matched test -- same caveat as every other Allen-vs-MouseV2
+comparison in this project.
+
+**Upgraded from raw scatter to a fitted surface, and a difference map added (2026-08-19):**
+`estimate_allen_cortical_surface` fits the SAME session-balanced Gaussian kernel surface (same grid,
+same support gates) to Allen's V1 units at real CCF position, so the bottom row is now a genuine
+surface-vs-surface comparison, not a fitted surface next to raw dots. `cortical_difference_grid` +
+`render_cortical_difference_figure` add a MouseV2-minus-Allen difference map on the shared supported
+grid (mirroring `render_mousev2_allen_bo11_polar_comparison.py`'s retinotopic-space version),
+including a `surface_correlation` diagnostic (Pearson r between the two fitted log2 surfaces at
+shared-supported points). Results: SF median +0.388 octaves (1.31x MouseV2-over-Allen), 62.1% shared
+grid, r=0.83; TF median +0.131 octaves (1.09x), 61.9% shared grid, r=-0.18. The SF/TF ratios closely
+track the retinotopic-space numbers already on record (06d: 1.35x SF, 1.07x TF) -- a good cross-check
+that the cortical-space result isn't an artifact of the position axis. SF surfaces are strongly
+positively correlated; TF is not, and given TF's fitted-surface caveats already on record (06d, and
+the PUTATIVE MouseV2 direction caveat above), this is read as inconclusive rather than evidence
+against a shared TF gradient.
 
 ### Iteration 7 — Finalize the inferential comparison
 

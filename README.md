@@ -55,6 +55,7 @@ The original dataset and paper are described by the
 | `scripts/extract_mousev2_frequency_tuning.py` | Fit joint Poisson log-Gaussian SF × log-Gaussian TF × von-Mises orientation models, retain empirical diagnostics, and gate continuous preferences by tuning, reliability, fit quality, and identifiability. |
 | `scripts/extract_mousev2_parametric_rf.py` | Fit trial-level Poisson rotated-elliptical-Gaussian RF models and gate centers by significance, reliability, fit quality, and identifiability. |
 | `scripts/mousev2_frequency_preference_surfaces.py` | Reproduce pooled and probe-resolved maps using only supported parametric RF centers and SF/TF preferences. |
+| `scripts/mousev2_frequency_preference_cortical_surfaces.py` | Map SF/TF preference over cortical (Zhuang) V1 position, showing the RF-inferred continuous surface and the independent anatomy-registered per-probe position together. |
 | `scripts/extract_mousev2_grating_common_support.py` | Recompute all MouseV2 units on the Allen SF = 0.04 condition subset and render the first raw bridge diagnostic. |
 | `scripts/extract_allen_v1_bridge.py` | Reproduce released Allen grating metrics from verified raw NWBs and recompute representative sessions on the common 1-s/15-trial support. |
 | `scripts/mousev2_timescale_trial_bridge.py` | Downsample MouseV2 to Allen's 75 bright + 75 dark flashes and quantify timescale and fit-selection sensitivity. |

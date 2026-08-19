@@ -54,7 +54,7 @@
     "path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/scripts/extract_mousev2_parametric_rf.py",
     "sha256": "7b64fdb70d1a118892e269a1b650b718c098b622e758f1adb762b18dd99762ae",
     "model_path": "/home/huklaban5/Documents/MouseV2/Hierarchy_analysis/neuropixels_platform_paper/common/parametric_models.py",
-    "model_sha256": "768648c2c610b72c75dcc27244eb93a22c71cb82eb707a433935cafa1f0b015f"
+    "model_sha256": "6f548df923028bb1407e150d7bb46b54c088fa06393e429a12ad575b92d06164"
   },
   "outputs": {
     "README.md": {
@@ -67,7 +67,7 @@
     },
     "rf_unit_fits.csv": {
       "bytes": 1080691,
-      "sha256": "cc045b3be9edfd25cbf45916a0aad16d4dbde4c4a495f157ef3391b975e9aa1f"
+      "sha256": "af0591c061a119ba58579408c1f82d8bce5c53ce52f4ea855bacca54d515ffc6"
     }
   }
 }
