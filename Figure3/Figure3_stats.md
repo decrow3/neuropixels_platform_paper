@@ -1,5 +1,12 @@
 # Figure 3 — Statistical Companion
 
+> **Superseded population notice (2026-08-26):** The numerical results below
+> historically grouped the thalamic lateral posterior nucleus (LP) with cortical
+> higher visual areas. Do not cite those six-group results. The corrected primary
+> cortical-HVA population is LM, RL, AL, PM, and AM. Current results are in
+> `Figure3_robust_identity_comparison.md` and the cortical-HVA full-cell checkpoints
+> under `artifacts/figure3/07_big_picture_concrete_first/full_cell_model/`.
+
 _Generated 2026-08-04 · QC filter applied: yes (`default_qc == True`)_
 
 ---
@@ -105,38 +112,53 @@ Allen data: unit_table.csv is pre-filtered to `quality == 'good'` units only.
 
 ### Results
 
+**Supersession note (2026-08-26):** The omega-squared table below is retained as
+an earlier session-mean analysis. The current cortical-HVA estimand excludes LP,
+uses the full-cell variance-components model, and is claim-gated by the
+[timescale population sensitivity checkpoint](../artifacts/figure3/07_big_picture_concrete_first/timescale_population_sensitivity/TIMESCALE_INTERIM_CONCLUSION.md).
+
 Bootstrap 95% CIs (n = 5000 resamples) on ω²; sessions resampled within groups.
 
 | Metric | Dataset | k | Session obs | η² | ω² | 95% CI (ω²) | Δω² (areas−probes) | 95% CI (Δω²) | P(Δ≤0) |
 |--------|---------|---|-------------|----|----|-------------|-------------------|--------------|--------|
-| **TTFS (ms)** | Within-V1 probes | 4 | 32 | 0.246 | 0.160 | [+0.050, +0.485] | — | — | — |
-| | Post-V1 areas | 6 | 260 | 0.252 | 0.237 | [+0.161, +0.346] | +0.076 | [-0.249, +0.220] | 0.467 |
-| **log10 F1/F0** | Within-V1 probes | 4 | 32 | 0.043 | -0.058 | [-0.092, +0.276] | — | — | — |
-| | Post-V1 areas | 6 | 264 | 0.024 | 0.005 | [-0.009, +0.072] | +0.063 | [-0.256, +0.125] | 0.467 |
-| **Timescale (ms)** | Within-V1 probes | 4 | 32 | 0.098 | 0.001 | [-0.090, +0.402] | — | — | — |
-| | Post-V1 areas | 6 | 243 | 0.198 | 0.180 | [+0.114, +0.282] | +0.179 | [-0.217, +0.321] | 0.182 |
+| **TTFS (ms)** | Within-V1 probes | 4 | 32 | — | 0.160 | [+0.082, +0.479] | — | — | — |
+| | Post-V1 areas | 6 | 260 | — | 0.237 | [+0.167, +0.342] | +0.076 | [-0.242, +0.192] | 0.474 |
+| **log10 F1/F0** | Within-V1 probes | 4 | 32 | — | -0.069 | [-0.096, +0.212] | — | — | — |
+| | Post-V1 areas | 6 | 122 | — | 0.002 | [-0.023, +0.152] | +0.071 | [-0.180, +0.197] | 0.246 |
+| **Timescale (ms)** | Within-V1 probes | 4 | 32 | — | 0.001 | [-0.085, +0.355] | — | — | — |
+| | Post-V1 areas | 6 | 243 | — | 0.180 | [+0.126, +0.277] | +0.179 | [-0.159, +0.308] | 0.162 |
 
 _P(Δ≤0): bootstrap probability that ω²_areas ≤ ω²_probes; values near 0.5 indicate no detectable difference._
 
 ### Interpretation
 
 **TTFS (ms)** — after QC, within-V1 probe variance is comparable to between-area variance. no clear hierarchy > V1 distinction.
-ω²_probes = 0.160 [+0.050, +0.485], ω²_areas = 0.237 [+0.161, +0.346], Δω² = +0.076 [-0.249, +0.220], P(Δ≤0) = 0.467.
+ω²_probes = 0.160 [+0.082, +0.479], ω²_areas = 0.237 [+0.167, +0.342], Δω² = +0.076 [-0.242, +0.192], P(Δ≤0) = 0.474.
 
-**log10 F1/F0** — no between-group structure in either dataset. F1/F0 does not track the hierarchy at session-mean level.
-ω²_probes = -0.058 [-0.092, +0.276], ω²_areas = 0.005 [-0.009, +0.072], Δω² = +0.063 [-0.256, +0.125], P(Δ≤0) = 0.467.
+**log10 F1/F0** — matched-support values show no stable probe-identity effect within MouseV2 V1 and no stable named-area effect among the six post-V1 groups. Across VISp plus the post-V1 groups, F1/F0 decreases with hierarchy score (slope -0.1065, session-bootstrap 95% CI [-0.1367, -0.0771]); the post-V1-only slope is shallower and crosses zero (-0.0407 [-0.0934, +0.0133]). The visible trend therefore includes a VISp-to-post-V1 step rather than establishing a uniformly graded HVA sequence.
+ω²_probes = -0.069 [-0.096, +0.212], ω²_areas = 0.002 [-0.023, +0.152], Δω² = +0.071 [-0.180, +0.197], P(Δ≤0) = 0.246.
 
-**Timescale (ms)** — areas show real ω²; probes near zero — directional but underpowered with 8 sessions. direction consistent with hierarchy; not statistically distinguishable.
-ω²_probes = 0.001 [-0.090, +0.402], ω²_areas = 0.180 [+0.114, +0.282], Δω² = +0.179 [-0.217, +0.321], P(Δ≤0) = 0.182.
+**Timescale (ms)** — the current paper-facing conclusion is that there is no
+robust evidence for a systematic HVA timescale hierarchy. The earlier
+session-mean omega-squared contrast was directional but not distinguishable
+from zero (ω²_probes = 0.001 [-0.085, +0.355], ω²_areas = 0.180
+[+0.126, +0.277], Δω² = +0.179 [-0.159, +0.308], P(Δ≤0) = 0.162).
+The later full-cell model gives a primary HVA/V1 structured-variance ratio of
+2.99x, but this falls to 2.47x for V1 neurons valid in all ten matched draws and
+1.43x under a matched fitted-error <10 ms gate; both sensitivity difference
+intervals include zero. PM and AM remain descriptively shifted toward longer
+timescales, but this should be described as exploratory rather than as an
+established hierarchy.
 
 ### Caveats
 
 - **TTFS timing offset**: New sessions show ~10 ms longer TTFS than Allen data,
   attributable to different stimulus display hardware (different monitor refresh
   latency). This is a scalar shift affecting absolute values but not variance structure.
-- **F1/F0 population offset**: After QC, new-session V1 median F1/F0 ≈ 1.01 vs
-  Allen V1 median ≈ 0.77. Residual offset may reflect remaining population
-  differences (e.g., absence of receptive-field quality filter in new sessions).
+- **F1/F0 harmonization**: F1/F0 now uses common QC and matched 1-s,
+  15-trial, SF 0.04, contrast 0.8 support. MouseV2's equal-session center is
+  -0.0687 log10 versus -0.0326 in the 28 complete Allen Brain Observatory VISp
+  sessions, a small -0.0361-log residual rather than the former native-metric gap.
 - **Underpowered comparison for TTFS and timescale**: With only 8 new
   sessions, ω²_probes has wide CIs. The comparison requires ~40 sessions to match
   Allen dataset power.

@@ -50,6 +50,9 @@ def test_session_manifest_is_complete(config):
     assert len({session["id_offset"] for session in config["sessions"]}) == 8
     assert config["nwb_input"]["dandiset_id"] == "DANDI:001568"
     assert config["nwb_input"]["dandiset_version"] == "draft"
+    assert config["canonical_flash_metrics_dir"] == (
+        "data/imports/mousev2_flash_metrics_v1"
+    )
     assert all(session["nwb_relative_path"].endswith(".nwb") for session in config["sessions"])
     assert all(session["expected_nwb_bytes"] > 8_000_000_000 for session in config["sessions"])
 
@@ -87,6 +90,27 @@ def test_default_qc_profile_is_stable(qc_units):
     assert len(qc_units) == 11_242
     assert qc_units["unit_id"].is_unique
     assert qc_units.groupby("site")["probe_letter"].nunique().eq(4).all()
+    assert qc_units["flash_variant"].eq("pooled").all()
+
+
+def test_canonical_response_timescale_uses_raw_nwb_recomputation():
+    units = load_mousev2_units(
+        apply_qc=False,
+        population_profile="common_qc",
+    )
+    tau = units["timescale_ac"].where(
+        units["timescale_ac"].between(1, 300)
+        & units["spike_count_ac"].gt(50)
+        & units["err_ac"].lt(20)
+    )
+    session_means = tau.groupby(units["session_num"]).mean()
+    assert tau.notna().sum() == 2375
+    assert session_means.mean() == pytest.approx(47.53275420809288, abs=1e-10)
+    assert not np.allclose(
+        units["timescale_ac"],
+        units["timescale_ac_processed_legacy"],
+        equal_nan=True,
+    )
 
 
 def test_stimulus_manifest_combinatorics():

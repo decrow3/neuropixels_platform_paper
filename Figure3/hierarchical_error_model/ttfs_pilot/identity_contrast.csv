@@ -1,0 +1,2 @@
+metric,min_units,posterior_mean_delta_sigma_identity,posterior_median_delta_sigma_identity,ci_low,ci_high,probability_hva_gt_v1,common_scale
+TTFS (ms),5,1.1132248164513348,1.1344630175087822,-2.227248380186229,4.133101516920021,0.8041666666666667,3.5786427369034532

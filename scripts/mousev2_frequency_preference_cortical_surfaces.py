@@ -266,7 +266,14 @@ def cortical_difference_grid(
     mousev2_surfaces: pd.DataFrame, allen_surfaces: pd.DataFrame, *, bandwidth_px: float
 ) -> pd.DataFrame:
     """MouseV2-minus-Allen difference on the shared cortical grid, mirroring
-    `render_mousev2_allen_bo11_polar_comparison.py`'s retinotopic-space difference_grid."""
+    `render_mousev2_allen_bo11_polar_comparison.py`'s retinotopic-space difference_grid.
+
+    Merges on ROUNDED row/col (not exact float equality): both surfaces come from the same
+    `build_visp_grid` call within one process, so exact equality holds there -- but callers that
+    reload a saved surface from CSV (written with a fixed float_format, hence rounded) alongside a
+    freshly-recomputed surface would otherwise silently join zero rows. Rounding to 3 decimals is
+    coarser than any float_format used to save these grids and far finer than the grid spacing, so
+    it cannot conflate two distinct grid points."""
     frames = []
     for preference in PREFERENCES:
         mousev2_surface = mousev2_surfaces.loc[
@@ -281,7 +288,11 @@ def cortical_difference_grid(
         ][["row", "col", "estimate_log2", "supported"]].rename(
             columns={"estimate_log2": "allen_estimate_log2", "supported": "allen_supported"}
         )
-        merged = mousev2_surface.merge(allen_surface, on=["row", "col"], validate="one_to_one")
+        mousev2_surface = mousev2_surface.assign(row_key=mousev2_surface["row"].round(3), col_key=mousev2_surface["col"].round(3))
+        allen_surface = allen_surface.assign(row_key=allen_surface["row"].round(3), col_key=allen_surface["col"].round(3))
+        merged = mousev2_surface.merge(
+            allen_surface.drop(columns=["row", "col"]), on=["row_key", "col_key"], validate="one_to_one"
+        ).drop(columns=["row_key", "col_key"])
         merged["preference"] = preference
         merged["shared_supported"] = (
             merged["mousev2_supported"] & merged["allen_supported"]

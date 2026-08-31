@@ -1,0 +1,19 @@
+dataset,metric,selection_role,session_id,group,n_units,mean,bootstrap_se,criterion
+Within-V1,TTFS (ms),lowest measurement error,5,B,292,66.96404109589041,1.009699833319675,rank of neuron-bootstrap SE within dataset and metric
+Within-V1,TTFS (ms),typical measurement error,9,A,211,71.74170616113744,1.1347451892407672,rank of neuron-bootstrap SE within dataset and metric
+Within-V1,TTFS (ms),highest measurement error,2,E,149,72.75503355704699,1.3215582017811023,rank of neuron-bootstrap SE within dataset and metric
+Within-V1,log10 F1/F0,lowest measurement error,5,C,516,0.038013546040153036,0.008624558333119954,rank of neuron-bootstrap SE within dataset and metric
+Within-V1,log10 F1/F0,typical measurement error,8,E,307,0.015388683744683069,0.012453167414952107,rank of neuron-bootstrap SE within dataset and metric
+Within-V1,log10 F1/F0,highest measurement error,2,E,230,-0.10212504044794524,0.01622723413419517,rank of neuron-bootstrap SE within dataset and metric
+Within-V1,Response timescale (ms),lowest measurement error,7,C,155,38.721894652043474,1.7457384175381512,rank of neuron-bootstrap SE within dataset and metric
+Within-V1,Response timescale (ms),typical measurement error,6,C,64,44.03108930881451,3.354795860555954,rank of neuron-bootstrap SE within dataset and metric
+Within-V1,Response timescale (ms),highest measurement error,2,E,23,67.52967196868441,6.164742277838705,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,TTFS (ms),lowest measurement error,754829445,LP,201,74.49751243781094,0.9343705290233413,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,TTFS (ms),typical measurement error,819701982,AM,87,72.06896551724138,1.869522492699551,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,TTFS (ms),highest measurement error,789848216,AL,15,70.13333333333334,4.126424958543903,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,log10 F1/F0,lowest measurement error,757216464,LP,230,-0.25617670892392197,0.013702567581893085,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,log10 F1/F0,typical measurement error,766640955,AM,126,-0.2003126462072564,0.025975588664589773,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,log10 F1/F0,highest measurement error,763673393,LP,7,-0.46852090782349753,0.1148194695190801,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,Response timescale (ms),lowest measurement error,781842082,AL,103,33.99414765603177,1.209538044618925,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,Response timescale (ms),typical measurement error,767871931,LP,11,35.26121584219002,3.8466551197451238,rank of neuron-bootstrap SE within dataset and metric
+Post-V1,Response timescale (ms),highest measurement error,768515987,LP,5,59.26632371223006,19.58156117987261,rank of neuron-bootstrap SE within dataset and metric

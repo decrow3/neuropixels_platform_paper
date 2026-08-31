@@ -47,6 +47,7 @@ The original dataset and paper are described by the
 | `Figure3/Figure3_with_V1sites.py` | Reproduce the original Figure 3 layout with the new V1 sessions overlaid. |
 | `Figure3/Figure3_probe_zoom.py` | Show session-level V1 probe measurements in the context of the published hierarchy. |
 | `Figure3/Figure3_split_comparison.py` | Directly compare within-V1 probe variation with post-V1 area variation. |
+| `scripts/figure3_robust_spread_comparison.py` | Compare V1 probes and HVAs using matched session-level marks, session-centering, whole-session bootstrap, leave-one-session-out diagnostics, and auditable per-session spreads. |
 | `scripts/eta_squared_comparison.py` | Session-level effect-size analysis using eta-squared and bias-corrected omega-squared. |
 | `scripts/v1_dataset_bridge.py` | Diagnose Allen/MouseV2 V1 offsets, Allen stimulus-set heterogeneity, Welch-grid non-equivalence, and the claim gate. |
 | `scripts/allen_rf_matching.py` | Audit achieved Allen V1/HVA RF centers, paired session offsets, and RF common support without altering the released table. |
@@ -153,6 +154,7 @@ Run these commands from the repository root:
 python Figure3/Figure3_with_V1sites.py
 python Figure3/Figure3_probe_zoom.py
 python Figure3/Figure3_split_comparison.py
+python scripts/figure3_robust_spread_comparison.py
 ```
 
 They produce:
@@ -162,6 +164,11 @@ They produce:
 - `Figure3/Figure3_probe_zoom.png` — session means for each V1 probe overlaid
   on the published hierarchy; and
 - `Figure3/Figure3_split_comparison.png` — within-V1 versus post-V1 spreads.
+- `Figure3/Figure3_robust_identity_comparison.png` (and PDF) — the robust
+  session-level identity comparison. Clustered omega-squared and its direct
+  HVA-minus-V1 contrast are primary; centered group means provide supporting
+  evidence and per-session spread is explicitly diagnostic. Companion CSVs
+  retain every session × group mean and every session-level spread.
 
 The scripts discover all complete `data/site*_processed/` directories. Missing
 or incomplete site directories are skipped.
@@ -175,7 +182,7 @@ python scripts/eta_squared_comparison.py
 ```
 
 The analysis first aggregates units to session-by-group means to reduce
-pseudoreplication. It then compares four V1 probe groups with six post-V1 area
+pseudoreplication. It then compares four V1 probe groups with five cortical post-V1 area
 groups using omega-squared, with session-resampled bootstrap confidence
 intervals. It writes the figure captions, methods, results, and caveats to
 `Figure3/Figure3_stats.md`.

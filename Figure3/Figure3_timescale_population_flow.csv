@@ -1,0 +1,8 @@
+step,rule,input_units,retained_units,excluded_at_step
+common_qc,Frozen MouseV2 common QC,11242,11242,0
+parametric_rf_available,Full-20 parametric RF fit is available,11242,4807,6435
+rf_fit_success,Parametric RF optimizer succeeded,4807,4720,87
+rf_lrt_p_lt_0.01,RF likelihood-ratio p < 0.01,4720,3534,1186
+rf_area_lt_2500_deg2,pi × sigma_major × sigma_minor < 2500 deg²,3534,3249,285
+snr_gt_1,SNR > 1,3249,3249,0
+firing_rate_dg_gt_0.1,Drifting-grating firing rate > 0.1 Hz,3249,3249,0

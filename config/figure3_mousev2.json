@@ -2,6 +2,7 @@
   "schema_version": 1,
   "data_directory": "data",
   "allen_unit_table": "data/unit_table.csv",
+  "canonical_flash_metrics_dir": "data/imports/mousev2_flash_metrics_v1",
   "nwb_input": {
     "dandiset_id": "DANDI:001568",
     "dandiset_version": "draft",

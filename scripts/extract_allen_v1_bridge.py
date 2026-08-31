@@ -110,6 +110,27 @@ def condition_starts(
     ]
 
 
+def condition_presentations(
+    table: pd.DataFrame,
+) -> list[tuple[tuple[float, float, float, float], np.ndarray, np.ndarray]]:
+    """Return conditions with actual starts/stops in first-presentation order.
+
+    AllenSDK selects the preferred condition using ``presentationwise_spike_times``,
+    which assigns spikes with each presentation's recorded start and stop times.
+    This is subtly different from using a fixed 2.0-second selection window.
+    """
+    selected = prepare_grating_table(table)
+    dimensions = ["orientation", "temporal_frequency", "spatial_frequency", "contrast"]
+    return [
+        (
+            tuple(map(float, key)),
+            group["start_time"].to_numpy(dtype=float),
+            group["stop_time"].to_numpy(dtype=float),
+        )
+        for key, group in selected.groupby(dimensions, sort=False)
+    ]
+
+
 def _preferred_condition(
     spikes_s: np.ndarray,
     conditions: list[tuple[tuple[float, float, float, float], np.ndarray]],
@@ -124,13 +145,30 @@ def _preferred_condition(
     return int(np.argmax(means))
 
 
+def _preferred_condition_actual_stops(
+    spikes_s: np.ndarray,
+    conditions: list[
+        tuple[tuple[float, float, float, float], np.ndarray, np.ndarray]
+    ],
+) -> int:
+    """Match AllenSDK conditionwise selection using recorded presentation stops."""
+    means = []
+    for _, starts, stops in conditions:
+        first = np.searchsorted(spikes_s, starts, side="left")
+        last = np.searchsorted(spikes_s, stops, side="left")
+        means.append(float(np.mean(last - first)))
+    return int(np.argmax(means))
+
+
 def released_metrics(
     spikes_s: np.ndarray,
-    conditions: list[tuple[tuple[float, float, float, float], np.ndarray]],
+    conditions: list[
+        tuple[tuple[float, float, float, float], np.ndarray, np.ndarray]
+    ],
 ) -> dict[str, float]:
-    """Reproduce AllenSDK's 2-s preference and 1,999-bin metric convention."""
-    preferred = _preferred_condition(spikes_s, conditions, duration_s=2.0)
-    parameters, starts = conditions[preferred]
+    """Reproduce AllenSDK's actual-stop preference and 1,999-bin metrics."""
+    preferred = _preferred_condition_actual_stops(spikes_s, conditions)
+    parameters, starts, _ = conditions[preferred]
     trial_counts = _bin_trial_spike_counts(spikes_s, starts, duration_ms=1999)
     tf = parameters[1]
     with warnings.catch_warnings():
@@ -403,7 +441,7 @@ def main() -> None:
             asset["expected_flash_presentations"]
         ):
             raise ValueError(f"{session_id}: flash presentation count mismatch")
-        released_conditions = condition_starts(grating_table)
+        released_conditions = condition_presentations(grating_table)
         shared_conditions = condition_starts(
             grating_table, common_support=config["common_support"]
         )

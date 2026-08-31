@@ -39,7 +39,22 @@ not prevent us from improving and viewing the main three-metric analysis now.
 | 6C — achieved Allen retinotopy | Targeting audit and first RF-adjusted response checkpoint completed 2026-08-11; balance/model sensitivity and MouseV2 bridge remain | [`ALLEN_RF_MATCHING`](artifacts/figure3/06c_allen_rf_matching/ALLEN_RF_MATCHING.md), [`RF_ADJUSTED_RESPONSE`](artifacts/figure3/06c_allen_rf_matching/response_adjustment/ALLEN_RF_ADJUSTED_RESPONSE.md) |
 | 6D — MouseV2 frequency-preference surfaces | Parametric trial-derived RF and SF/TF/orientation models completed 2026-08-11; refreshed 2026-08-18 on the full 8-session dataset after a same-day core-pipeline correctness-bugfix commit (RF split-half-reliability divide-by-zero, Welch nperseg cap); counts unchanged (843 SF, 528 TF mapped). Gaze correction remains unavailable | [`MOUSEV2_FREQUENCY_PREFERENCE_SURFACES`](artifacts/figure3/06d_mousev2_frequency_preference_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_SURFACES.md) |
 | 6E-6H — RF-inverted V1 registration, size/dispersion mapping, shank-geometry correction | Completed 2026-08-17; per-probe insertion angle estimated via RF-significant-unit depth span vs. a 24-probe Allen reference (CSD-based absolute-depth landmark detection tried first, retained on record but not trusted for angle claims -- see summary). Refreshed 2026-08-18 alongside 6D (same bugfix). RF-size/dispersion figure's per-unit cortical position was switched same day from 06g's free-fit (found to drift a median 95px from the true anatomical entry point) to the anatomy-anchored direction-search position -- see 6P | [`MOUSEV2_PROBE_SHANK_REGISTRATION`](artifacts/figure3/06g_mousev2_rf_units_along_probe_shank/MOUSEV2_PROBE_SHANK_REGISTRATION.md) |
-| 6P — SF/TF preference over cortical (Zhuang) position | Completed 2026-08-18; cortical-space counterpart to 6D. Revised same day: initially used 06g's free 2-endpoint per-unit line fit, found to drift a median 95px from the true anatomical entry point (`render_allen_vs_mousev2_units_on_map_comparison.py`); switched to the anatomy-anchored direction-search position (entry fixed to 06j, only shank angle is fit) -- that angle remains PUTATIVE, not fully resolved (median cos-to-inward +0.15). Extended 2026-08-19 with an Allen V1 row at real CCF position (2,398 units, independent of RF value), fit with the same surface method, plus a MouseV2-minus-Allen difference map (SF r=0.83, 1.31x; TF r=-0.18, 1.09x -- ratios match 06d's retinotopic-space numbers), descriptive only | [`MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES`](artifacts/figure3/06p_mousev2_frequency_preference_cortical_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES.md) |
+| 6P — SF/TF preference over cortical (Zhuang) position | Completed 2026-08-18; cortical-space counterpart to 6D. Revised same day: initially used 06g's free 2-endpoint per-unit line fit, found to drift a median 95px from the true anatomical entry point (`render_allen_vs_mousev2_units_on_map_comparison.py`); switched to the anatomy-anchored direction-search position (entry fixed to 06j, only shank angle is fit) -- that angle remains PUTATIVE, not fully resolved (median cos-to-inward +0.15). Extended 2026-08-19 with an Allen V1 row at real CCF position (2,398 units, independent of RF value), fit with the same surface method, plus a MouseV2-minus-Allen difference map (SF r=0.83, 1.31x; TF r=-0.18, 1.09x -- ratios match 06d's retinotopic-space numbers), descriptive only. `cortical_difference_grid`'s merge fixed same day to round row/col before joining -- it previously matched exact float64 equality, which silently returned zero shared rows whenever one input surface was reloaded from a rounded CSV instead of computed fresh in-process (surfaced by 06Q's reuse) | [`MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES`](artifacts/figure3/06p_mousev2_frequency_preference_cortical_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES.md) |
+| 6Q — Test hypotheses for an undetected shared SF/TF map | Completed 2026-08-19; per-session SF/TF offset correction against the Allen reference surface did NOT improve spatial agreement (SF r: 0.83->0.59; TF r: -0.18->0.00) -- read as evidence against that specific correction, not proof no per-animal effect exists (in-sample, no CV, only 8 sessions). Empirical semivariograms showed no detectable spatial autocorrelation range in EITHER dataset (per-unit noise ~2 octaves at every distance tested, dwarfing the ~0.3-octave smoothed-surface range) -- the 375um bandwidth choice remains unvalidated rather than shown wrong | [06Q outputs](artifacts/figure3/06q_mousev2_sftf_session_alignment_and_autocorrelation/) |
+| 7 — Full-cell V1/HVA variance comparison and timescale sensitivity | Interim conclusion recorded 2026-08-26. Primary timescale ratio is 2.99x, but it falls to 2.47x for V1 neurons valid in all ten matched draws and 1.43x under a matched fitted-error <10 ms gate; both sensitivity difference intervals include zero. Current paper-facing conclusion: no robust evidence for a systematic HVA timescale hierarchy. | [`TIMESCALE_INTERIM_CONCLUSION`](artifacts/figure3/07_big_picture_concrete_first/timescale_population_sensitivity/TIMESCALE_INTERIM_CONCLUSION.md) |
+
+### Current interim conclusion: response timescale
+
+The current data do not provide robust evidence for a systematic response-timescale
+hierarchy among cortical HVAs. PM and AM are descriptively shifted toward longer
+timescales, but the full-cell HVA/V1 structured-variance contrast is sensitive to
+fit eligibility and matched-draw completeness. Only the predeclared primary
+population has a session-block-bootstrap difference interval excluding zero;
+the ten-complete-draw and fitted-error <10 ms sensitivity intervals cross zero.
+This is a failure to establish the hierarchy claim, not proof that the true
+effect is exactly zero. The complete claim gate, inclusion rules, validation,
+and audit artifacts are recorded in
+[`TIMESCALE_INTERIM_CONCLUSION.md`](artifacts/figure3/07_big_picture_concrete_first/timescale_population_sensitivity/TIMESCALE_INTERIM_CONCLUSION.md).
 
 Iteration 0 reran all four current entry points successfully. The regenerated
 figures are pixel-identical to the preserved inputs, and the statistical report
@@ -1211,6 +1226,49 @@ that the cortical-space result isn't an artifact of the position axis. SF surfac
 positively correlated; TF is not, and given TF's fitted-surface caveats already on record (06d, and
 the PUTATIVE MouseV2 direction caveat above), this is read as inconclusive rather than evidence
 against a shared TF gradient.
+
+### Iteration 6Q — Test two hypotheses for why a shared SF/TF map might not be detected (2026-08-19)
+
+`scripts/mousev2_sftf_session_alignment_and_autocorrelation.py`, checkpoint
+[`06q_mousev2_sftf_session_alignment_and_autocorrelation`](artifacts/figure3/06q_mousev2_sftf_session_alignment_and_autocorrelation/).
+Tests two specific hypotheses from a 10-hypothesis list drafted for "if a real, dataset-consistent
+SF/TF cortical map exists, why might 06p not detect it (or show the wrong scale)":
+
+**Hypothesis: no per-animal SF/TF offset correction, unlike retinotopy's per-session RF-value delta.**
+For each MouseV2 session, fit a single Huber-location log2 offset between that session's own units
+and the nearest supported Allen surface grid point (within 1.5x bandwidth), then refit the pooled
+MouseV2 surface on offset-corrected values. Fitted offsets are real and non-trivial (SF: median
++0.367 octaves, std ACROSS sessions 0.215 octaves -- comparable in magnitude to the surface's own
+~0.3-octave total spatial range; TF: median -0.051, std 0.185 octaves), so between-session variability
+is not negligible. But correcting for it did NOT improve spatial agreement with Allen -- SF
+`surface_correlation` fell from 0.83 to 0.59, TF moved from -0.18 to 0.00 (null, not positive). Read
+as evidence AGAINST this specific hypothesis as fitted: the per-session offset estimates are
+themselves noisy (Huber location over as few as `MIN_UNITS_FOR_OFFSET`=10 units per session), so this
+in-sample, non-cross-validated correction plausibly added estimation noise rather than removing a
+real bias. Not a validated null result -- only 8 sessions, no leave-one-session-out CV attempted, and
+Allen's own reference surface has no analogous per-session correction (so residual Allen
+miscalibration would cap achievable improvement regardless).
+
+**Hypothesis: the 375um bandwidth (chosen by analogy to 06d's 12deg retinotopic bandwidth) is
+wrong.** Computed empirical semivariograms (semivariance vs. pairwise cortical distance) directly on
+per-unit log2 SF/TF values, separately for Allen V1 (dense) and offset-corrected MouseV2 V1. Result:
+semivariance is ~1.7-2.1 (log2 units)^2 at EVERY distance tested (10-230px), including the closest
+pairs -- i.e., adjacent units routinely differ by ~2 octaves in preferred SF/TF, an order of magnitude
+larger than the smoothed surface's own ~0.25-0.3 octave spatial range. No population/preference
+combination showed a statistically credible rising-then-plateauing shape (`estimate_range`'s
+trend-correlation and relative-rise gates, both required, were not met in any of the 4 cases -- see
+`Figure_empirical_variogram.png`; TF even trended slightly negative). Conclusion: per-unit
+measurement noise is large enough to make this diagnostic itself inconclusive -- it cannot confirm OR
+rule out a specific spatial autocorrelation length, and the 375um bandwidth choice remains
+unvalidated by this analysis rather than shown wrong. This is itself informative: any real cortical
+SF/TF gradient here is only visible after aggregating many noisy per-unit estimates (as the 06p
+surfaces already do), never in raw pairwise unit differences at current sample sizes.
+
+Net effect on the original 10-hypothesis list: hypothesis 6 (uncorrected per-animal offset) did not
+survive this specific test; hypothesis 3 (bandwidth mismatch) could not be resolved either way. The
+remaining hypotheses (registration blur, gaze calibration, stimulus-protocol differences, unequal
+support footprints, TF's inherently lower SNR, layer/depth confounding, dataset-level biological
+confounds) are untouched by this iteration.
 
 ### Iteration 7 — Finalize the inferential comparison
 

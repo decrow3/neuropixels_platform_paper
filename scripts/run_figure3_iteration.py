@@ -263,12 +263,18 @@ def main() -> None:
 
     config_path = args.config.resolve()
     baseline_dir = args.baseline_dir.resolve()
+    config = json.loads(config_path.read_text(encoding="utf-8"))
     rf_import_dir = args.rf_import_dir.resolve() if args.rf_import_dir else None
     grating_metrics_dir = (
         args.grating_metrics_dir.resolve() if args.grating_metrics_dir else None
     )
+    configured_flash_dir = config.get("canonical_flash_metrics_dir")
     flash_metrics_dir = (
-        args.flash_metrics_dir.resolve() if args.flash_metrics_dir else None
+        args.flash_metrics_dir.resolve()
+        if args.flash_metrics_dir
+        else (ROOT / configured_flash_dir).resolve()
+        if configured_flash_dir
+        else None
     )
     for required in (config_path, STIMULUS_MANIFEST):
         if not required.is_file():
@@ -283,7 +289,6 @@ def main() -> None:
     if grating_metrics_dir is not None:
         if not (grating_metrics_dir / "import_manifest.json").is_file():
             raise FileNotFoundError(grating_metrics_dir / "import_manifest.json")
-        config = json.loads(config_path.read_text(encoding="utf-8"))
         for session in config["sessions"]:
             path = grating_metrics_dir / session["site"] / "grating_metrics.csv"
             if not path.is_file():
@@ -291,7 +296,6 @@ def main() -> None:
     if flash_metrics_dir is not None:
         if not (flash_metrics_dir / "import_manifest.json").is_file():
             raise FileNotFoundError(flash_metrics_dir / "import_manifest.json")
-        config = json.loads(config_path.read_text(encoding="utf-8"))
         for session in config["sessions"]:
             path = flash_metrics_dir / session["site"] / "flash_metrics.csv"
             if not path.is_file():

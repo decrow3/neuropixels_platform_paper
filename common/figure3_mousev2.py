@@ -127,8 +127,11 @@ def load_mousev2_units(
 ) -> pd.DataFrame:
     """Load all configured MouseV2 metric tables in stable session order.
 
-    The joins and optional QC filter intentionally reproduce the current Figure
-    3 scripts. Validation is stricter: missing files, duplicate unit IDs,
+    By default, flash metrics come from the versioned raw-NWB recomputation
+    declared by ``canonical_flash_metrics_dir`` in the configuration. This is
+    the Allen-compatible bin-center implementation; the older processed fields
+    remain available under ``*_processed_legacy`` audit columns. Validation is
+    stricter: missing files, duplicate unit IDs,
     unexpected labels, row-count drift, and probe-coverage drift fail loudly.
     """
     if apply_qc and population_profile is not None:
@@ -142,11 +145,10 @@ def load_mousev2_units(
         if grating_metrics_dir is not None
         else None
     )
-    flash_dir = (
-        _resolve_from_root(flash_metrics_dir)
-        if flash_metrics_dir is not None
-        else None
-    )
+    configured_flash_dir = config.get("canonical_flash_metrics_dir")
+    flash_dir = _resolve_from_root(
+        flash_metrics_dir if flash_metrics_dir is not None else configured_flash_dir
+    ) if (flash_metrics_dir is not None or configured_flash_dir is not None) else None
     if flash_variant not in {"pooled", "bright", "dark"}:
         raise ValueError("flash_variant must be 'pooled', 'bright', or 'dark'")
     expected_probes = set(config["probe_labels"])
@@ -224,6 +226,9 @@ def load_mousev2_units(
             table["timescale_ac_pooled_legacy"] = table["timescale_ac"]
             table["err_ac_pooled_legacy"] = table["err_ac"]
             table["spike_count_ac_pooled_legacy"] = table["spike_count_ac"]
+            table["timescale_ac_processed_legacy"] = table["timescale_ac"]
+            table["err_ac_processed_legacy"] = table["err_ac"]
+            table["spike_count_ac_processed_legacy"] = table["spike_count_ac"]
             table["time_to_first_spike_fl"] = table[
                 f"time_to_first_spike_{flash_variant}"
             ]
