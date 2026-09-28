@@ -1,0 +1,19 @@
+{
+  "schema_version": 3,
+  "supersedes": "config/figure4_rerun_v2.json",
+  "change_reason": "Recording formula and simulation behavior resolved before primary response estimation",
+  "status": "frozen_for_primary_unadjusted_inference",
+  "seed": 20260918,
+  "bootstrap_replicates": 5000,
+  "model": "weighted least squares: category one-hot coefficients plus session fixed nuisance effects; separate fits by population and metric",
+  "recording_term_decision": "physical recordings are nested within category in every metric/population and cannot enter as additional fixed effects; equal recording weights and whole-animal bootstrap carry recording structure",
+  "weighting": "equal categories; equal animals within category; equal recordings within category/animal; equal cells within category/animal/recording",
+  "effect": "population variance with K denominator of fitted named-category coefficients; session nuisance set to zero for standardization",
+  "normalization": "100 times dispersion divided by weighted raw-cell outcome variance in the same draw/population",
+  "timescale_point": "average ten separately fitted complete effects, including nonlinear dispersion and normalization",
+  "timescale_bootstrap": "resample animals with nested sessions; select one of ten matched draws independently for each sampled MouseV2 session occurrence; apply five-cell floor per selected draw",
+  "interval": "95% percentile interval from 5000 paired whole-animal bootstrap replicates",
+  "simulation": "observed design with synthetic session shifts, recording shifts, and cell noise; targeted TTFS V1 follow-up retained because small-run coverage was low",
+  "rf_cross_population": "unsupported for every metric under config/figure4_rerun_v2.json; no adjusted cross-population null estimate will be generated",
+  "rf_hva_only": "supported for all metrics; hierarchy adjustment is a separate later result"
+}

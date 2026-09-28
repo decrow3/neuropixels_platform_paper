@@ -1,0 +1,37 @@
+{
+  "schema_version": 2,
+  "supersedes": "config/figure4_rerun_v1.json",
+  "change_reason": "Current-population RF completion and response-blind two-dimensional occupancy checkpoint",
+  "status": "support_frozen_before_response_effect_estimation",
+  "seed": 20260918,
+  "bootstrap_replicates": 5000,
+  "metrics": ["TTFS (ms)", "log10 F1/F0", "Response timescale (ms)"],
+  "primary_v1_categories": ["A", "E", "C", "B"],
+  "central_inclusive_categories": ["A", "E", "Central", "C", "B"],
+  "hva_categories": ["LM", "RL", "AL", "PM", "AM"],
+  "hierarchy_scores": {"LM": -0.093, "RL": -0.059, "AL": 0.152, "PM": 0.327, "AM": 0.441},
+  "cell_floor": 5,
+  "cell_floor_sensitivity": 10,
+  "weighting": "equal populations in RF reference; equal categories within population; equal animals within category; equal physical recordings within category/animal; equal cells within category/animal/recording",
+  "effect": "population variance (K denominator) of model-standardized named-category means",
+  "normalization": "100 times category dispersion divided by weighted raw-cell outcome variance in the same population",
+  "rf_model": ["azimuth", "elevation", "azimuth_squared", "elevation_squared", "azimuth_by_elevation"],
+  "rf_coordinates": "display coordinates; MouseV2 supported fitted x+50 and y+10; Allen released azimuth/elevation after its published-like quality gates; no gaze correction",
+  "rf": {
+    "mouse_source": "data/imports/mousev2_parametric_rf_figure4_v1/rf_unit_fits.csv",
+    "allen_source": "artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv",
+    "support_algorithm": "candidate inside every primary-category convex hull and within 15 degrees of at least 5 cells from at least 2 physical recordings in every primary category",
+    "reference": "supported observed coordinates; equal V1/HVA population contribution and nested category/animal/recording/cell weights",
+    "cross_population_supported_metrics": [],
+    "cross_population_unsupported_metrics": ["TTFS (ms)", "log10 F1/F0", "Response timescale (ms)"],
+    "f1_f0_failure": "RL has one independent recording after shared-support restriction and the common five-cell floor",
+    "hva_only_supported_metrics": ["TTFS (ms)", "log10 F1/F0", "Response timescale (ms)"]
+  },
+  "timescale": {
+    "point": "mean of ten complete draw-specific effects",
+    "bootstrap": "one coherent draw per sampled MouseV2 animal/session occurrence",
+    "sensitivities": ["valid in all ten draws", "fit error below 10 ms"]
+  },
+  "interval": "95% percentile interval from paired highest-independent-unit bootstrap",
+  "next_gate": "minimal model rank, recording influence, and observed-design simulation validation"
+}

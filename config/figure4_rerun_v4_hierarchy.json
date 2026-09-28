@@ -1,0 +1,19 @@
+{
+  "schema_version": 4,
+  "supersedes": "config/figure4_rerun_v3_primary.json",
+  "change_reason": "HVA-only RF support, rank, and same-cell pilot resolved before hierarchy inference",
+  "status": "frozen_for_hva_hierarchy_inference",
+  "seed": 20260918,
+  "bootstrap_replicates": 5000,
+  "population": "HVA-only local shared RF support with five-cell recording/category floor",
+  "areas": ["LM", "RL", "AL", "PM", "AM"],
+  "hierarchy_scores": {"LM": -0.093, "RL": -0.059, "AL": 0.152, "PM": 0.327, "AM": 0.441},
+  "unadjusted_model": "weighted least squares: intercept + signed hierarchy score + session fixed nuisance effects",
+  "adjusted_model": "unadjusted model + shared five-term quadratic RF surface",
+  "rf_terms": ["azimuth", "elevation", "azimuth_squared", "elevation_squared", "azimuth_by_elevation"],
+  "weighting": "equal areas; equal animals within area; equal recordings within area/animal; equal cells within recording",
+  "estimands": ["unadjusted signed slope", "adjusted signed slope", "adjusted minus unadjusted paired slope", "response change across observed hierarchy-score range"],
+  "bootstrap": "paired whole-animal resampling; same multiplicities for adjusted and unadjusted fits",
+  "interpretation": "statistical conditional sharing, not causal mediation; significance transitions are not attenuation tests",
+  "diagnostics": ["full rank", "condition number", "leave-one-animal-out", "within-area RF spread", "area-mean RF correlation with hierarchy"]
+}

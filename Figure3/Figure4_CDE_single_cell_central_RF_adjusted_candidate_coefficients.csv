@@ -1,0 +1,82 @@
+metric,comparison,term,coefficient
+TTFS (ms),v1,A,56.05943991304778
+TTFS (ms),v1,B,70.7726736207671
+TTFS (ms),v1,C,58.05174825233419
+TTFS (ms),v1,Central,61.37707670261376
+TTFS (ms),v1,E,55.12563678030149
+TTFS (ms),v1,az,-0.3726922873562275
+TTFS (ms),v1,el,0.12641305941472059
+TTFS (ms),v1,az2,3.073235074212214
+TTFS (ms),v1,az_el,-0.7628533314880599
+TTFS (ms),v1,el2,1.8720680065238806
+TTFS (ms),hva,AL,61.149654492642924
+TTFS (ms),hva,AM,67.80498164161949
+TTFS (ms),hva,LM,60.796777953609876
+TTFS (ms),hva,PM,66.17978951824085
+TTFS (ms),hva,RL,58.51508812327256
+TTFS (ms),hva,az,-1.3443111903064446
+TTFS (ms),hva,el,-1.3151298929870578
+TTFS (ms),hva,az2,1.6783058683247987
+TTFS (ms),hva,az_el,0.5897740175748165
+TTFS (ms),hva,el2,3.0984304396601203
+TTFS (ms),control,hva,63.18587515533536
+TTFS (ms),control,v1,63.505433550316695
+TTFS (ms),control,az,-2.3262609751151366
+TTFS (ms),control,el,0.0013335618886287648
+TTFS (ms),control,az2,2.10669979504819
+TTFS (ms),control,az_el,-0.14048497961358208
+TTFS (ms),control,el2,2.450937003428715
+log10 F1/F0,v1,A,-0.023204064462686524
+log10 F1/F0,v1,B,0.009913601646020079
+log10 F1/F0,v1,C,0.045782867040122924
+log10 F1/F0,v1,Central,-0.18941064628684845
+log10 F1/F0,v1,E,0.07736719009016937
+log10 F1/F0,v1,az,0.03200134988051073
+log10 F1/F0,v1,el,-0.016461914597184938
+log10 F1/F0,v1,az2,-0.036551333305499534
+log10 F1/F0,v1,az_el,-0.03223568075855529
+log10 F1/F0,v1,el2,-0.010616352077952801
+log10 F1/F0,hva,AL,-0.21135735358718855
+log10 F1/F0,hva,AM,-0.22621350572046875
+log10 F1/F0,hva,LM,-0.17852531689492862
+log10 F1/F0,hva,PM,-0.2224166676264527
+log10 F1/F0,hva,RL,-0.2146490723650335
+log10 F1/F0,hva,az,0.011095548810259152
+log10 F1/F0,hva,el,-0.0070407202553981856
+log10 F1/F0,hva,az2,0.017902340146881274
+log10 F1/F0,hva,az_el,-0.00610482378093298
+log10 F1/F0,hva,el2,0.018275425334864676
+log10 F1/F0,control,hva,-0.20269600743999552
+log10 F1/F0,control,v1,-0.06496967934549956
+log10 F1/F0,control,az,0.013605094878366048
+log10 F1/F0,control,el,-0.008909782319980342
+log10 F1/F0,control,az2,0.00977471162692707
+log10 F1/F0,control,az_el,-0.006109088730638503
+log10 F1/F0,control,el2,0.017286255663038146
+Response timescale (ms),v1,A,43.27272279252415
+Response timescale (ms),v1,B,49.29117239376957
+Response timescale (ms),v1,C,43.532480825376375
+Response timescale (ms),v1,Central,40.74573727826049
+Response timescale (ms),v1,E,47.722678727972124
+Response timescale (ms),v1,az,0.4160779722294894
+Response timescale (ms),v1,el,-0.2661165815440871
+Response timescale (ms),v1,az2,1.616925935132329
+Response timescale (ms),v1,az_el,-0.7392043785165305
+Response timescale (ms),v1,el2,0.29036670369975326
+Response timescale (ms),hva,AL,42.87746105251932
+Response timescale (ms),hva,AM,49.922683304767645
+Response timescale (ms),hva,LM,42.734797439175125
+Response timescale (ms),hva,PM,49.86355900695148
+Response timescale (ms),hva,RL,46.63228288990703
+Response timescale (ms),hva,az,-0.35219599406062807
+Response timescale (ms),hva,el,-1.1759738595090927
+Response timescale (ms),hva,az2,0.1509246756406597
+Response timescale (ms),hva,az_el,-0.15676362058711035
+Response timescale (ms),hva,el2,0.9092619463830118
+Response timescale (ms),control,hva,45.86138547438453
+Response timescale (ms),control,v1,43.84316645314719
+Response timescale (ms),control,az,-0.40301282755428347
+Response timescale (ms),control,el,-1.1008652200049314
+Response timescale (ms),control,az2,0.05655117653645547
+Response timescale (ms),control,az_el,-0.3415461979160559
+Response timescale (ms),control,el2,0.7080722509006554

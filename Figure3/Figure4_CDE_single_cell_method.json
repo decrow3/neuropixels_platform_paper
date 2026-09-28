@@ -1,0 +1,18 @@
+{
+  "draws": 5000,
+  "seed": 20260917,
+  "cell_weighting": "equal neuron",
+  "cell_timescale": "arithmetic mean of available valid fits per neuron; no fit-draw resampling",
+  "bootstrap": "whole sessions, preserving all cells and locations; separate V1 and HVA resamples",
+  "shuffle": "permute whole location labels within each session; swap whole V1/HVA pools for control",
+  "control_change": "cell control uses common QC, response-filtered TTFS and harmonized F1/F0; session control preserves legacy inputs",
+  "sources": [
+    "artifacts/figure3/07_big_picture_concrete_first/full_cell_model/ttfs_cortical_hvas/ttfs_full_cell_input.csv",
+    "artifacts/figure3/07_big_picture_concrete_first/full_cell_model/metric_extension_cortical_hvas/full_cell_metric_extension_input.csv",
+    "artifacts/figure3/06r_mousev2_probe_tracks_from_ccf/mousev2_unit_ccf_locations.csv",
+    "artifacts/figure3/06r_probe_flash_photoartifact_pilot/ttfs_source_provenance/figure3_response_filtered_ttfs_all_areas_unit_audit.csv",
+    "artifacts/v1_systemic_gap_audit_v1/04_metric_replacement/07_figure3_harmonized_f1_f0/allen_bo_area_unit_f1_f0_harmonized.csv",
+    "data/unit_table.csv",
+    "Figure3/Figure4_location_controls_inputs.csv"
+  ]
+}

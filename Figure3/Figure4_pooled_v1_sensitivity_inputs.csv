@@ -1,0 +1,277 @@
+session_id,group,mean,source,metric
+Allen:715093703,v1,66.59322033898304,Allen,TTFS (ms)
+Allen:719161530,v1,68.60317460317461,Allen,TTFS (ms)
+Allen:732592105,v1,58.19999999999999,Allen,TTFS (ms)
+Allen:737581020,v1,62.87272727272725,Allen,TTFS (ms)
+Allen:742951821,v1,61.67647058823528,Allen,TTFS (ms)
+Allen:746083955,v1,58.74285714285713,Allen,TTFS (ms)
+Allen:750332458,v1,71.0188679245283,Allen,TTFS (ms)
+Allen:750749662,v1,66.45833333333331,Allen,TTFS (ms)
+Allen:751348571,v1,68.05999999999999,Allen,TTFS (ms)
+Allen:754312389,v1,56.57522123893804,Allen,TTFS (ms)
+Allen:754829445,v1,61.43689320388349,Allen,TTFS (ms)
+Allen:755434585,v1,64.41791044776119,Allen,TTFS (ms)
+Allen:756029989,v1,70.6,Allen,TTFS (ms)
+Allen:757216464,v1,69.86138613861385,Allen,TTFS (ms)
+Allen:757970808,v1,68.63235294117646,Allen,TTFS (ms)
+Allen:758798717,v1,68.53191489361703,Allen,TTFS (ms)
+Allen:760345702,v1,68.43055555555556,Allen,TTFS (ms)
+Allen:760693773,v1,69.68478260869566,Allen,TTFS (ms)
+Allen:761418226,v1,61.888888888888886,Allen,TTFS (ms)
+Allen:762120172,v1,65.26785714285712,Allen,TTFS (ms)
+Allen:762602078,v1,67.57746478873237,Allen,TTFS (ms)
+Allen:763673393,v1,62.43181818181818,Allen,TTFS (ms)
+Allen:766640955,v1,62.62499999999999,Allen,TTFS (ms)
+Allen:768515987,v1,63.6875,Allen,TTFS (ms)
+Allen:771160300,v1,67.69999999999999,Allen,TTFS (ms)
+Allen:771990200,v1,65.7,Allen,TTFS (ms)
+Allen:773418906,v1,68.39024390243902,Allen,TTFS (ms)
+Allen:774875821,v1,56.769911504424776,Allen,TTFS (ms)
+Allen:778240327,v1,58.32967032967033,Allen,TTFS (ms)
+Allen:778998620,v1,62.74666666666664,Allen,TTFS (ms)
+Allen:781842082,v1,63.18604651162791,Allen,TTFS (ms)
+Allen:786091066,v1,61.96052631578947,Allen,TTFS (ms)
+Allen:791319847,v1,63.548387096774185,Allen,TTFS (ms)
+Allen:793224716,v1,61.140845070422536,Allen,TTFS (ms)
+Allen:794812542,v1,67.234375,Allen,TTFS (ms)
+Allen:797828357,v1,58.947368421052616,Allen,TTFS (ms)
+Allen:798911424,v1,65.86666666666666,Allen,TTFS (ms)
+Allen:799864342,v1,65.98412698412699,Allen,TTFS (ms)
+Allen:816200189,v1,58.57142857142857,Allen,TTFS (ms)
+Allen:821695405,v1,69.75675675675676,Allen,TTFS (ms)
+Allen:829720705,v1,67.06329113924049,Allen,TTFS (ms)
+Allen:831882777,v1,68.88135593220339,Allen,TTFS (ms)
+Allen:835479236,v1,71.4342105263158,Allen,TTFS (ms)
+Allen:840012044,v1,68.27692307692308,Allen,TTFS (ms)
+Allen:847657808,v1,60.661016949152526,Allen,TTFS (ms)
+Allen:715093703,hva,67.0909090909091,Allen,TTFS (ms)
+Allen:719161530,hva,68.42307692307692,Allen,TTFS (ms)
+Allen:732592105,hva,68.59166666666667,Allen,TTFS (ms)
+Allen:737581020,hva,62.04545454545455,Allen,TTFS (ms)
+Allen:742951821,hva,66.73333333333333,Allen,TTFS (ms)
+Allen:746083955,hva,64.93333333333334,Allen,TTFS (ms)
+Allen:750332458,hva,64.3901515151515,Allen,TTFS (ms)
+Allen:750749662,hva,65.51035239270533,Allen,TTFS (ms)
+Allen:751348571,hva,70.73886639676113,Allen,TTFS (ms)
+Allen:754312389,hva,61.1,Allen,TTFS (ms)
+Allen:754829445,hva,68.13986013986013,Allen,TTFS (ms)
+Allen:755434585,hva,54.54166666666666,Allen,TTFS (ms)
+Allen:756029989,hva,68.0631824316035,Allen,TTFS (ms)
+Allen:757216464,hva,70.07449494949496,Allen,TTFS (ms)
+Allen:757970808,hva,74.05384615384615,Allen,TTFS (ms)
+Allen:758798717,hva,67.25,Allen,TTFS (ms)
+Allen:760345702,hva,64.45,Allen,TTFS (ms)
+Allen:760693773,hva,65.23212005108557,Allen,TTFS (ms)
+Allen:761418226,hva,70.87899584076054,Allen,TTFS (ms)
+Allen:762120172,hva,69.7,Allen,TTFS (ms)
+Allen:762602078,hva,71.69497607655502,Allen,TTFS (ms)
+Allen:763673393,hva,65.0,Allen,TTFS (ms)
+Allen:766640955,hva,66.54588235294118,Allen,TTFS (ms)
+Allen:768515987,hva,64.45,Allen,TTFS (ms)
+Allen:771160300,hva,68.40083497513838,Allen,TTFS (ms)
+Allen:771990200,hva,68.4090909090909,Allen,TTFS (ms)
+Allen:773418906,hva,66.19354838709677,Allen,TTFS (ms)
+Allen:774875821,hva,64.14285714285714,Allen,TTFS (ms)
+Allen:778240327,hva,66.2375,Allen,TTFS (ms)
+Allen:778998620,hva,64.73684210526316,Allen,TTFS (ms)
+Allen:781842082,hva,71.1,Allen,TTFS (ms)
+Allen:786091066,hva,70.50128968253968,Allen,TTFS (ms)
+Allen:791319847,hva,72.1,Allen,TTFS (ms)
+Allen:793224716,hva,68.1,Allen,TTFS (ms)
+Allen:794812542,hva,77.76470588235294,Allen,TTFS (ms)
+Allen:797828357,hva,66.7,Allen,TTFS (ms)
+Allen:798911424,hva,64.81666666666666,Allen,TTFS (ms)
+Allen:799864342,hva,56.333333333333336,Allen,TTFS (ms)
+Allen:816200189,hva,65.33939393939394,Allen,TTFS (ms)
+Allen:821695405,hva,63.1578947368421,Allen,TTFS (ms)
+Allen:829720705,hva,64.12990196078431,Allen,TTFS (ms)
+Allen:831882777,hva,65.79624984516289,Allen,TTFS (ms)
+Allen:835479236,hva,66.22779304029304,Allen,TTFS (ms)
+Allen:840012044,hva,69.66125,Allen,TTFS (ms)
+Allen:847657808,hva,66.71156655844156,Allen,TTFS (ms)
+MouseV2:2,v1,59.75114624797287,MouseV2,TTFS (ms)
+MouseV2:3,v1,66.51885878931051,MouseV2,TTFS (ms)
+MouseV2:4,v1,60.964801587301594,MouseV2,TTFS (ms)
+MouseV2:5,v1,63.552232351157144,MouseV2,TTFS (ms)
+MouseV2:6,v1,65.8983018565607,MouseV2,TTFS (ms)
+MouseV2:7,v1,58.25856389986825,MouseV2,TTFS (ms)
+MouseV2:8,v1,64.33733901125206,MouseV2,TTFS (ms)
+MouseV2:9,v1,60.11919300766284,MouseV2,TTFS (ms)
+Allen:737581020,v1,-0.1558059044358549,Allen,log10 F1/F0
+Allen:739448407,v1,-0.1473366468752055,Allen,log10 F1/F0
+Allen:742951821,v1,-0.0891522246948395,Allen,log10 F1/F0
+Allen:743475441,v1,-0.2135492942473297,Allen,log10 F1/F0
+Allen:744228101,v1,-0.1251106575690873,Allen,log10 F1/F0
+Allen:746083955,v1,-0.2736535157565088,Allen,log10 F1/F0
+Allen:750332458,v1,-0.1286236594613801,Allen,log10 F1/F0
+Allen:750749662,v1,-0.1443425326120627,Allen,log10 F1/F0
+Allen:751348571,v1,-0.107451178131121,Allen,log10 F1/F0
+Allen:754312389,v1,-0.0917465961232445,Allen,log10 F1/F0
+Allen:754829445,v1,-0.2050728876367411,Allen,log10 F1/F0
+Allen:755434585,v1,-0.1229119661637708,Allen,log10 F1/F0
+Allen:756029989,v1,-0.1211628300575786,Allen,log10 F1/F0
+Allen:757216464,v1,-0.1508092925994502,Allen,log10 F1/F0
+Allen:757970808,v1,-0.1029906883875903,Allen,log10 F1/F0
+Allen:758798717,v1,-0.1276080563469011,Allen,log10 F1/F0
+Allen:759883607,v1,-0.0711204779426878,Allen,log10 F1/F0
+Allen:760345702,v1,-0.1935512671741058,Allen,log10 F1/F0
+Allen:760693773,v1,-0.1543545921006874,Allen,log10 F1/F0
+Allen:761418226,v1,-0.2214255489588533,Allen,log10 F1/F0
+Allen:762120172,v1,-0.1244681630984008,Allen,log10 F1/F0
+Allen:762602078,v1,-0.1448431813731584,Allen,log10 F1/F0
+Allen:763673393,v1,-0.1608497839588588,Allen,log10 F1/F0
+Allen:773418906,v1,-0.1298069332172313,Allen,log10 F1/F0
+Allen:791319847,v1,-0.118023620897082,Allen,log10 F1/F0
+Allen:797828357,v1,-0.136439460609182,Allen,log10 F1/F0
+Allen:798911424,v1,-0.090859512577936,Allen,log10 F1/F0
+Allen:799864342,v1,-0.2191833515389149,Allen,log10 F1/F0
+Allen:737581020,hva,-0.0746515330229874,Allen,log10 F1/F0
+Allen:739448407,hva,-0.0138153772648669,Allen,log10 F1/F0
+Allen:742951821,hva,-0.0686861146295367,Allen,log10 F1/F0
+Allen:743475441,hva,-0.1330323808599971,Allen,log10 F1/F0
+Allen:744228101,hva,-0.1164415881404903,Allen,log10 F1/F0
+Allen:746083955,hva,-0.1583440047743807,Allen,log10 F1/F0
+Allen:750332458,hva,-0.1111670987089446,Allen,log10 F1/F0
+Allen:750749662,hva,-0.1667171878147159,Allen,log10 F1/F0
+Allen:751348571,hva,-0.1666008289422425,Allen,log10 F1/F0
+Allen:754312389,hva,-0.1419777316697892,Allen,log10 F1/F0
+Allen:754829445,hva,-0.1774213041249347,Allen,log10 F1/F0
+Allen:755434585,hva,-0.0985478311979732,Allen,log10 F1/F0
+Allen:756029989,hva,-0.1389404933512831,Allen,log10 F1/F0
+Allen:757216464,hva,-0.1317164020081176,Allen,log10 F1/F0
+Allen:757970808,hva,-0.0768195633648813,Allen,log10 F1/F0
+Allen:758798717,hva,-0.1938193988303719,Allen,log10 F1/F0
+Allen:759883607,hva,-0.0865905300100903,Allen,log10 F1/F0
+Allen:760345702,hva,-0.1573543257278654,Allen,log10 F1/F0
+Allen:760693773,hva,-0.123754191803258,Allen,log10 F1/F0
+Allen:761418226,hva,-0.0964144595573499,Allen,log10 F1/F0
+Allen:762120172,hva,-0.1378857855463627,Allen,log10 F1/F0
+Allen:762602078,hva,-0.120100550607873,Allen,log10 F1/F0
+Allen:763673393,hva,-0.113334681532348,Allen,log10 F1/F0
+Allen:773418906,hva,-0.1001600077723536,Allen,log10 F1/F0
+Allen:791319847,hva,-0.1134276564130395,Allen,log10 F1/F0
+Allen:797828357,hva,-0.1507781245912918,Allen,log10 F1/F0
+Allen:798911424,hva,-0.0835844171436518,Allen,log10 F1/F0
+Allen:799864342,hva,-0.1686442476362472,Allen,log10 F1/F0
+MouseV2:2,v1,-0.07162740371631401,MouseV2,log10 F1/F0
+MouseV2:3,v1,-0.036080957307329575,MouseV2,log10 F1/F0
+MouseV2:4,v1,-0.10217356580416155,MouseV2,log10 F1/F0
+MouseV2:5,v1,0.0007914281255725483,MouseV2,log10 F1/F0
+MouseV2:6,v1,-0.10881227734553023,MouseV2,log10 F1/F0
+MouseV2:7,v1,-0.0693157676284177,MouseV2,log10 F1/F0
+MouseV2:8,v1,-0.0483820189773216,MouseV2,log10 F1/F0
+MouseV2:9,v1,-0.08868644413269196,MouseV2,log10 F1/F0
+Allen:715093703,v1,54.270878268691774,Allen,Response timescale (ms)
+Allen:719161530,v1,28.64088738546881,Allen,Response timescale (ms)
+Allen:721123822,v1,38.98447241605645,Allen,Response timescale (ms)
+Allen:732592105,v1,38.65922259052931,Allen,Response timescale (ms)
+Allen:737581020,v1,37.41365188878474,Allen,Response timescale (ms)
+Allen:739448407,v1,40.036213467283126,Allen,Response timescale (ms)
+Allen:742951821,v1,44.53241593779009,Allen,Response timescale (ms)
+Allen:744228101,v1,37.32494295830372,Allen,Response timescale (ms)
+Allen:746083955,v1,44.982644779985264,Allen,Response timescale (ms)
+Allen:750332458,v1,46.47536147437389,Allen,Response timescale (ms)
+Allen:750749662,v1,31.383091317459847,Allen,Response timescale (ms)
+Allen:751348571,v1,46.55168101937636,Allen,Response timescale (ms)
+Allen:754312389,v1,45.8374958574024,Allen,Response timescale (ms)
+Allen:754829445,v1,42.31526718228229,Allen,Response timescale (ms)
+Allen:755434585,v1,35.05873069718031,Allen,Response timescale (ms)
+Allen:756029989,v1,36.66098714579368,Allen,Response timescale (ms)
+Allen:757216464,v1,45.5293176790969,Allen,Response timescale (ms)
+Allen:757970808,v1,46.30739441717191,Allen,Response timescale (ms)
+Allen:758798717,v1,45.92224051314346,Allen,Response timescale (ms)
+Allen:759883607,v1,47.104690121481525,Allen,Response timescale (ms)
+Allen:760345702,v1,38.3045038718879,Allen,Response timescale (ms)
+Allen:760693773,v1,41.97612803482321,Allen,Response timescale (ms)
+Allen:761418226,v1,43.81357727168464,Allen,Response timescale (ms)
+Allen:762120172,v1,39.76361033690293,Allen,Response timescale (ms)
+Allen:762602078,v1,41.20716210625773,Allen,Response timescale (ms)
+Allen:763673393,v1,50.99913346294811,Allen,Response timescale (ms)
+Allen:766640955,v1,38.09627720712889,Allen,Response timescale (ms)
+Allen:767871931,v1,53.52309138198213,Allen,Response timescale (ms)
+Allen:768515987,v1,39.73699976424487,Allen,Response timescale (ms)
+Allen:771160300,v1,40.71522076350978,Allen,Response timescale (ms)
+Allen:771990200,v1,35.0119786151272,Allen,Response timescale (ms)
+Allen:773418906,v1,52.78699922793589,Allen,Response timescale (ms)
+Allen:774875821,v1,43.34952684854716,Allen,Response timescale (ms)
+Allen:778240327,v1,27.647297636834747,Allen,Response timescale (ms)
+Allen:778998620,v1,30.08528964916072,Allen,Response timescale (ms)
+Allen:779839471,v1,44.84344345716027,Allen,Response timescale (ms)
+Allen:781842082,v1,49.78786886943848,Allen,Response timescale (ms)
+Allen:786091066,v1,39.01349484262832,Allen,Response timescale (ms)
+Allen:787025148,v1,44.08332636439514,Allen,Response timescale (ms)
+Allen:791319847,v1,47.18623460746058,Allen,Response timescale (ms)
+Allen:793224716,v1,33.271316332624565,Allen,Response timescale (ms)
+Allen:794812542,v1,40.86618777662679,Allen,Response timescale (ms)
+Allen:797828357,v1,46.18927416946735,Allen,Response timescale (ms)
+Allen:798911424,v1,36.38073156709623,Allen,Response timescale (ms)
+Allen:799864342,v1,32.24406345891356,Allen,Response timescale (ms)
+Allen:816200189,v1,43.26999005439239,Allen,Response timescale (ms)
+Allen:821695405,v1,35.7271263382333,Allen,Response timescale (ms)
+Allen:829720705,v1,41.975463650537705,Allen,Response timescale (ms)
+Allen:831882777,v1,39.44661378411493,Allen,Response timescale (ms)
+Allen:835479236,v1,49.00114407552008,Allen,Response timescale (ms)
+Allen:839068429,v1,28.49560740679582,Allen,Response timescale (ms)
+Allen:840012044,v1,40.59891133025956,Allen,Response timescale (ms)
+Allen:847657808,v1,42.104963141894736,Allen,Response timescale (ms)
+Allen:715093703,hva,57.17616004198487,Allen,Response timescale (ms)
+Allen:719161530,hva,44.29715271398499,Allen,Response timescale (ms)
+Allen:721123822,hva,51.68068379602558,Allen,Response timescale (ms)
+Allen:732592105,hva,45.43141918929868,Allen,Response timescale (ms)
+Allen:737581020,hva,42.07451235184908,Allen,Response timescale (ms)
+Allen:739448407,hva,52.53903796795917,Allen,Response timescale (ms)
+Allen:742951821,hva,45.541244273255245,Allen,Response timescale (ms)
+Allen:744228101,hva,44.69714404207495,Allen,Response timescale (ms)
+Allen:746083955,hva,49.58486420431888,Allen,Response timescale (ms)
+Allen:750332458,hva,57.11206405527555,Allen,Response timescale (ms)
+Allen:750749662,hva,64.75035234793982,Allen,Response timescale (ms)
+Allen:751348571,hva,44.95561957992084,Allen,Response timescale (ms)
+Allen:754312389,hva,48.16155044803414,Allen,Response timescale (ms)
+Allen:754829445,hva,50.22670372607113,Allen,Response timescale (ms)
+Allen:755434585,hva,52.8976821173228,Allen,Response timescale (ms)
+Allen:756029989,hva,54.16766604023034,Allen,Response timescale (ms)
+Allen:757216464,hva,51.95016080229499,Allen,Response timescale (ms)
+Allen:757970808,hva,46.451660920020565,Allen,Response timescale (ms)
+Allen:758798717,hva,41.67111933424347,Allen,Response timescale (ms)
+Allen:759883607,hva,46.65470100504185,Allen,Response timescale (ms)
+Allen:760345702,hva,53.25370410886148,Allen,Response timescale (ms)
+Allen:760693773,hva,46.76668626377138,Allen,Response timescale (ms)
+Allen:761418226,hva,47.63829315359808,Allen,Response timescale (ms)
+Allen:762120172,hva,46.808613128716274,Allen,Response timescale (ms)
+Allen:762602078,hva,47.02493041703895,Allen,Response timescale (ms)
+Allen:763673393,hva,47.25431975342724,Allen,Response timescale (ms)
+Allen:766640955,hva,42.52680506769202,Allen,Response timescale (ms)
+Allen:767871931,hva,47.41444050974815,Allen,Response timescale (ms)
+Allen:768515987,hva,45.53797279938469,Allen,Response timescale (ms)
+Allen:771160300,hva,60.22728080133048,Allen,Response timescale (ms)
+Allen:771990200,hva,54.450208360901286,Allen,Response timescale (ms)
+Allen:773418906,hva,52.24323932027635,Allen,Response timescale (ms)
+Allen:774875821,hva,45.76708331180451,Allen,Response timescale (ms)
+Allen:778240327,hva,46.77865506271455,Allen,Response timescale (ms)
+Allen:778998620,hva,42.479040650459936,Allen,Response timescale (ms)
+Allen:779839471,hva,47.81468696302934,Allen,Response timescale (ms)
+Allen:781842082,hva,40.52932808476476,Allen,Response timescale (ms)
+Allen:786091066,hva,54.28886239167611,Allen,Response timescale (ms)
+Allen:787025148,hva,42.402764558048816,Allen,Response timescale (ms)
+Allen:791319847,hva,51.57790409926292,Allen,Response timescale (ms)
+Allen:793224716,hva,38.49794808500194,Allen,Response timescale (ms)
+Allen:794812542,hva,52.35694355046219,Allen,Response timescale (ms)
+Allen:797828357,hva,55.24873844695382,Allen,Response timescale (ms)
+Allen:798911424,hva,37.93354223569428,Allen,Response timescale (ms)
+Allen:799864342,hva,42.95327664100589,Allen,Response timescale (ms)
+Allen:816200189,hva,49.56085895551757,Allen,Response timescale (ms)
+Allen:821695405,hva,47.22451513457513,Allen,Response timescale (ms)
+Allen:829720705,hva,46.56992999088284,Allen,Response timescale (ms)
+Allen:831882777,hva,51.22198880243661,Allen,Response timescale (ms)
+Allen:835479236,hva,47.46901265148696,Allen,Response timescale (ms)
+Allen:839068429,hva,37.172622257798885,Allen,Response timescale (ms)
+Allen:840012044,hva,44.83982096555872,Allen,Response timescale (ms)
+Allen:847657808,hva,53.528919854862295,Allen,Response timescale (ms)
+MouseV2:2,v1,41.43757860280941,MouseV2,Response timescale (ms)
+MouseV2:3,v1,44.66509856873395,MouseV2,Response timescale (ms)
+MouseV2:4,v1,41.48583795416173,MouseV2,Response timescale (ms)
+MouseV2:5,v1,43.294260855889746,MouseV2,Response timescale (ms)
+MouseV2:6,v1,39.94259000665848,MouseV2,Response timescale (ms)
+MouseV2:7,v1,43.69495238738134,MouseV2,Response timescale (ms)
+MouseV2:8,v1,39.76576190682897,MouseV2,Response timescale (ms)
+MouseV2:9,v1,40.487765358549474,MouseV2,Response timescale (ms)

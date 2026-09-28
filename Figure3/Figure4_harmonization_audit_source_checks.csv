@@ -1,0 +1,13 @@
+check,neurons,max_absolute_error,source,status
+MouseV2 preferred response-selected TTFS,1090,0.0,artifacts/figure3/06r_probe_flash_photoartifact_pilot/ttfs_source_provenance/figure3_response_filtered_preferred_ttfs_units.csv,exact_match
+HVA preferred response-selected TTFS,1408,0.0,artifacts/figure3/06r_probe_flash_photoartifact_pilot/ttfs_source_provenance/figure3_response_filtered_ttfs_all_areas_unit_audit.csv,exact_match
+Control Allen V1 preferred response-selected TTFS,333,0.0,artifacts/figure3/06r_probe_flash_photoartifact_pilot/ttfs_source_provenance/figure3_response_filtered_ttfs_all_areas_unit_audit.csv,exact_match
+MouseV2 common-support F1/F0,4891,9.93129189996722e-17,data/imports/mousev2_grating_common_support_v1/unit_metric_comparison.csv,exact_match
+HVA harmonized F1/F0,6142,9.8879238130678e-17,artifacts/v1_systemic_gap_audit_v1/04_metric_replacement/07_figure3_harmonized_f1_f0/allen_bo_area_unit_f1_f0_harmonized.csv,exact_match
+Control Allen V1 harmonized F1/F0,1953,9.8879238130678e-17,artifacts/v1_systemic_gap_audit_v1/04_metric_replacement/07_figure3_harmonized_f1_f0/allen_bo_area_unit_f1_f0_harmonized.csv,exact_match
+MouseV2 mean of valid 75+75 flash timescale fits,773,2.842170943040401e-14,data/imports/mousev2_timescale_trial_bridge_v1/unit_subsample_metrics.csv,exact_match
+HVA common-QC valid timescale,3017,3.552713678800501e-15,data/unit_table.csv,exact_match
+Control Allen V1 common-QC valid timescale,870,3.552713678800501e-15,data/unit_table.csv,exact_match
+Central native TTFS (ms),3874,0.0,data/unit_table.csv,exact_match
+Central native log10 F1/F0,8546,1.1102230246251565e-16,data/unit_table.csv,exact_match
+Central native Response timescale (ms),1612,3.552713678800501e-15,data/unit_table.csv,exact_match

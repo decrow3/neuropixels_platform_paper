@@ -15,16 +15,17 @@ scores assigned to LGN, V1, LM, RL, LP, AL, PM, and AM.
 | Quantity | Available? | Meaning | Valid use |
 | --- | --- | --- | --- |
 | Probe identity (A/B/C/E) | Yes, all units and sessions | Known recording location/category within V1 | Primary categorical within-V1 grouping |
-| V1 anatomical subregion | Known experimentally; exact source record not yet versioned here | Physical part of V1 sampled | Methods description and, once imported, anatomical-location figure |
+| V1 anatomical subregion | Present per electrode in the refreshed NWBs | Physical part of V1 sampled | Methods and anatomical-location figures |
 | Cortical depth/layer | Present in processed paper tables | Position along the cortical depth axis | Layer/depth sensitivity, not a surface hierarchy score |
 | RF azimuth/elevation | Versioned provisionally for 32 session × probe groups | Position in visual space | Two-dimensional retinotopic companion analysis |
 | NWB `estimated_x/y/z` | Present | Spike-waveform center-of-mass coordinates relative to the probe | Unit localization on the probe only |
-| CCF/surface coordinates | Not encoded in the eight NWBs inspected | Anatomical coordinate in a registered brain/surface space | Requires a separate versioned localization export |
+| CCF/surface coordinates | Present per electrode as `x`, `y`, and `z` in the refreshed NWBs | Anatomical coordinate in registered CCF space | Anatomical position and probe-track analyses |
 | Within-V1 hierarchy score | Not available | Hypothetical scalar extension of the inter-area hierarchy | Must not be inferred from plotting order or the response metrics under test |
 
 ## NWB metadata audit
 
-All eight DANDI:001568 NWBs were inspected. In every session:
+The original local DANDI:001568 draft snapshot was inspected in August 2026. In
+every session:
 
 - `/general/extracellular_ephys/electrodes/location` contains `unknown`;
 - the units table has no anterior–posterior, medial–lateral, dorsal–ventral, or
@@ -34,10 +35,26 @@ All eight DANDI:001568 NWBs were inspected. In every session:
   coordinates;
 - probe labels A, B, C, and E are present and map units completely.
 
-Thus the known anatomical localization exists outside the machine-readable NWB
-fields currently consumed by this repository. That absence does not invalidate
-the categorical probe comparison, but it prevents this repository from making
-an exact anatomical-coordinate panel without an explicit source export.
+The Dandiset draft was subsequently revised. The current local snapshot assembled
+2026-09-25 is stored at
+`/media/huklaban5/Data/MouseV2/dandi_refresh_20260925/001568`; it combines the
+corrected subject 815152 asset with the seven unchanged assets from the 2026-09-02
+snapshot. The earlier frozen snapshot remains at `/media/huklaban5/Data/MouseV2/001568`.
+
+All eight refreshed NWBs were inspected. In every session:
+
+- the electrodes table has `x`, `y`, and `z` columns;
+- all 1,920 rows per session (15,360 total) have finite values for all three
+  coordinates;
+- `location` has atlas structure labels with no remaining `unknown` values;
+- 3,913 electrode rows across the cohort are labeled in VISp layers;
+- unit counts, `/units/id`, `/units/electrodes`, and
+  `/units/electrodes_index` exactly match the earlier snapshot.
+
+The coordinate update therefore supplies the missing machine-readable anatomy
+without changing unit identity or the unit-to-electrode mapping. For subject
+815152, the 2026-09-25 correction changes the CCF/atlas association among probes
+B, C, and E while retaining the same unit IDs and extremum-channel assignments.
 
 ## Paper-facing decision
 
@@ -55,10 +72,11 @@ For plots that also show the published inter-area hierarchy:
 The historical geometry is retained only as `legacy_pseudo_hierarchy` for
 regression reproduction.
 
-## Optional anatomical-coordinate import
+## Anatomical-coordinate use
 
-If an exact anatomical surface view is desired, the existing localization
-record should be exported with at least:
+New anatomical analyses should use the refreshed NWBs and preserve the DANDI
+asset revision, coordinate convention, and atlas-label provenance. A compact
+paper-facing export should include at least:
 
 ```text
 subject_id
@@ -72,6 +90,6 @@ source_record
 uncertainty_or_resolution
 ```
 
-This repository should validate and snapshot that table. It should not convert
-those coordinates into a hierarchy score unless an independent anatomical or
-connectivity model supplies and validates that mapping.
+The CCF coordinates should not be converted into a hierarchy score unless an
+independent anatomical or connectivity model supplies and validates that
+mapping.

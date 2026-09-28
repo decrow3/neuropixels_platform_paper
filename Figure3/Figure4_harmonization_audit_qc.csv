@@ -1,0 +1,31 @@
+comparison,dataset,metric,cells,common_qc_pass,sessions,common_qc_fail,stage
+control,Allen-V1,Response timescale (ms),870,870,50,0,Before RF selection
+control,Allen-V1,TTFS (ms),333,333,23,0,Before RF selection
+control,Allen-V1,log10 F1/F0,1953,1953,28,0,Before RF selection
+control,Post-V1,Response timescale (ms),2616,2616,50,0,Before RF selection
+control,Post-V1,TTFS (ms),715,715,23,0,Before RF selection
+control,Post-V1,log10 F1/F0,6142,6142,28,0,Before RF selection
+hva,Post-V1,Response timescale (ms),3017,3017,58,0,Before RF selection
+hva,Post-V1,TTFS (ms),1408,1408,47,0,Before RF selection
+hva,Post-V1,log10 F1/F0,6142,6142,28,0,Before RF selection
+v1,Allen-V1-legacy,Response timescale (ms),1612,880,53,732,Before RF selection
+v1,Allen-V1-legacy,TTFS (ms),3874,2099,55,1775,Before RF selection
+v1,Allen-V1-legacy,log10 F1/F0,8546,4111,56,4435,Before RF selection
+v1,Within-V1,Response timescale (ms),773,773,8,0,Before RF selection
+v1,Within-V1,TTFS (ms),1090,1090,8,0,Before RF selection
+v1,Within-V1,log10 F1/F0,4891,4891,8,0,Before RF selection
+control,Allen-V1,Response timescale (ms),870,870,50,0,RF-qualified subset
+control,Allen-V1,TTFS (ms),177,177,13,0,RF-qualified subset
+control,Allen-V1,log10 F1/F0,1376,1376,27,0,RF-qualified subset
+control,Post-V1,Response timescale (ms),2616,2616,50,0,RF-qualified subset
+control,Post-V1,TTFS (ms),320,320,13,0,RF-qualified subset
+control,Post-V1,log10 F1/F0,3646,3646,27,0,RF-qualified subset
+hva,Post-V1,Response timescale (ms),2802,2802,54,0,RF-qualified subset
+hva,Post-V1,TTFS (ms),803,803,34,0,RF-qualified subset
+hva,Post-V1,log10 F1/F0,3646,3646,27,0,RF-qualified subset
+v1,Allen-V1-legacy,Response timescale (ms),1612,880,53,732,RF-qualified subset
+v1,Allen-V1-legacy,TTFS (ms),2870,1557,54,1313,RF-qualified subset
+v1,Allen-V1-legacy,log10 F1/F0,5511,2840,54,2671,RF-qualified subset
+v1,Within-V1,Response timescale (ms),328,328,8,0,RF-qualified subset
+v1,Within-V1,TTFS (ms),158,158,8,0,RF-qualified subset
+v1,Within-V1,log10 F1/F0,961,961,8,0,RF-qualified subset

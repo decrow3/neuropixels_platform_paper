@@ -27,6 +27,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.figure3_robust_spread_comparison import clustered_omega_squared
+from scripts.project_mousev2_tracks_to_ccf_surface import (
+    plot_surface as plot_mousev2_ccf_surface,
+    read_labels as read_ccf_surface_labels,
+    read_nrrd as read_ccf_surface_nrrd,
+)
 
 
 matplotlib.rcParams.update({
@@ -45,9 +50,24 @@ GRID = "#e7e8eb"
 V1_COLOR = "#7567a8"
 HVA_COLOR = "#54575b"
 DELTA_COLOR = "#315d9b"
-PROBE_COLORS = {"B": "#4575b4", "C": "#1a9850", "A": "#d73027", "E": "#8073ac"}
+LOCATION_EFFECT_ROWS = (
+    ("V1 group vs\nHVA group†", "control", "#9a641e"),
+    ("Within V1", "v1", V1_COLOR),
+    ("Across HVAs", "hva", HVA_COLOR),
+    ("Across HVAs vs\nwithin V1", "delta", DELTA_COLOR),
+)
+MIN_V1_UNITS = 5
+PROBE_COLORS = {
+    "A": "#d73027",  # Anterior: red
+    "E": "#fc8d59",  # Lateral: orange
+    "C": "#1a9850",  # Posterior: green
+    "B": "#4575b4",  # Medial: blue
+}
 AREA_COLORS = {"LM": "#4e73ae", "RL": "#65b2c9", "AL": "#cab778", "PM": "#db8457", "AM": "#c24f54"}
-PROBE_ORDER = ["B", "C", "A", "E"]
+PROBE_ORDER = ["A", "E", "C", "B"]
+PROBE_DISPLAY_LABELS = {
+    "A": "Anterior", "B": "Medial", "C": "Posterior", "E": "Lateral",
+}
 AREA_ORDER = ["LM", "RL", "AL", "PM", "AM"]
 METRICS = ["TTFS (ms)", "log10 F1/F0", "Response timescale (ms)"]
 SHORT_METRICS = ["TTFS", "log10 F1/F0", "Timescale"]
@@ -60,21 +80,43 @@ TTFS_CELL_INPUT = CELL_MODEL_ROOT / "ttfs_cortical_hvas/ttfs_full_cell_input.csv
 EXTENSION_CELL_INPUT = (
     CELL_MODEL_ROOT / "metric_extension_cortical_hvas/full_cell_metric_extension_input.csv"
 )
-MOUSEV2_ANATOMICAL_PENETRATIONS = (
-    ROOT / "artifacts/figure3/06j_mousev2_area_borders_registered_to_zhuang/"
-    "probe_anatomical_position.csv"
+MOUSEV2_CCF_TRACKS = (
+    ROOT / "artifacts/figure3/06r_mousev2_probe_tracks_from_ccf/"
+    "mousev2_probe_track_fits.csv"
 )
-ZHUANG_TEMPLATE = (
-    ROOT / "artifacts/retinotopy_template/zhuang2017_figure9/retinotopy_contour_grid.npz"
+MOUSEV2_CCF_TRACK_POINTS = (
+    ROOT / "artifacts/figure3/06r_mousev2_probe_tracks_from_ccf/"
+    "mousev2_probe_track_points.csv"
+)
+MOUSEV2_UNIT_CCF_LOCATIONS = (
+    ROOT / "artifacts/figure3/06r_mousev2_probe_tracks_from_ccf/"
+    "mousev2_unit_ccf_locations.csv"
+)
+MOUSEV2_CCF_SURFACE_ENTRIES = (
+    ROOT / "artifacts/figure3/06s_mousev2_ccf_surface_projection/"
+    "mousev2_ccf_surface_entry_points.csv"
+)
+ALLEN_CCF_TOP_SURFACE = ROOT / "data/reference/allen_ccf_2017_surface/top.nrrd"
+ALLEN_CCF_SURFACE_LABELS = (
+    ROOT / "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt"
 )
 DEFAULT_OPEN_SCOPE_SCHEMATIC = Path(
     "/home/huklaban5/.codex/attachments/5c48ada5-6e59-4d03-a56a-533e9b282506/"
     "OpenScopeImagingSchematic.png"
 )
-ZHUANG_AREA_SEEDS = {
-    "V1": (200, 240), "LM": (100, 260), "AL": (75, 190),
-    "RL": (180, 80), "AM": (240, 80),
-}
+def display_group_labels(groups: list[str]) -> list[str]:
+    """Replace internal MouseV2 probe letters with reader-facing spatial names."""
+    return [PROBE_DISPLAY_LABELS.get(group, group) for group in groups]
+
+
+def set_group_xticks(ax: plt.Axes, positions, groups: list[str]) -> None:
+    """Set categorical ticks and give full spatial labels enough horizontal room."""
+    ax.set_xticks(positions, display_group_labels(groups))
+    if any(group in PROBE_DISPLAY_LABELS for group in groups):
+        ax.tick_params(axis="x", labelsize=8.1)
+        plt.setp(
+            ax.get_xticklabels(), rotation=24, ha="right", rotation_mode="anchor",
+        )
 
 
 def parse_args() -> argparse.Namespace:
@@ -98,40 +140,54 @@ def load_inputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     allen_v1 = pd.read_csv(ROOT / "Figure3/Figure3_Allen_V1_session_means.csv")
     hierarchy = pd.read_csv(ROOT / "Figure3/Figure3_hierarchy_fit_stats.csv")
     groups = groups.loc[groups["group"].isin(PROBE_ORDER + AREA_ORDER)].copy()
+    groups["session_id"] = groups["session_id"].astype(str)
     allen_v1 = allen_v1.copy()
     allen_v1["group"] = "VISp"
     return groups, allen_v1, hierarchy
 
 
-def load_mousev2_penetration_map() -> tuple[pd.DataFrame, np.ndarray, np.ndarray]:
-    """Load anatomy-registered MouseV2 V1 penetrations and the common-map outline."""
-    penetrations = pd.read_csv(MOUSEV2_ANATOMICAL_PENETRATIONS)
+def load_mousev2_ccf_tracks() -> pd.DataFrame:
+    """Load one refreshed-NWB CCF trajectory fit for every V1 session/probe."""
+    tracks = pd.read_csv(MOUSEV2_CCF_TRACKS)
+    tracks["probe"] = tracks["probe"].str.removeprefix("Probe")
     expected_probes = set(PROBE_ORDER)
     if (
-        len(penetrations) != 32
-        or penetrations["animal"].nunique() != 8
-        or set(penetrations["probe"]) != expected_probes
-        or penetrations.groupby("animal")["probe"].nunique().ne(4).any()
+        len(tracks) != 32
+        or tracks["subject_id"].nunique() != 8
+        or set(tracks["probe"]) != expected_probes
+        or tracks.groupby("subject_id")["probe"].nunique().ne(4).any()
     ):
-        raise ValueError("Unexpected MouseV2 anatomical-penetration inventory")
-    if not np.isfinite(penetrations[["zhuang_col", "zhuang_row"]]).all().all():
-        raise ValueError("MouseV2 common-map penetration coordinates contain non-finite values")
-
-    source = np.load(ZHUANG_TEMPLATE)
-    boundary = source["mean_field_sign_boundary"].astype(bool)
-    domain = ndimage.binary_fill_holes(boundary)
-    walls = ndimage.binary_dilation(boundary, iterations=1)
-    components, _ = ndimage.label(domain & ~walls)
-    seed_x, seed_y = ZHUANG_AREA_SEEDS["V1"]
-    visp_component = int(components[seed_y, seed_x])
-    if visp_component == 0:
-        raise ValueError("Zhuang V1 seed falls on a common-map boundary")
-    visp_mask = components == visp_component
-    return penetrations, boundary, visp_mask
+        raise ValueError("Unexpected MouseV2 CCF-track inventory")
+    coordinate_columns = [
+        f"{endpoint}_{axis}_um"
+        for endpoint in ("deep", "surface")
+        for axis in ("x", "y", "z")
+    ]
+    if not np.isfinite(tracks[coordinate_columns]).all().all():
+        raise ValueError("MouseV2 CCF-track endpoints contain non-finite values")
+    if not (tracks["surface_y_um"] < tracks["deep_y_um"]).all():
+        raise ValueError("MouseV2 CCF tracks are not consistently oriented tip to surface")
+    return tracks
 
 
-def load_weighted_cells(groups: pd.DataFrame) -> pd.DataFrame:
-    """Load validated cells and give every session and neuron equal group weight."""
+def load_mousev2_ccf_surface() -> tuple[pd.DataFrame, np.ndarray, dict[int, str]]:
+    """Load the audited 32-point overlay and matching Allen dorsal atlas."""
+    entries = pd.read_csv(MOUSEV2_CCF_SURFACE_ENTRIES)
+    entries["probe"] = entries["probe"].str.removeprefix("Probe")
+    if (
+        len(entries) != 32
+        or entries["subject_id"].nunique() != 8
+        or set(entries["probe"]) != set(PROBE_ORDER)
+        or entries.groupby("subject_id")["probe"].nunique().ne(4).any()
+    ):
+        raise ValueError("Unexpected MouseV2 CCF surface-entry inventory")
+    atlas = read_ccf_surface_nrrd(ALLEN_CCF_TOP_SURFACE)
+    labels = read_ccf_surface_labels(ALLEN_CCF_SURFACE_LABELS)
+    return entries, atlas, labels
+
+
+def load_figure_cells() -> pd.DataFrame:
+    """Load the validated neuron-level inputs behind the Figure 4 summaries."""
     ttfs = pd.read_csv(
         TTFS_CELL_INPUT, dtype={"session_id": str, "unit_id": str}
     )
@@ -151,7 +207,214 @@ def load_weighted_cells(groups: pd.DataFrame) -> pd.DataFrame:
     if cells.duplicated(duplicate_key).any():
         raise ValueError("Duplicate neuron/draw row in full-cell inputs")
 
-    # Use the frozen session centers behind the primary session-level figure.
+    return cells
+
+
+def summarize_v1_cells(cells: pd.DataFrame, *, min_units: int = MIN_V1_UNITS) -> pd.DataFrame:
+    """Reconstruct session × probe summaries, respecting timescale trial draws."""
+    cells = cells.loc[cells["dataset"].eq("Within-V1")].copy()
+    tables = []
+    for metric in METRICS:
+        local = cells.loc[cells["metric"].eq(metric)]
+        if metric == "Response timescale (ms)":
+            draw_summary = (
+                local.groupby(["session_id", "group", "draw_id"], as_index=False)
+                .agg(draw_mean=("value", "mean"), draw_n=("unit_id", "size"))
+            )
+            summary = (
+                draw_summary.groupby(["session_id", "group"], as_index=False)
+                .agg(mean=("draw_mean", "mean"), mean_draw_n=("draw_n", "mean"))
+            )
+            summary["n_units"] = summary.pop("mean_draw_n").round().astype(int)
+        else:
+            summary = (
+                local.groupby(["session_id", "group"], as_index=False)
+                .agg(mean=("value", "mean"), n_units=("unit_id", "size"))
+            )
+        summary["dataset"] = "Within-V1"
+        summary["metric"] = metric
+        tables.append(summary)
+    result = pd.concat(tables, ignore_index=True)
+    # Preserve the predeclared session × group support floor after applying
+    # the new anatomical restriction.
+    result = result.loc[result["n_units"].ge(min_units)].copy()
+    result["session_mean"] = result.groupby(
+        ["dataset", "metric", "session_id"]
+    )["mean"].transform("mean")
+    result["centered_mean"] = result["mean"] - result["session_mean"]
+    result["n_groups_in_session"] = result.groupby(
+        ["dataset", "metric", "session_id"]
+    )["group"].transform("size")
+    return result[
+        ["dataset", "metric", "session_id", "group", "mean", "n_units",
+         "session_mean", "centered_mean", "n_groups_in_session"]
+    ]
+
+
+def apply_anatomical_v1_filter(
+    groups: pd.DataFrame, cells: pd.DataFrame
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Restrict MouseV2 analysis rows to units whose extremum channel is in VISp."""
+    locations = pd.read_csv(MOUSEV2_UNIT_CCF_LOCATIONS, dtype={"unit_id": str})
+    if len(locations) != 20_374 or locations["unit_id"].duplicated().any():
+        raise ValueError("Unexpected MouseV2 unit-localization inventory")
+    v1_cells = cells.loc[cells["dataset"].eq("Within-V1")]
+    missing = set(v1_cells["unit_id"]) - set(locations["unit_id"])
+    if missing:
+        raise ValueError(f"{len(missing)} Figure 4 MouseV2 units lack CCF localization")
+
+    # First prove that the neuron-level inputs reconstruct the frozen figure.
+    baseline = summarize_v1_cells(cells)
+    frozen = groups.loc[groups["dataset"].eq("Within-V1")].copy()
+    keys = ["dataset", "metric", "session_id", "group"]
+    check = frozen.merge(
+        baseline, on=keys, how="outer", suffixes=("_frozen", "_rebuilt"),
+        indicator=True,
+    )
+    if (
+        not check["_merge"].eq("both").all()
+        or (check["mean_frozen"] - check["mean_rebuilt"]).abs().max() > 1e-9
+        or not check["n_units_frozen"].eq(check["n_units_rebuilt"]).all()
+    ):
+        raise ValueError("Neuron-level inputs do not reconstruct frozen MouseV2 summaries")
+
+    confirmed_ids = set(
+        locations.loc[locations["location"].str.startswith("VISp"), "unit_id"]
+    )
+    keep = cells["dataset"].ne("Within-V1") | cells["unit_id"].isin(confirmed_ids)
+    filtered_cells = cells.loc[keep].copy()
+    updated_prefloor = summarize_v1_cells(filtered_cells, min_units=0)
+    updated_v1 = summarize_v1_cells(filtered_cells)
+    if (
+        updated_v1["session_id"].nunique() != 8
+        or updated_v1["n_groups_in_session"].lt(3).any()
+        or updated_v1["n_units"].lt(MIN_V1_UNITS).any()
+    ):
+        raise ValueError("Anatomical VISp filtering lost a required Figure 4 session/probe cell")
+    updated_groups = pd.concat(
+        [groups.loc[groups["dataset"].ne("Within-V1")], updated_v1],
+        ignore_index=True,
+    )
+    audit = frozen.merge(
+        updated_v1, on=keys, how="outer", validate="one_to_one", indicator=True,
+        suffixes=("_before", "_visp"),
+    )
+    audit["retained_after_visp_filter"] = audit["_merge"].eq("both")
+    audit["n_units_visp"] = audit["n_units_visp"].fillna(0).astype(int)
+    audit = audit.merge(
+        updated_prefloor[keys + ["n_units"]].rename(
+            columns={"n_units": "n_units_visp_prefloor"}
+        ),
+        on=keys,
+        how="left",
+        validate="one_to_one",
+    )
+    audit["n_units_visp_prefloor"] = (
+        audit["n_units_visp_prefloor"].fillna(0).astype(int)
+    )
+    audit["units_removed"] = audit["n_units_before"] - audit["n_units_visp"]
+    audit["mean_change"] = audit["mean_visp"] - audit["mean_before"]
+    return updated_groups, filtered_cells, audit
+
+
+def build_mousev2_probe_v1_audit(filtered_cells: pd.DataFrame) -> pd.DataFrame:
+    """Verify track-level VISp intersections and unit-level Figure 4 anatomy."""
+    locations = pd.read_csv(MOUSEV2_UNIT_CCF_LOCATIONS, dtype={"unit_id": str})
+    points = pd.read_csv(MOUSEV2_CCF_TRACK_POINTS)
+    entries = pd.read_csv(MOUSEV2_CCF_SURFACE_ENTRIES)
+
+    visp_points = points.loc[points["location"].str.startswith("VISp")]
+    contact_summary = (
+        visp_points.groupby(["subject_id", "site", "probe"], as_index=False)
+        .agg(
+            n_visp_contacts=("channel_name", "size"),
+            deepest_visp_rel_y_um=("rel_y", "min"),
+            shallowest_visp_rel_y_um=("rel_y", "max"),
+        )
+    )
+    audit = entries.merge(
+        contact_summary,
+        on=["subject_id", "site", "probe"],
+        how="left",
+        validate="one_to_one",
+    ).rename(columns={"rel_y": "entry_rel_y_um"})
+    if len(audit) != 32 or audit["n_visp_contacts"].isna().any():
+        raise ValueError("Every MouseV2 probe must have a localized VISp contact span")
+
+    used = (
+        filtered_cells.loc[filtered_cells["dataset"].eq("Within-V1")]
+        [["metric", "group", "unit_id"]]
+        .drop_duplicates()
+        .merge(
+            locations[
+                ["unit_id", "subject_id", "site", "probe", "rel_y", "location"]
+            ],
+            on="unit_id",
+            how="left",
+            validate="many_to_one",
+        )
+    )
+    if used["location"].isna().any():
+        raise ValueError("A filtered Figure 4 MouseV2 unit lacks an electrode localization")
+    if not used["location"].str.startswith("VISp").all():
+        raise ValueError("A non-VISp MouseV2 unit survived the Figure 4 anatomical filter")
+    if not used["probe"].eq("Probe" + used["group"]).all():
+        raise ValueError("A Figure 4 MouseV2 probe label disagrees with its NWB electrode")
+
+    used = used.merge(
+        audit[["subject_id", "probe", "entry_rel_y_um", "surface_agrees_visp"]],
+        on=["subject_id", "probe"],
+        how="left",
+        validate="many_to_one",
+    )
+    outside = used.loc[~used["surface_agrees_visp"]]
+    if not outside["rel_y"].lt(outside["entry_rel_y_um"]).all():
+        raise ValueError(
+            "A unit from an outside-border entry proxy is not deeper than that entry"
+        )
+
+    used_summary = (
+        used.groupby(["subject_id", "site", "probe"], as_index=False)
+        .agg(
+            n_figure4_visp_units=("unit_id", "nunique"),
+            deepest_used_rel_y_um=("rel_y", "min"),
+            shallowest_used_rel_y_um=("rel_y", "max"),
+        )
+    )
+    metric_counts = (
+        used.groupby(["subject_id", "site", "probe", "metric"])["unit_id"]
+        .nunique()
+        .unstack(fill_value=0)
+        .rename(
+            columns={
+                "TTFS (ms)": "n_ttfs_visp_units",
+                "log10 F1/F0": "n_f1f0_visp_units",
+                "Response timescale (ms)": "n_timescale_visp_units",
+            }
+        )
+        .reset_index()
+    )
+    audit = audit.merge(
+        used_summary,
+        on=["subject_id", "site", "probe"],
+        how="left",
+        validate="one_to_one",
+    ).merge(
+        metric_counts,
+        on=["subject_id", "site", "probe"],
+        how="left",
+        validate="one_to_one",
+    )
+    audit["all_used_units_deeper_than_entry"] = (
+        audit["shallowest_used_rel_y_um"] < audit["entry_rel_y_um"]
+    )
+    return audit.sort_values(["subject_id", "probe"]).reset_index(drop=True)
+
+
+def weight_cells(groups: pd.DataFrame, cells: pd.DataFrame) -> pd.DataFrame:
+    """Center cells and give every session and neuron equal group weight."""
+    cells = cells.copy()
+    # Use the updated session centers behind the primary session-level figure.
     centers = groups[
         ["dataset", "metric", "session_id", "group", "session_mean"]
     ].drop_duplicates(["dataset", "metric", "session_id", "group"])
@@ -262,7 +525,7 @@ def plot_group_means(
         mean, ci = mean_ci(values)
         ax.errorbar(x, mean, yerr=ci, fmt="_", markersize=18, mew=2.8,
                     color=colors[group], capsize=3, lw=1.5, zorder=4)
-    ax.set_xticks(range(len(order)), order)
+    set_group_xticks(ax, range(len(order)), order)
     ax.set_xlim(-0.55, len(order) - 0.45)
     if centered:
         ax.axhline(0, color="#777777", ls="--", lw=0.9, zorder=1)
@@ -316,7 +579,10 @@ def plot_hierarchy_profile(
         hx = np.linspace(hxs.min(), hxs.max(), 100)
         ax.plot(hx, hfit.intercept + hfit.slope * hx, color=DELTA_COLOR, lw=1.3,
                 label="HVA-only fit")
-    ax.set_xticks([HIERARCHY_SCORES[g] for g in order], order, rotation=28, ha="right")
+    ax.set_xticks(
+        [HIERARCHY_SCORES[g] for g in order], display_group_labels(order),
+        rotation=28, ha="right",
+    )
     ax.set_xlim(-0.405, 0.485)
     style_axis(ax)
     row = hierarchy_stats.loc[
@@ -352,6 +618,67 @@ def plot_delta_metric(
     ax.set_yticks([0], [label])
     ax.set_ylim(-0.7, 0.7)
     ax.set_xlim(-0.36, 0.36)
+    style_axis(ax, grid=False)
+
+
+def plot_identity_and_delta_metric(
+    ax: plt.Axes,
+    stats: dict[str, float],
+) -> None:
+    """Show the two identity effects that produce the direct HVA-minus-V1 contrast."""
+    if "control" in stats:
+        rows = [(len(LOCATION_EFFECT_ROWS) - 1 - i, label, key, color)
+                for i, (label, key, color) in enumerate(LOCATION_EFFECT_ROWS)]
+        ax.axvline(0, color="#777777", lw=.8, ls="--")
+        for y, label, key, color in rows:
+            for offset, suffix, marker, ink in [(.13, "", "o", color), (-.13, "_null", "s", "#999999")]:
+                value, lo, hi = [100 * stats[key + suffix + tail] for tail in ["", "_low", "_high"]]
+                ax.plot([lo, hi], [y + offset] * 2, color=ink, lw=1.2)
+                ax.plot(value, y + offset, marker, color=ink, mfc=ink if not suffix else "white", ms=4)
+            p = stats.get(f"{key}_p", np.nan)
+            stars = "***" if p < .001 else "**" if p < .01 else "*" if p < .05 else ""
+            annotation = stars or ("n.s." if np.isfinite(p) else "")
+            if key == "delta" and stats["delta_low"] <= 0 <= stats["delta_high"]:
+                annotation = "n.s.‡"
+            if annotation:
+                ax.annotate(annotation, (100 * stats[key + "_high"], y + .13),
+                            xytext=(4, 0), textcoords="offset points",
+                            ha="left", va="center", color=color, fontsize=9 if stars else 7,
+                            fontweight="bold" if stars else "normal")
+        ax.set_yticks([r[0] for r in rows], [r[1] for r in rows], fontsize=8)
+        ax.set_ylim(-.5, 3.6)
+        ax.set_xlim(-40, 60)
+        ax.set_xticks([-30, 0, 30, 60])
+        style_axis(ax, grid=False)
+        return
+    rows = (
+        (0.42, "V1", stats["v1"], stats["v1_low"], stats["v1_high"],
+         "o", "white", V1_COLOR, 1.5),
+        (0.00, "HVA", stats["hva"], stats["hva_low"], stats["hva_high"],
+         "s", HVA_COLOR, HVA_COLOR, 1.2),
+        (-0.52, "HVA−V1", stats["delta"], stats["delta_low"], stats["delta_high"],
+         "D", DELTA_COLOR, DELTA_COLOR, 1.2),
+    )
+    ax.axvline(0, color="#777777", lw=0.9, ls="--", zorder=0)
+    for y, _, estimate, low, high, marker, marker_face, color, marker_edge_width in rows:
+        ax.errorbar(
+            estimate, y,
+            xerr=[[estimate - low], [high - estimate]],
+            fmt=marker, ms=5.3, mfc=marker_face, mec=color, mew=marker_edge_width,
+            color=color, capsize=2.4, lw=1.25, zorder=3,
+        )
+        ax.annotate(
+            f"{estimate:+.2f}",
+            xy=(estimate, y), xytext=(4, 0), textcoords="offset points",
+            ha="left", va="center", fontsize=7.0, color=color,
+            fontweight="bold" if y < 0 else "normal",
+            bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.82, "pad": 0.35},
+        )
+    ax.set_yticks([row[0] for row in rows], [row[1] for row in rows])
+    ax.tick_params(axis="y", labelsize=7.6, pad=2)
+    ax.set_ylim(-0.78, 0.72)
+    ax.set_xlim(-0.38, 0.54)
+    ax.set_xticks([-0.3, 0.0, 0.3])
     style_axis(ax, grid=False)
 
 
@@ -607,7 +934,7 @@ def plot_cell_ridges(
         ax.text(xlim[1] - 0.02 * (xlim[1] - xlim[0]), row + 0.28,
                 f"n={neurons:,}; {sessions} sessions", ha="right", va="center",
                 fontsize=7.3, color=MUTED)
-    ax.set_yticks(np.arange(len(order)), order[::-1])
+    ax.set_yticks(np.arange(len(order)), display_group_labels(order[::-1]))
     ax.set_xlim(*xlim)
     ax.set_xlabel("Neuron response timescale, τ (ms)")
     ax.set_title(title, loc="left", fontweight="bold")
@@ -634,7 +961,7 @@ def plot_session_summary(
         ax.errorbar(x, mean, yerr=ci, fmt="o", ms=7.5, color=colors[group],
                     markeredgecolor="white", markeredgewidth=0.7, capsize=3,
                     lw=1.5, zorder=4)
-    ax.set_xticks(np.arange(len(order)), order)
+    set_group_xticks(ax, np.arange(len(order)), order)
     ax.set_title(title, loc="left", fontweight="bold")
     style_axis(ax)
 
@@ -654,7 +981,10 @@ def plot_weighted_ecdfs(
         values = local["centered_value"].to_numpy(float)
         weights = local["equal_session_neuron_weight"].to_numpy(float)
         cumulative = np.cumsum(weights) / np.sum(weights)
-        ax.plot(values, cumulative, color=colors[group], lw=1.7, alpha=0.92, label=group)
+        ax.plot(
+            values, cumulative, color=colors[group], lw=1.7, alpha=0.92,
+            label=PROBE_DISPLAY_LABELS.get(group, group),
+        )
     ax.axvline(0, color="#777777", ls="--", lw=0.9)
     ax.set_xlim(*xlim)
     ax.set_ylim(0, 1)
@@ -688,7 +1018,7 @@ def plot_session_violins(
         mean, ci = mean_ci(local_values)
         ax.errorbar(x, mean, yerr=ci, fmt="_", markersize=16, mew=2.5,
                     color=colors[group], capsize=3, lw=1.4, zorder=4)
-    ax.set_xticks(np.arange(len(order)), order)
+    set_group_xticks(ax, np.arange(len(order)), order)
     if title:
         ax.set_title(title, loc="left", fontweight="bold")
     style_axis(ax)
@@ -721,7 +1051,7 @@ def plot_half_violins(
         mean, ci = mean_ci(local_values)
         ax.errorbar(x, mean, yerr=ci, fmt="_", markersize=16, mew=2.5,
                     color=colors[group], capsize=3, lw=1.4, zorder=4)
-    ax.set_xticks(positions, order)
+    set_group_xticks(ax, positions, order)
     style_axis(ax)
 
 
@@ -769,70 +1099,79 @@ def plot_hva_hierarchy_sessions(
     style_axis(ax)
 
 
-def plot_mousev2_penetration_map(
+def plot_mousev2_ccf_tracks(
     ax: plt.Axes,
-    penetrations: pd.DataFrame,
-    boundary: np.ndarray,
-    visp_mask: np.ndarray,
+    tracks: pd.DataFrame,
+    order: list[str] | None = None,
 ) -> None:
-    """MouseV2 V1 penetration geometry on a cropped Zhuang common map."""
-    ax.contourf(visp_mask.astype(float), levels=[0.5, 1.5], colors=["#edf3fa"], zorder=0)
-    ax.contour(boundary.astype(float), levels=[0.5], colors="#b8bcc1",
-               linewidths=0.65, zorder=1)
-    ax.contour(visp_mask.astype(float), levels=[0.5], colors="#4c5661",
-               linewidths=1.35, zorder=2)
-
-    for probe in PROBE_ORDER:
-        local = penetrations.loc[penetrations["probe"].eq(probe)]
-        ax.scatter(
-            local["zhuang_col"], local["zhuang_row"],
-            s=68, marker="o", facecolors=PROBE_COLORS[probe],
-            edgecolors="white", linewidths=0.9, alpha=0.86, zorder=4,
-        )
-
-    for label, (x, y) in ZHUANG_AREA_SEEDS.items():
-        ax.text(
-            x, y, label, ha="center", va="center", fontsize=9.5,
-            color="#6b7076", fontweight="bold" if label == "V1" else "normal",
-            bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.72, "pad": 0.8},
-            zorder=3,
-        )
+    """MouseV2 V1 trajectories from refreshed per-electrode CCF localization."""
+    order = list(PROBE_ORDER) if order is None else order
+    for probe in order:
+        local = tracks.loc[tracks["probe"].eq(probe)]
+        for _, row in local.iterrows():
+            # Matplotlib's third plotted dimension is raw CCF y, displayed
+            # downward because increasing y is ventral in these NWBs.
+            deep = np.asarray(
+                [row.deep_x_um, row.deep_z_um, row.deep_y_um], dtype=float
+            ) / 1000.0
+            surface = np.asarray(
+                [row.surface_x_um, row.surface_z_um, row.surface_y_um], dtype=float
+            ) / 1000.0
+            ax.plot(
+                [deep[0], surface[0]],
+                [deep[1], surface[1]],
+                [deep[2], surface[2]],
+                color=PROBE_COLORS[probe], linewidth=1.35, alpha=0.48,
+            )
+            ax.scatter(
+                [surface[0]], [surface[1]], [surface[2]],
+                s=16, marker="^", color=PROBE_COLORS[probe],
+                edgecolors="white", linewidths=0.35, alpha=0.78,
+            )
 
     probe_handles = [
-        Line2D([0], [0], marker="o", linestyle="none", markersize=7.0,
-               markerfacecolor=PROBE_COLORS[p], markeredgecolor="white", label=p)
-        for p in PROBE_ORDER
+        Line2D([0], [0], color=PROBE_COLORS[p], linewidth=2.0,
+               label=PROBE_DISPLAY_LABELS[p])
+        for p in order
     ]
     ax.legend(
-        handles=probe_handles, title="Probe", ncol=4, loc="lower center",
-        bbox_to_anchor=(0.5, -0.025),
-        frameon=False, fontsize=8.2, title_fontsize=8.4,
-        handletextpad=0.25, columnspacing=0.55, borderaxespad=0.2,
+        handles=probe_handles, title="V1 location", ncol=1, loc="upper right",
+        bbox_to_anchor=(1.02, 0.84), frameon=False, fontsize=7.2,
+        title_fontsize=7.7, handletextpad=0.35, columnspacing=0.65,
+        borderaxespad=0.1,
     )
-    ax.set_xlim(0, 440)
-    ax.set_ylim(430, 0)
-    ax.set_aspect("equal")
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.spines[:].set_visible(False)
+    endpoints = np.vstack([
+        tracks[["deep_x_um", "deep_z_um", "deep_y_um"]].to_numpy(float),
+        tracks[["surface_x_um", "surface_z_um", "surface_y_um"]].to_numpy(float),
+    ]) / 1000.0
+    spans = np.maximum(np.ptp(endpoints, axis=0), 1e-6)
+    ax.set_box_aspect(tuple(float(value) for value in spans))
+    ax.invert_zaxis()
+    ax.view_init(elev=21, azim=-67)
+    ax.set_xlabel("CCF x (mm)", fontsize=7.2, labelpad=-6)
+    ax.set_ylabel("CCF z (mm)", fontsize=7.2, labelpad=-6)
+    ax.set_zlabel("CCF y (mm; +ventral)", fontsize=7.2, labelpad=-4)
+    ax.tick_params(labelsize=6.2, pad=0)
     ax.set_title(
-        "A1  MouseV2 V1 penetrations", loc="left", fontweight="bold",
-        fontsize=12.0, pad=8,
+        "A1  MouseV2 V1 probe trajectories", loc="left", fontweight="bold",
+        fontsize=12.0, pad=4,
     )
-    ax.text(
-        0.0, 1.005, "32 registered location estimates · 8 animals · Zhuang common map",
-        transform=ax.transAxes, ha="left", va="bottom", fontsize=8.0, color=MUTED,
+    ax.text2D(
+        0.0, 0.955, "32 CCF-localized tracks · 8 animals · ▲ dorsal endpoint",
+        transform=ax.transAxes, ha="left", va="top", fontsize=7.8, color=MUTED,
     )
 
 
-def plot_open_scope_schematic(ax: plt.Axes, schematic: np.ndarray) -> None:
+def plot_open_scope_schematic(
+    ax: plt.Axes, schematic: np.ndarray, *, title_prefix: str = "B",
+) -> None:
     ax.imshow(schematic)
     ax.set_anchor("N")
     ax.set_xticks([])
     ax.set_yticks([])
     ax.spines[:].set_visible(False)
     ax.set_title(
-        "A2  OpenScope imaging schematic", loc="left", fontweight="bold",
+        f"{title_prefix}  OpenScope imaging schematic", loc="left", fontweight="bold",
         fontsize=12.0, pad=8,
     )
 
@@ -1021,7 +1360,10 @@ def plot_weighted_histograms(
         weights = local["equal_session_neuron_weight"].to_numpy(float)
         density, edges = np.histogram(values, bins=bins, weights=weights, density=True)
         centers = 0.5 * (edges[:-1] + edges[1:])
-        ax.plot(centers, density, color=colors[group], lw=1.6, label=group)
+        ax.plot(
+            centers, density, color=colors[group], lw=1.6,
+            label=PROBE_DISPLAY_LABELS.get(group, group),
+        )
     ax.axvline(0, color="#777777", ls="--", lw=0.9)
     if title:
         ax.set_title(title, loc="left", fontweight="bold")
@@ -1117,40 +1459,51 @@ def variant_i(groups: pd.DataFrame, cells: pd.DataFrame) -> plt.Figure:
     return fig
 
 
+def v1_display_order() -> list[str]:
+    """Fixed reader-facing V1 order: anterior, lateral, posterior, medial."""
+    return list(PROBE_ORDER)
+
+
 def variant_j(
     groups: pd.DataFrame,
     cells: pd.DataFrame,
     hierarchy_stats: pd.DataFrame,
     identity: dict[str, dict[str, float]],
-    mousev2_penetrations: pd.DataFrame,
-    zhuang_boundary: np.ndarray,
-    zhuang_visp_mask: np.ndarray,
+    mousev2_ccf_entries: pd.DataFrame,
+    ccf_surface_atlas: np.ndarray,
+    ccf_surface_labels: dict[int, str],
     open_scope_schematic: np.ndarray,
 ) -> plt.Figure:
     """Leading hybrid: raw sessions, hierarchy context, direct test, one cell example."""
-    # Keep the reserved left column at its current physical width while
-    # regenerating the analytical block at roughly two-thirds scale.
+    # Give the analytical comparisons priority while retaining anatomical context.
     fig = plt.figure(figsize=(14.0, 10.0))
     outer = fig.add_gridspec(
         1, 2, left=0.04, right=0.975, bottom=0.07, top=0.965,
-        width_ratios=[1.65, 2.90], wspace=0.18,
+        width_ratios=[1.40, 3.15], wspace=0.18,
     )
     gs = outer[0, 1].subgridspec(
         4, 3,
-        width_ratios=[1.0, 1.18, 0.72], height_ratios=[1, 1, 1, 1.10],
+        width_ratios=[1.0, 1.18, 0.95], height_ratios=[1, 1, 1, 1.10],
         hspace=0.48, wspace=0.27,
     )
     left_box = outer[0, 0].get_position(fig)
     separator_x = left_box.x1
-    fig.add_artist(Rectangle(
-        (separator_x - 0.00225, 0.07), 0.0045, 0.895,
-        transform=fig.transFigure, facecolor="black", edgecolor="none",
-        clip_on=False, zorder=20,
+    fig.add_artist(Line2D(
+        [separator_x + .012, separator_x + .012], [.07, .965],
+        transform=fig.transFigure, color="#d5d7db", lw=.7,
     ))
-    left_grid = outer[0, 0].subgridspec(2, 1, height_ratios=[1.05, 1.0], hspace=0.12)
+    v1_order = v1_display_order()
+    left_grid = outer[0, 0].subgridspec(2, 1, height_ratios=[1.02, 1.0], hspace=0.18)
     penetration_ax = fig.add_subplot(left_grid[0, 0])
-    plot_mousev2_penetration_map(
-        penetration_ax, mousev2_penetrations, zhuang_boundary, zhuang_visp_mask
+    # Surface helper uses ProbeA-style identifiers; the Figure 4 table keeps
+    # the compact A/E/C/B identifiers used by the analysis panels.
+    surface_entries = mousev2_ccf_entries.copy()
+    if len(surface_entries) != 32 or surface_entries["subject_id"].nunique() != 8:
+        raise ValueError("Unexpected Figure 4 A CCF surface inventory")
+    surface_entries["probe"] = "Probe" + surface_entries["probe"]
+    plot_mousev2_ccf_surface(
+        penetration_ax, surface_entries, ccf_surface_atlas,
+        ccf_surface_labels, title_prefix="A", show_mean_positions=True,
     )
     schematic_ax = fig.add_subplot(left_grid[1, 0])
     plot_open_scope_schematic(schematic_ax, open_scope_schematic)
@@ -1163,44 +1516,62 @@ def variant_j(
         plot_half_violins(
             v1_ax,
             local.loc[local["dataset"].eq("Within-V1")],
-            PROBE_ORDER,
+            v1_order,
             PROBE_COLORS,
         )
         v1_ax.set_ylabel(metric)
-        plot_hva_hierarchy_sessions(
+        plot_half_violins(
             hva_ax,
             local.loc[local["dataset"].eq("Post-V1")],
-            metric=metric,
-            hierarchy_stats=hierarchy_stats,
+            AREA_ORDER,
+            AREA_COLORS,
         )
         hva_ax.tick_params(axis="y", labelleft=False)
-        delta_label = {
-            "log10 F1/F0": "F1/F0",
-            "Response timescale (ms)": "τ",
-        }.get(metric, short)
-        plot_delta_metric(delta_ax, identity[metric], delta_label, annotate=True)
+        plot_identity_and_delta_metric(delta_ax, identity[metric])
+        if "control" in identity[metric]:
+            for session_ax, left_shift in ((v1_ax, .015), (hva_ax, .030)):
+                box = session_ax.get_position()
+                session_ax.set_position([box.x0 - left_shift, box.y0, box.width, box.height])
 
         if row == 0:
-            v1_ax.set_title("B  Within-V1 sessions", loc="left", fontweight="bold")
-            hva_ax.set_title("C  HVA sessions × hierarchy", loc="left", fontweight="bold")
-            delta_ax.set_title("D  Direct Δω² contrast", loc="left", fontweight="bold")
+            v1_ax.set_title("C  Within-V1 sessions", loc="left", fontweight="bold")
+            hva_ax.set_title("D  Across-HVA sessions", loc="left", fontweight="bold")
+            delta_ax.set_title("E  Variation attributable\nto probe location", loc="left", fontweight="bold", fontsize=10.5, pad=1)
+            delta_ax.text(
+                0.0, 1.005, "",
+                transform=delta_ax.transAxes, ha="left", va="bottom",
+                fontsize=6.8, color=MUTED,
+            )
         if row < 2:
             delta_ax.tick_params(axis="x", labelbottom=False)
             delta_ax.set_xlabel("")
         if row == 2:
-            hva_ax.set_xlabel("Published inter-area hierarchy score")
+            delta_ax.set_xlabel("Variance explained (%)" if "control" in identity[metric] else "Variance explained (fraction)", fontsize=9)
+
+        if row == 0 and "control" in identity[metric]:
+            delta_ax.legend(handles=[
+                Line2D([], [], marker="o", color=INK, lw=0, label="Observed"),
+                Line2D([], [], marker="s", color="#999999", mfc="white", lw=0, label="Shuffled"),
+            ], loc="upper left", fontsize=7.5, frameon=False, ncol=2,
+                handletextpad=.3, columnspacing=.6, borderaxespad=0)
+        if row == 2 and "control" in identity[metric]:
+            delta_ax.text(0, -.25, "†Matched Allen sessions", transform=delta_ax.transAxes, fontsize=6.2, color=MUTED, va="top")
 
     ridge_grid = gs[3, :].subgridspec(1, 2, wspace=0.20)
     timescale_cells = cells.loc[cells["metric"].eq("Response timescale (ms)")]
     v1_ridge = fig.add_subplot(ridge_grid[0, 0])
     hva_ridge = fig.add_subplot(ridge_grid[0, 1])
+    ridge_box = v1_ridge.get_position()
+    v1_ridge.set_position([
+        v1_ax.get_position().x0, ridge_box.y0, ridge_box.width, ridge_box.height,
+    ])
     plot_cell_ridges(
         v1_ridge,
         timescale_cells.loc[timescale_cells["dataset"].eq("Within-V1")],
-        PROBE_ORDER,
+        v1_order,
         PROBE_COLORS,
         xlim=(0.0, 150.0),
-        title="E1  Within-V1 neuronal timescales",
+        title="F  Within-V1 neuronal timescales",
     )
     plot_cell_ridges(
         hva_ridge,
@@ -1208,7 +1579,7 @@ def variant_j(
         AREA_ORDER,
         AREA_COLORS,
         xlim=(0.0, 150.0),
-        title="E2  HVA neuronal timescales",
+        title="G  HVA neuronal timescales",
     )
     return fig
 
@@ -1224,14 +1595,27 @@ def main() -> None:
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     groups, allen_v1, hierarchy_stats = load_inputs()
-    mousev2_penetrations, zhuang_boundary, zhuang_visp_mask = load_mousev2_penetration_map()
+    mousev2_ccf_entries, ccf_surface_atlas, ccf_surface_labels = (
+        load_mousev2_ccf_surface()
+    )
     if not args.schematic.is_file():
         raise FileNotFoundError(f"OpenScope schematic not found: {args.schematic}")
     open_scope_schematic = plt.imread(args.schematic)
     if open_scope_schematic.ndim not in (2, 3):
         raise ValueError(f"Unexpected schematic image shape: {open_scope_schematic.shape}")
     open_scope_schematic = recolor_open_scope_squares(open_scope_schematic)
-    cells = load_weighted_cells(groups)
+    raw_cells = load_figure_cells()
+    groups, raw_cells, anatomical_filter_audit = apply_anatomical_v1_filter(
+        groups, raw_cells
+    )
+    anatomical_filter_audit.to_csv(
+        output.parent / "Figure4_mousev2_visp_filter_audit.csv", index=False
+    )
+    probe_v1_audit = build_mousev2_probe_v1_audit(raw_cells)
+    probe_v1_audit.to_csv(
+        output.parent / "Figure4_mousev2_probe_v1_audit.csv", index=False
+    )
+    cells = weight_cells(groups, raw_cells)
     identity = identity_statistics(groups, n_bootstrap=args.n_bootstrap, seed=args.seed)
     preview_dir = output.parent / f"{output.stem}_previews"
     preview_dir.mkdir(parents=True, exist_ok=True)
@@ -1247,7 +1631,7 @@ def main() -> None:
         lambda: variant_i(groups, cells),
         lambda: variant_j(
             groups, cells, hierarchy_stats, identity,
-            mousev2_penetrations, zhuang_boundary, zhuang_visp_mask,
+            mousev2_ccf_entries, ccf_surface_atlas, ccf_surface_labels,
             open_scope_schematic,
         ),
     ]
@@ -1263,7 +1647,7 @@ def main() -> None:
     hybrid_png = output.parent / "Figure4_hybrid_candidate.png"
     hybrid = variant_j(
         groups, cells, hierarchy_stats, identity,
-        mousev2_penetrations, zhuang_boundary, zhuang_visp_mask,
+        mousev2_ccf_entries, ccf_surface_atlas, ccf_surface_labels,
         open_scope_schematic,
     )
     hybrid.savefig(hybrid_pdf, facecolor="white")

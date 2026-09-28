@@ -1,0 +1,15 @@
+{
+  "seed": 20260917,
+  "draws": 5000,
+  "central_source": "data/unit_table.csv; legacy metric processing, not harmonized/common-QC",
+  "central_eligibility": "Original metric validity rules and >=5 cells per session; all original Allen V1 reference sessions",
+  "central_label": "User-requested display label; anatomical centrality was not verified from probe coordinates",
+  "bootstrap": "Whole sessions stratified by source. Allen session multiplicities shared across Central, HVAs and control, using union of eligible sessions per metric",
+  "shuffle": "Within source/session location-label blocks; Central is fixed because never co-recorded with four MouseV2 locations",
+  "control": "Same cell input population as prior single-cell control; refreshed bootstrap/shuffle draws",
+  "sources": [
+    "Figure3/Figure4_CDE_single_cell_candidate_inputs.csv",
+    "data/unit_table.csv",
+    "Figure3/Figure3_Allen_V1_session_means.csv"
+  ]
+}

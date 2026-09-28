@@ -41,6 +41,8 @@ not prevent us from improving and viewing the main three-metric analysis now.
 | 6E-6H — RF-inverted V1 registration, size/dispersion mapping, shank-geometry correction | Completed 2026-08-17; per-probe insertion angle estimated via RF-significant-unit depth span vs. a 24-probe Allen reference (CSD-based absolute-depth landmark detection tried first, retained on record but not trusted for angle claims -- see summary). Refreshed 2026-08-18 alongside 6D (same bugfix). RF-size/dispersion figure's per-unit cortical position was switched same day from 06g's free-fit (found to drift a median 95px from the true anatomical entry point) to the anatomy-anchored direction-search position -- see 6P | [`MOUSEV2_PROBE_SHANK_REGISTRATION`](artifacts/figure3/06g_mousev2_rf_units_along_probe_shank/MOUSEV2_PROBE_SHANK_REGISTRATION.md) |
 | 6P — SF/TF preference over cortical (Zhuang) position | Completed 2026-08-18; cortical-space counterpart to 6D. Revised same day: initially used 06g's free 2-endpoint per-unit line fit, found to drift a median 95px from the true anatomical entry point (`render_allen_vs_mousev2_units_on_map_comparison.py`); switched to the anatomy-anchored direction-search position (entry fixed to 06j, only shank angle is fit) -- that angle remains PUTATIVE, not fully resolved (median cos-to-inward +0.15). Extended 2026-08-19 with an Allen V1 row at real CCF position (2,398 units, independent of RF value), fit with the same surface method, plus a MouseV2-minus-Allen difference map (SF r=0.83, 1.31x; TF r=-0.18, 1.09x -- ratios match 06d's retinotopic-space numbers), descriptive only. `cortical_difference_grid`'s merge fixed same day to round row/col before joining -- it previously matched exact float64 equality, which silently returned zero shared rows whenever one input surface was reloaded from a rounded CSV instead of computed fresh in-process (surfaced by 06Q's reuse) | [`MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES`](artifacts/figure3/06p_mousev2_frequency_preference_cortical_surfaces/MOUSEV2_FREQUENCY_PREFERENCE_CORTICAL_SURFACES.md) |
 | 6Q — Test hypotheses for an undetected shared SF/TF map | Completed 2026-08-19; per-session SF/TF offset correction against the Allen reference surface did NOT improve spatial agreement (SF r: 0.83->0.59; TF r: -0.18->0.00) -- read as evidence against that specific correction, not proof no per-animal effect exists (in-sample, no CV, only 8 sessions). Empirical semivariograms showed no detectable spatial autocorrelation range in EITHER dataset (per-unit noise ~2 octaves at every distance tested, dwarfing the ~0.3-octave smoothed-surface range) -- the 375um bandwidth choice remains unvalidated rather than shown wrong | [06Q outputs](artifacts/figure3/06q_mousev2_sftf_session_alignment_and_autocorrelation/) |
+| 6R — MouseV2 V1 3-D CCF probe tracks and anatomical unit gate | Updated 2026-09-25 from the refreshed DANDI:001568 NWBs, including corrected subject 815152 probe assignments. All 32 session–probe trajectories were fit from non-void AP-electrode coordinates (median TLS/PCA colinearity r²=0.996; minimum=0.988); LFP duplicate rows were excluded. All 20,374 analysis units were reconciled to their NWB extremum AP channel, with 8,314 on VISp-labeled channels. Figure 4 uses this VISp gate for every MouseV2 metric (HVA data unchanged); all three revised identity-contrast intervals still include zero. CCF y is supported as dorsal–ventral by shank order, while x/z retain their raw names pending explicit anatomical-axis provenance. | [`MOUSEV2_PROBE_TRACKS_FROM_CCF`](artifacts/figure3/06r_mousev2_probe_tracks_from_ccf/MOUSEV2_PROBE_TRACKS_FROM_CCF.md), [`FIGURE4_MOUSEV2_VISP_UPDATE`](Figure3/Figure4_mousev2_visp_update.md) |
+| 6S — MouseV2 CCFv3 dorsal-surface entry projection | Updated 2026-09-25 using the official Allen CCF 2017 `top.nrrd` surface atlas and label table. The most superficial VISp-labelled AP contact provides an auditable cortical-entry proxy for each of 32 session–probe tracks. Direct CCF `(AP, ML) = (x, z)` overlay places 30/32 proxies in the independent VISp surface polygon; the VISa and VISpm border cases from subject 810532 are retained. Figure 4 A1 includes all eight animals, displays the genuine VISp/HVA borders, and uses the fixed anterior/lateral/posterior/medial red/orange/green/blue order. | [`CCF_SURFACE_PROJECTION`](artifacts/figure3/06s_mousev2_ccf_surface_projection/README.md) |
 | 7 — Full-cell V1/HVA variance comparison and timescale sensitivity | Interim conclusion recorded 2026-08-26. Primary timescale ratio is 2.99x, but it falls to 2.47x for V1 neurons valid in all ten matched draws and 1.43x under a matched fitted-error <10 ms gate; both sensitivity difference intervals include zero. Current paper-facing conclusion: no robust evidence for a systematic HVA timescale hierarchy. | [`TIMESCALE_INTERIM_CONCLUSION`](artifacts/figure3/07_big_picture_concrete_first/timescale_population_sensitivity/TIMESCALE_INTERIM_CONCLUSION.md) |
 
 ### Current interim conclusion: response timescale
@@ -165,11 +167,14 @@ log10 F1/F0 increases by +0.061. The SF/condition-space difference therefore
 does not explain the large modulation-index offset. The remaining executable
 bridge requires raw Allen Brain Observatory and Functional Connectivity NWBs.
 
-Iterations 6E-6H build the spatial axis MouseV2 otherwise lacks entirely (no CCF
-in these NWBs) by inverting the registration direction used everywhere else in
-this project: RF value → inferred V1 position, restricted to Zhuang's V1
-compartment (the recordings are known to be in V1, which removes almost all
-inversion ambiguity). A harmonization-offset bug was found and fixed in the
+Iterations 6E-6H built the spatial axis from the original MouseV2 NWB snapshot,
+which lacked CCF coordinates. The DANDI draft refresh updated 2026-09-25 now
+contains per-electrode CCF `x/y/z` and atlas `location`; those coordinates were
+not inputs to the historical 6E-6H results. Those iterations inverted the
+registration direction used everywhere else in this project: RF value →
+inferred V1 position, restricted to Zhuang's V1 compartment (the recordings
+are known to be in V1, which removes almost all inversion ambiguity). A
+harmonization-offset bug was found and fixed in the
 process (elevation was off by ~11.5 deg; azimuth was fine). The registration is
 validated by a sign-unambiguous, never-fit-on check: probe letter explains ~80%
 of inferred-position variance across independently-registered sessions
@@ -263,9 +268,12 @@ from loose filename matching.
 2. Common waveform QC is now applied consistently across every Figure 3 and
    statistics entry point, but the primary paper population cannot be selected
    until the RF filter is available and session balance is reviewed.
-3. The reviewed categorical figures now label MouseV2 x offsets as display-only
-   and fit no within-V1 hierarchy trend; the companion view uses provisional
-   measured RF coordinates. Exact anatomical coordinates are not yet versioned.
+3. The reviewed categorical figures label MouseV2 x offsets as display-only and
+   fit no within-V1 hierarchy trend; the companion view uses provisional
+   measured RF coordinates. The refreshed DANDI draft now supplies complete
+   per-electrode CCF coordinates and atlas labels, but the paper-facing
+   coordinate export and anatomical panels have not yet been regenerated from
+   them.
 4. The recording locations are anatomically established within V1, including
    which part of V1 was sampled, but those locations do not yet have a validated
    anatomical hierarchy score comparable to the inter-area score.

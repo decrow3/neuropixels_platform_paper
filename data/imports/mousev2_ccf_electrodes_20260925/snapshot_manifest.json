@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "downloaded_at": "2026-09-25",
+  "dandiset": {
+    "identifier": "DANDI:001568",
+    "version": "draft",
+    "modified": "2026-09-25T20:32:22.347598Z",
+    "snapshot_root": "/media/huklaban5/Data/MouseV2/dandi_refresh_20260925/001568",
+    "previous_snapshot_root": "/media/huklaban5/Data/MouseV2/dandi_refresh_20260902/001568",
+    "assembly": "corrected subject 815152 asset plus seven unchanged verified assets symlinked from the previous snapshot"
+  },
+  "validation": {
+    "asset_count": 8,
+    "total_bytes": 74936354377,
+    "unit_rows": 20374,
+    "electrode_rows": 15360,
+    "finite_x_rows": 15360,
+    "finite_y_rows": 15360,
+    "finite_z_rows": 15360,
+    "unknown_location_rows": 0,
+    "visp_location_rows": 3913,
+    "units_on_visp_channels": 8314,
+    "subject_815152_unit_identity_and_extremum_channel_mapping_equal_to_previous_asset": true
+  },
+  "assets": [
+    {
+      "subject_id": 810531,
+      "path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+      "asset_id": "029598f2-fb30-4fd7-93c3-5a5928f05b8a",
+      "bytes": 8962194688,
+      "sha256": "c7ae98a442e8fb8b2bc7090266a414dfc19f7415ec6e25b7a4e7df87a6665b3f",
+      "unit_rows": 2251,
+      "location_labels": 27,
+      "visp_electrode_rows": 520,
+      "storage": "symlink_to_20260902_snapshot"
+    },
+    {
+      "subject_id": 810532,
+      "path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+      "asset_id": "d38d5443-8219-4669-973e-a436e9c7a459",
+      "bytes": 8890484875,
+      "sha256": "6a733fd5f1f485c649f6d1a19a9c97fe1eaad9964fbcdc71b8f836657f7d8799",
+      "unit_rows": 2202,
+      "location_labels": 36,
+      "visp_electrode_rows": 460,
+      "storage": "symlink_to_20260902_snapshot"
+    },
+    {
+      "subject_id": 813810,
+      "path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+      "asset_id": "b3e93269-cb7a-4cfe-a828-24c2e1e800ee",
+      "bytes": 9988455359,
+      "sha256": "ea065730558b863bd9e5323f9ad82c25fc61259dac7026240a7ec25db6c4d504",
+      "unit_rows": 2996,
+      "location_labels": 25,
+      "visp_electrode_rows": 532,
+      "storage": "symlink_to_20260902_snapshot"
+    },
+    {
+      "subject_id": 815152,
+      "path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+      "asset_id": "04861ac8-27fe-4110-bf04-ef4aba3f0618",
+      "blob_id": "c3798822-7b58-4517-8039-323c5157ed5e",
+      "modified": "2026-09-25T20:30:45.868825Z",
+      "bytes": 9063003216,
+      "sha256": "b5522b72a61b378acea1375e3107eb1a5b272a22663eaee63c6aed4e69832c87",
+      "previous_sha256": "1f298aef63cc2b6869bf9ea96227cb5a5d1d25bf029520b4aef23e10ec14b7af",
+      "unit_rows": 2353,
+      "location_labels": 29,
+      "visp_electrode_rows": 453,
+      "storage": "downloaded_from_dandi"
+    },
+    {
+      "subject_id": 816305,
+      "path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+      "asset_id": "efd91d9f-27bb-4f32-bc01-0f1ef687c49d",
+      "bytes": 9644334033,
+      "sha256": "9196b55f5652ab670f43a5c53d66119e88ff645cd346892e455fe2b1791ce5b7",
+      "unit_rows": 2732,
+      "location_labels": 28,
+      "visp_electrode_rows": 521,
+      "storage": "symlink_to_20260902_snapshot"
+    },
+    {
+      "subject_id": 816308,
+      "path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+      "asset_id": "f222cec4-8037-43ba-aafa-939ac94bebac",
+      "bytes": 9350318481,
+      "sha256": "e794b4c1c59dc54da135c7aeb39f490c0f3e61556cd179f33068f47c4fb2f8c8",
+      "unit_rows": 2512,
+      "location_labels": 31,
+      "visp_electrode_rows": 445,
+      "storage": "symlink_to_20260902_snapshot"
+    },
+    {
+      "subject_id": 817334,
+      "path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+      "asset_id": "7bb5f1e6-e2eb-41a6-a0e7-123cb2a4ef8b",
+      "bytes": 9826642636,
+      "sha256": "da0b9f7568380c81c7330fc8c66a2e000aa53925642f5e5c4b3c791b8a39c937",
+      "unit_rows": 2925,
+      "location_labels": 27,
+      "visp_electrode_rows": 482,
+      "storage": "symlink_to_20260902_snapshot"
+    },
+    {
+      "subject_id": 817335,
+      "path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+      "asset_id": "16edbdfa-9cad-4e47-b2c0-3ce0f325f522",
+      "bytes": 9210921089,
+      "sha256": "57a2983f2a52899ec9f81c24952670515b5d33a9bfa474fc81a94730e88202fc",
+      "unit_rows": 2403,
+      "location_labels": 29,
+      "visp_electrode_rows": 500,
+      "storage": "symlink_to_20260902_snapshot"
+    }
+  ]
+}

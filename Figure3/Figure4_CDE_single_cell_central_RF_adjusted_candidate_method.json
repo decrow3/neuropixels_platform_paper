@@ -1,0 +1,16 @@
+{
+  "seed": 20260918,
+  "draws": 5000,
+  "central_included": true,
+  "RF_model": "group intercepts + azimuth + elevation + azimuth^2 + azimuth*elevation + elevation^2",
+  "coordinates": "Display axes: MouseV2 x+50, y+10; native Allen azimuth/elevation; no eye-position correction",
+  "effect": "Partial omega-squared: (SSE_RF-SSE_full-q*MSE_full)/(SSE_RF+MSE_full)",
+  "displayed_outcome": "raw outcome minus (RF features minus pooled-comparison RF-feature mean) times fitted RF coefficients",
+  "bootstrap": "Both models refitted in every whole-session draw; stratified by source, shared Allen session draws across comparisons",
+  "shuffle": "Whole session/group labels permuted, RF covariates retained and both models refitted; Central fixed",
+  "sources": [
+    "Figure3/Figure4_CDE_single_cell_central_candidate_inputs.csv",
+    "data/imports/mousev2_parametric_rf_v1/rf_unit_fits.csv",
+    "artifacts/figure3/06c_allen_rf_matching/rf_unit_common_support.csv"
+  ]
+}

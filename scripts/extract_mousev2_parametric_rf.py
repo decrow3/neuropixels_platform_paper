@@ -43,6 +43,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fdr-alpha", type=float, default=0.05)
     parser.add_argument("--minimum-reliability", type=float, default=0.3)
     parser.add_argument("--minimum-pseudo-r2", type=float, default=0.1)
+    parser.add_argument(
+        "--selection-column", default="pilot_qc",
+        help="Boolean analysis-units column defining the fit population",
+    )
+    parser.add_argument(
+        "--reuse-fits", type=Path, default=None,
+        help="Optional prior fit table; matching selected units are reused and support/FDR are recomputed jointly",
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
 
@@ -90,9 +98,17 @@ def main() -> None:
         raise FileExistsError(f"Refusing to overwrite non-empty {output_dir}; use --overwrite")
     output_dir.mkdir(parents=True, exist_ok=True)
     unit_metadata = pd.read_csv(args.analysis_units.resolve(), low_memory=False)
+    if args.selection_column not in unit_metadata:
+        raise ValueError(f"Analysis units lack selection column {args.selection_column!r}")
     selected_metadata = unit_metadata.loc[
-        unit_metadata["pilot_qc"].fillna(False).astype(bool)
+        unit_metadata[args.selection_column].fillna(False).astype(bool)
     ].copy()
+    reused = None
+    if args.reuse_fits is not None:
+        reused = pd.read_csv(args.reuse_fits.resolve())
+        reused["unit_id"] = reused.unit_id.astype(str)
+        if reused.unit_id.duplicated().any():
+            raise ValueError("Reuse fit table contains duplicate unit IDs")
 
     requested = set(args.sites) if args.sites else None
     sessions = [
@@ -106,20 +122,33 @@ def main() -> None:
         site = str(session["site"])
         offset = int(session["id_offset"])
         site_metadata = selected_metadata.loc[selected_metadata["site"].eq(site)].copy()
-        local_ids = site_metadata["unit_id"].astype(int).to_numpy() - offset
-        nwb_path = nwb_root / str(session["nwb_relative_path"])
-        print(f"[{site}] fitting {len(local_ids):,} elliptical Gaussian RFs", flush=True)
-        extracted = read_nwb_tables(str(nwb_path))
-        rf_table = extracted.intervals_tables["receptive_field_block_presentations"]
-        fits = fit_parametric_rf_models(
-            local_ids, extracted.spikes_by_unit, rf_table
+        reuse_site = (
+            reused.loc[reused.unit_id.isin(site_metadata.unit_id.astype(str))].copy()
+            if reused is not None else pd.DataFrame()
         )
-        fits["unit_id"] = fits["unit_id"].astype(int) + offset
-        fits = site_metadata[
-            ["unit_id", "site", "site_number", "subject_id", "probe", "pilot_qc", "default_qc"]
-        ].merge(fits, on="unit_id", validate="one_to_one")
-        frames.append(fits)
-        inputs.append({"site": site, "path": str(nwb_path), "bytes": nwb_path.stat().st_size})
+        missing_metadata = site_metadata.loc[
+            ~site_metadata.unit_id.astype(str).isin(set(reuse_site.get("unit_id", [])))
+        ].copy()
+        local_ids = missing_metadata["unit_id"].astype(int).to_numpy() - offset
+        nwb_path = nwb_root / str(session["nwb_relative_path"])
+        print(f"[{site}] reusing {len(reuse_site):,}; fitting {len(local_ids):,} elliptical Gaussian RFs", flush=True)
+        if len(reuse_site):
+            derived = [
+                "rf_lrt_q", "rf_reliability_q", "rf_model_supported",
+                "supported_rf_center_x_deg", "supported_rf_center_y_deg",
+            ]
+            frames.append(reuse_site.drop(columns=derived, errors="ignore"))
+        if len(local_ids):
+            extracted = read_nwb_tables(str(nwb_path))
+            rf_table = extracted.intervals_tables["receptive_field_block_presentations"]
+            fits = fit_parametric_rf_models(local_ids, extracted.spikes_by_unit, rf_table)
+            fits["unit_id"] = fits["unit_id"].astype(int) + offset
+            fits = missing_metadata[
+                ["unit_id", "site", "site_number", "subject_id", "probe", "pilot_qc", "default_qc"]
+            ].merge(fits, on="unit_id", validate="one_to_one")
+            frames.append(fits)
+            inputs.append({"site": site, "path": str(nwb_path), "bytes": nwb_path.stat().st_size,
+                           "new_fits": len(local_ids), "reused_fits": len(reuse_site)})
 
     supported = apply_rf_support(
         pd.concat(frames, ignore_index=True),
@@ -168,7 +197,9 @@ def main() -> None:
         "status": "trial-derived supported elliptical Gaussian RF models",
         "inputs": inputs,
         "parameters": {
-            "fit_population": "Pilot-QC selected independently of RF responses",
+            "fit_population": f"Rows selected by analysis-units column {args.selection_column!r}",
+            "selection_column": args.selection_column,
+            "reuse_fits": str(args.reuse_fits.resolve()) if args.reuse_fits else None,
             "model": "Poisson baseline plus rotated elliptical 2D Gaussian",
             "fdr_alpha": args.fdr_alpha,
             "minimum_split_half_spearman_brown": args.minimum_reliability,

@@ -1,0 +1,37 @@
+comparison,metric,source,group,original_cells,rf_cells,retained_cells
+control,Response timescale (ms),Allen,hva,2616,2616,2616
+control,Response timescale (ms),Allen,v1,870,870,870
+control,TTFS (ms),Allen,hva,715,554,320
+control,TTFS (ms),Allen,v1,333,271,177
+control,log10 F1/F0,Allen,hva,6142,3646,3646
+control,log10 F1/F0,Allen,v1,1953,1376,1376
+hva,Response timescale (ms),Allen,AL,897,890,890
+hva,Response timescale (ms),Allen,AM,564,509,509
+hva,Response timescale (ms),Allen,LM,580,529,529
+hva,Response timescale (ms),Allen,PM,356,344,344
+hva,Response timescale (ms),Allen,RL,620,530,530
+hva,TTFS (ms),Allen,AL,464,355,307
+hva,TTFS (ms),Allen,AM,196,143,109
+hva,TTFS (ms),Allen,LM,311,210,158
+hva,TTFS (ms),Allen,PM,150,120,83
+hva,TTFS (ms),Allen,RL,287,164,146
+hva,log10 F1/F0,Allen,AL,1539,1022,1022
+hva,log10 F1/F0,Allen,AM,1529,896,896
+hva,log10 F1/F0,Allen,LM,866,522,522
+hva,log10 F1/F0,Allen,PM,851,478,478
+hva,log10 F1/F0,Allen,RL,1357,728,728
+v1,Response timescale (ms),Allen,Central,1612,1612,1612
+v1,Response timescale (ms),MouseV2,A,248,118,118
+v1,Response timescale (ms),MouseV2,B,153,46,36
+v1,Response timescale (ms),MouseV2,C,250,128,128
+v1,Response timescale (ms),MouseV2,E,122,51,46
+v1,TTFS (ms),Allen,Central,3874,2870,2870
+v1,TTFS (ms),MouseV2,A,247,57,52
+v1,TTFS (ms),MouseV2,B,294,30,17
+v1,TTFS (ms),MouseV2,C,324,71,69
+v1,TTFS (ms),MouseV2,E,225,31,20
+v1,log10 F1/F0,Allen,Central,8546,5511,5511
+v1,log10 F1/F0,MouseV2,A,1270,269,269
+v1,log10 F1/F0,MouseV2,B,1239,208,206
+v1,log10 F1/F0,MouseV2,C,1383,327,327
+v1,log10 F1/F0,MouseV2,E,999,162,159
