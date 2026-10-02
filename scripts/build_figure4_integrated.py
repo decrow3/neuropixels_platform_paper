@@ -15,7 +15,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import gaussian_kde
 from scripts import build_hierarchy_schematic_row as schematic
-from scripts import build_figure4_rerun_outputs as results
+from Figure5 import data as results
 
 OUT = ROOT / 'artifacts/figure4_rerun/v22_compact_E'
 STEM = OUT / 'Figure4_CDE_rerun_with_schematic'

@@ -14,7 +14,8 @@ unchanged for reproducing the published figures.
 
 The canonical exports and their supporting tables live in
 `artifacts/figure5/v17_corrected_tests/`. The entry point performs a dependency
-preflight and rejects changes to the two locked numerical result tables. The
+preflight and rejects changes to the locked numerical tables and bootstrap
+content. The
 layout manifest is marked `canonical: true` after a successful build.
 
 ## What is locked
@@ -29,6 +30,6 @@ layout manifest is marked `canonical: true` after a successful build.
 
 `dependencies.json` records the production code and data closure. Historical
 Figure 5 variants, methods-companion reports, previews, caches, and tests are
-not canonical inputs. The renderer still uses the historical layout modules as
-implementation steps; they are production dependencies until the visual style
-chain is flattened without changing the locked figure.
+not canonical inputs. The accepted visual changes from the historical v1–v17
+development sequence are consolidated in `Figure5/render.py`; those versioned
+development modules are no longer part of the repository.

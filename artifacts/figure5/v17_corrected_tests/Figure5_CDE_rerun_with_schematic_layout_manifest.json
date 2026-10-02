@@ -1,8 +1,9 @@
 {
-  "description": "Figure 5 v17: six panel-F component shuffle tests Bonferroni-adjusted; all estimates and individual bootstrap intervals unchanged.",
+  "description": "Canonical Figure 5 v17: compact E/F, direct omega-squared contrasts, and Bonferroni-adjusted panel-F component tests.",
   "probe_location_overlay": {
-    "shown": false,
-    "note": "Legacy projection table exported by the shared renderer for provenance only; coordinates do not enter the cartoons."
+    "excluded_subjects": [],
+    "n_animals": 8,
+    "exclusion_scope": "Anatomical overlay only; response populations unchanged"
   },
   "anatomical_connections": {
     "source": "Allen released ipsilateral cortical normalized connection density matrix; Harris et al. 2019 Fig. 1e/6e convention",
@@ -32,9 +33,9 @@
   },
   "schematic_layout": {
     "A_map": [
-      0.055,
+      0.06,
       0.725,
-      0.195,
+      0.19,
       0.22
     ],
     "A_hierarchy": [
@@ -44,9 +45,9 @@
       0.22
     ],
     "B_map": [
-      0.535,
+      0.555,
       0.725,
-      0.185,
+      0.13,
       0.22
     ],
     "B_benchmark": [
@@ -56,7 +57,7 @@
       0.22
     ]
   },
-  "renderer": "scripts/build_figure5_corrected_tests.py",
+  "renderer": "Figure5/render.py",
   "display_count_check": "All 27 category counts match original.",
   "sources": {
     "artifacts/figure4_rerun/v1/response_registry_floor5.csv.gz": "28e846acfc42899625647fac87eab785c808e89d29662dc5b6ab49ba43b2e742",
@@ -73,29 +74,21 @@
   "figure_number": 5,
   "artboard_points": [
     852.648,
-    709
+    709.0
   ],
+  "style": {
+    "font": "Liberation Sans (Arial-compatible substitute)",
+    "panel_letters_pt": 32,
+    "panel_headings_pt": 16,
+    "plot_titles_pt": 14,
+    "axes_linewidth_pt": 0.7
+  },
   "cartoons": {
     "source": "artifacts/figure5/v17_corrected_tests/Original_handmade_cortical_vectors.svg",
     "sha256": "e3b71103ff83ba69bdd8060b5520ae5017c133d4508754436a44b21262ad69c3",
-    "source_root_child_indices": [
-      331,
-      333,
-      335,
-      336,
-      337,
-      338,
-      339
-    ],
-    "geometry": "All 12 filled outline paths copied via exact SVG Bezier parsing; all 9 original circle coordinates/radii preserved.",
-    "adaptations": [
-      "uniform layout scale/translation",
-      "current category colors",
-      "Liberation Sans labels"
-    ],
+    "geometry": "Exact SVG Bezier paths and original marker coordinates/radii.",
     "empirical_coordinates": false
   },
-  "numerical_validation": "All estimates, CIs, displayed means, counts, pooled SDs and directed anatomical connections identical to Figure 5 v1.",
   "panel_F_source": "artifacts/figure5/supplement_location_variance_v1/estimates_and_tests.csv",
   "multiplicity": {
     "method": "Bonferroni",

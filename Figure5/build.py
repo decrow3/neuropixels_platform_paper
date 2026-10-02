@@ -106,7 +106,7 @@ def main() -> None:
     import matplotlib
 
     matplotlib.rcParams["svg.hashsalt"] = "figure5-canonical-v17"
-    from scripts import build_figure5_corrected_tests as renderer
+    from Figure5 import render as renderer
 
     renderer.main()
     validate()

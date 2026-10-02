@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from pathlib import Path
 import csv
+import gzip
+import re
 import sys
 
 import matplotlib as mpl
@@ -16,9 +18,6 @@ from matplotlib.path import Path as MplPath
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-
-from scripts.project_mousev2_tracks_to_ccf_surface import read_labels, read_nrrd
-
 
 OUTPUT_STEM = ROOT / "Figure3" / "Hierarchy_schematic_row"
 ATLAS_PATH = ROOT / "data/reference/allen_ccf_2017_surface/top.nrrd"
@@ -55,6 +54,28 @@ V1_COLOR = "#777777"
 V2_COLOR = "#a8adb3"
 INK = "#202124"
 MUTED = "#6f7378"
+
+
+def read_nrrd(path: Path) -> np.ndarray:
+    """Read the gzip-encoded 2-D uint16 atlas without an extra dependency."""
+    header, payload = path.read_bytes().split(b"\n\n", 1)
+    sizes_match = re.search(rb"^sizes:\s+([0-9 ]+)$", header, re.MULTILINE)
+    if sizes_match is None or b"type: uint16" not in header or b"encoding: gzip" not in header:
+        raise ValueError(f"Unsupported NRRD header in {path}")
+    sizes = tuple(int(value) for value in sizes_match.group(1).split())
+    return np.frombuffer(gzip.decompress(payload), dtype="<u2").reshape(sizes, order="F")
+
+
+def read_labels(path: Path) -> dict[int, str]:
+    labels: dict[int, str] = {}
+    pattern = re.compile(
+        r'^\s*(\d+)\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+\d+\s+"([^"]+)"'
+    )
+    for line in path.read_text().splitlines():
+        match = pattern.match(line)
+        if match:
+            labels[int(match.group(1))] = match.group(2)
+    return labels
 
 # Anatomical scores, not CCG-derived functional scores. Cortical subset of
 # AllenInstitute/neuropixels_platform_paper, Figure4/Figure4.py: regions/hierScore.
