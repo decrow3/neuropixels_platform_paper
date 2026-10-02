@@ -22,6 +22,21 @@ The scientific motivation is described in [problemstatement.md](problemstatement
 The original dataset and paper are described by the
 [Allen Visual Coding Neuropixels resource](https://portal.brain-map.org/explore/circuits/visual-coding-neuropixels).
 
+## Canonical Figure 5
+
+Figure 5 v17 (previously numbered Figure 4) is the canonical output of this
+repository. Rebuild and validate it from the repository root with:
+
+```bash
+python Figure5/build.py
+```
+
+The entry point checks every required repository input, rebuilds the PDF, SVG,
+PNG, caption and supporting tables, and rejects changes to the locked numerical
+results. See [Figure5/README.md](Figure5/README.md) for the figure contract and
+[Figure5/dependencies.json](Figure5/dependencies.json) for the explicit code and
+data dependency closure.
+
 > **Current claim status:** exploratory and within-dataset only. Raw bridge
 > analyses show that matching grating duration, condition support, and trial
 > count does not remove the Allen–multi-site V1 modulation-index gap, although it
@@ -41,6 +56,7 @@ The original dataset and paper are described by the
 
 | Path | Purpose |
 | --- | --- |
+| `Figure5/` | Canonical Figure 5 entry point, lock checks, and dependency manifest. |
 | `ANALYSIS_ROADMAP.md` | Living, checkpointed analysis plan, including the V1 calibration and achieved-RF matching claim gates. |
 | `generate_retinotopic_csvs.py` | Extract the three response metrics and probe metadata from a MouseV2 NWB file. |
 | `data/site*_processed/` | Per-session metric and unit-quality tables for the new V1 recordings. |

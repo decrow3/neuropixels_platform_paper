@@ -48,10 +48,6 @@ def style(fig):
 def main():
     original.OUT=OUT;original.style=style;original.main()
     stem=OUT/'Figure5_CDE_rerun_with_schematic'
-    old=ROOT/'artifacts/figure5/v6_clean_labels'
-    # Inherit the approved caption with its explicit SD-label terminology.
-    caption=stem.with_name(stem.name+'_legend.md')
-    caption.write_text((old/caption.name).read_text())
     p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads(p.read_text())
     m.update({'renderer':str(Path(__file__).relative_to(ROOT)),'description':'Figure 5 v7: Anatomical hierarchy title, additional spacing before B SD annotations, stronger colored violin outlines, 55-degree E labels. Hierarchy labels and pooled SD labels retained.', 'artboard_points':[852.648,709.0], 'visual_refinements':{'E_label_rotation_deg':55,'violin_edge_alpha':.65,'violin_edge_width_pt':.8,'fill_and_scatter':'unchanged'}})
     p.write_text(json.dumps(m,indent=2)+'\n')

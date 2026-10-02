@@ -3,9 +3,6 @@
 from pathlib import Path
 import sys
 import json
-import hashlib
-import pandas as pd
-import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -16,7 +13,6 @@ from matplotlib.collections import PathCollection, LineCollection
 
 OUT = ROOT / 'artifacts/figure5/v1_elife_artboard'
 ARTBOARD = (852.648, 574.601)
-REFERENCE = Path('/home/huklaban5/.codex/attachments/c44dff5a-3074-4761-b7e5-e44c86c238b9/2026_elife_revision (1).pdf')
 
 
 def revision_style(fig):
@@ -67,22 +63,13 @@ def main():
     base.main(OUT, 'harris2019', figure_number=5,
               artboard_points=ARTBOARD, style_callback=revision_style)
     prefix = 'Figure5_CDE_rerun_with_schematic'
-    old = ROOT / 'artifacts/figure4_rerun/v22_compact_E'
-    checks = {}
-    for suffix in ['estimates', 'display', 'mean_spreads', 'anatomical_connections']:
-        original = pd.read_csv(old / f'Figure4_CDE_rerun_with_schematic_{suffix}.csv')
-        current = pd.read_csv(OUT / f'{prefix}_{suffix}.csv')
-        pd.testing.assert_frame_equal(original, current)
-        checks[suffix] = 'identical to Figure 4 v22'
     manifest_path = OUT / f'{prefix}_layout_manifest.json'
     manifest = json.loads(manifest_path.read_text())
     manifest.update({
         'figure_number': 5,
         'renderer': str(Path(__file__).relative_to(ROOT)),
-        'style': {'reference': str(REFERENCE), 'reference_sha256': hashlib.sha256(REFERENCE.read_bytes()).hexdigest(),
-                  'font': 'Liberation Sans (Arial-compatible substitute)', 'panel_letters_pt': 32,
+        'style': {'font': 'Liberation Sans (Arial-compatible substitute)', 'panel_letters_pt': 32,
                   'panel_headings_pt': 16, 'plot_titles_pt': 14, 'axes_linewidth_pt': .7},
-        'numerical_checks': checks,
         'description': 'Figure 5, large eLife revision artboard; OpenScope explainer reserved as Figure 4. Existing category colors and all current analysis results retained.'})
     manifest_path.write_text(json.dumps(manifest, indent=2)+'\n')
     (OUT / 'README.md').write_text('''# Figure 5 — eLife revision, version 1
@@ -100,7 +87,6 @@ PDF and SVG are vector exports (dense neuron dots remain rasterized); PNG is a 4
 
 Rebuild: `python scripts/build_figure5_revision.py`.
 ''')
-    print(json.dumps(checks, indent=2))
 
 
 if __name__ == '__main__':

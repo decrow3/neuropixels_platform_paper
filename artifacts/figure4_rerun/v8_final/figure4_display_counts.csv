@@ -1,0 +1,43 @@
+figure,panel,metric,population,category,display_draw,n_cells
+Figure4_CDE_rerun,C,TTFS (ms),V1,A,-1,247
+Figure4_CDE_rerun,C,TTFS (ms),V1,B,-1,294
+Figure4_CDE_rerun,C,TTFS (ms),V1,C,-1,324
+Figure4_CDE_rerun,C,TTFS (ms),V1,E,-1,225
+Figure4_CDE_rerun,D,TTFS (ms),HVA,LM,-1,394
+Figure4_CDE_rerun,D,TTFS (ms),HVA,PM,-1,226
+Figure4_CDE_rerun,D,TTFS (ms),HVA,RL,-1,399
+Figure4_CDE_rerun,D,TTFS (ms),HVA,AM,-1,292
+Figure4_CDE_rerun,D,TTFS (ms),HVA,AL,-1,547
+Figure4_Central_inclusive_companion,Central,TTFS (ms),Central-inclusive V1,Central,-1,478
+Figure4_Central_inclusive_companion,Central,TTFS (ms),Central-inclusive V1,A,-1,247
+Figure4_Central_inclusive_companion,Central,TTFS (ms),Central-inclusive V1,B,-1,294
+Figure4_Central_inclusive_companion,Central,TTFS (ms),Central-inclusive V1,C,-1,324
+Figure4_Central_inclusive_companion,Central,TTFS (ms),Central-inclusive V1,E,-1,225
+Figure4_CDE_rerun,C,log10 F1/F0,V1,A,-1,1270
+Figure4_CDE_rerun,C,log10 F1/F0,V1,B,-1,1239
+Figure4_CDE_rerun,C,log10 F1/F0,V1,C,-1,1383
+Figure4_CDE_rerun,C,log10 F1/F0,V1,E,-1,999
+Figure4_CDE_rerun,D,log10 F1/F0,HVA,LM,-1,866
+Figure4_CDE_rerun,D,log10 F1/F0,HVA,PM,-1,851
+Figure4_CDE_rerun,D,log10 F1/F0,HVA,RL,-1,1357
+Figure4_CDE_rerun,D,log10 F1/F0,HVA,AM,-1,1529
+Figure4_CDE_rerun,D,log10 F1/F0,HVA,AL,-1,1539
+Figure4_Central_inclusive_companion,Central,log10 F1/F0,Central-inclusive V1,Central,-1,1953
+Figure4_Central_inclusive_companion,Central,log10 F1/F0,Central-inclusive V1,A,-1,1270
+Figure4_Central_inclusive_companion,Central,log10 F1/F0,Central-inclusive V1,B,-1,1239
+Figure4_Central_inclusive_companion,Central,log10 F1/F0,Central-inclusive V1,C,-1,1383
+Figure4_Central_inclusive_companion,Central,log10 F1/F0,Central-inclusive V1,E,-1,999
+Figure4_CDE_rerun,C,Response timescale (ms),V1,A,0,453
+Figure4_CDE_rerun,C,Response timescale (ms),V1,B,0,277
+Figure4_CDE_rerun,C,Response timescale (ms),V1,C,0,499
+Figure4_CDE_rerun,C,Response timescale (ms),V1,E,0,274
+Figure4_CDE_rerun,D,Response timescale (ms),HVA,LM,-1,580
+Figure4_CDE_rerun,D,Response timescale (ms),HVA,PM,-1,356
+Figure4_CDE_rerun,D,Response timescale (ms),HVA,RL,-1,614
+Figure4_CDE_rerun,D,Response timescale (ms),HVA,AL,-1,897
+Figure4_CDE_rerun,D,Response timescale (ms),HVA,AM,-1,558
+Figure4_Central_inclusive_companion,Central,Response timescale (ms),Central-inclusive V1,Central,-1,866
+Figure4_Central_inclusive_companion,Central,Response timescale (ms),Central-inclusive V1,A,0,453
+Figure4_Central_inclusive_companion,Central,Response timescale (ms),Central-inclusive V1,B,0,277
+Figure4_Central_inclusive_companion,Central,Response timescale (ms),Central-inclusive V1,C,0,499
+Figure4_Central_inclusive_companion,Central,Response timescale (ms),Central-inclusive V1,E,0,274

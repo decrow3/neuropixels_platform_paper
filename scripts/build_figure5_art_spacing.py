@@ -37,9 +37,7 @@ def style(fig):
 def main():
     original.OUT=OUT;original.style=style;original.main()
     stem=OUT/'Figure5_CDE_rerun_with_schematic'
-    old=ROOT/'artifacts/figure5/v8_clear_diamonds'
-    caption=stem.with_name(stem.name+'_legend.md');caption.write_text((old/caption.name).read_text())
-    p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads((old/p.name).read_text())
+    p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads(p.read_text())
     m.update({'renderer':str(Path(__file__).relative_to(ROOT)),'description':'Figure 5 v9: both handmade cortical cartoons shifted 8 pt left and uniformly enlarged 10%; other panels unchanged.', 'cartoon_layout':json.loads((OUT/'cartoon_layout.json').read_text())})
     p.write_text(json.dumps(m,indent=2)+'\n')
     (OUT/'README.md').write_text('''# Figure 5 v9 — cortical art spacing

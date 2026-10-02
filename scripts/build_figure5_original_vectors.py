@@ -14,14 +14,18 @@ from matplotlib.patches import PathPatch, Circle
 from matplotlib.text import Text
 
 OUT=ROOT/'artifacts/figure5/v3_original_vectors'
-SOURCE=Path('/home/huklaban5/.codex/attachments/48d9e94f-7e31-4e0e-b77f-634b6ed3cee5/Artboard 11 copy.svg')
+SOURCE=ROOT/'artifacts/figure5/v17_corrected_tests/Original_handmade_cortical_vectors.svg'
 S='{http://www.w3.org/2000/svg}'
 root=ET.parse(SOURCE).getroot()
 # These source groups contain the handmade outlines, not the older data panels.
-inter=root[331]; intra=root[333]
+if len(root) == 8:  # Repository-local extraction used by the canonical build.
+    inter, intra = root[1], root[2]
+    inter_dots = list(root[3:8])
+else:  # Backward-compatible support for the original Illustrator artboard.
+    inter, intra = root[331], root[333]
+    inter_dots = [root[i] for i in range(335,340)]
 assert len(inter.findall('.//'+S+'path'))==6
 assert len(intra.findall('.//'+S+'path'))==6
-inter_dots=[root[i] for i in range(335,340)]
 assert all(e.tag==S+'circle' for e in inter_dots)
 
 class ExactPathPen(BasePen):
@@ -108,7 +112,7 @@ def main():
     m=json.loads(manifest_path.read_text())
     m['renderer']=str(Path(__file__).relative_to(ROOT))
     m['description']='Figure 5 v3: actual source SVG handmade vectors, with intra-V1/inter-HVA terminology. C–E data unchanged.'
-    m['cartoons']={'source':str(SOURCE),'sha256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
+    m['cartoons']={'source':str(SOURCE.relative_to(ROOT)),'sha256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
       'source_root_child_indices':[331,333,335,336,337,338,339],
       'geometry':'All 12 filled outline paths copied via exact SVG Bezier parsing; all 9 original circle coordinates/radii preserved.',
       'adaptations':['uniform layout scale/translation','current category colors','Liberation Sans labels'],'empirical_coordinates':False}

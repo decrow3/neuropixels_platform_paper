@@ -3,7 +3,6 @@
 from pathlib import Path
 import sys
 import json
-import pandas as pd
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,9 +86,6 @@ def style(fig):
 def main():
     base.main(OUT,'harris2019',figure_number=5,artboard_points=revision.ARTBOARD,style_callback=style)
     stem=OUT/'Figure5_CDE_rerun_with_schematic'
-    old=ROOT/'artifacts/figure5/v1_elife_artboard'
-    for suffix in ['estimates','display','mean_spreads','anatomical_connections']:
-        pd.testing.assert_frame_equal(pd.read_csv(old/f'{stem.name}_{suffix}.csv'),pd.read_csv(OUT/f'{stem.name}_{suffix}.csv'))
     caption=stem.with_name(stem.name+'_legend.md')
     text=caption.read_text()
     text=text.replace('A combines the Allen CCFv3 dorsal visual-area map with the anatomical-hierarchy schematic.',
@@ -114,6 +110,5 @@ Artboard: 852.648 × 574.601 pt. Caption points to Figure 4 for actual sampling 
 
 Rebuild: `python scripts/build_figure5_cartoons.py`.
 ''')
-    print('Verified unchanged numerical tables against Figure 5 v1.')
 
 if __name__=='__main__': main()

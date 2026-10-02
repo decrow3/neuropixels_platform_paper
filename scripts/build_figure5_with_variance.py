@@ -63,15 +63,15 @@ def style(fig):
 
 def main():
     original.OUT=OUT;original.style=style;original.main()
-    stem=OUT/'Figure5_CDE_rerun_with_schematic';old=ROOT/'artifacts/figure5/v13_shift_hierarchy'
-    caption=(old/(stem.name+'_legend.md')).read_text()
+    stem=OUT/'Figure5_CDE_rerun_with_schematic'
+    caption=(ROOT/'artifacts/figure5/captions/Figure5_caption.md').read_text()
     f='''**F)** Location-associated variance, expressed as bias-corrected one-way omega-squared (ω², %), for intra-V1 recording location and inter-HVA area identity. Points and whiskers show estimates and 95% percentile intervals from 5,000 whole-animal bootstrap replicates. Unlike E’s balanced, session-adjusted category-mean SDs, F uses raw neuronal responses with equal cell weights and no session adjustment; negative estimates are retained. Significance annotations use matching within-session location-block shuffles (5,000 permutations; uncorrected one-sided tests): * p < .05, ** p < .01, *** p < .001; n.s., p ≥ .05. All neurons in a session/location move together; tests assume exchangeability of available labels within sessions. For MouseV2 timescale, the observed and shuffled ω² statistics average ten draw-specific values, using one coherent label permutation per session across draws. Intra-V1 phase modulation is reported explicitly as p = 0.051 because it is close to the threshold. These tests concern each location effect, not the difference between intra-V1 and inter-HVA effects; nonsignificance does not establish absence of an effect. Full null distributions and exact p-values are supplied in the location-variance supplement.
 
 '''
     caption=caption.replace('Timescale estimation uses',f+'Timescale estimation uses')
     stem.with_name(stem.name+'_legend.md').write_text(caption)
     pd.read_csv(STATS).query("population != 'HVA_minus_V1'").to_csv(OUT/'Figure5_F_estimates_and_tests.csv',index=False)
-    p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads((old/p.name).read_text())
+    p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads(p.read_text())
     m.update({'renderer':str(Path(__file__).relative_to(ROOT)),'description':'Figure 5 v14: panel F to the right of E, showing current-cohort omega² and matched shuffle annotations; A–E retain physical size and results.','artboard_points':[WIDTH,HEIGHT],'panel_F_source':str(STATS.relative_to(ROOT))})
     p.write_text(json.dumps(m,indent=2)+'\n')
     (OUT/'README.md').write_text('''# Figure 5 v14 — location-variance panel F

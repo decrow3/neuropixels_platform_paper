@@ -29,9 +29,7 @@ def style(fig):
 def main():
     original.OUT=OUT;original.style=style;original.main()
     stem=OUT/'Figure5_CDE_rerun_with_schematic'
-    old=ROOT/'artifacts/figure5/v7_visual_polish'
-    caption=stem.with_name(stem.name+'_legend.md');caption.write_text((old/caption.name).read_text())
-    p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads((old/p.name).read_text())
+    p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads(p.read_text())
     m.update({'renderer':str(Path(__file__).relative_to(ROOT)), 'description':'Figure 5 v8: fitted-mean diamonds 45% larger in linear size, with 0.85 pt white outlines and raised drawing order.', 'mean_markers':{'number':54,'linear_size_multiplier_vs_v7':1.45,'edge_color':'white','edge_width_pt':.85}})
     p.write_text(json.dumps(m,indent=2)+'\n')
     (OUT/'README.md').write_text('''# Figure 5 v8 — clearer mean diamonds

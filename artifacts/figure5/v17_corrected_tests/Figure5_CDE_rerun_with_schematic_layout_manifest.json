@@ -1,0 +1,110 @@
+{
+  "description": "Figure 5 v17: six panel-F component shuffle tests Bonferroni-adjusted; all estimates and individual bootstrap intervals unchanged.",
+  "probe_location_overlay": {
+    "shown": false,
+    "note": "Legacy projection table exported by the shared renderer for provenance only; coordinates do not enter the cartoons."
+  },
+  "anatomical_connections": {
+    "source": "Allen released ipsilateral cortical normalized connection density matrix; Harris et al. 2019 Fig. 1e/6e convention",
+    "hierarchy_version": "harris2019",
+    "direction_labels_in_panel": false,
+    "compact_axis_above_highest_node": true,
+    "hierarchy_scores": {
+      "V1": -0.5014938605478307,
+      "RL": -0.13929010871865594,
+      "LM": -0.12294440837970307,
+      "AL": -0.0043056907676498205,
+      "PM": 0.11828435412926482,
+      "AM": 0.2933016839619036
+    },
+    "hierarchy_description": "Harris et al. (2019), visual/medial CC+TC+CT iterated hierarchy, displaying six cortical areas",
+    "matrix_orientation": "rows source, columns target",
+    "direction": "ascending projections left; descending projections right",
+    "width": "linear through zero; density divided by maximum off-diagonal density in the displayed six-area subset",
+    "maximum_width_pt": 2.4,
+    "n_directed_edges": 30,
+    "color": "source area, using the Figure 4 area palette"
+  },
+  "schematic_alignment": {
+    "V1_reference_score": -0.5014938605478307,
+    "mean_HVA_reference_score": 0.02900916604503192,
+    "meaning": "Page-height alignment only; functional metric values remain illustrative"
+  },
+  "schematic_layout": {
+    "A_map": [
+      0.055,
+      0.725,
+      0.195,
+      0.22
+    ],
+    "A_hierarchy": [
+      0.245,
+      0.725,
+      0.26,
+      0.22
+    ],
+    "B_map": [
+      0.535,
+      0.725,
+      0.185,
+      0.22
+    ],
+    "B_benchmark": [
+      0.735,
+      0.725,
+      0.245,
+      0.22
+    ]
+  },
+  "renderer": "scripts/build_figure5_corrected_tests.py",
+  "display_count_check": "All 27 category counts match original.",
+  "sources": {
+    "artifacts/figure4_rerun/v1/response_registry_floor5.csv.gz": "28e846acfc42899625647fac87eab785c808e89d29662dc5b6ab49ba43b2e742",
+    "artifacts/figure4_rerun/v4_primary_dispersion/primary_effects.csv": "43c77f426cf00cbc8f9d22480c4935848bff7413f7019ebc3366b669d264990a",
+    "artifacts/figure4_rerun/v4_primary_dispersion/draw_specific_point_fits.csv": "7967c79c54ecf1cffe9e1b60cc8b225bdd069612535e71677b3cb7de62a39852",
+    "artifacts/figure4_rerun/v6_matched_control/matched_control.csv": "2c9490a7181b170f2d6903fdfbdc934d8c585656d0ab6f8d84f3418c26dfe621",
+    "artifacts/figure4_rerun/v4_primary_dispersion/bootstrap_effects.csv.gz": "a44947e22e3bed0c8afc3074284d348b2e1248242bbb8e7219ac40aca8313c69",
+    "artifacts/figure3/06s_mousev2_ccf_surface_projection/mousev2_ccf_surface_entry_points.csv": "41846a329afeef2f617ecaa7d29a5016a4749e1e0e6b71854dfa45dba9605138",
+    "data/reference/allen_ccf_2017_surface/top.nrrd": "ed9d17a3cb988d0289de0cea0a4795703b52d3da4f5dfbd5b0d7c99596c40acd",
+    "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt": "9891579be2004846b2f1ac55dd96482deba8836e0eee83ff38defe0d68c7e21e",
+    "data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv": "c7c4d76ab8547fa0fa1f3355a9f6a5542f5f0ea4ee294c462bd774c897c524d5",
+    "data/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv": "3c71f6fabee9ea4b81147dec6accbab5e5ad3742321df81f5191e68848571e8b"
+  },
+  "figure_number": 5,
+  "artboard_points": [
+    852.648,
+    709
+  ],
+  "cartoons": {
+    "source": "artifacts/figure5/v17_corrected_tests/Original_handmade_cortical_vectors.svg",
+    "sha256": "e3b71103ff83ba69bdd8060b5520ae5017c133d4508754436a44b21262ad69c3",
+    "source_root_child_indices": [
+      331,
+      333,
+      335,
+      336,
+      337,
+      338,
+      339
+    ],
+    "geometry": "All 12 filled outline paths copied via exact SVG Bezier parsing; all 9 original circle coordinates/radii preserved.",
+    "adaptations": [
+      "uniform layout scale/translation",
+      "current category colors",
+      "Liberation Sans labels"
+    ],
+    "empirical_coordinates": false
+  },
+  "numerical_validation": "All estimates, CIs, displayed means, counts, pooled SDs and directed anatomical connections identical to Figure 5 v1.",
+  "panel_F_source": "artifacts/figure5/supplement_location_variance_v1/estimates_and_tests.csv",
+  "multiplicity": {
+    "method": "Bonferroni",
+    "family": "3 metrics \u00d7 2 populations",
+    "n_tests": 6,
+    "formula": "min(1, 6 \u00d7 raw p)",
+    "bootstrap_intervals": "individual 95%; not simultaneous"
+  },
+  "canonical": true,
+  "canonical_entrypoint": "Figure5/build.py",
+  "canonical_version": "v17-corrected-tests"
+}

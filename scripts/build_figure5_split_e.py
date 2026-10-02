@@ -28,7 +28,7 @@ def style(fig):
         x,y=t.get_position()
         shift=BOTTOM if t.get_text() in ['C','D','E'] else GAP+BOTTOM
         t.set_position((x,(y*650+shift)/HEIGHT))
-    source=ROOT/'artifacts/figure5/v4_taller_results/Figure5_CDE_rerun_with_schematic_estimates.csv'
+    source=OUT/'Figure5_CDE_rerun_with_schematic_estimates.csv'
     estimates=pd.read_csv(source)
     metrics=['TTFS (ms)','log10 F1/F0','Response timescale (ms)']
     specs=[(['matched_hva_minus_v1_mean'],['HVAs\n− V1'],'Mean\ndifference',.041),

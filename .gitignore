@@ -112,6 +112,45 @@ data/**/*.csv
 # Exploratory run outputs (regenerable, large)
 artifacts/
 
+# Canonical Figure 5 and the exact ignored inputs required to rebuild it.
+!artifacts/
+artifacts/*
+!artifacts/figure3/
+artifacts/figure3/*
+!artifacts/figure3/06s_mousev2_ccf_surface_projection/
+artifacts/figure3/06s_mousev2_ccf_surface_projection/*
+!artifacts/figure3/06s_mousev2_ccf_surface_projection/mousev2_ccf_surface_entry_points.csv
+!artifacts/figure4_rerun/
+artifacts/figure4_rerun/*
+!artifacts/figure4_rerun/v1/
+artifacts/figure4_rerun/v1/*
+!artifacts/figure4_rerun/v1/response_registry_floor5.csv.gz
+!artifacts/figure4_rerun/v4_primary_dispersion/
+artifacts/figure4_rerun/v4_primary_dispersion/*
+!artifacts/figure4_rerun/v4_primary_dispersion/bootstrap_effects.csv.gz
+!artifacts/figure4_rerun/v4_primary_dispersion/draw_specific_point_fits.csv
+!artifacts/figure4_rerun/v4_primary_dispersion/primary_effects.csv
+!artifacts/figure4_rerun/v6_matched_control/
+artifacts/figure4_rerun/v6_matched_control/*
+!artifacts/figure4_rerun/v6_matched_control/matched_control.csv
+!artifacts/figure4_rerun/v8_final/
+artifacts/figure4_rerun/v8_final/*
+!artifacts/figure4_rerun/v8_final/figure4_display_counts.csv
+!artifacts/figure5/
+artifacts/figure5/*
+!artifacts/figure5/captions/
+artifacts/figure5/captions/*
+!artifacts/figure5/captions/Figure5_caption.md
+!artifacts/figure5/supplement_location_variance_v1/
+artifacts/figure5/supplement_location_variance_v1/*
+!artifacts/figure5/supplement_location_variance_v1/estimates_and_tests.csv
+!artifacts/figure5/v17_corrected_tests/
+!artifacts/figure5/v17_corrected_tests/**
+
+# CSV reference inputs used by canonical Figure 5.
+!data/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv
+!data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv
+
 # Regenerated figure outputs saved to repo root
 /Figure3_refactored.png
 /Figure3_restored_style.png

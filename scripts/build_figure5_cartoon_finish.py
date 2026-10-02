@@ -38,9 +38,7 @@ def style(fig):
 def main():
     original.OUT=OUT;original.style=style;original.main()
     stem=OUT/'Figure5_CDE_rerun_with_schematic'
-    old=ROOT/'artifacts/figure5/v11_raised_schematics'
-    caption=stem.with_name(stem.name+'_legend.md');caption.write_text((old/caption.name).read_text())
-    p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads((old/p.name).read_text())
+    p=stem.with_name(stem.name+'_layout_manifest.json');m=json.loads(p.read_text())
     m.update({'renderer':str(Path(__file__).relative_to(ROOT)),'description':'Figure 5 v12: cartoons uniformly enlarged 7%; Inter-HVA/Intra-V1 captions moved closer beneath them; Anatomical score label shifted left toward the cortical cartoon.', 'cartoon_scale_vs_v11':1.07})
     p.write_text(json.dumps(m,indent=2)+'\n')
     (OUT/'README.md').write_text('''# Figure 5 v12 — cartoon finishing
