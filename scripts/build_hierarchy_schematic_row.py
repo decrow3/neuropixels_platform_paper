@@ -26,6 +26,10 @@ ATLAS_LABELS_PATH = (
     ROOT / "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt"
 )
 PROBE_ENTRIES_PATH = ROOT / "artifacts/figure3/06s_mousev2_ccf_surface_projection/mousev2_ccf_surface_entry_points.csv"
+CONNECTION_DENSITY_PATH = ROOT / "data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv"
+HIERARCHY_AREAS = {"V1": "VISp", "LM": "VISl", "RL": "VISrl", "AL": "VISal", "PM": "VISpm", "AM": "VISam"}
+MAX_CONNECTION_WIDTH_PT = 2.4
+HARRIS_SCORES_PATH = CONNECTION_DENSITY_PATH.parent / "harris_visualmedial_scores.csv"
 
 mpl.rcParams.update(
     {
@@ -256,45 +260,103 @@ def draw_probe_locations(ax, atlas, labels, *, subjects=None, location_names=Fal
     return positions
 
 
-def draw_published_hierarchy(ax):
-    clean_axis(ax, (-1.05, 1.10), (-0.49, 0.53))
-    order = ["V1", "LM", "RL", "AL", "PM", "AM"]
-    xs = {"V1": 0.00, "LM": -0.10, "RL": 0.10, "AL": -0.09, "PM": 0.08, "AM": 0.00}
+def hierarchy_connections():
+    """All directed non-self edges; Allen regional matrix rows are sources.
 
-    # A light subset of the dense reciprocal connectivity in the source schematic.
-    connections = [
-        ("V1", "LM"), ("V1", "RL"), ("V1", "AL"), ("V1", "PM"), ("V1", "AM"),
-        ("LM", "AL"), ("LM", "PM"), ("RL", "AL"), ("RL", "AM"),
-        ("AL", "PM"), ("AL", "AM"), ("PM", "AM"),
-    ]
-    for idx, (low, high) in enumerate(connections):
-        side = -1 if idx % 2 == 0 else 1
-        start = (xs[low], SIEGLE_SCORES[low])
-        end = (xs[high], SIEGLE_SCORES[high])
-        ax.add_patch(
-            FancyArrowPatch(
-                start,
-                end,
-                arrowstyle="-",
-                connectionstyle=f"arc3,rad={side * (0.48 + 0.025 * idx):.3f}",
-                color=AREA_COLORS.get(high, V1_COLOR),
-                linewidth=1.15,
-                alpha=0.50,
-                zorder=1,
-            )
-        )
+    Harris Fig. 1e supplies normalized connection density, used for Fig. 6e
+    widths. Preserve the measured asymmetry and use one linear width scale.
+    """
+    with CONNECTION_DENSITY_PATH.open(encoding="utf-8-sig", newline="") as stream:
+        reader = csv.DictReader(stream)
+        index_column = reader.fieldnames[0]
+        matrix = {row[index_column]: row for row in reader}
+    edges = []
+    for source, source_atlas in HIERARCHY_AREAS.items():
+        for target, target_atlas in HIERARCHY_AREAS.items():
+            if source == target:
+                continue
+            density = float(matrix[source_atlas][target_atlas])
+            if not np.isfinite(density) or density < 0:
+                raise ValueError(f"Invalid anatomical density: {source}->{target}")
+            edges.append(dict(source=source, target=target,
+                              source_atlas=source_atlas, target_atlas=target_atlas,
+                              normalized_connection_density=density))
+    maximum = max(edge["normalized_connection_density"] for edge in edges)
+    if maximum <= 0:
+        raise ValueError("No positive anatomical connections")
+    for edge in edges:
+        edge["relative_density"] = edge["normalized_connection_density"] / maximum
+        edge["linewidth_pt"] = MAX_CONNECTION_WIDTH_PT * edge["relative_density"]
+    return edges
 
-    ax.annotate("", xy=(-0.86, 0.48), xytext=(-0.86, -0.43), arrowprops=dict(arrowstyle="-|>", lw=1.2, color=INK))
-    ax.text(-1.06, 0.02, "anatomical\nhierarchy score", rotation=90, ha="center", va="center", fontsize=12)
-    for score in (-0.4, 0.0, 0.4):
-        ax.plot([-0.88, -0.82], [score, score], color=INK, lw=0.8)
-        ax.text(-0.77, score, f"{score:.1f}", fontsize=12, va="center", ha="left", color=MUTED)
+
+def hierarchy_scores(version="siegle2021"):
+    if version == "siegle2021":
+        return SIEGLE_SCORES.copy()
+    if version != "harris2019":
+        raise ValueError(f"Unknown hierarchy version: {version}")
+    with HARRIS_SCORES_PATH.open(newline="") as stream:
+        scores = {row["area"]: float(row["hierarchy_score"]) for row in csv.DictReader(stream)}
+    if set(scores) != set(HIERARCHY_AREAS) or not all(np.isfinite(list(scores.values()))):
+        raise ValueError("Incomplete/nonfinite Harris hierarchy scores")
+    return scores
+
+
+def draw_published_hierarchy(ax, version="siegle2021", *, show_direction=True, compact=False, axis_x=-1.23):
+    # Common limits permit a direct comparison without shifting or rescaling.
+    clean_axis(ax, (-1.90, 1.30), (-0.68, 0.65))
+    order = list(HIERARCHY_AREAS)
+    scores = hierarchy_scores(version)
+    axis_top = max(scores.values()) + .025 if compact else .57
+    top_label_y = axis_top + .035 if compact else .60
+    if compact:
+        ax.set_ylim(-.68, axis_top + .07)
+    # Keep all nodes on one column, including the nearly overlapping LM/RL.
+    xs = {area: 0.10 for area in order}
+    for edge in sorted(hierarchy_connections(), key=lambda row: row["linewidth_pt"], reverse=True):
+        source, target = edge["source"], edge["target"]
+        if edge["normalized_connection_density"] == 0:
+            continue
+        y_source, y_target = scores[source], scores[target]
+        side = -1 if y_target > y_source else 1
+        bend = .20 + 1.05 * abs(y_target - y_source)
+        # Both control points stay on the same side of the node column:
+        # ascending projections on the left, descending projections on the right.
+        path = MplPath([(xs[source], y_source), (xs[source] + side * bend, y_source),
+                        (xs[target] + side * bend, y_target), (xs[target], y_target)],
+                       [MplPath.MOVETO, MplPath.CURVE4, MplPath.CURVE4, MplPath.CURVE4])
+        ax.add_patch(PathPatch(path, fill=False,
+                              edgecolor=AREA_COLORS.get(source, V1_COLOR),
+                              linewidth=edge["linewidth_pt"], alpha=.70, zorder=1,
+                              gid=f"anatomical-connection-{source}-{target}"))
+
+    directions = [(-.77, -.16, .18, "Feedforward"), (1.06, .18, -.16, "Feedback")] if show_direction else []
+    for x, start, end, label in directions:
+        ax.annotate("", xy=(x, end), xytext=(x, start),
+                    arrowprops=dict(arrowstyle="-|>", lw=1.2, color=INK))
+        ax.text(x + (-.12 if x < 0 else .12), .01, label, rotation=90 if x < 0 else -90,
+                ha="center", va="center", fontsize=10)
+    ax.text(.10, -.64, "Width ∝ density", ha="center", fontsize=10)
+    ax.annotate("", xy=(axis_x, axis_top), xytext=(axis_x, -.58), arrowprops=dict(arrowstyle="-|>", lw=1.2, color=INK))
+    ax.text(-1.90, 0.02, "anatomical\nhierarchy score", rotation=90, ha="center", va="center", fontsize=12)
+    ax.text(axis_x, top_label_y, "Top", ha="center", fontsize=10)
+    ax.text(axis_x, -.64, "Bottom", ha="center", fontsize=10)
+    for score in (-.50, -.25, 0., .25, .50):
+        if score > axis_top:
+            continue
+        ax.plot([axis_x - .05, axis_x], [score, score], color=INK, lw=0.8)
+        ax.text(axis_x - .11, score, f"{score:.2f}", fontsize=10, va="center", ha="right", color=MUTED)
 
     for area in order:
         color = V1_COLOR if area == "V1" else AREA_COLORS[area]
-        ax.scatter(xs[area], SIEGLE_SCORES[area], s=180, color=color, edgecolor=INK, linewidth=0.9, zorder=3)
-        ax.text(xs[area] + (-0.19 if area == "LM" else 0.19), SIEGLE_SCORES[area], area,
-                fontsize=12, va="center", ha="right" if area == "LM" else "left")
+        ax.scatter(xs[area], scores[area], s=130, color=color, edgecolor=INK, linewidth=0.9, zorder=3)
+        offset_y = 0
+        if area in {"LM", "RL"}:
+            other = "RL" if area == "LM" else "LM"
+            offset_y = .045 if scores[area] > scores[other] else -.045
+        ax.text(xs[area] + (-0.22 if area == "LM" else 0.22), scores[area] + offset_y, area,
+                fontsize=12, va="center", ha="right" if area == "LM" else "left",
+                bbox=dict(facecolor="white", edgecolor="none", pad=.15), zorder=4)
 
 
 

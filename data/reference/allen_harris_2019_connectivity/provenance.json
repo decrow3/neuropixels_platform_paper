@@ -1,0 +1,15 @@
+{
+  "retrieved_date": "2026-09-28",
+  "source_url": "https://download.alleninstitute.org/publications/A_high_resolution_data-driven_model_of_the_mouse_connectome/normalized_connection_density_ipsi_ctx.csv",
+  "sha256": "c7c4d76ab8547fa0fa1f3355a9f6a5542f5f0ea4ee294c462bd774c897c524d5",
+  "shape": [
+    43,
+    43
+  ],
+  "orientation": "Rows: source; columns: target. See AllenInstitute/mouse_connectivity_models regionalized_model.py _format (index=source_regions, columns=target_regions).",
+  "metric": "ipsilateral normalized connection density",
+  "paper": "https://www.nature.com/articles/s41586-019-1716-z",
+  "figure_convention": "Figure 1e: ipsilateral normalized connection density; Figure 6e: relative density as edge width, outputs left / inputs right.",
+  "model": "https://github.com/AllenInstitute/mouse_connectivity_models",
+  "scope": "Six-area subset for Figure 4; hierarchy heights retained from Siegle et al. 2021, not recomputed."
+}

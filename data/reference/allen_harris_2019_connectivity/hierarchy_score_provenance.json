@@ -1,0 +1,23 @@
+{
+  "source_url": "https://raw.githubusercontent.com/AllenInstitute/MouseBrainHierarchy/master/Results/hierarchy_summary_CreConf.xlsx",
+  "sha256": "4a86202ca1847a631ec4308ffa9a4d0ba8e4e93548f2bf8eba162366b711f076",
+  "sheet": "hierarchy_visualmedial(VIS)",
+  "column": "CC+TC+CT iterated",
+  "displayed_cortical_subset": {
+    "VISp": "V1",
+    "VISl": "LM",
+    "VISrl": "RL",
+    "VISal": "AL",
+    "VISpm": "PM",
+    "VISam": "AM"
+  },
+  "jia2022_methods_rounded_scores": {
+    "V1": -0.5,
+    "RL": -0.14,
+    "LM": -0.13,
+    "AL": 0.0,
+    "PM": 0.12,
+    "AM": 0.29
+  },
+  "note": "The workbook LM value (-0.122944...) rounds to -0.12; Jia Methods report -0.13. Use exact workbook values, retain this discrepancy."
+}

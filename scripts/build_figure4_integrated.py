@@ -17,7 +17,7 @@ from scipy.stats import gaussian_kde
 from scripts import build_hierarchy_schematic_row as schematic
 from scripts import build_figure4_rerun_outputs as results
 
-OUT = ROOT / 'artifacts/figure4_rerun/v8_final'
+OUT = ROOT / 'artifacts/figure4_rerun/v22_compact_E'
 STEM = OUT / 'Figure4_CDE_rerun_with_schematic'
 REGISTRY = ROOT / 'artifacts/figure4_rerun/v1/response_registry_floor5.csv.gz'
 
@@ -28,7 +28,7 @@ def heading(fig, x, letter, title):
 
 
 def spread_effects(effects, draws):
-    """Transform paired population variances before forming the SD contrast."""
+    """Transform paired population variances before forming the SD difference."""
     paired = draws.loc[draws.effect.isin(['v1', 'hva'])].pivot(
         index=['metric', 'replicate'], columns='effect', values='estimate')
     if paired.isna().any().any() or (paired < 0).any().any():
@@ -89,7 +89,13 @@ def pooled_distribution(ax, table, means, order, colors, response_ylim, label_ba
     return center, sd, cell_center, cell_sd
 
 
-def main():
+def main(output_dir=None, hierarchy="harris2019", *, figure_number=4,
+         artboard_points=None, style_callback=None):
+    global OUT, STEM
+    if output_dir is not None:
+        OUT = Path(output_dir).resolve()
+        STEM = OUT / f'Figure{figure_number}_CDE_rerun_with_schematic'
+    OUT.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 9,
                          'pdf.fonttype': 42, 'ps.fonttype': 42, 'svg.fonttype': 'none'})
     registry = pd.read_csv(REGISTRY, dtype={'unit_id': str, 'session_id': str})
@@ -99,6 +105,8 @@ def main():
     bootstrap = pd.read_csv(results.PRIMARY / 'bootstrap_effects.csv.gz')
     sd_effects, sd_draws = spread_effects(effects, bootstrap)
     sd_draws.to_csv(STEM.with_name(STEM.name + '_spread_bootstrap.csv.gz'), index=False)
+    pd.DataFrame(schematic.hierarchy_connections()).to_csv(
+        STEM.with_name(STEM.name + '_anatomical_connections.csv'), index=False)
     results.V1_COLORS.update({'A': '#B2182B', 'E': '#B59B19', 'C': '#008C95', 'B': '#5263A8'})
     results.DISPLAY.update({'A': 'Ant.', 'E': 'Lat.', 'C': 'Post.', 'B': 'Med.'})
     # Share categorical identity colors across all maps, nodes, and distributions.
@@ -108,28 +116,34 @@ def main():
         schematic.ATLAS_FIGURE4_COLORS[atlas_name] = results.HVA_COLORS[area]
 
     fig = plt.figure(figsize=(7.0, 5.3 * 7.0 / 7.4), facecolor='white')
+    if artboard_points is not None:
+        fig.set_size_inches(np.asarray(artboard_points) / 72)
     atlas = schematic.read_nrrd(schematic.ATLAS_PATH)
     labels = schematic.read_labels(schematic.ATLAS_LABELS_PATH)
     # Explicit gutters keep the distributions left and reserve label space for E.
-    outer = fig.add_gridspec(3, 5, width_ratios=[.270, .060, .252, .098, .225],
+    outer = fig.add_gridspec(3, 5, width_ratios=[.270, .060, .252, .083, .240],
                             left=.075, right=.98, top=.635, bottom=.06, wspace=0, hspace=.26)
-    a = fig.add_axes([.060, .725, .175, .22])
-    b = fig.add_axes([.250, .725, .14, .22])
-    c = fig.add_axes([.445, .725, .17, .22])
-    d = fig.add_axes([.665, .725, .315, .22])
+    a = fig.add_axes([.060, .725, .190, .22])
+    b = fig.add_axes([.245, .725, .260, .22])
+    c = fig.add_axes([.555, .725, .130, .22])
+    d = fig.add_axes([.735, .725, .245, .22])
     schematic.draw_atlas_area_map(a, atlas, labels)
-    schematic.draw_published_hierarchy(b)
+    schematic.draw_published_hierarchy(b, version=hierarchy, show_direction=False, compact=True, axis_x=-.85)
     b.set_aspect('auto')
-    b.set_xlim(-1.65, 1.10)
+    b.set_xlim(-2.40, 1.40)
     for label in b.texts:
         if label.get_text() == 'anatomical\nhierarchy score':
             label.set_text('Anatomical score')
-            label.set_position((-1.90, .02))
-        elif label.get_text() in ['-0.4', '0.0', '0.4']:
-            label.set_x(-1.0)
-            label.set_ha('right')
+            label.set_position((-1.72, (max(schematic.hierarchy_scores(hierarchy).values()) + .025 - .58) / 2))
+        elif label.get_text() in ['Width ∝ density', 'Top', 'Bottom']:
+            label.remove()
+        elif label.get_text() in ['-0.50', '-0.25', '0.00', '0.25', '0.50', 'Feedforward', 'Feedback']:
+            label.set_fontsize(8)
 
     schematic.draw_atlas_area_map(c, atlas, labels, merged=True)
+    for label in list(c.texts):
+        if label.get_text() == 'V1':
+            label.remove()
     for label in a.texts:
         if label.get_text() == 'LM':
             x, y = label.get_position()
@@ -148,35 +162,44 @@ def main():
     for annotation in c.texts:
         name = annotation.get_text()
         if name in ['Anterior', 'Lateral', 'Medial', 'Posterior']:
-            # Offsets are halved by the final print-size pass.
-            offsets = {'Anterior': (-38, 20), 'Lateral': (-46, 12),
-                       'Medial': (30, -9), 'Posterior': (0, -28)}
+            # Direct labels sit inside VISp; offsets are halved at print size.
+            offsets = {'Anterior': (0, -8), 'Lateral': (10, 0),
+                       'Medial': (-10, 8), 'Posterior': (10, 0)}
             annotation.set_position(offsets[name])
-            if name == 'Anterior':
-                annotation.set_ha('right')
-                annotation.set_va('center')
+            annotation.set_ha({'Anterior': 'center', 'Lateral': 'left',
+                               'Medial': 'right', 'Posterior': 'left'}[name])
+            annotation.set_va('top' if name == 'Anterior' else 'center')
+            annotation.arrow_patch.set_visible(False)
             annotation.set_text({'Anterior': 'Ant.', 'Lateral': 'Lat.',
                                  'Posterior': 'Post.', 'Medial': 'Med.'}[name])
     assert all(row['n_animals'] == 8 for row in probe_positions)
     pd.DataFrame(probe_positions).to_csv(STEM.with_name(STEM.name + '_probe_positions.csv'), index=False)
-    # Retain the existing categorical order; its original selection rationale
-    # has not been established. All heights here are illustrative.
-    schematic.clean_axis(d, (-.42, 6.9), (.40, 3.00))
+    # Align schematic group centers with A, preserving relative illustrative spreads.
+    anatomical_scores = schematic.hierarchy_scores(hierarchy)
+    anatomical_v1 = anatomical_scores['V1']
+    anatomical_hva = np.mean([anatomical_scores[area] for area in results.HVA_CATEGORIES])
+    schematic.clean_axis(d, (-.42, 8.4), b.get_ylim())
     d.set_aspect('auto')
-    d.annotate('', xy=(-.28, 2.87), xytext=(-.28, .62),
+    d.annotate('', xy=(-.28, max(anatomical_scores.values()) + .025), xytext=(-.28, -.58),
                arrowprops=dict(arrowstyle='-|>', lw=1.2, color='#333333'))
-    d.text(-.52, 1.73, 'Functional metric', rotation=90, ha='center', va='center', fontsize=12)
-    groups = [(['PM', 'LM', 'AM', 'RL', 'AL'], [2.40, 2.62, 2.45, 2.56, 2.36],
-               np.arange(5) + .26, results.HVA_COLORS, 'Across HVA'),
+    d.text(-.85, (max(anatomical_scores.values()) + .025 - .58) / 2, 'Functional metric', rotation=90, ha='center', va='center', fontsize=12)
+    # Restore the original irregular spatial arrangement independently of area identity.
+    # These heights are illustrative, with no area-specific empirical interpretation.
+    groups = [(['LM', 'RL', 'AL', 'PM', 'AM'], [2.40, 2.62, 2.45, 2.56, 2.36],
+               np.arange(5) + .26, results.HVA_COLORS, 'Across HVAs'),
               (['A', 'E', 'C', 'B'], [1.09, 1.31, 1.17, 1.37],
                np.arange(4) * 1.2 + .55, results.V1_COLORS, 'Within V1')]
+    original_v1_center = np.mean(groups[1][1])
+    illustrative_scale = (anatomical_hva - anatomical_v1) / (np.mean(groups[0][1]) - original_v1_center)
+    groups = [(cats, anatomical_v1 + (np.asarray(heights) - original_v1_center) * illustrative_scale, xs, colors, label)
+              for cats, heights, xs, colors, label in groups]
     for cats, heights, xs, colors, spread_label in groups:
         for cat, height, x in zip(cats, heights, xs):
             d.scatter(x, height, s=165, color=colors[cat], edgecolor='#333333', linewidth=.85, zorder=3)
-            if spread_label == 'Across HVA':
-                d.text(x, height + .17, cat, fontsize=12, ha='center', va='bottom')
+            if spread_label == 'Across HVAs':
+                d.text(x, height + .17 * illustrative_scale, cat, fontsize=12, ha='center', va='bottom')
             else:
-                d.text(x + (.24 if cat == 'A' else 0), .90, results.DISPLAY[cat], fontsize=11, ha='right', va='top', rotation=15)
+                d.text(x, height - .19 * illustrative_scale, results.DISPLAY[cat], fontsize=11, ha='center', va='top')
         center, sd = np.mean(heights), np.std(heights)
         d.plot([.05, 4.85], [center, center], color='#62666b', lw=1.5, ls=(0, (3, 2)), zorder=0)
         d.plot([4.85, 4.85], [center-sd, center+sd], color='#242424', lw=3)
@@ -188,10 +211,10 @@ def main():
     d.annotate('', xy=(2.75, hva_center), xytext=(2.75, v1_center),
                arrowprops=dict(arrowstyle='->', lw=1.4, color=control_color,
                                shrinkA=0, shrinkB=0))
-    d.text(3.12, (hva_center + v1_center) / 2, 'Mean shift', color=control_color,
+    d.text(3.12, (hva_center + v1_center) / 2, 'Mean difference', color=control_color,
            fontsize=11, ha='left', va='center')
     heading(fig, .085, 'A', 'Visual areas hierarchy')
-    heading(fig, .445, 'B', 'Within-area benchmark')
+    heading(fig, .555, 'B', 'Within-area benchmark')
     records = []
     estimate_records = []
     spread_records = []
@@ -261,39 +284,40 @@ def main():
                                 'n_cells': len(tables[pop].loc[tables[pop].category.eq(cat)]),
                                 'category_mean': means[cat], 'model_reference_mean': adjusted_means[cat],
                                 'raw_category_mean': raw_means[cat], 'display_shift': display_shift})
-        sub = outer[row, 4].subgridspec(1, 2, wspace=.22)
-        ca = fig.add_subplot(sub[0, 0])
-        pos = ca.get_position()
-        ca.set_position([pos.x0 + .25 * pos.width, pos.y0, .5 * pos.width, pos.height])
-        results.effect(ca, cr.hva_minus_v1, cr.hva_minus_v1_low,
-                       cr.hva_minus_v1_high, results.POP_COLORS['Control'], 'HVA − V1')
-        ca.set_ylabel('Δ log10 F1/F0' if metric == results.METRICS[1] else 'Δ ms', fontsize=12)
-        # Preserve the physical label-to-axis distance as the plot narrows.
-        ca.yaxis.set_label_coords(-1.28, .5)
-        da = fig.add_subplot(sub[0, 1])
-        pos = da.get_position()
-        da.set_position([pos.x0 + .25 * pos.width, pos.y0, .5 * pos.width, pos.height])
-        results.effect(da, dr.estimate, dr.low, dr.high,
-                       results.POP_COLORS['Difference'], 'Across HVA\n− within V1')
-        da.set_ylabel('')
-        effect_axes = [ca, da]
+        # Show the component SDs alongside the two signed differences.
+        component_sds = {}
+        for population in ['v1', 'hva']:
+            sd_samples = np.sqrt(sd_draws.loc[sd_draws.metric.eq(metric), population])
+            low, high = sd_samples.quantile([.025, .975])
+            component_sds[population] = (np.sqrt(me.loc[population, 'estimate']), low, high)
+            estimate_records.append(dict(metric=metric, effect=population + '_sd',
+                                         estimate=component_sds[population][0], low=low, high=high))
+        ca = fig.add_subplot(outer[row, 4])
+        locations = [0, 1.2, 2.1, 3.5]
+        summaries = [(cr.hva_minus_v1, cr.hva_minus_v1_low, cr.hva_minus_v1_high),
+                     component_sds['v1'], component_sds['hva'], (dr.estimate, dr.low, dr.high)]
+        for x, (estimate, low, high), color, marker, fill in zip(
+                locations, summaries, [results.POP_COLORS['Control'], '#555555', '#555555', '#333333'],
+                ['o', 'o', 's', 'o'], [results.POP_COLORS['Control'], 'white', 'white', '#333333']):
+            ca.vlines(x, low, high, color=color, lw=2)
+            ca.plot(x, estimate, marker=marker, color=color, markerfacecolor=fill, ms=5.5)
+        bounds = [0] + [value for summary in summaries for value in summary[1:]]
+        span = max(bounds) - min(bounds)
+        ca.set_ylim(min(bounds) - .22 * span, max(bounds) + .17 * span)
+        ca.set_xlim(-.45, 4.15)
+        ca.set_xticks(locations, ['HVAs\n− V1', 'Within\nV1', 'Across\nHVAs', 'Across HVAs\n− within V1'])
+        ca.set_ylabel('log10 F1/F0' if metric == results.METRICS[1] else 'ms', fontsize=12)
+        ca.yaxis.set_major_locator(MaxNLocator(nbins=4))
+        results.clean(ca)
+        ca.axhline(0, color='#888888', lw=.9, ls='--')
+        if row < 2:
+            ca.tick_params(axis='x', labelbottom=False)
         if row == 0:
-            ca.set_title('Mean shift', fontsize=12, pad=10)
-            da.set_title('SD contrast', fontsize=11, pad=10)
-        if row == 0:
+            for x, title in [(0, 'Mean\ndifference'), (1.65, 'SD of\nmeans'), (3.5, 'SD\ndifference')]:
+                ca.text(x, 1.055, title, transform=ca.get_xaxis_transform(),
+                        fontsize=12, ha='center', va='bottom')
             fig.text(outer[0, 4].get_position(fig).x0 - .045, .705, 'E', ha='left',
                      fontsize=20, va='top', gid='panel-letter')
-        for axis in effect_axes:
-            # Exact values live in the accompanying table; leave marks unobstructed.
-            for annotation in list(axis.texts):
-                annotation.remove()
-            axis.set_ylim(effect_ylim)
-            axis.tick_params(labelsize=12)
-            if row < 2:
-                axis.tick_params(axis='x', labelbottom=False)
-            axis.yaxis.set_major_locator(MaxNLocator(nbins=4))
-        da.tick_params(labelleft=False, left=False)
-        da.spines['left'].set_visible(False)
         estimate_records.append(dict(metric=metric, effect='hva_minus_v1_sd',
                                      estimate=dr.estimate, low=dr.low, high=dr.high))
         estimate_records.append(dict(metric=metric, effect='matched_hva_minus_v1_mean',
@@ -301,7 +325,7 @@ def main():
                                      high=cr.hva_minus_v1_high))
     pd.DataFrame(spread_records).to_csv(STEM.with_name(STEM.name + '_mean_spreads.csv'), index=False)
     counts = pd.DataFrame(records)
-    old = pd.read_csv(OUT / 'figure4_display_counts.csv')
+    old = pd.read_csv(ROOT / 'artifacts/figure4_rerun/v8_final/figure4_display_counts.csv')
     old = old.loc[old.figure.eq('Figure4_CDE_rerun')]
     joined = counts.merge(old, on=['metric', 'population', 'category'], suffixes=('_new', '_original'), validate='one_to_one')
     assert len(joined) == len(counts) == len(old)
@@ -334,8 +358,13 @@ def main():
         axis.set_title(axis.get_title(), pad=4, fontsize=9)
         for spine in axis.spines.values():
             spine.set_linewidth(.5)
+    if style_callback is not None:
+        style_callback(fig)
     fig.canvas.draw()
     renderer = fig.canvas.get_renderer()
+    for anatomical_level, schematic_level in [(anatomical_v1, v1_center), (anatomical_hva, hva_center)]:
+        assert np.isclose(b.transData.transform((0, anatomical_level))[1],
+                          d.transData.transform((0, schematic_level))[1]), 'Schematic baselines are not aligned'
     for text in fig.findobj(Text):
         if hasattr(text, '_sd_span'):
             x, lo, hi = text._sd_span
@@ -345,23 +374,26 @@ def main():
     for suffix in ['pdf', 'svg', 'png']:
         fig.savefig(STEM.with_suffix('.' + suffix), dpi=400, facecolor='white')
     plt.close(fig)
+    score_description = ('Siegle et al. (2021), recomputed eight-region CC+TC hierarchy, displaying its six cortical areas' if hierarchy == 'siegle2021' else 'Harris et al. (2019), visual/medial CC+TC+CT iterated hierarchy, displaying six cortical areas')
     legend = """# Figure 4 — Functional variation within V1 and across higher visual areas
 
-**A–B, anatomy and schematic.** A combines the Allen CCFv3 dorsal visual-area map with the anatomical-hierarchy schematic. The anatomical-hierarchy schematic shows the published scores from Siegle et al. (2021) for V1 and five higher visual areas, without renormalization. Curved links are schematic visual context, not a measured or exhaustive connectivity graph; their widths do not encode connection strengths. B uses the same atlas geometry with non-V1 masks merged. V1 locations use a distinct warm-to-cool palette (anterior crimson, lateral ochre, posterior turquoise, medial slate blue) consistently in B and D, and their mean diamonds; HVA colors are reserved for HVA identity. Probe markers show the mean AP/ML coordinates across eight animals of the most superficial VISp-labelled contact on each probe. B and D use Ant., Lat., Post., and Med. for anterior, lateral, posterior, and medial V1 sampling locations. B (Within-area benchmark) illustrates functional-metric spread with deliberately unordered, uneven category means. V1 locations are displayed in the fixed categorical order anterior, lateral, posterior, medial; horizontal position does not indicate a hierarchy score or correspondence to an HVA. Its vertical bars show illustrative ±1 SD of means, labelled Across HVA and Within V1, with dashed lines marking the group centers. The orange mean-shift arrow connects the two illustrative group centers to explain a difference in means. This is a conceptual schematic, not an estimate of the difference between the populations in C and D; the measured positive control in E compares matched Allen V1 and HVA recordings. These are not measured hierarchy scores or empirical SD estimates.
+**A–B, anatomy and schematic.** A combines the Allen CCFv3 dorsal visual-area map with the anatomical-hierarchy schematic. The anatomical-hierarchy schematic shows HIERARCHY_DESCRIPTION, without renormalization. Curved links follow the directed connection-density convention of Harris et al. (2019), Fig. 6e: ascending (feedforward) projections arc on the left and descending (feedback) projections arc on the right; feedforward and feedback here indicate direction relative to the selected hierarchy. Widths are linearly proportional to ipsilateral normalized connection density from the Allen released cortical matrix underlying the Harris Fig. 1e convention, with one common scale across all 30 directed non-self connections among the six displayed areas; colors identify the source area. The widest displayed link is 2.4 pt. Node heights retain the selected published coordinates; line widths use anatomical projection density, not physiological synaptic efficacy. This is a six-area adaptation with redrawn curves and the Figure 4 area palette. B uses the same atlas geometry with non-V1 masks merged. V1 locations use a distinct warm-to-cool palette (anterior crimson, lateral ochre, posterior turquoise, medial slate blue) consistently in B and D, and their mean diamonds; HVA colors are reserved for HVA identity. Probe markers show the mean AP/ML coordinates across eight animals of the most superficial VISp-labelled contact on each probe. B and D use Ant., Lat., Post., and Med. for anterior, lateral, posterior, and medial V1 sampling locations. B (Within-area benchmark) illustrates functional-metric spread with deliberately unordered, uneven category means. V1 locations are displayed in the fixed categorical order anterior, lateral, posterior, medial; horizontal position does not indicate a hierarchy score or correspondence to an HVA. Its vertical bars show illustrative ±1 SD of means, labelled Across HVAs and Within V1, with dashed lines marking the group centers. For visual alignment, the lower dashed line is placed at the same page height as V1 in A, and the upper dashed line at the arithmetic mean height of the five HVAs in A. This alignment is a schematic layout convention, not a calibration of functional metrics to anatomical scores. The orange mean-difference arrow connects the two illustrative group centers to explain a difference in means. This is a conceptual schematic, not an estimate of the difference between the populations in C and D; the measured positive control in E compares matched Allen V1 and HVA recordings. These are not measured hierarchy scores or empirical SD estimates.
 
 **C–D, cellular distributions and pooled spread.** Half-violins show eligible single-neuron distributions; dots are deterministic display subsamples. Colored diamonds show model-standardized category means translated by one common constant per population and metric: displayed mean = standardized mean − equal-category standardized center + equal-category raw center. Thus their center matches the equally weighted mean of the raw category means, while every fitted category contrast and category-mean SD is preserved. Each adjacent pooled panel combines all eligible cells with equal per-cell weight, showing a gray half-violin and up to 800 gray cell dots. Pooled distributions are raw, without recentering or session adjustment. Repeated diamonds use the same translated adjusted category means as the individual plots, with small horizontal offsets solely for visibility. The left vertical bar spans the raw pooled cell mean ±1 population SD; the right vertical bar spans the translated, equally weighted adjusted category-mean center ±1 finite-category SD (both ddof=0). “Means” refers to area means in C and location means in D. Vertical bars with small end caps show these ±1 SD spans; they describe spread, not uncertainty. Pooled cellular SD includes within- and between-category variation; these two bars do not constitute a formal variance decomposition because they have different weighting and adjustment. Categories, animals within categories, recordings within animal/category, and cells within recordings receive equal nested fitting weight for the adjusted diamonds and E spread contrasts. Session fixed effects are nuisance terms omitted from standardized predictions. The common display shift anchors the adjusted means to the observed category center without changing their contrasts or SD. The cells bar retains its raw pooled, equal-cell center, which need not equal the equal-category center of the means bar. The diamonds remain adjusted estimates, not raw category means. C/D absolute centers are not the matched control comparison. Across-HVA distributions come from Allen and within-V1 distributions from MouseV2; shared response axes show common units, not a controlled comparison of their absolute levels, which may reflect differences in rigs, stimuli, and animals.
 
-For response timescale, the violins, diamonds, and descriptive SD bracket all use fixed display draw 1 of 10 and its draw-specific five-cell floor. The timescale SD contrast in E uses all ten draws and can therefore differ from the contrast of the displayed SDs. Other metrics have one accepted value per neuron. Response axes show the central 99.6% with display padding; all eligible values enter the fits. Category sample sizes and displayed means are listed in the accompanying tables.
+For response timescale, the violins, diamonds, and descriptive SD bracket all use fixed display draw 1 of 10 and its draw-specific five-cell floor. The timescale SD difference in E uses all ten draws and can therefore differ from the contrast of the displayed SDs. Other metrics have one accepted value per neuron. Response axes show the central 99.6% with display padding; all eligible values enter the fits. Category sample sizes and displayed means are listed in the accompanying tables.
 
-**E, signed control and direct spread contrast.** Both E columns show point estimates and 95% whole-animal bootstrap confidence intervals. The mean-shift control is the fitted mean difference, equal-area pooled HVA minus matched Allen V1, with a 95% whole-animal bootstrap interval. It uses matched Allen sessions, not the MouseV2 V1 population in D. Lower phase modulation is associated with higher hierarchical levels; the negative HVA-minus-V1 phase-modulation mean shift is therefore in the expected direction. This directional interpretation concerns the mean shift, not the SD contrast. E response-difference units are shown on the first column for both columns in each row. The second column, labelled “Across HVA − within V1,” contrasts across-HVA with within-V1 category-mean spread: sqrt(V_HVA) − sqrt(V_V1), in response units. For timescale, V for each population is the mean of its ten complete draw-specific variances; the square root is applied after averaging. In each bootstrap replicate, the paired V1 and HVA variances are separately square-rooted before taking their difference. The 95% interval is the 2.5th–97.5th percentile of those paired SD contrasts. The bootstrap samples whole animals and selects a coherent matched-trial draw per MouseV2 session occurrence. Intervals are pointwise and do not establish equivalence. C/D use a shared absolute-response scale within each row; the two E columns share a difference scale within each row. All summaries use ms for TTFS/timescale and log10 F1/F0 units for phase modulation.
+**E, mean difference, component SDs, and SD difference.** The four estimates show the matched HVA–V1 mean difference, SD across V1-location means, SD across HVA means, and their signed HVA-minus-V1 SD difference, each with a 95% whole-animal bootstrap interval. Component SD estimates are square roots of fitted category variances; their intervals are percentiles of the corresponding square-root-transformed bootstrap variances. Open circles and squares identify the within-V1 and across-HVA SDs, respectively. All four estimates share a response-unit axis; only the first and last are signed differences. The mean-difference control is the fitted mean difference, equal-area pooled HVA minus matched Allen V1, with a 95% whole-animal bootstrap interval. It uses matched Allen sessions, not the MouseV2 V1 population in D. Lower phase modulation is associated with higher hierarchical levels; the negative HVA-minus-V1 phase-modulation mean difference is therefore in the expected direction. This directional interpretation concerns the mean difference, not the SD difference. E uses response units in each row. The final estimate, labelled “Across HVAs − within V1,” contrasts across-HVA with within-V1 category-mean spread: sqrt(V_HVA) − sqrt(V_V1), in response units. For timescale, V for each population is the mean of its ten complete draw-specific variances; the square root is applied after averaging. In each bootstrap replicate, the paired V1 and HVA variances are separately square-rooted before taking their difference. The 95% interval is the 2.5th–97.5th percentile of those paired SD differences. The bootstrap samples whole animals and selects a coherent matched-trial draw per MouseV2 session occurrence. Intervals are pointwise and do not establish equivalence. C/D use a shared absolute-response scale within each row; all four E estimates share a response-unit scale within each row. All summaries use ms for TTFS/timescale and log10 F1/F0 units for phase modulation.
 
 Descriptive cell-level variance associated with category identity was estimated using one-way ω² = [SS_between − (K−1) MS_within] / [SS_total + MS_within], with equal cell weights. TTFS (ms): V1 ω² = -0.0010 (95% CI -0.0024 to 0.0259); HVA ω² = 0.0173 (95% CI 0.0086 to 0.0369). log10 F1/F0: V1 ω² = 0.0086 (95% CI 0.0024 to 0.0229); HVA ω² = 0.0021 (95% CI 0.0002 to 0.0089). Response timescale (ms): V1 ω² = 0.0055 (95% CI -0.0008 to 0.0281); HVA ω² = 0.0223 (95% CI 0.0134 to 0.0390). Intervals use 5,000 whole-animal bootstrap replicates. Raw category means enter this calculation, not the session-adjusted diamonds. SS_total equals N times the squared pooled-cell population SD, linking the denominator to the full cellular spread. Negative estimates are retained as a consequence of bias correction; they do not imply negative population variance. This is an unadjusted association measure, not a multilevel variance decomposition. V1 timescale estimates average ten draw-specific ω² values; bootstrap samples select one coherent draw per sampled session occurrence.
 
 Analyses use harmonized metric definitions, common waveform quality criteria, metric-specific validity filters, an anatomical VISp restriction for MouseV2, and at least five eligible cells per recording/category. TTFS is response-selected preferred-polarity latency below 100 ms; phase modulation is log10 harmonized F1/F0; timescale requires valid 1–300 ms fits with >50 spikes and fit error <20 ms. These are plug-in spreads of estimated category means, without an explicit correction for estimation-noise inflation.
 
-Anatomical hierarchy scores: Siegle et al. (2021), https://pmc.ncbi.nlm.nih.gov/articles/PMC10399640/#F2.
+Numerical source selected above. Siegle et al. (2021), https://pmc.ncbi.nlm.nih.gov/articles/PMC10399640/#F2. Connection-density convention: Harris et al. (2019), https://www.nature.com/articles/s41586-019-1716-z/figures/6. Source matrix: https://download.alleninstitute.org/publications/A_high_resolution_data-driven_model_of_the_mouse_connectome/normalized_connection_density_ipsi_ctx.csv.
 """
-    legend += '\n\nAn exploratory sensitivity analysis assesses estimation-noise inflation of category-mean variance. It subtracts tr(P C)/K from the plug-in variance of fitted category means, where P centers the K means and C is their animal-clustered covariance with a CR1 correction. It accounts approximately for unequal precision and correlated mean estimates but is not guaranteed unbiased, particularly with only eight V1 animals. Corrected point variances are negative for V1 TTFS and HVA phase modulation; these are retained and not square-rooted or truncated to zero. Consequently a corrected SD contrast is undefined for those metrics. This sensitivity analysis provides corrected point estimates, not corrected confidence intervals; E shows the uncorrected SD contrast. Neither this correction nor the cell-level omega-squared analysis removes between-dataset confounding.\n'
+    legend = legend.replace('HIERARCHY_DESCRIPTION', score_description)
+    legend += '\nSelected numerical hierarchy: ' + score_description + '. Harris coordinates are taken from hierarchy_summary_CreConf.xlsx, sheet hierarchy_visualmedial(VIS), column CC+TC+CT iterated.\n'
+    legend += '\n\nAn exploratory sensitivity analysis assesses estimation-noise inflation of category-mean variance. It subtracts tr(P C)/K from the plug-in variance of fitted category means, where P centers the K means and C is their animal-clustered covariance with a CR1 correction. It accounts approximately for unequal precision and correlated mean estimates but is not guaranteed unbiased, particularly with only eight V1 animals. Corrected point variances are negative for V1 TTFS and HVA phase modulation; these are retained and not square-rooted or truncated to zero. Consequently a corrected SD difference is undefined for those metrics. This sensitivity analysis provides corrected point estimates, not corrected confidence intervals; E shows the uncorrected SD difference. Neither this correction nor the cell-level omega-squared analysis removes between-dataset confounding.\n'
     legend += '\n## Displayed pooled SD values\n\n| Metric | Population | Cell SD | Category-mean SD |\n|---|---|---:|---:|\n'
     for r in spread_records:
         legend += f"| {r['metric']} | {r['population']} | {r['pooled_cell_sd']:.4g} | {r['display_sd']:.4g} |\n"
@@ -371,18 +403,42 @@ Anatomical hierarchy scores: Siegle et al. (2021), https://pmc.ncbi.nlm.nih.gov/
     legend += '\n## Exact effect estimates\n\n| Metric | Effect | Estimate | 95% interval |\n|---|---|---:|---:|\n'
     for r in estimates.itertuples():
         legend += f'| {r.metric} | {r.effect} | {r.estimate:.6g} | [{r.low:.6g}, {r.high:.6g}] |\n'
+    legend = legend.replace('Figure 4', f'Figure {figure_number}')
     STEM.with_name(STEM.name + '_legend.md').write_text(legend)
     sources = [REGISTRY, results.PRIMARY / 'primary_effects.csv', results.PRIMARY / 'draw_specific_point_fits.csv',
-               results.CONTROL / 'matched_control.csv', results.PRIMARY / 'bootstrap_effects.csv.gz', schematic.PROBE_ENTRIES_PATH, schematic.ATLAS_PATH, schematic.ATLAS_LABELS_PATH]
-    manifest = {'description': 'Pooled distribution presentation: C/D pooled half-violins, cells, adjusted means, and cellular/mean SD brackets; E signed control and paired SD contrast. Source populations retained.',
+               results.CONTROL / 'matched_control.csv', results.PRIMARY / 'bootstrap_effects.csv.gz', schematic.PROBE_ENTRIES_PATH, schematic.ATLAS_PATH, schematic.ATLAS_LABELS_PATH,
+               schematic.CONNECTION_DENSITY_PATH, schematic.HARRIS_SCORES_PATH]
+    manifest = {'description': 'Pooled distribution presentation: C/D pooled half-violins, cells, adjusted means, and cellular/mean SD brackets; E signed control, component SDs, and paired SD difference. Source populations retained.',
                 'probe_location_overlay': {'excluded_subjects': [], 'n_animals': 8,
                                            'exclusion_scope': 'Anatomical overlay only; response populations unchanged'},
+                'anatomical_connections': {
+                    'source': 'Allen released ipsilateral cortical normalized connection density matrix; Harris et al. 2019 Fig. 1e/6e convention',
+                    'hierarchy_version': hierarchy,
+                    'direction_labels_in_panel': False,
+                    'compact_axis_above_highest_node': True,
+                    'hierarchy_scores': schematic.hierarchy_scores(hierarchy),
+                    'hierarchy_description': score_description,
+                    'matrix_orientation': 'rows source, columns target',
+                    'direction': 'ascending projections left; descending projections right',
+                    'width': 'linear through zero; density divided by maximum off-diagonal density in the displayed six-area subset',
+                    'maximum_width_pt': schematic.MAX_CONNECTION_WIDTH_PT,
+                    'n_directed_edges': len(schematic.hierarchy_connections()),
+                    'color': 'source area, using the Figure 4 area palette'},
+                'schematic_alignment': {'V1_reference_score': float(anatomical_v1), 'mean_HVA_reference_score': float(anatomical_hva), 'meaning': 'Page-height alignment only; functional metric values remain illustrative'},
+                'schematic_layout': {'A_map': [.060, .725, .190, .22], 'A_hierarchy': [.245, .725, .260, .22], 'B_map': [.555, .725, .130, .22], 'B_benchmark': [.735, .725, .245, .22]},
                 'renderer': str(Path(__file__).relative_to(ROOT)), 'display_count_check': 'All 27 category counts match original.',
                 'sources': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}}
+    manifest['figure_number'] = figure_number
+    manifest['artboard_points'] = (fig.get_size_inches() * 72).tolist()
     STEM.with_name(STEM.name + '_layout_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     print(STEM.with_suffix('.pdf'))
     print('Verified all 27 display counts against the original figure.')
 
 
 if __name__ == '__main__':
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output-dir', type=Path, default=None)
+    parser.add_argument('--hierarchy', choices=['siegle2021', 'harris2019'], default='harris2019')
+    args = parser.parse_args()
+    main(args.output_dir, args.hierarchy)
