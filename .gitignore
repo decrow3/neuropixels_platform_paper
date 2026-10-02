@@ -108,3 +108,11 @@ venv.bak/
 
 # Large data file
 data/unit_table.csv
+
+# Local exploratory outputs and intermediate new-dataset exports. The exact
+# inputs and final exports required by canonical Figure 5 are tracked explicitly.
+artifacts/
+data/imports/
+data/site*_processed/
+/Figure3_refactored.png
+/Figure3_restored_style.png

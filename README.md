@@ -10,6 +10,23 @@ Each figure in the pre-print has a folder with associated code. Data required fo
 
 This repository is still a work in progress; we will continue to clean up the code and add documentation throughout the review process.
 
+## New V1 benchmark and Figure 5
+
+The `Figure5` directory is a minimal extension for comparing functional
+variation across higher visual areas with variation across spatially separated
+recording locations within V1. The locked publication figure, its exact input
+tables, and a dependency manifest are included.
+
+Rebuild and validate the canonical figure from the repository root with:
+
+```bash
+python Figure5/build.py
+```
+
+See [`Figure5/README.md`](Figure5/README.md) for the figure contract and
+[`Figure5/dependencies.json`](Figure5/dependencies.json) for the complete list
+of added production dependencies.
+
 
 ## Level of Support
 
