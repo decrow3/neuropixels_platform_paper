@@ -23,6 +23,9 @@ Rebuild and validate the canonical figure from the repository root with:
 python Figure5/build.py
 ```
 
+Audit the external sources or regenerate the derived inputs with
+`python Figure5/prepare.py check` and `python Figure5/prepare.py regenerate`.
+
 See [`Figure5/README.md`](Figure5/README.md) for the figure contract and
 [`Figure5/dependencies.json`](Figure5/dependencies.json) for the complete list
 of added production dependencies.

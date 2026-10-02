@@ -12,6 +12,42 @@ The locked build was verified with Python 3.12.4 and the package versions in
 `requirements.txt`. The Allen repository's original `environment.yml` remains
 unchanged for reproducing the published figures.
 
+## Regenerating the data inputs
+
+The figure build intentionally consumes frozen analysis tables. Their compact
+preparation pipeline is separate:
+
+```bash
+python Figure5/prepare.py check
+python Figure5/prepare.py download-public
+python Figure5/prepare.py regenerate
+python Figure5/prepare.py verify
+```
+
+`check` verifies every upstream file against `source_manifest.json` before any
+analysis runs. `download-public` obtains only missing Allen CCF and Harris
+reference files. `regenerate` writes a parallel tree under
+`artifacts/figure5_regenerated/`; it never overwrites the canonical inputs.
+With 5,000 replicates it compares every regenerated table to the locked result,
+allowing only floating-point roundoff attributable to the numerical backend.
+
+The metric-level MouseV2 and Allen tables are the external data-release
+boundary. They are not silently substituted or downloaded from mutable draft
+locations: the exact file sizes and SHA-256 hashes are declared in
+`source_manifest.json`. The anatomical entry-point table is retained as a
+frozen source because the underlying MouseV2 DANDI draft changed after the
+canonical analysis. For the same reason, `Figure5/sources/` preserves the
+value-free unit IDs and recording assignments admitted by the original CCF
+preflight. Response measurements are rebuilt from the separately hashed metric
+tables; the frozen design snapshot contains no response values.
+
+To verify the downstream statistics independently when the original external
+source bundle is unavailable, start from the committed locked registry:
+
+```bash
+python Figure5/prepare.py regenerate --derived-only
+```
+
 The canonical exports and their supporting tables live in
 `artifacts/figure5/v17_corrected_tests/`. The entry point performs a dependency
 preflight and rejects changes to the locked numerical tables and bootstrap

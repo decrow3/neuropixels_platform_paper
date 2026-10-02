@@ -1,6 +1,8 @@
 {
   "canonical_version": "v17-corrected-tests",
   "entrypoint": "Figure5/build.py",
+  "preparation_entrypoint": "Figure5/prepare.py",
+  "source_manifest": "Figure5/source_manifest.json",
   "environment": "Figure5/requirements.txt",
   "output_directory": "artifacts/figure5/v17_corrected_tests",
   "data_inputs": [
@@ -22,6 +24,7 @@
   "production_code": [
     "Figure5/build.py",
     "Figure5/data.py",
+    "Figure5/prepare.py",
     "Figure5/render.py",
     "scripts/build_figure4_integrated.py",
     "scripts/build_hierarchy_schematic_row.py"
