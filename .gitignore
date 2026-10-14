@@ -110,12 +110,12 @@ venv.bak/
 data/unit_table.csv
 
 # Local exploratory outputs and intermediate new-dataset exports.
-# Canonical Figure 5 inputs and exports live in MouseV2-figure5/.
+# Canonical Figure 5 inputs and exports live in MouseV2-Figure5/.
 artifacts/
 data/imports/
 data/site*_processed/
 /Figure3_refactored.png
 /Figure3_restored_style.png
 
-# Regeneration scratch tree; canonical inputs remain in MouseV2-figure5/data/.
-/MouseV2-figure5/regenerated/
+# Regeneration scratch tree; canonical inputs remain in MouseV2-Figure5/data/.
+/MouseV2-Figure5/regenerated/

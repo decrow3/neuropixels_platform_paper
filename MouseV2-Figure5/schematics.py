@@ -19,12 +19,12 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-OUTPUT_STEM = ROOT / "MouseV2-figure5" / "Hierarchy_schematic_row"
+OUTPUT_STEM = ROOT / "MouseV2-Figure5" / "Hierarchy_schematic_row"
 ATLAS_PATH = ROOT / "data/reference/allen_ccf_2017_surface/top.nrrd"
 ATLAS_LABELS_PATH = (
     ROOT / "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt"
 )
-PROBE_ENTRIES_PATH = ROOT / "MouseV2-figure5/sources/mousev2_ccf_surface_entry_points.csv"
+PROBE_ENTRIES_PATH = ROOT / "MouseV2-Figure5/sources/mousev2_ccf_surface_entry_points.csv"
 CONNECTION_DENSITY_PATH = ROOT / "data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv"
 HIERARCHY_AREAS = {"V1": "VISp", "LM": "VISl", "RL": "VISrl", "AL": "VISal", "PM": "VISpm", "AM": "VISam"}
 MAX_CONNECTION_WIDTH_PT = 2.4

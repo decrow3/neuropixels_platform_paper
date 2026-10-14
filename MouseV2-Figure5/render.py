@@ -26,11 +26,11 @@ sys.path.insert(0, str(ROOT))
 import panels as base
 
 
-OUTPUT = ROOT / "MouseV2-figure5"
+OUTPUT = ROOT / "MouseV2-Figure5"
 STEM = OUTPUT / "Figure5"
 VECTOR_SOURCE = OUTPUT / "sources/Original_handmade_cortical_vectors.svg"
-VARIANCE_STATS = ROOT / "MouseV2-figure5/data/estimates_and_tests.csv"
-CAPTION_SOURCE = ROOT / "MouseV2-figure5/sources/Figure5_caption.md"
+VARIANCE_STATS = ROOT / "MouseV2-Figure5/data/estimates_and_tests.csv"
+CAPTION_SOURCE = ROOT / "MouseV2-Figure5/sources/Figure5_caption.md"
 ARTBOARD_WIDTH = 852.648
 ARTBOARD_HEIGHT = 709.0
 METRICS = ["TTFS (ms)", "log10 F1/F0", "Response timescale (ms)"]
@@ -535,7 +535,7 @@ def finalize_manifest() -> None:
     manifest = json.loads(path.read_text())
     manifest.update({
         "figure_number": 5,
-        "renderer": "MouseV2-figure5/render.py",
+        "renderer": "MouseV2-Figure5/render.py",
         "description": "Canonical Figure 5 v17: compact E/F, direct omega-squared contrasts, and Bonferroni-adjusted panel-F component tests.",
         "artboard_points": [ARTBOARD_WIDTH, ARTBOARD_HEIGHT],
         "style": {

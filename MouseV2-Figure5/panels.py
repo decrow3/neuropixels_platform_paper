@@ -17,9 +17,9 @@ from scipy.stats import gaussian_kde
 import schematics as schematic
 import figure_data as results
 
-OUT = ROOT / 'MouseV2-figure5'
+OUT = ROOT / 'MouseV2-Figure5'
 STEM = OUT / 'Figure5'
-REGISTRY = ROOT / 'MouseV2-figure5/data/response_registry_floor5.csv.gz'
+REGISTRY = ROOT / 'MouseV2-Figure5/data/response_registry_floor5.csv.gz'
 
 
 def heading(fig, x, letter, title):
@@ -329,7 +329,7 @@ def main(output_dir=None, hierarchy="harris2019", *, figure_number=5,
                                      high=cr.hva_minus_v1_high))
     pd.DataFrame(spread_records).to_csv(STEM.with_name(STEM.name + '_mean_spreads.csv'), index=False)
     counts = pd.DataFrame(records)
-    old = pd.read_csv(ROOT / 'MouseV2-figure5/data/display_counts.csv')
+    old = pd.read_csv(ROOT / 'MouseV2-Figure5/data/display_counts.csv')
     old = old.loc[old.figure.eq('Figure4_CDE_rerun')]
     joined = counts.merge(old, on=['metric', 'population', 'category'], suffixes=('_new', '_original'), validate='one_to_one')
     assert len(joined) == len(counts) == len(old)

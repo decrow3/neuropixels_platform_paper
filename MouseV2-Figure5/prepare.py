@@ -23,8 +23,8 @@ import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = ROOT / "MouseV2-figure5/source_manifest.json"
-DEFAULT_OUTPUT_ROOT = ROOT / "MouseV2-figure5/regenerated"
+MANIFEST_PATH = ROOT / "MouseV2-Figure5/source_manifest.json"
+DEFAULT_OUTPUT_ROOT = ROOT / "MouseV2-Figure5/regenerated"
 METRICS = ("TTFS (ms)", "log10 F1/F0", "Response timescale (ms)")
 V1_CATEGORIES = ("A", "E", "C", "B")
 HVA_CATEGORIES = ("LM", "RL", "AL", "PM", "AM")
@@ -713,7 +713,7 @@ def regenerate(output_root: Path, *, repetitions: int, derived_only: bool) -> No
     output_root.mkdir(parents=True, exist_ok=True)
     if derived_only:
         registry = pd.read_csv(
-            ROOT / "MouseV2-figure5/data/response_registry_floor5.csv.gz",
+            ROOT / "MouseV2-Figure5/data/response_registry_floor5.csv.gz",
             dtype={"unit_id": str, "session_id": str},
         )
     else:
@@ -722,21 +722,21 @@ def regenerate(output_root: Path, *, repetitions: int, derived_only: bool) -> No
         registry = apply_cell_floor(build_response_registry(), 5)
         _write_csv(
             registry, output_root,
-            "MouseV2-figure5/data/response_registry_floor5.csv.gz", gzip_output=True,
+            "MouseV2-Figure5/data/response_registry_floor5.csv.gz", gzip_output=True,
         )
 
     point_fits, effects = primary_points(registry)
     bootstrap = primary_bootstrap(registry, repetitions)
     effects = add_primary_intervals(effects, bootstrap)
-    _write_csv(point_fits, output_root, "MouseV2-figure5/data/draw_specific_point_fits.csv")
-    _write_csv(effects, output_root, "MouseV2-figure5/data/primary_effects.csv")
-    _write_csv(bootstrap, output_root, "MouseV2-figure5/data/bootstrap_effects.csv.gz", gzip_output=True)
-    _write_csv(matched_control(registry, repetitions), output_root, "MouseV2-figure5/data/matched_control.csv")
-    _write_csv(display_counts(registry), output_root, "MouseV2-figure5/data/display_counts.csv")
+    _write_csv(point_fits, output_root, "MouseV2-Figure5/data/draw_specific_point_fits.csv")
+    _write_csv(effects, output_root, "MouseV2-Figure5/data/primary_effects.csv")
+    _write_csv(bootstrap, output_root, "MouseV2-Figure5/data/bootstrap_effects.csv.gz", gzip_output=True)
+    _write_csv(matched_control(registry, repetitions), output_root, "MouseV2-Figure5/data/matched_control.csv")
+    _write_csv(display_counts(registry), output_root, "MouseV2-Figure5/data/display_counts.csv")
     omega_estimates, omega_bootstraps = cell_omega(registry, repetitions)
     _write_csv(
         location_variance(registry, omega_estimates, omega_bootstraps, repetitions),
-        output_root, "MouseV2-figure5/data/estimates_and_tests.csv",
+        output_root, "MouseV2-Figure5/data/estimates_and_tests.csv",
     )
     if repetitions == 5000:
         if not verify_outputs(output_root, full=not derived_only):

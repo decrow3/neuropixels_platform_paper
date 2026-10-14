@@ -4,8 +4,8 @@ Figure 5 v17 (corrected tests) is the canonical main-text figure. Build it from
 the repository root with:
 
 ```bash
-python -m pip install -r MouseV2-figure5/requirements.txt
-python MouseV2-figure5/Figure5.py
+python -m pip install -r MouseV2-Figure5/requirements.txt
+python MouseV2-Figure5/Figure5.py
 ```
 
 The locked build was verified with Python 3.12.4 and the package versions in
@@ -15,7 +15,7 @@ unchanged for reproducing the published figures.
 ## Files
 
 As in the original `Figure3/` and `Figure4/` directories, the figure script and
-current exports live together. The `MouseV2-figure5/` name distinguishes the
+current exports live together. The `MouseV2-Figure5/` name distinguishes the
 manuscript extension from the original Allen figures.
 
 | File or directory | Purpose |
@@ -39,16 +39,16 @@ The figure build intentionally consumes frozen analysis tables. Their compact
 preparation pipeline is separate:
 
 ```bash
-python MouseV2-figure5/prepare.py check
-python MouseV2-figure5/prepare.py download-public
-python MouseV2-figure5/prepare.py regenerate
-python MouseV2-figure5/prepare.py verify
+python MouseV2-Figure5/prepare.py check
+python MouseV2-Figure5/prepare.py download-public
+python MouseV2-Figure5/prepare.py regenerate
+python MouseV2-Figure5/prepare.py verify
 ```
 
 `check` verifies every upstream file against `source_manifest.json` before any
 analysis runs. `download-public` obtains only missing Allen CCF and Harris
 reference files. `regenerate` writes a parallel tree under
-`MouseV2-figure5/regenerated/`; it never overwrites the canonical inputs.
+`MouseV2-Figure5/regenerated/`; it never overwrites the canonical inputs.
 With 5,000 replicates it compares every regenerated table to the locked result,
 allowing only floating-point roundoff attributable to the numerical backend.
 
@@ -57,7 +57,7 @@ boundary. They are not silently substituted or downloaded from mutable draft
 locations: the exact file sizes and SHA-256 hashes are declared in
 `source_manifest.json`. The anatomical entry-point table is retained as a
 frozen source because the underlying MouseV2 DANDI draft changed after the
-canonical analysis. For the same reason, `MouseV2-figure5/sources/` preserves the
+canonical analysis. For the same reason, `MouseV2-Figure5/sources/` preserves the
 value-free unit IDs and recording assignments admitted by the original CCF
 preflight. Response measurements are rebuilt from the separately hashed metric
 tables; the frozen design snapshot contains no response values.
@@ -66,11 +66,11 @@ To verify the downstream statistics independently when the original external
 source bundle is unavailable, start from the committed locked registry:
 
 ```bash
-python MouseV2-figure5/prepare.py regenerate --derived-only
+python MouseV2-Figure5/prepare.py regenerate --derived-only
 ```
 
 The canonical exports and their supporting tables live in
-`MouseV2-figure5/`. The entry point performs a dependency
+`MouseV2-Figure5/`. The entry point performs a dependency
 preflight and rejects changes to the locked numerical tables and bootstrap
 content. The
 `Figure5_layout_manifest.json` is marked `canonical: true` after a successful build.

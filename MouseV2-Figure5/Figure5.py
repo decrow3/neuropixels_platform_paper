@@ -13,22 +13,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-OUTPUT = ROOT / "MouseV2-figure5"
+OUTPUT = ROOT / "MouseV2-Figure5"
 STEM = OUTPUT / "Figure5"
 
 # These are the repository inputs opened by the renderer. Generated files in
 # OUTPUT are intentionally omitted: they are checked separately after export.
 REQUIRED_INPUTS = [
-    "MouseV2-figure5/sources/mousev2_ccf_surface_entry_points.csv",
-    "MouseV2-figure5/data/response_registry_floor5.csv.gz",
-    "MouseV2-figure5/data/bootstrap_effects.csv.gz",
-    "MouseV2-figure5/data/draw_specific_point_fits.csv",
-    "MouseV2-figure5/data/primary_effects.csv",
-    "MouseV2-figure5/data/matched_control.csv",
-    "MouseV2-figure5/data/display_counts.csv",
-    "MouseV2-figure5/sources/Figure5_caption.md",
-    "MouseV2-figure5/data/estimates_and_tests.csv",
-    "MouseV2-figure5/sources/Original_handmade_cortical_vectors.svg",
+    "MouseV2-Figure5/sources/mousev2_ccf_surface_entry_points.csv",
+    "MouseV2-Figure5/data/response_registry_floor5.csv.gz",
+    "MouseV2-Figure5/data/bootstrap_effects.csv.gz",
+    "MouseV2-Figure5/data/draw_specific_point_fits.csv",
+    "MouseV2-Figure5/data/primary_effects.csv",
+    "MouseV2-Figure5/data/matched_control.csv",
+    "MouseV2-Figure5/data/display_counts.csv",
+    "MouseV2-Figure5/sources/Figure5_caption.md",
+    "MouseV2-Figure5/data/estimates_and_tests.csv",
+    "MouseV2-Figure5/sources/Original_handmade_cortical_vectors.svg",
     "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt",
     "data/reference/allen_ccf_2017_surface/top.nrrd",
     "data/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv",
@@ -86,7 +86,7 @@ def validate() -> None:
     manifest = json.loads(manifest_path.read_text())
     manifest.update(
         canonical=True,
-        canonical_entrypoint="MouseV2-figure5/Figure5.py",
+        canonical_entrypoint="MouseV2-Figure5/Figure5.py",
         canonical_version="v17-corrected-tests",
     )
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")

@@ -17,19 +17,19 @@ areas (HVAs)** than **among locations within V1**:
 - response timescale.
 
 The figure code, frozen analysis tables, and current exports live in
-`MouseV2-figure5/`, following the original one-folder-per-figure layout.
+`MouseV2-Figure5/`, following the original one-folder-per-figure layout.
 Shared atlas and connectivity references remain in `data/reference/`.
 
 | Command | What it does |
 | --- | --- |
-| `python MouseV2-figure5/Figure5.py` | Renders the figure from frozen, hash-locked tables and rejects any numerical change. |
-| `python MouseV2-figure5/prepare.py check` / `regenerate` / `verify` | Rebuilds those tables from hash-locked metric sources. |
+| `python MouseV2-Figure5/Figure5.py` | Renders the figure from frozen, hash-locked tables and rejects any numerical change. |
+| `python MouseV2-Figure5/prepare.py check` / `regenerate` / `verify` | Rebuilds those tables from hash-locked metric sources. |
 
-View the current [Figure 5](MouseV2-figure5/Figure5.png) or download the
-[PDF](MouseV2-figure5/Figure5.pdf). See
-[MouseV2-figure5/README.md](MouseV2-figure5/README.md) for the build instructions
+View the current [Figure 5](MouseV2-Figure5/Figure5.png) or download the
+[PDF](MouseV2-Figure5/Figure5.pdf). See
+[MouseV2-Figure5/README.md](MouseV2-Figure5/README.md) for the build instructions
 and external metric-source requirements, and
-[MouseV2-figure5/dependencies.json](MouseV2-figure5/dependencies.json) for the
+[MouseV2-Figure5/dependencies.json](MouseV2-Figure5/dependencies.json) for the
 production dependencies. Exploratory analyses are retained on the research
 branch; they are not part of this figure build.
 
@@ -48,7 +48,7 @@ interpreted; the MouseV2 recordings supply the within-area comparison for
 judging it.
 
 Which MouseV2 units count as V1, and where each probe enters the cortex, are
-frozen snapshots in `MouseV2-figure5/sources/`, because the underlying DANDI
+frozen snapshots in `MouseV2-Figure5/sources/`, because the underlying DANDI
 draft changed after the analysis.
 
 # Neuropixels Platform Paper
