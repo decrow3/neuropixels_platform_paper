@@ -3,17 +3,18 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import gzip
 import json
 import os
-import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
-OUTPUT = ROOT / "MouseV2-Figure5"
+CANONICAL = ROOT / "MouseV2-Figure5"
+INPUT_ROOT = ROOT
+OUTPUT = CANONICAL
 STEM = OUTPUT / "Figure5"
 
 # These are the repository inputs opened by the renderer. Generated files in
@@ -29,10 +30,10 @@ REQUIRED_INPUTS = [
     "MouseV2-Figure5/sources/Figure5_caption.md",
     "MouseV2-Figure5/data/estimates_and_tests.csv",
     "MouseV2-Figure5/sources/Original_handmade_cortical_vectors.svg",
-    "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt",
-    "data/reference/allen_ccf_2017_surface/top.nrrd",
-    "data/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv",
-    "data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv",
+    "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt",
+    "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/top.nrrd",
+    "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv",
+    "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv",
 ]
 
 LOCKED_TABLES = {
@@ -61,11 +62,35 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def input_path(relative):
+    if relative.startswith("MouseV2-Figure5/data/"):
+        return INPUT_ROOT / relative
+    return ROOT / relative
+
+
 def preflight() -> None:
-    missing = [path for item in REQUIRED_INPUTS if not (path := ROOT / item).is_file()]
+    missing = [path for item in REQUIRED_INPUTS if not (path := input_path(item)).is_file()]
     if missing:
-        formatted = "\n".join(f"- {path.relative_to(ROOT)}" for path in missing)
+        formatted = "\n".join(f"- {path}" for path in missing)
         raise FileNotFoundError(f"Missing canonical Figure 5 inputs:\n{formatted}")
+
+
+def equivalent_table(name):
+    # Regeneration may differ by floating-point roundoff, never by population,
+    # table shape, labels, or meaningful numerical values.
+    import pandas as pd
+    reference = CANONICAL / name
+    if name in LOCKED_TABLES:
+        digest = sha256(reference)
+        expected = LOCKED_TABLES[name]
+    else:
+        with gzip.open(reference, 'rb') as stream:
+            digest = hashlib.sha256(stream.read()).hexdigest()
+        expected = LOCKED_GZIP_CONTENT[name]
+    if digest != expected:
+        raise RuntimeError(f'Canonical reference changed: {name}')
+    pd.testing.assert_frame_equal(pd.read_csv(OUTPUT / name), pd.read_csv(CANONICAL / name),
+                                  check_dtype=False, check_exact=False, rtol=1e-10, atol=1e-12)
 
 
 def validate() -> None:
@@ -75,12 +100,16 @@ def validate() -> None:
     for name, expected in LOCKED_TABLES.items():
         actual = sha256(OUTPUT / name)
         if actual != expected:
-            raise RuntimeError(f"Canonical numerical output changed: {name}\nexpected {expected}\nactual   {actual}")
+            if INPUT_ROOT == ROOT:
+                raise RuntimeError(f"Canonical numerical output changed: {name}\nexpected {expected}\nactual   {actual}")
+            equivalent_table(name)
     for name, expected in LOCKED_GZIP_CONTENT.items():
         with gzip.open(OUTPUT / name, "rb") as stream:
             actual = hashlib.sha256(stream.read()).hexdigest()
         if actual != expected:
-            raise RuntimeError(f"Canonical bootstrap output changed: {name}\nexpected {expected}\nactual   {actual}")
+            if INPUT_ROOT == ROOT:
+                raise RuntimeError(f"Canonical bootstrap output changed: {name}\nexpected {expected}\nactual   {actual}")
+            equivalent_table(name)
 
     manifest_path = STEM.with_name(STEM.name + "_layout_manifest.json")
     manifest = json.loads(manifest_path.read_text())
@@ -88,11 +117,30 @@ def validate() -> None:
         canonical=True,
         canonical_entrypoint="MouseV2-Figure5/Figure5.py",
         canonical_version="v17-corrected-tests",
+        input_root=os.path.relpath(INPUT_ROOT, ROOT),
+        validation="exact hashes" if INPUT_ROOT == ROOT else "numeric equivalence: rtol=1e-10, atol=1e-12",
     )
     manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
 
 
 def main() -> None:
+    global INPUT_ROOT, OUTPUT, STEM, EXPECTED_OUTPUTS
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--input-root', type=Path, default=ROOT,
+                        help='Root of a verified prepare.py regenerated tree')
+    parser.add_argument('--output-dir', type=Path, default=CANONICAL)
+    args = parser.parse_args()
+    INPUT_ROOT = args.input_root.resolve()
+    OUTPUT = args.output_dir.resolve()
+    if INPUT_ROOT != ROOT:
+        if OUTPUT == CANONICAL:
+            parser.error('Use --output-dir to preserve the canonical reference exports')
+        from prepare import verify_outputs
+        if not verify_outputs(INPUT_ROOT, full=True):
+            raise ValueError('Regenerated inputs failed verification')
+    STEM = OUTPUT / 'Figure5'
+    EXPECTED_OUTPUTS = [STEM.with_suffix('.' + suffix) for suffix in ('pdf', 'png', 'svg')]
+    EXPECTED_OUTPUTS += [OUTPUT / ('Figure5_' + name) for name in ('legend.md', 'layout_manifest.json')]
     preflight()
     os.environ.setdefault("SOURCE_DATE_EPOCH", "1790989200")
     os.environ.setdefault("MPLCONFIGDIR", "/tmp/neuropixels-platform-paper-matplotlib")
@@ -101,6 +149,14 @@ def main() -> None:
 
     matplotlib.rcParams["svg.hashsalt"] = "figure5-canonical-v17"
     import render as renderer
+    import panels
+    import figure_data
+    renderer.OUTPUT = OUTPUT
+    renderer.STEM = STEM
+    renderer.VARIANCE_STATS = input_path('MouseV2-Figure5/data/estimates_and_tests.csv')
+    panels.REGISTRY = input_path('MouseV2-Figure5/data/response_registry_floor5.csv.gz')
+    panels.DISPLAY_COUNTS = input_path('MouseV2-Figure5/data/display_counts.csv')
+    figure_data.PRIMARY = figure_data.CONTROL = INPUT_ROOT / 'MouseV2-Figure5/data'
 
     renderer.main()
     validate()

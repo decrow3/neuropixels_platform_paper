@@ -1,0 +1,95 @@
+{
+  "description": "Calculation kernels retained from the research branch; plotting, exploratory alternatives, and machine-local routing omitted. extract.py supplies portable session routing.",
+  "sources": [
+    {
+      "source": "common/drifting_gratings.py",
+      "commit": "b9f0d4e8b8ac95eab31216c4cdd7e77a4349a018",
+      "symbols": [
+        "DIMENSION_ALIASES",
+        "OUTPUT_COLUMNS",
+        "_empty_metrics",
+        "_find_column",
+        "_bin_trial_spike_counts",
+        "f1_f0_from_trial_counts",
+        "welch_modulation_index",
+        "_prepare_conditions",
+        "compute_drifting_grating_metrics"
+      ]
+    },
+    {
+      "source": "scripts/extract_allen_v1_bridge.py",
+      "commit": "b9f0d4e8b8ac95eab31216c4cdd7e77a4349a018",
+      "symbols": [
+        "prepare_grating_table",
+        "condition_starts"
+      ]
+    },
+    {
+      "source": "scripts/extract_allen_v1_f1_f0_full_cohort.py",
+      "commit": "b9f0d4e8b8ac95eab31216c4cdd7e77a4349a018",
+      "symbols": [
+        "trial_f1_f0_components",
+        "prepare_unit",
+        "summarize_draw"
+      ]
+    },
+    {
+      "source": "common/flashes.py",
+      "commit": "b9f0d4e8b8ac95eab31216c4cdd7e77a4349a018",
+      "symbols": [
+        "prepare_flash_presentations",
+        "bin_trial_spike_counts",
+        "timescale_bin_mask",
+        "autocorrelation_curve",
+        "fit_response_timescale"
+      ]
+    },
+    {
+      "source": "scripts/mousev2_timescale_trial_bridge.py",
+      "commit": "b9f0d4e8b8ac95eab31216c4cdd7e77a4349a018",
+      "symbols": [
+        "is_valid_timescale",
+        "balanced_subsample_masks"
+      ]
+    },
+    {
+      "source": "scripts/reconstruct_historical_allen_ttfs.py",
+      "commit": "b9f0d4e8b8ac95eab31216c4cdd7e77a4349a018",
+      "symbols": [
+        "first_spike_ms",
+        "preferred_polarity"
+      ]
+    },
+    {
+      "source": "scripts/plot_response_verified_early_v1_psths.py",
+      "commit": "b9f0d4e8b8ac95eab31216c4cdd7e77a4349a018",
+      "symbols": [
+        "bh_adjust"
+      ]
+    },
+    {
+      "source": "scripts/crossvalidated_v1_flash_timing.py",
+      "commit": "b9f0d4e8b8ac95eab31216c4cdd7e77a4349a018",
+      "symbols": [
+        "counts"
+      ]
+    }
+  ],
+  "anatomy": {
+    "unit_inclusion_snapshot": "2026-09-02",
+    "surface_illustration_snapshot": "2026-09-25",
+    "sources": [
+      "scripts/render_mousev2_probe_tracks_from_ccf.py",
+      "scripts/project_mousev2_tracks_to_ccf_surface.py"
+    ],
+    "surface_tie_choices": "raw_sources.json:surface_anatomy.tie_breaks"
+  },
+  "allen_timescales": {
+    "source": "scripts/reproduce_historical_allen_timescales.py",
+    "symbols": [
+      "reproduce_unit",
+      "exclude_invalid_spikes"
+    ],
+    "role": "Optional audit; published Allen fits are the canonical source"
+  }
+}

@@ -1,0 +1,824 @@
+{
+  "schema_version": 1,
+  "mousev2": {
+    "dandiset_id": "001568",
+    "version": "historical draft used for canonical response metrics",
+    "availability": "Exact historical files required; current draft is not a substitute. SHA-256 values below identify the required snapshot. No immutable public download for this snapshot is recorded in the research provenance.",
+    "sessions": [
+      {
+        "site": "site2",
+        "site_number": 2,
+        "subject_id": 816305,
+        "id_offset": 2000000,
+        "path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+        "bytes": 9644162169,
+        "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312"
+      },
+      {
+        "site": "site3",
+        "site_number": 3,
+        "subject_id": 810531,
+        "id_offset": 3000000,
+        "path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+        "bytes": 8962011152,
+        "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6"
+      },
+      {
+        "site": "site4",
+        "site_number": 4,
+        "subject_id": 810532,
+        "id_offset": 4000000,
+        "path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+        "bytes": 8890335523,
+        "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056"
+      },
+      {
+        "site": "site5",
+        "site_number": 5,
+        "subject_id": 813810,
+        "id_offset": 5000000,
+        "path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+        "bytes": 9988273191,
+        "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d"
+      },
+      {
+        "site": "site6",
+        "site_number": 6,
+        "subject_id": 815152,
+        "id_offset": 6000000,
+        "path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+        "bytes": 9062818368,
+        "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c"
+      },
+      {
+        "site": "site7",
+        "site_number": 7,
+        "subject_id": 816308,
+        "id_offset": 7000000,
+        "path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+        "bytes": 9350128441,
+        "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305"
+      },
+      {
+        "site": "site8",
+        "site_number": 8,
+        "subject_id": 817334,
+        "id_offset": 8000000,
+        "path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+        "bytes": 9826457420,
+        "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca"
+      },
+      {
+        "site": "site9",
+        "site_number": 9,
+        "subject_id": 817335,
+        "id_offset": 9000000,
+        "path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+        "bytes": 9210736377,
+        "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df"
+      }
+    ]
+  },
+  "allen": {
+    "source": "Allen Visual Coding Neuropixels session NWBs",
+    "sessions": [
+      {
+        "session_id": 794812542,
+        "session_type": "functional_connectivity",
+        "path": "session_794812542/session_794812542.nwb",
+        "bytes": 2589149988,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124759"
+      },
+      {
+        "session_id": 798911424,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_798911424/session_798911424.nwb",
+        "bytes": 2864276308,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124743"
+      },
+      {
+        "session_id": 786091066,
+        "session_type": "functional_connectivity",
+        "path": "session_786091066/session_786091066.nwb",
+        "bytes": 2295393668,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123803"
+      },
+      {
+        "session_id": 831882777,
+        "session_type": "functional_connectivity",
+        "path": "session_831882777/session_831882777.nwb",
+        "bytes": 2085248036,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123787"
+      },
+      {
+        "session_id": 760693773,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_760693773/session_760693773.nwb",
+        "bytes": 2864072620,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124702"
+      },
+      {
+        "session_id": 778240327,
+        "session_type": "functional_connectivity",
+        "path": "session_778240327/session_778240327.nwb",
+        "bytes": 2839369128,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124625"
+      },
+      {
+        "session_id": 761418226,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_761418226/session_761418226.nwb",
+        "bytes": 2674791348,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124793"
+      },
+      {
+        "session_id": 829720705,
+        "session_type": "functional_connectivity",
+        "path": "session_829720705/session_829720705.nwb",
+        "bytes": 1679648916,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123625"
+      },
+      {
+        "session_id": 732592105,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_732592105/session_732592105.nwb",
+        "bytes": 2912508032,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123599"
+      },
+      {
+        "session_id": 778998620,
+        "session_type": "functional_connectivity",
+        "path": "session_778998620/session_778998620.nwb",
+        "bytes": 2989635376,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124179"
+      },
+      {
+        "session_id": 755434585,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_755434585/session_755434585.nwb",
+        "bytes": 2235680540,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124684"
+      },
+      {
+        "session_id": 781842082,
+        "session_type": "functional_connectivity",
+        "path": "session_781842082/session_781842082.nwb",
+        "bytes": 2532040156,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124309"
+      },
+      {
+        "session_id": 847657808,
+        "session_type": "functional_connectivity",
+        "path": "session_847657808/session_847657808.nwb",
+        "bytes": 2813195792,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123943"
+      },
+      {
+        "session_id": 771160300,
+        "session_type": "functional_connectivity",
+        "path": "session_771160300/session_771160300.nwb",
+        "bytes": 2784039716,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124918"
+      },
+      {
+        "session_id": 756029989,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_756029989/session_756029989.nwb",
+        "bytes": 2581201976,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124216"
+      },
+      {
+        "session_id": 835479236,
+        "session_type": "functional_connectivity",
+        "path": "session_835479236/session_835479236.nwb",
+        "bytes": 2005885500,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123519"
+      },
+      {
+        "session_id": 791319847,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_791319847/session_791319847.nwb",
+        "bytes": 2317463664,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124645"
+      },
+      {
+        "session_id": 779839471,
+        "session_type": "functional_connectivity",
+        "path": "session_779839471/session_779839471.nwb",
+        "bytes": 2716359056,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124007"
+      },
+      {
+        "session_id": 797828357,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_797828357/session_797828357.nwb",
+        "bytes": 2545679280,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124804"
+      },
+      {
+        "session_id": 767871931,
+        "session_type": "functional_connectivity",
+        "path": "session_767871931/session_767871931.nwb",
+        "bytes": 2644247736,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124194"
+      },
+      {
+        "session_id": 750332458,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_750332458/session_750332458.nwb",
+        "bytes": 3240335928,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124724"
+      },
+      {
+        "session_id": 757216464,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_757216464/session_757216464.nwb",
+        "bytes": 3039748856,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124603"
+      },
+      {
+        "session_id": 768515987,
+        "session_type": "functional_connectivity",
+        "path": "session_768515987/session_768515987.nwb",
+        "bytes": 2852449060,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124517"
+      },
+      {
+        "session_id": 793224716,
+        "session_type": "functional_connectivity",
+        "path": "session_793224716/session_793224716.nwb",
+        "bytes": 2688083040,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124545"
+      },
+      {
+        "session_id": 750749662,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_750749662/session_750749662.nwb",
+        "bytes": 2818447324,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124242"
+      },
+      {
+        "session_id": 762120172,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_762120172/session_762120172.nwb",
+        "bytes": 2865464220,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124884"
+      },
+      {
+        "session_id": 774875821,
+        "session_type": "functional_connectivity",
+        "path": "session_774875821/session_774875821.nwb",
+        "bytes": 2251686372,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124348"
+      },
+      {
+        "session_id": 751348571,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_751348571/session_751348571.nwb",
+        "bytes": 3073327756,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124863"
+      },
+      {
+        "session_id": 839068429,
+        "session_type": "functional_connectivity",
+        "path": "session_839068429/session_839068429.nwb",
+        "bytes": 2823437388,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123725"
+      },
+      {
+        "session_id": 840012044,
+        "session_type": "functional_connectivity",
+        "path": "session_840012044/session_840012044.nwb",
+        "bytes": 2854914016,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124422"
+      },
+      {
+        "session_id": 754312389,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_754312389/session_754312389.nwb",
+        "bytes": 1859545192,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123537"
+      },
+      {
+        "session_id": 760345702,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_760345702/session_760345702.nwb",
+        "bytes": 1960982972,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123651"
+      },
+      {
+        "session_id": 773418906,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_773418906/session_773418906.nwb",
+        "bytes": 1928749868,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124109"
+      },
+      {
+        "session_id": 715093703,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_715093703/session_715093703.nwb",
+        "bytes": 2856232912,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124469"
+      },
+      {
+        "session_id": 821695405,
+        "session_type": "functional_connectivity",
+        "path": "session_821695405/session_821695405.nwb",
+        "bytes": 2005739248,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123824"
+      },
+      {
+        "session_id": 816200189,
+        "session_type": "functional_connectivity",
+        "path": "session_816200189/session_816200189.nwb",
+        "bytes": 2446305768,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124840"
+      },
+      {
+        "session_id": 819186360,
+        "session_type": "functional_connectivity",
+        "path": "session_819186360/session_819186360.nwb",
+        "bytes": 2350885544,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124085"
+      },
+      {
+        "session_id": 757970808,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_757970808/session_757970808.nwb",
+        "bytes": 2376304984,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123685"
+      },
+      {
+        "session_id": 766640955,
+        "session_type": "functional_connectivity",
+        "path": "session_766640955/session_766640955.nwb",
+        "bytes": 2881013020,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124293"
+      },
+      {
+        "session_id": 819701982,
+        "session_type": "functional_connectivity",
+        "path": "session_819701982/session_819701982.nwb",
+        "bytes": 2521920356,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124368"
+      },
+      {
+        "session_id": 742951821,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_742951821/session_742951821.nwb",
+        "bytes": 2917686364,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123964"
+      },
+      {
+        "session_id": 763673393,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_763673393/session_763673393.nwb",
+        "bytes": 2537645144,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124500"
+      },
+      {
+        "session_id": 799864342,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_799864342/session_799864342.nwb",
+        "bytes": 2737981244,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026125021"
+      },
+      {
+        "session_id": 839557629,
+        "session_type": "functional_connectivity",
+        "path": "session_839557629/session_839557629.nwb",
+        "bytes": 1892423924,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026122596"
+      },
+      {
+        "session_id": 746083955,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_746083955/session_746083955.nwb",
+        "bytes": 2562070092,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124262"
+      },
+      {
+        "session_id": 759883607,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_759883607/session_759883607.nwb",
+        "bytes": 1862261144,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123377"
+      },
+      {
+        "session_id": 758798717,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_758798717/session_758798717.nwb",
+        "bytes": 2198584804,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123877"
+      },
+      {
+        "session_id": 787025148,
+        "session_type": "functional_connectivity",
+        "path": "session_787025148/session_787025148.nwb",
+        "bytes": 2627851536,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124405"
+      },
+      {
+        "session_id": 754829445,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_754829445/session_754829445.nwb",
+        "bytes": 2696702864,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124326"
+      },
+      {
+        "session_id": 721123822,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_721123822/session_721123822.nwb",
+        "bytes": 1736516600,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123696"
+      },
+      {
+        "session_id": 762602078,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_762602078/session_762602078.nwb",
+        "bytes": 2021557700,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124569"
+      },
+      {
+        "session_id": 743475441,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_743475441/session_743475441.nwb",
+        "bytes": 2120570640,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124068"
+      },
+      {
+        "session_id": 771990200,
+        "session_type": "functional_connectivity",
+        "path": "session_771990200/session_771990200.nwb",
+        "bytes": 2456324796,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124152"
+      },
+      {
+        "session_id": 739448407,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_739448407/session_739448407.nwb",
+        "bytes": 2156671312,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123897"
+      },
+      {
+        "session_id": 719161530,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_719161530/session_719161530.nwb",
+        "bytes": 3071442940,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124034"
+      },
+      {
+        "session_id": 737581020,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_737581020/session_737581020.nwb",
+        "bytes": 2182040332,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123989"
+      },
+      {
+        "session_id": 744228101,
+        "session_type": "brain_observatory_1.1",
+        "path": "session_744228101/session_744228101.nwb",
+        "bytes": 2646264724,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026124429"
+      },
+      {
+        "session_id": 789848216,
+        "session_type": "functional_connectivity",
+        "path": "session_789848216/session_789848216.nwb",
+        "bytes": 1875910964,
+        "url": "https://api.brain-map.org/api/v2/well_known_file_download/1026123847"
+      }
+    ]
+  },
+  "common_support": {
+    "orientation_deg": [
+      0.0,
+      45.0,
+      90.0,
+      135.0
+    ],
+    "temporal_frequency_hz": [
+      1.0,
+      2.0,
+      4.0,
+      8.0,
+      15.0
+    ],
+    "spatial_frequency_cpd": 0.04,
+    "contrast": 0.8,
+    "analysis_duration_s": 1.0,
+    "trials_per_condition": 15
+  },
+  "anatomy": {
+    "dandiset_id": "001568",
+    "snapshot_date": "2026-09-02",
+    "version": "historical draft",
+    "sessions": [
+      {
+        "site": "site3",
+        "site_number": 3,
+        "subject_id": 810531,
+        "id_offset": 3000000,
+        "path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+        "bytes": 8962194688,
+        "sha256": "c7ae98a442e8fb8b2bc7090266a414dfc19f7415ec6e25b7a4e7df87a6665b3f",
+        "asset_id": "029598f2-fb30-4fd7-93c3-5a5928f05b8a"
+      },
+      {
+        "site": "site4",
+        "site_number": 4,
+        "subject_id": 810532,
+        "id_offset": 4000000,
+        "path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+        "bytes": 8890484875,
+        "sha256": "6a733fd5f1f485c649f6d1a19a9c97fe1eaad9964fbcdc71b8f836657f7d8799",
+        "asset_id": "d38d5443-8219-4669-973e-a436e9c7a459"
+      },
+      {
+        "site": "site5",
+        "site_number": 5,
+        "subject_id": 813810,
+        "id_offset": 5000000,
+        "path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+        "bytes": 9988455359,
+        "sha256": "ea065730558b863bd9e5323f9ad82c25fc61259dac7026240a7ec25db6c4d504",
+        "asset_id": "b3e93269-cb7a-4cfe-a828-24c2e1e800ee"
+      },
+      {
+        "site": "site6",
+        "site_number": 6,
+        "subject_id": 815152,
+        "id_offset": 6000000,
+        "path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+        "bytes": 9063003216,
+        "sha256": "1f298aef63cc2b6869bf9ea96227cb5a5d1d25bf029520b4aef23e10ec14b7af",
+        "asset_id": "25cb4556-d23a-4136-a05c-a556144436dd"
+      },
+      {
+        "site": "site2",
+        "site_number": 2,
+        "subject_id": 816305,
+        "id_offset": 2000000,
+        "path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+        "bytes": 9644334033,
+        "sha256": "9196b55f5652ab670f43a5c53d66119e88ff645cd346892e455fe2b1791ce5b7",
+        "asset_id": "efd91d9f-27bb-4f32-bc01-0f1ef687c49d"
+      },
+      {
+        "site": "site7",
+        "site_number": 7,
+        "subject_id": 816308,
+        "id_offset": 7000000,
+        "path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+        "bytes": 9350318481,
+        "sha256": "e794b4c1c59dc54da135c7aeb39f490c0f3e61556cd179f33068f47c4fb2f8c8",
+        "asset_id": "f222cec4-8037-43ba-aafa-939ac94bebac"
+      },
+      {
+        "site": "site8",
+        "site_number": 8,
+        "subject_id": 817334,
+        "id_offset": 8000000,
+        "path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+        "bytes": 9826642636,
+        "sha256": "da0b9f7568380c81c7330fc8c66a2e000aa53925642f5e5c4b3c791b8a39c937",
+        "asset_id": "7bb5f1e6-e2eb-41a6-a0e7-123cb2a4ef8b"
+      },
+      {
+        "site": "site9",
+        "site_number": 9,
+        "subject_id": 817335,
+        "id_offset": 9000000,
+        "path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+        "bytes": 9210921089,
+        "sha256": "57a2983f2a52899ec9f81c24952670515b5d33a9bfa474fc81a94730e88202fc",
+        "asset_id": "16edbdfa-9cad-4e47-b2c0-3ce0f325f522"
+      }
+    ]
+  },
+  "surface_anatomy": {
+    "snapshot_date": "2026-09-25",
+    "source": "Scalar electrode coordinates for the illustrated entry points; distinct from the 2026-09-02 unit-inclusion snapshot.",
+    "tie_breaks": [
+      {
+        "subject_id": 810531,
+        "probe": "ProbeA",
+        "channel_name": "AP305"
+      },
+      {
+        "subject_id": 810531,
+        "probe": "ProbeB",
+        "channel_name": "AP309"
+      },
+      {
+        "subject_id": 810531,
+        "probe": "ProbeC",
+        "channel_name": "AP307"
+      },
+      {
+        "subject_id": 810531,
+        "probe": "ProbeE",
+        "channel_name": "AP308"
+      },
+      {
+        "subject_id": 810532,
+        "probe": "ProbeA",
+        "channel_name": "AP311"
+      },
+      {
+        "subject_id": 810532,
+        "probe": "ProbeB",
+        "channel_name": "AP302"
+      },
+      {
+        "subject_id": 810532,
+        "probe": "ProbeC",
+        "channel_name": "AP312"
+      },
+      {
+        "subject_id": 810532,
+        "probe": "ProbeE",
+        "channel_name": "AP314"
+      },
+      {
+        "subject_id": 813810,
+        "probe": "ProbeA",
+        "channel_name": "AP297"
+      },
+      {
+        "subject_id": 813810,
+        "probe": "ProbeB",
+        "channel_name": "AP312"
+      },
+      {
+        "subject_id": 813810,
+        "probe": "ProbeC",
+        "channel_name": "AP316"
+      },
+      {
+        "subject_id": 813810,
+        "probe": "ProbeE",
+        "channel_name": "AP303"
+      },
+      {
+        "subject_id": 815152,
+        "probe": "ProbeA",
+        "channel_name": "AP302"
+      },
+      {
+        "subject_id": 815152,
+        "probe": "ProbeB",
+        "channel_name": "AP283"
+      },
+      {
+        "subject_id": 815152,
+        "probe": "ProbeC",
+        "channel_name": "AP262"
+      },
+      {
+        "subject_id": 815152,
+        "probe": "ProbeE",
+        "channel_name": "AP306"
+      },
+      {
+        "subject_id": 816305,
+        "probe": "ProbeA",
+        "channel_name": "AP322"
+      },
+      {
+        "subject_id": 816305,
+        "probe": "ProbeB",
+        "channel_name": "AP232"
+      },
+      {
+        "subject_id": 816305,
+        "probe": "ProbeC",
+        "channel_name": "AP314"
+      },
+      {
+        "subject_id": 816305,
+        "probe": "ProbeE",
+        "channel_name": "AP284"
+      },
+      {
+        "subject_id": 816308,
+        "probe": "ProbeA",
+        "channel_name": "AP281"
+      },
+      {
+        "subject_id": 816308,
+        "probe": "ProbeB",
+        "channel_name": "AP285"
+      },
+      {
+        "subject_id": 816308,
+        "probe": "ProbeC",
+        "channel_name": "AP304"
+      },
+      {
+        "subject_id": 816308,
+        "probe": "ProbeE",
+        "channel_name": "AP287"
+      },
+      {
+        "subject_id": 817334,
+        "probe": "ProbeA",
+        "channel_name": "AP307"
+      },
+      {
+        "subject_id": 817334,
+        "probe": "ProbeB",
+        "channel_name": "AP309"
+      },
+      {
+        "subject_id": 817334,
+        "probe": "ProbeC",
+        "channel_name": "AP324"
+      },
+      {
+        "subject_id": 817334,
+        "probe": "ProbeE",
+        "channel_name": "AP305"
+      },
+      {
+        "subject_id": 817335,
+        "probe": "ProbeA",
+        "channel_name": "AP312"
+      },
+      {
+        "subject_id": 817335,
+        "probe": "ProbeB",
+        "channel_name": "AP306"
+      },
+      {
+        "subject_id": 817335,
+        "probe": "ProbeC",
+        "channel_name": "AP309"
+      },
+      {
+        "subject_id": 817335,
+        "probe": "ProbeE",
+        "channel_name": "AP311"
+      }
+    ],
+    "tie_break_rule": "Original NumPy 1.23.5 quicksort choice among contacts at the same maximal rel_y, frozen explicitly for cross-version determinism.",
+    "sessions": [
+      {
+        "subject_id": 810531,
+        "path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
+        "asset_id": "029598f2-fb30-4fd7-93c3-5a5928f05b8a",
+        "bytes": 8962194688,
+        "sha256": "c7ae98a442e8fb8b2bc7090266a414dfc19f7415ec6e25b7a4e7df87a6665b3f"
+      },
+      {
+        "subject_id": 810532,
+        "path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
+        "asset_id": "d38d5443-8219-4669-973e-a436e9c7a459",
+        "bytes": 8890484875,
+        "sha256": "6a733fd5f1f485c649f6d1a19a9c97fe1eaad9964fbcdc71b8f836657f7d8799"
+      },
+      {
+        "subject_id": 813810,
+        "path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
+        "asset_id": "b3e93269-cb7a-4cfe-a828-24c2e1e800ee",
+        "bytes": 9988455359,
+        "sha256": "ea065730558b863bd9e5323f9ad82c25fc61259dac7026240a7ec25db6c4d504"
+      },
+      {
+        "subject_id": 815152,
+        "path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
+        "asset_id": "04861ac8-27fe-4110-bf04-ef4aba3f0618",
+        "bytes": 9063003216,
+        "sha256": "b5522b72a61b378acea1375e3107eb1a5b272a22663eaee63c6aed4e69832c87"
+      },
+      {
+        "subject_id": 816305,
+        "path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
+        "asset_id": "efd91d9f-27bb-4f32-bc01-0f1ef687c49d",
+        "bytes": 9644334033,
+        "sha256": "9196b55f5652ab670f43a5c53d66119e88ff645cd346892e455fe2b1791ce5b7"
+      },
+      {
+        "subject_id": 816308,
+        "path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
+        "asset_id": "f222cec4-8037-43ba-aafa-939ac94bebac",
+        "bytes": 9350318481,
+        "sha256": "e794b4c1c59dc54da135c7aeb39f490c0f3e61556cd179f33068f47c4fb2f8c8"
+      },
+      {
+        "subject_id": 817334,
+        "path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
+        "asset_id": "7bb5f1e6-e2eb-41a6-a0e7-123cb2a4ef8b",
+        "bytes": 9826642636,
+        "sha256": "da0b9f7568380c81c7330fc8c66a2e000aa53925642f5e5c4b3c791b8a39c937"
+      },
+      {
+        "subject_id": 817335,
+        "path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
+        "asset_id": "16edbdfa-9cad-4e47-b2c0-3ce0f325f522",
+        "bytes": 9210921089,
+        "sha256": "57a2983f2a52899ec9f81c24952670515b5d33a9bfa474fc81a94730e88202fc"
+      }
+    ]
+  }
+}

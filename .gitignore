@@ -119,3 +119,5 @@ data/site*_processed/
 
 # Regeneration scratch tree; canonical inputs remain in MouseV2-Figure5/data/.
 /MouseV2-Figure5/regenerated/
+
+/MouseV2-Figure5/work/

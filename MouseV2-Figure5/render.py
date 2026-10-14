@@ -3,10 +3,10 @@
 
 from __future__ import annotations
 
+import os
 import hashlib
 import json
 import re
-import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -21,7 +21,6 @@ from matplotlib.path import Path as MplPath
 from matplotlib.text import Text
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
 
 import panels as base
 
@@ -551,7 +550,7 @@ def finalize_manifest() -> None:
             "geometry": "Exact SVG Bezier paths and original marker coordinates/radii.",
             "empirical_coordinates": False,
         },
-        "panel_F_source": str(VARIANCE_STATS.relative_to(ROOT)),
+        "panel_F_source": os.path.relpath(VARIANCE_STATS, ROOT),
         "multiplicity": {
             "method": "Bonferroni", "family": "3 metrics × 2 populations",
             "n_tests": 6, "formula": "min(1, 6 × raw p)",

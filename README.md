@@ -18,17 +18,19 @@ areas (HVAs)** than **among locations within V1**:
 
 The figure code, frozen analysis tables, and current exports live in
 `MouseV2-Figure5/`, following the original one-folder-per-figure layout.
-Shared atlas and connectivity references remain in `data/reference/`.
+All runtime code, compact metric inputs, anatomical snapshots, and atlas/connectivity
+references are included in that folder.
 
 | Command | What it does |
 | --- | --- |
 | `python MouseV2-Figure5/Figure5.py` | Renders the figure from frozen, hash-locked tables and rejects any numerical change. |
-| `python MouseV2-Figure5/prepare.py check` / `regenerate` / `verify` | Rebuilds those tables from hash-locked metric sources. |
+| `python MouseV2-Figure5/reproduce.py` | Rebuilds anatomy, the registry, statistical results, and the figure from bundled sources. |
+| `python MouseV2-Figure5/extract.py run --help` | Shows how to recompute response metrics from the historical NWB recordings. |
 
 View the current [Figure 5](MouseV2-Figure5/Figure5.png) or download the
 [PDF](MouseV2-Figure5/Figure5.pdf). See
 [MouseV2-Figure5/README.md](MouseV2-Figure5/README.md) for the build instructions
-and external metric-source requirements, and
+and historical NWB-source requirements, and
 [MouseV2-Figure5/dependencies.json](MouseV2-Figure5/dependencies.json) for the
 production dependencies. Exploratory analyses are retained on the research
 branch; they are not part of this figure build.
@@ -38,7 +40,7 @@ branch; they are not part of this figure build.
 | Name in code | Name in manuscript | Source | Role in Figure 5 |
 | --- | --- | --- | --- |
 | **MouseV2** | OpenScope electrophysiology dataset | Allen Institute OpenScope project (DANDI 001568); 8 mice, each recorded simultaneously with four Neuropixels probes (A, B, C, E) at separated V1 locations | **Within-V1 benchmark.** Probes are grouped as anterior (A), lateral (E), posterior (C) and medial (B) V1 (panels B, D, E, F). |
-| **Allen** (`data/unit_table.csv`) | Allen Brain Observatory Visual Coding–Neuropixels | Siegle et al. (2021) | **Across-HVA comparison** for LM, RL, AL, PM and AM (panels A, C, E, F). Allen V1 from the same sessions is the **positive control** for the V1-vs-HVA mean difference (panel E, left). |
+| **Allen** (compact source: `MouseV2-Figure5/sources/metrics/allen_units.csv.gz`) | Allen Brain Observatory Visual Coding–Neuropixels | Siegle et al. (2021) | **Across-HVA comparison** for LM, RL, AL, PM and AM (panels A, C, E, F). Allen V1 from the same sessions is the **positive control** for the V1-vs-HVA mean difference (panel E, left). |
 
 "MouseV2" is the internal project name and appears throughout the code, file
 paths and tables. It refers only to the dataset. It is **not** a claim that
@@ -48,8 +50,10 @@ interpreted; the MouseV2 recordings supply the within-area comparison for
 judging it.
 
 Which MouseV2 units count as V1, and where each probe enters the cortex, are
-frozen snapshots in `MouseV2-Figure5/sources/`, because the underlying DANDI
-draft changed after the analysis.
+derived from the historical scalar snapshots in `MouseV2-Figure5/sources/anatomy/`,
+because the underlying DANDI draft changed after the analysis. The derivation
+code and both anatomical snapshot dates are documented in
+[MouseV2-Figure5/METHODS.md](MouseV2-Figure5/METHODS.md).
 
 # Neuropixels Platform Paper
 

@@ -7,25 +7,19 @@ from pathlib import Path
 import csv
 import gzip
 import re
-import sys
 
 import matplotlib as mpl
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.patches import FancyArrowPatch, PathPatch, Polygon
+from matplotlib.patches import PathPatch
 from matplotlib.path import Path as MplPath
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-OUTPUT_STEM = ROOT / "MouseV2-Figure5" / "Hierarchy_schematic_row"
-ATLAS_PATH = ROOT / "data/reference/allen_ccf_2017_surface/top.nrrd"
+ATLAS_PATH = ROOT / "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/top.nrrd"
 ATLAS_LABELS_PATH = (
-    ROOT / "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt"
+    ROOT / "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt"
 )
 PROBE_ENTRIES_PATH = ROOT / "MouseV2-Figure5/sources/mousev2_ccf_surface_entry_points.csv"
-CONNECTION_DENSITY_PATH = ROOT / "data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv"
+CONNECTION_DENSITY_PATH = ROOT / "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv"
 HIERARCHY_AREAS = {"V1": "VISp", "LM": "VISl", "RL": "VISrl", "AL": "VISal", "PM": "VISpm", "AM": "VISam"}
 MAX_CONNECTION_WIDTH_PT = 2.4
 HARRIS_SCORES_PATH = CONNECTION_DENSITY_PATH.parent / "harris_visualmedial_scores.csv"
@@ -105,66 +99,11 @@ ATLAS_FIGURE4_COLORS = {
 }
 
 
-def closed_patch(points, **kwargs):
-    vertices = list(points) + [points[0]]
-    codes = [MplPath.MOVETO] + [MplPath.LINETO] * (len(points) - 1) + [MplPath.CLOSEPOLY]
-    return PathPatch(MplPath(vertices, codes), **kwargs)
-
-
 def clean_axis(ax, xlim=(0, 1), ylim=(0, 1)):
     ax.set_xlim(*xlim)
     ax.set_ylim(*ylim)
     ax.set_aspect("equal", adjustable="box")
     ax.axis("off")
-
-
-def panel_label(ax, letter, title, subtitle=None):
-    ax.text(0.00, 1.12, letter, transform=ax.transAxes, fontsize=16, fontweight="bold", va="bottom")
-    ax.text(0.11, 1.12, title, transform=ax.transAxes, fontsize=14, fontweight="bold", va="bottom")
-
-
-def draw_area_map(ax, merged=False):
-    """Draw a deliberately schematic top view, shared between panels A and C."""
-    clean_axis(ax, (-1.18, 1.18), (-1.12, 1.14))
-
-    outer = [
-        (-0.98, -0.30), (-1.05, 0.14), (-0.82, 0.63), (-0.35, 0.93),
-        (0.17, 1.00), (0.66, 0.72), (0.93, 0.28), (0.84, -0.25),
-        (0.52, -0.76), (0.02, -0.96), (-0.52, -0.78),
-    ]
-    v1 = [
-        (-0.46, -0.29), (-0.55, 0.10), (-0.37, 0.47), (-0.04, 0.66),
-        (0.32, 0.54), (0.48, 0.20), (0.40, -0.26), (0.12, -0.54),
-        (-0.25, -0.51),
-    ]
-
-    if merged:
-        ax.add_patch(closed_patch(outer, facecolor=V2_COLOR, edgecolor=INK, linewidth=1.4))
-        ax.add_patch(closed_patch(v1, facecolor="white", edgecolor=INK, linewidth=1.4))
-        ax.text(0.42, 0.62, "V2", fontsize=12, fontweight="bold", ha="center", va="center")
-        ax.text(-0.06, 0.01, "V1", fontsize=12, fontweight="bold", ha="center", va="center")
-        return
-
-    # Five cortical HVAs used in Figure 4. Boundaries are schematic, not atlas contours.
-    regions = {
-        "LM": [(-0.98, -0.30), (-1.05, 0.14), (-0.82, 0.63), (-0.37, 0.47), (-0.55, 0.10), (-0.46, -0.29), (-0.52, -0.78)],
-        "RL": [(-0.82, 0.63), (-0.35, 0.93), (0.17, 1.00), (0.08, 0.65), (-0.04, 0.66), (-0.37, 0.47)],
-        "AM": [(0.17, 1.00), (0.66, 0.72), (0.93, 0.28), (0.48, 0.20), (0.32, 0.54), (0.08, 0.65)],
-        "PM": [(0.93, 0.28), (0.84, -0.25), (0.52, -0.76), (0.12, -0.54), (0.40, -0.26), (0.48, 0.20)],
-        "AL": [(0.52, -0.76), (0.02, -0.96), (-0.52, -0.78), (-0.46, -0.29), (-0.25, -0.51), (0.12, -0.54)],
-    }
-    for area, points in regions.items():
-        ax.add_patch(
-            closed_patch(points, facecolor=AREA_COLORS[area], edgecolor=INK, linewidth=1.15, alpha=0.88)
-        )
-    ax.add_patch(closed_patch(v1, facecolor="white", edgecolor=INK, linewidth=1.35))
-
-    label_xy = {
-        "LM": (-0.73, 0.02), "RL": (-0.29, 0.73), "AM": (0.53, 0.61),
-        "PM": (0.64, -0.25), "AL": (-0.03, -0.73), "V1": (-0.06, 0.01),
-    }
-    for area, (x, y) in label_xy.items():
-        ax.text(x, y, area, fontsize=9, fontweight="bold", ha="center", va="center")
 
 
 def _atlas_index(labels, acronym):
@@ -378,75 +317,3 @@ def draw_published_hierarchy(ax, version="siegle2021", *, show_direction=True, c
         ax.text(xs[area] + (-0.22 if area == "LM" else 0.22), scores[area] + offset_y, area,
                 fontsize=12, va="center", ha="right" if area == "LM" else "left",
                 bbox=dict(facecolor="white", edgecolor="none", pad=.15), zorder=4)
-
-
-
-def draw_spread_bracket(ax, values, label):
-    """Mark the illustrative center-to-center vertical extent, not an error bar."""
-    low, high = min(values), max(values)
-    x = 4.85
-    ax.plot([x - 0.14, x, x, x - 0.14], [low, low, high, high],
-            color=INK, lw=1.3, solid_capstyle="butt", zorder=4)
-    ax.text(x + 0.12, (low + high) / 2, label, fontsize=12,
-            ha="left", va="center", linespacing=1.15)
-
-
-def draw_proposed_hierarchy(ax, *, spread_scale=1, probe_labels=None):
-    clean_axis(ax, (-0.42, 6.25), (0.40, 3.00))
-    ax.annotate("", xy=(-0.28, 2.87), xytext=(-0.28, 0.62), arrowprops=dict(arrowstyle="-|>", lw=1.2, color=INK))
-    ax.text(-0.40, 1.73, "relative hierarchy", rotation=90, ha="center", va="center", fontsize=12)
-
-    # Tier guides emphasize two broad levels without assigning a calibrated distance.
-    ax.plot([0.02, 4.50], [2.42, 2.42], color="#aeb3b8", lw=1.0, ls=(0, (3, 3)), zorder=0)
-    ax.plot([0.02, 4.10], [1.00, 1.00], color="#aeb3b8", lw=1.0, ls=(0, (3, 3)), zorder=0)
-
-    hva_y = {"LM": 2.37, "RL": 2.39, "AL": 2.43, "PM": 2.48, "AM": 2.53}
-    hva_y = {key: 2.43 + spread_scale * (value - 2.43) for key, value in hva_y.items()}
-    for x, area in enumerate(["LM", "RL", "AL", "PM", "AM"]):
-        ax.scatter(x + 0.26, hva_y[area], s=170, color=AREA_COLORS[area], edgecolor=INK, linewidth=0.85, zorder=3)
-        ax.text(x + 0.26, hva_y[area] + 0.23, area, fontsize=12, ha="center", va="bottom")
-
-    probe_y = {"A": 0.96, "E": 1.00, "C": 1.10, "B": 1.04}
-    probe_y = {key: 1.03 + spread_scale * (value - 1.03) for key, value in probe_y.items()}
-    for x, probe in enumerate(["A", "E", "C", "B"]):
-        probe_x = x * (1.2 if probe_labels else 1) + .55
-        ax.scatter(probe_x, probe_y[probe], s=155, color=PROBE_COLORS[probe], edgecolor=INK, linewidth=0.85, zorder=3)
-        ax.text(probe_x, .76 if probe_labels else probe_y[probe] - 0.23,
-                probe_labels.get(probe, probe) if probe_labels else probe,
-                fontsize=11 if probe_labels else 12, ha="right" if probe_labels else "center", va="top",
-                rotation=22 if probe_labels else 0)
-
-    draw_spread_bracket(ax, hva_y.values(), "HVA\nspread")
-    draw_spread_bracket(ax, probe_y.values(), "V1\nspread")
-
-
-def main():
-    atlas = read_nrrd(ATLAS_PATH)
-    labels = read_labels(ATLAS_LABELS_PATH)
-    fig = plt.figure(figsize=(16, 3.7), facecolor="white")
-    positions = [(0.055, 0.155), (0.247, 0.155), (0.465, 0.155), (0.655, 0.33)]
-    axes = [fig.add_axes([left, 0.08, width, 0.74]) for left, width in positions]
-    for (left, _), letter, title in zip(positions, "ABCD", [
-        "Visual area borders", "Published hierarchy", "Two-area view", "Proposed hierarchy"
-    ]):
-        fig.text(left, 0.92, f"{letter}  {title}", fontsize=15, fontweight="bold", va="bottom")
-
-    draw_atlas_area_map(axes[0], atlas, labels, merged=False)
-
-    draw_published_hierarchy(axes[1])
-    axes[1].set_aspect("auto")
-
-    draw_atlas_area_map(axes[2], atlas, labels, merged=True)
-    draw_probe_locations(axes[2], atlas, labels)
-
-    draw_proposed_hierarchy(axes[3])
-    axes[3].set_aspect("auto")
-
-    for suffix in ("png", "pdf", "svg"):
-        kwargs = {"dpi": 300} if suffix == "png" else {}
-        fig.savefig(OUTPUT_STEM.with_suffix(f".{suffix}"), bbox_inches="tight", facecolor="white", **kwargs)
-    plt.close(fig)
-
-
-if __name__ == "__main__":
-    main()

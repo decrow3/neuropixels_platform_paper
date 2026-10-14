@@ -1,0 +1,65 @@
+{
+  "source_commit": "3818b6157871b541c4610a6fa3fd6d3f6fcd15cf",
+  "seed": 20260918,
+  "columns": [
+    "animal_id",
+    "session_id",
+    "recording_id",
+    "unit_id",
+    "category",
+    "draw_id"
+  ],
+  "fixtures": [
+    {
+      "kind": "primary",
+      "metric": "TTFS (ms)",
+      "population": "V1",
+      "sha256": "bc98e43288568ff17a791568370f1187032c56beda9eb3456a57b9eb9be602c1"
+    },
+    {
+      "kind": "primary",
+      "metric": "TTFS (ms)",
+      "population": "HVA",
+      "sha256": "73b9e861915ca8c80ea3124a8ed602248d61bd551649bc3cc29395534d33028d"
+    },
+    {
+      "kind": "primary",
+      "metric": "log10 F1/F0",
+      "population": "V1",
+      "sha256": "cf376027842ebd53c60c5f9d65510702ed276808c21d5be797b86bd6ac81a45b"
+    },
+    {
+      "kind": "primary",
+      "metric": "log10 F1/F0",
+      "population": "HVA",
+      "sha256": "6a3a521019168f5edc1d1f36cbf5253d537fe904f76bb09f1cb8dc1838719693"
+    },
+    {
+      "kind": "primary",
+      "metric": "Response timescale (ms)",
+      "population": "V1",
+      "sha256": "f66608e69b72b23ad49c4224d8f3e43b3c0bdc4cd6a98204d2aa26266f9081fa"
+    },
+    {
+      "kind": "primary",
+      "metric": "Response timescale (ms)",
+      "population": "HVA",
+      "sha256": "7cde6eccb2f1df8e380482acc9c5bc47b54ec8ebb83df39c525fbdca6067bfb2"
+    },
+    {
+      "kind": "control",
+      "metric": "TTFS (ms)",
+      "sha256": "bd32590a34f9b999e89115b56c7b2db4820019770d3b4b4f9681d716429a1a13"
+    },
+    {
+      "kind": "control",
+      "metric": "log10 F1/F0",
+      "sha256": "c9118e6d31f698274d9b5e322160b8d016eca7a688fdbe2c5cd530edf3d42e44"
+    },
+    {
+      "kind": "control",
+      "metric": "Response timescale (ms)",
+      "sha256": "906c2bda8c20456ccbfd6322178b6c30b521dccd6f88ecc17c1c6b1a6e4f5eed"
+    }
+  ]
+}

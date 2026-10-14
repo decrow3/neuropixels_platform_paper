@@ -1,92 +1,154 @@
 # MouseV2 Figure 5
 
-Figure 5 v17 (corrected tests) is the canonical main-text figure. Build it from
-the repository root with:
+This folder contains the code and compact source tables needed to reproduce
+Figure 5 of the unified-V2 manuscript. The original Allen figure folders are
+unchanged. No exploratory scripts, private filesystem paths, or files from
+another branch are needed for the default reproduction.
+
+## First-time setup
+
+Use Python 3.12 in a separate environment from the original Allen environment:
 
 ```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
 python -m pip install -r MouseV2-Figure5/requirements.txt
+```
+
+The renderer uses the system **Liberation Sans** font (Liberation Fonts 2 for
+the committed exports). Install it before rendering, for example with
+`sudo apt install fonts-liberation2` on Debian/Ubuntu. Font versions can alter
+text rasterization; numerical checks are independent of fonts.
+
+Run these commands from the repository root. Scripts also work from inside
+this folder with the folder prefix omitted.
+
+## Reproduce the figure and results
+
+For a quick build from the bundled, locked analysis tables:
+
+```bash
 python MouseV2-Figure5/Figure5.py
 ```
 
-The locked build was verified with Python 3.12.4 and the package versions in
-`requirements.txt`. The Allen repository's original `environment.yml` remains
-unchanged for reproducing the published figures.
+The current `Figure5.png`, `Figure5.pdf`, and `Figure5.svg` live beside
+`Figure5.py`, following the original repository's figure-folder convention.
+The build checks every numerical output against the canonical reference.
+
+To reconstruct anatomical assignments, the eligible-unit registry, all
+statistical results, and a new figure from the bundled metric-level sources:
+
+```bash
+python MouseV2-Figure5/reproduce.py
+```
+
+This runs 5,000 bootstrap/shuffle replicates with the original seeds. It is
+substantially slower than the quick build. Progress is printed by analysis
+stage. Results go to the ignored `work/reproduction/` directory:
+
+- `anatomy/`: regenerated unit locations and probe entry points;
+- `MouseV2-Figure5/data/`: regenerated registry and statistical tables;
+- `figure/`: the figure rendered **from those regenerated tables**;
+- `reproduction.json`: commands, runtime, and verification status.
+
+The reference inputs and current exports are preserved. A failed comparison
+stops the run. Once the statistical tables are complete, resume verification
+and rendering with `python MouseV2-Figure5/reproduce.py --resume`.
+
+## Recompute metrics from NWB recordings
+
+Raw extraction is optional for the bundled-source reproduction above. It
+requires the historical NWB files listed in `raw_sources.json`; they are too
+large to include in Git. The original MouseV2 response-metric snapshot is a
+historical DANDI draft. Its exact file sizes and SHA-256 hashes are recorded,
+but the research provenance does not supply an immutable public download for
+that draft. A current DANDI draft must not silently replace it.
+
+Create a separate **Python 3.10** environment and install
+`requirements-extraction.txt`. This preserves the numerical-library versions
+used for historical extraction. Then run:
+
+```bash
+python MouseV2-Figure5/extract.py run \
+  --mouse-root /path/to/historical/001568 \
+  --allen-root /path/to/allen_sessions \
+  --hash-raw
+```
+
+MouseV2 paths are `sub-*/...nwb`; Allen paths are
+`session_<id>/session_<id>.nwb`, relative to the roots supplied above. An
+optional `--path-map paths.json` maps site names (`site2`, etc.) or Allen
+session IDs to existing NWBs. There are no hardcoded local roots.
+
+Extraction recomputes preferred-polarity response-selected TTFS, harmonized
+F1/F0, and the ten matched-flash MouseV2 timescale draws. It verifies the
+resulting tables against the bundled source values, including unit membership.
+`--hash-raw` verifies historical MouseV2 checksums and records computed Allen
+checksums; without it, only file sizes are checked. The extraction manifest
+records that distinction. `--cohorts`, `--sessions`, and `--metrics` support
+smaller audits, which cannot substitute for a complete extraction.
+
+Allen recordings can be obtained using their declared public file IDs:
+
+```bash
+python MouseV2-Figure5/extract.py download-allen --allen-root /path/to/allen_sessions
+```
+
+This downloads large NWB files; it is not part of the default reproduction.
+After a complete extraction, return to the rendering environment and run:
+
+```bash
+python MouseV2-Figure5/reproduce.py \
+  --metrics-dir MouseV2-Figure5/work/metrics \
+  --output-dir MouseV2-Figure5/work/from-nwb
+```
+
+The original Allen timescale estimates and unit metadata are published-source
+inputs, retained in a compact column subset of the original unit table. An
+optional raw audit is available; it writes comparisons without replacing the
+published fits:
+
+```bash
+python MouseV2-Figure5/extract.py audit-allen-timescales \
+  --cohorts allen --sessions 798911424 \
+  --allen-root /path/to/allen_sessions \
+  --output-dir MouseV2-Figure5/work/allen-timescale-audit
+```
+
+See [METHODS.md](METHODS.md) for the estimands, source boundaries, anatomical
+snapshot dates, and validation tolerances. See [VALIDATION.md](VALIDATION.md)
+for the completed full reconstruction and raw-recording checks.
 
 ## Files
 
-As in the original `Figure3/` and `Figure4/` directories, the figure script and
-current exports live together. The `MouseV2-Figure5/` name distinguishes the
-manuscript extension from the original Allen figures.
-
 | File or directory | Purpose |
 | --- | --- |
-| `Figure5.py` | Build and validate the current figure. |
-| `Figure5.png`, `Figure5.pdf`, `Figure5.svg` | Current figure exports. |
-| `Figure5_legend.md`, `Figure5_*.csv`, `Figure5_*.csv.gz` | Caption and numerical output tables. |
-| `render.py`, `panels.py`, `schematics.py`, `figure_data.py` | Figure-specific rendering helpers. |
-| `data/` | Frozen analysis inputs used by the renderer. |
-| `sources/` | Frozen anatomical metadata, cortical artwork, and caption source. |
-| `prepare.py`, `source_manifest.json` | Regeneration pipeline and source checksums. |
-| `dependencies.json`, `requirements.txt` | Production dependencies and pinned environment. |
+| `Figure5.py`, `render.py`, `panels.py`, `schematics.py`, `figure_data.py` | Current figure and rendering helpers. |
+| `reproduce.py`, `prepare.py` | Complete bundled-source reproduction and statistical inference. |
+| `extract.py`, `nwb_io.py`, `flash_metrics.py`, `gratings.py` | Raw NWB extraction and metric definitions. |
+| `anatomy.py` | Unit-to-electrode assignments and cortical entry-point derivation. |
+| `sources/metrics/` | Compact metric inputs and published Allen metadata/timescales. |
+| `sources/anatomy/` | Historical scalar electrode tables and unit links. |
+| `sources/reference/` | Allen CCF atlas and Harris connectivity/hierarchy references. |
+| `sources/` | Derived anatomical design, cortical artwork, and caption source. |
+| `data/` | Locked registry and statistical results for the quick build. |
+| `Figure5_*.csv`, `Figure5_*.csv.gz`, `Figure5_legend.md` | Numerical figure outputs and caption. |
+| `source_manifest.json`, `raw_sources.json`, `method_provenance.json` | Source checksums, raw recording inventory, and calculation provenance. |
+| `dependencies.json`, `requirements*.txt`, `tests/` | Dependency closure, environments, and regression checks. |
 
-The atlas and connectivity references remain under `data/reference/` at the
-repository root. Running `Figure5.py` from either the repository root or this
-folder produces the same outputs. The build does not overwrite this README.
-
-## Regenerating the data inputs
-
-The figure build intentionally consumes frozen analysis tables. Their compact
-preparation pipeline is separate:
+To check source integrity or run the focused tests:
 
 ```bash
 python MouseV2-Figure5/prepare.py check
-python MouseV2-Figure5/prepare.py download-public
-python MouseV2-Figure5/prepare.py regenerate
-python MouseV2-Figure5/prepare.py verify
+python -m unittest discover -s MouseV2-Figure5/tests -v
 ```
 
-`check` verifies every upstream file against `source_manifest.json` before any
-analysis runs. `download-public` obtains only missing Allen CCF and Harris
-reference files. `regenerate` writes a parallel tree under
-`MouseV2-Figure5/regenerated/`; it never overwrites the canonical inputs.
-With 5,000 replicates it compares every regenerated table to the locked result,
-allowing only floating-point roundoff attributable to the numerical backend.
-
-The metric-level MouseV2 and Allen tables are the external data-release
-boundary. They are not silently substituted or downloaded from mutable draft
-locations: the exact file sizes and SHA-256 hashes are declared in
-`source_manifest.json`. The anatomical entry-point table is retained as a
-frozen source because the underlying MouseV2 DANDI draft changed after the
-canonical analysis. For the same reason, `MouseV2-Figure5/sources/` preserves the
-value-free unit IDs and recording assignments admitted by the original CCF
-preflight. Response measurements are rebuilt from the separately hashed metric
-tables; the frozen design snapshot contains no response values.
-
-To verify the downstream statistics independently when the original external
-source bundle is unavailable, start from the committed locked registry:
+The small synthetic NWB-reader test additionally requires h5py; run it in the
+extraction environment with:
 
 ```bash
-python MouseV2-Figure5/prepare.py regenerate --derived-only
+python -m unittest discover -s MouseV2-Figure5/tests -k nwb -v
 ```
 
-The canonical exports and their supporting tables live in
-`MouseV2-Figure5/`. The entry point performs a dependency
-preflight and rejects changes to the locked numerical tables and bootstrap
-content. The
-`Figure5_layout_manifest.json` is marked `canonical: true` after a successful build.
-
-## What is locked
-
-- Panels A–F and the v17 layout.
-- Bonferroni adjustment across the six panel-F component shuffle tests.
-- The direct inter-HVA minus intra-V1 omega-squared contrasts.
-- The exact numerical estimates and panel-F test table.
-- The repository-local handmade cortical vector source.
-
-## Dependency boundary
-
-`dependencies.json` records the production code and data closure. Historical
-Figure 5 variants, methods-companion reports, previews, caches, and tests are
-not canonical inputs. The accepted visual changes from the historical v1–v17
-development sequence are consolidated in `render.py`; those versioned
-development modules are no longer part of the repository.
+The full 5,000-replicate reproduction is the integration check, rather than part
+of the short test suite.

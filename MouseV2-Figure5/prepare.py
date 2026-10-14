@@ -3,13 +3,15 @@
 
 The default ``check`` command is read-only. ``regenerate`` writes a parallel
 artifact tree (never the canonical inputs) and verifies its files against the
-locked hashes in ``source_manifest.json``. Raw response metrics are an external
-data-release boundary; their exact paths and hashes are part of that manifest.
+locked hashes in ``source_manifest.json``. Metric-level source tables are bundled
+with this folder; their original provenance, retained columns, and hashes are
+part of that manifest.
 """
 
 from __future__ import annotations
 
 import argparse
+import os
 from dataclasses import dataclass
 import hashlib
 import json
@@ -18,13 +20,19 @@ import shutil
 import sys
 import urllib.request
 
+# Small least-squares fits are substantially slower with many BLAS threads.
+os.environ["OPENBLAS_NUM_THREADS"] = os.environ.get("FIGURE5_BLAS_THREADS", "1")
+os.environ["OMP_NUM_THREADS"] = os.environ.get("FIGURE5_BLAS_THREADS", "1")
+
 import numpy as np
 import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "MouseV2-Figure5/source_manifest.json"
-DEFAULT_OUTPUT_ROOT = ROOT / "MouseV2-Figure5/regenerated"
+DEFAULT_OUTPUT_ROOT = ROOT / "MouseV2-Figure5/work/reproduction"
+METRIC_DIRECTORY = None
+
 METRICS = ("TTFS (ms)", "log10 F1/F0", "Response timescale (ms)")
 V1_CATEGORIES = ("A", "E", "C", "B")
 HVA_CATEGORIES = ("LM", "RL", "AL", "PM", "AM")
@@ -55,6 +63,10 @@ def sources() -> dict[str, dict[str, object]]:
 
 
 def source_path(label: str) -> Path:
+    if METRIC_DIRECTORY is not None and label in {
+        "mouse_ttfs", "allen_ttfs", "mouse_f1_f0", "allen_f1_f0", "mouse_timescale"
+    }:
+        return METRIC_DIRECTORY / f"{label}.csv.gz"
     return ROOT / str(sources()[label]["path"])
 
 
@@ -155,9 +167,8 @@ def _finish_registry_rows(
         metadata[fields], on=["unit_id", "session_id"], how="left", validate="many_to_one"
     )
     if source == "MouseV2":
-        # The compact frozen metadata table intentionally contains only units
-        # admitted by the original anatomical preflight. Rows absent from it
-        # are outside the canonical population, not failed joins.
+        # Historical unit-to-electrode metadata preserve the original anatomical
+        # population. The later DANDI draft must not redefine eligibility.
         result = result.loc[result.location.fillna("").str.startswith("VISp")].copy()
     else:
         result = result.loc[result.common_qc].copy()
@@ -372,33 +383,64 @@ def primary_points(registry: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return pd.DataFrame(fit_rows), pd.DataFrame(effect_rows)
 
 
+def _resampling_plan(source: pd.DataFrame, *, per_session: bool):
+    """Cache immutable row indices; preserve the original random stream/order."""
+    source = source.reset_index(drop=True)
+    animals = np.asarray(sorted(source.animal_id.unique()), dtype=object)
+    blocks = {}
+    draw_ids = source.draw_id.to_numpy() if "draw_id" in source else None
+    for animal, animal_rows in source.groupby("animal_id", sort=False).indices.items():
+        local = source.iloc[animal_rows]
+        sessions = ([animal_rows[indices] for indices in local.groupby("session_id", sort=False).indices.values()]
+                    if per_session else [animal_rows])
+        blocks[animal] = [
+            {"all": rows, **({draw: rows[draw_ids[rows] == draw] for draw in range(-1, 10)}
+                            if per_session else {})}
+            for rows in sessions
+        ]
+    return source, animals, blocks
+
+
+def _resample_plan(plan, rng, *, timescale=False, population=None):
+    source, animals, blocks = plan
+    selected_rows, prefixes = [], []
+    for occurrence, animal in enumerate(rng.choice(animals, size=len(animals), replace=True)):
+        for session in blocks[animal]:
+            draw = (int(rng.integers(0, 10)) if population == "V1" else -1) if timescale else "all"
+            rows = session[draw]
+            selected_rows.append(rows)
+            prefixes.append(np.full(len(rows), f"bootstrap_{occurrence}:{animal}:", dtype=object))
+    table = source.iloc[np.concatenate(selected_rows)].copy().reset_index(drop=True)
+    prefix = pd.Series(np.concatenate(prefixes), index=table.index)
+    for column in ("animal_id", "session_id", "recording_id", "unit_id"):
+        table[column] = prefix + table[column].astype(str)
+    return table
+
+
 def _resample_population(
     registry: pd.DataFrame, metric: str, population: str, rng: np.random.Generator,
+    *, prepared=None,
 ) -> pd.DataFrame:
-    source = registry.loc[registry.metric.eq(metric) & registry.population.eq(population)].copy()
-    animals = np.asarray(sorted(source.animal_id.unique()), dtype=object)
-    blocks = []
-    for occurrence, animal in enumerate(rng.choice(animals, size=len(animals), replace=True)):
-        animal_block = source.loc[source.animal_id.eq(animal)].copy()
-        for _, session_block in animal_block.groupby("session_id", sort=False):
-            if metric == METRICS[2]:
-                draw = int(rng.integers(0, 10)) if population == "V1" else -1
-                session_block = session_block.loc[session_block.draw_id.eq(draw)].copy()
-            prefix = f"bootstrap_{occurrence}:{animal}:"
-            for column in ("animal_id", "session_id", "recording_id", "unit_id"):
-                session_block[column] = prefix + session_block[column].astype(str)
-            blocks.append(session_block)
-    return apply_cell_floor(pd.concat(blocks, ignore_index=True), 5)
+    if prepared is None:
+        source = registry.loc[registry.metric.eq(metric) & registry.population.eq(population)]
+        prepared = _resampling_plan(source, per_session=True)
+    return apply_cell_floor(_resample_plan(prepared, rng, timescale=metric == METRICS[2],
+                                          population=population), 5)
 
 
 def primary_bootstrap(registry: pd.DataFrame, repetitions: int) -> pd.DataFrame:
     rng = np.random.default_rng(20260918)
     rows = []
     for metric in METRICS:
+        plans = {population: _resampling_plan(
+            registry.loc[registry.metric.eq(metric) & registry.population.eq(population)],
+            per_session=True) for population in ("V1", "HVA")}
         for repetition in range(repetitions):
+            if repetition % 500 == 0:
+                print(f"primary {metric}: {repetition}/{repetitions}", flush=True)
             fits = {
                 population: fit_standardized_dispersion(
-                    _resample_population(registry, metric, population, rng)
+                    _resample_population(registry, metric, population, rng, prepared=plans[population])
                 ) for population in ("V1", "HVA")
             }
             rows += [
@@ -425,16 +467,8 @@ def add_primary_intervals(effects: pd.DataFrame, draws: pd.DataFrame) -> pd.Data
     return result
 
 
-def _resample_animals(table: pd.DataFrame, rng: np.random.Generator) -> pd.DataFrame:
-    animals = np.asarray(sorted(table.animal_id.unique()), dtype=object)
-    blocks = []
-    for occurrence, animal in enumerate(rng.choice(animals, size=len(animals), replace=True)):
-        block = table.loc[table.animal_id.eq(animal)].copy()
-        prefix = f"bootstrap_{occurrence}:{animal}:"
-        for column in ("animal_id", "session_id", "recording_id", "unit_id"):
-            block[column] = prefix + block[column].astype(str)
-        blocks.append(block)
-    return pd.concat(blocks, ignore_index=True)
+def _resample_animals(table: pd.DataFrame, rng: np.random.Generator, *, prepared=None) -> pd.DataFrame:
+    return _resample_plan(_resampling_plan(table, per_session=False) if prepared is None else prepared, rng)
 
 
 def _control_population(registry: pd.DataFrame, metric: str) -> pd.DataFrame:
@@ -493,8 +527,11 @@ def matched_control(registry: pd.DataFrame, repetitions: int) -> pd.DataFrame:
         point = _fit_control(table)
         point["metric"] = metric
         points.append(point)
+        plan = _resampling_plan(table, per_session=False)
         for repetition in range(repetitions):
-            fit = _fit_control(_resample_animals(table, rng))
+            if repetition % 500 == 0:
+                print(f"matched control {metric}: {repetition}/{repetitions}", flush=True)
+            fit = _fit_control(_resample_animals(table, rng, prepared=plan))
             draws.append({"metric": metric, "replicate": repetition, **fit})
         print(f"bootstrapped matched control: {metric}", flush=True)
     points, draws = pd.DataFrame(points), pd.DataFrame(draws)
@@ -679,7 +716,7 @@ def verify_outputs(output_root: Path, *, full: bool) -> bool:
     for relative, digest in expected.items():
         path = output_root / relative
         if not path.is_file():
-            if full:
+            if full or not relative.endswith("response_registry_floor5.csv.gz"):
                 failures.append(f"MISSING  {relative}")
             continue
         actual = sha256(path)
@@ -687,6 +724,9 @@ def verify_outputs(output_root: Path, *, full: bool) -> bool:
             print(f"MATCH    {relative}")
             continue
         canonical = ROOT / relative
+        if not canonical.is_file() or sha256(canonical) != digest:
+            failures.append(f"REFERENCE DRIFT {relative}")
+            continue
         try:
             expected_table = pd.read_csv(canonical)
             actual_table = pd.read_csv(path)
@@ -752,6 +792,7 @@ def parse_args() -> argparse.Namespace:
     subparsers.add_parser("download-public", help="download missing public Allen references")
     regenerate_parser = subparsers.add_parser("regenerate", help="rebuild derived Figure 5 input tables")
     regenerate_parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
+    regenerate_parser.add_argument("--metrics-dir", type=Path, help="Complete, verified raw extraction output; otherwise use bundled metric inputs")
     regenerate_parser.add_argument("--replicates", type=int, default=5000)
     regenerate_parser.add_argument(
         "--derived-only", action="store_true",
@@ -764,7 +805,12 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    global METRIC_DIRECTORY
     args = parse_args()
+    if getattr(args, 'metrics_dir', None):
+        from extract import verify_metrics
+        METRIC_DIRECTORY = args.metrics_dir.resolve()
+        verify_metrics(METRIC_DIRECTORY, require_complete=True)
     if args.command == "check":
         if not check_sources():
             raise SystemExit(1)

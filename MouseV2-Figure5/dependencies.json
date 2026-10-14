@@ -16,10 +16,10 @@
     "MouseV2-Figure5/sources/Figure5_caption.md",
     "MouseV2-Figure5/data/estimates_and_tests.csv",
     "MouseV2-Figure5/sources/Original_handmade_cortical_vectors.svg",
-    "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt",
-    "data/reference/allen_ccf_2017_surface/top.nrrd",
-    "data/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv",
-    "data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv"
+    "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt",
+    "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/top.nrrd",
+    "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv",
+    "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv"
   ],
   "production_code": [
     "MouseV2-Figure5/Figure5.py",
@@ -27,6 +27,32 @@
     "MouseV2-Figure5/prepare.py",
     "MouseV2-Figure5/render.py",
     "MouseV2-Figure5/panels.py",
-    "MouseV2-Figure5/schematics.py"
+    "MouseV2-Figure5/schematics.py",
+    "MouseV2-Figure5/reproduce.py",
+    "MouseV2-Figure5/extract.py",
+    "MouseV2-Figure5/anatomy.py",
+    "MouseV2-Figure5/nwb_io.py",
+    "MouseV2-Figure5/flash_metrics.py",
+    "MouseV2-Figure5/gratings.py"
+  ],
+  "reproduction_entrypoint": "MouseV2-Figure5/reproduce.py",
+  "extraction_entrypoint": "MouseV2-Figure5/extract.py",
+  "raw_sources": "MouseV2-Figure5/raw_sources.json",
+  "preparation_inputs": [
+    "MouseV2-Figure5/sources/metrics/mouse_ttfs.csv.gz",
+    "MouseV2-Figure5/sources/metrics/allen_ttfs.csv.gz",
+    "MouseV2-Figure5/sources/metrics/mouse_f1_f0.csv.gz",
+    "MouseV2-Figure5/sources/metrics/allen_f1_f0.csv.gz",
+    "MouseV2-Figure5/sources/metrics/mouse_timescale.csv.gz",
+    "MouseV2-Figure5/sources/metrics/allen_units.csv.gz",
+    "MouseV2-Figure5/sources/mousev2_analysis_units.csv.gz",
+    "MouseV2-Figure5/sources/mousev2_ccf_surface_entry_points.csv",
+    "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/top.nrrd",
+    "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt",
+    "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv",
+    "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv",
+    "MouseV2-Figure5/sources/anatomy/electrodes.csv.gz",
+    "MouseV2-Figure5/sources/anatomy/unit_electrodes.csv.gz",
+    "MouseV2-Figure5/sources/anatomy/surface_electrodes.csv.gz"
   ]
 }

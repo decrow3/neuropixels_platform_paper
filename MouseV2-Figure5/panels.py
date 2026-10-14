@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """Compose the Figure 5 schematics and response panels on one shared grid."""
 from pathlib import Path
-import sys
+import os
 import hashlib
 import json
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -20,6 +19,7 @@ import figure_data as results
 OUT = ROOT / 'MouseV2-Figure5'
 STEM = OUT / 'Figure5'
 REGISTRY = ROOT / 'MouseV2-Figure5/data/response_registry_floor5.csv.gz'
+DISPLAY_COUNTS = ROOT / 'MouseV2-Figure5/data/display_counts.csv'
 
 
 def heading(fig, x, letter, title):
@@ -329,7 +329,7 @@ def main(output_dir=None, hierarchy="harris2019", *, figure_number=5,
                                      high=cr.hva_minus_v1_high))
     pd.DataFrame(spread_records).to_csv(STEM.with_name(STEM.name + '_mean_spreads.csv'), index=False)
     counts = pd.DataFrame(records)
-    old = pd.read_csv(ROOT / 'MouseV2-Figure5/data/display_counts.csv')
+    old = pd.read_csv(DISPLAY_COUNTS)
     old = old.loc[old.figure.eq('Figure4_CDE_rerun')]
     joined = counts.merge(old, on=['metric', 'population', 'category'], suffixes=('_new', '_original'), validate='one_to_one')
     assert len(joined) == len(counts) == len(old)
@@ -431,18 +431,9 @@ Numerical source selected above. Siegle et al. (2021), https://pmc.ncbi.nlm.nih.
                 'schematic_alignment': {'V1_reference_score': float(anatomical_v1), 'mean_HVA_reference_score': float(anatomical_hva), 'meaning': 'Page-height alignment only; functional metric values remain illustrative'},
                 'schematic_layout': {'A_map': [.060, .725, .190, .22], 'A_hierarchy': [.245, .725, .260, .22], 'B_map': [.555, .725, .130, .22], 'B_benchmark': [.735, .725, .245, .22]},
                 'renderer': str(Path(__file__).relative_to(ROOT)), 'display_count_check': 'All 27 category counts match original.',
-                'sources': {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}}
+                'sources': {os.path.relpath(p, ROOT): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}}
     manifest['figure_number'] = figure_number
     manifest['artboard_points'] = (fig.get_size_inches() * 72).tolist()
     STEM.with_name(STEM.name + '_layout_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     print(STEM.with_suffix('.pdf'))
     print('Verified all 27 display counts against the original figure.')
-
-
-if __name__ == '__main__':
-    import argparse
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output-dir', type=Path, default=None)
-    parser.add_argument('--hierarchy', choices=['siegle2021', 'harris2019'], default='harris2019')
-    args = parser.parse_args()
-    main(args.output_dir, args.hierarchy)

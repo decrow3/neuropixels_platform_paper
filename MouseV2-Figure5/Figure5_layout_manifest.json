@@ -66,10 +66,10 @@
     "MouseV2-Figure5/data/matched_control.csv": "2c9490a7181b170f2d6903fdfbdc934d8c585656d0ab6f8d84f3418c26dfe621",
     "MouseV2-Figure5/data/bootstrap_effects.csv.gz": "a44947e22e3bed0c8afc3074284d348b2e1248242bbb8e7219ac40aca8313c69",
     "MouseV2-Figure5/sources/mousev2_ccf_surface_entry_points.csv": "41846a329afeef2f617ecaa7d29a5016a4749e1e0e6b71854dfa45dba9605138",
-    "data/reference/allen_ccf_2017_surface/top.nrrd": "ed9d17a3cb988d0289de0cea0a4795703b52d3da4f5dfbd5b0d7c99596c40acd",
-    "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt": "9891579be2004846b2f1ac55dd96482deba8836e0eee83ff38defe0d68c7e21e",
-    "data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv": "c7c4d76ab8547fa0fa1f3355a9f6a5542f5f0ea4ee294c462bd774c897c524d5",
-    "data/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv": "3c71f6fabee9ea4b81147dec6accbab5e5ad3742321df81f5191e68848571e8b"
+    "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/top.nrrd": "ed9d17a3cb988d0289de0cea0a4795703b52d3da4f5dfbd5b0d7c99596c40acd",
+    "MouseV2-Figure5/sources/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt": "9891579be2004846b2f1ac55dd96482deba8836e0eee83ff38defe0d68c7e21e",
+    "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv": "c7c4d76ab8547fa0fa1f3355a9f6a5542f5f0ea4ee294c462bd774c897c524d5",
+    "MouseV2-Figure5/sources/reference/allen_harris_2019_connectivity/harris_visualmedial_scores.csv": "3c71f6fabee9ea4b81147dec6accbab5e5ad3742321df81f5191e68848571e8b"
   },
   "figure_number": 5,
   "artboard_points": [
@@ -99,5 +99,7 @@
   },
   "canonical": true,
   "canonical_entrypoint": "MouseV2-Figure5/Figure5.py",
-  "canonical_version": "v17-corrected-tests"
+  "canonical_version": "v17-corrected-tests",
+  "input_root": ".",
+  "validation": "exact hashes"
 }
