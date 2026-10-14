@@ -25,12 +25,12 @@ references are included in that folder.
 | --- | --- |
 | `python MouseV2-Figure5/Figure5.py` | Renders the figure from frozen, hash-locked tables and rejects any numerical change. |
 | `python MouseV2-Figure5/reproduce.py` | Rebuilds anatomy, the registry, statistical results, and the figure from bundled sources. |
-| `python MouseV2-Figure5/extract.py run --help` | Shows how to recompute response metrics from the historical NWB recordings. |
+| `python MouseV2-Figure5/extract.py run --help` | Shows how to recompute response metrics from the public NWB recordings. |
 
 View the current [Figure 5](MouseV2-Figure5/Figure5.png) or download the
 [PDF](MouseV2-Figure5/Figure5.pdf). See
 [MouseV2-Figure5/README.md](MouseV2-Figure5/README.md) for the build instructions
-and historical NWB-source requirements, and
+and anonymous public NWB downloads (no DANDI key required), and
 [MouseV2-Figure5/dependencies.json](MouseV2-Figure5/dependencies.json) for the
 production dependencies. Exploratory analyses are retained on the research
 branch; they are not part of this figure build.

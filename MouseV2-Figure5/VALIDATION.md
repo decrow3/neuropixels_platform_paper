@@ -42,8 +42,8 @@ Published Allen timescales remain source values. An optional raw audit of
 session 798911424 covered 547 units: spike counts matched, while nonlinear
 fit estimates were not uniformly identical (median absolute tau difference
 approximately 2.0e-7 ms; maximum approximately 844 ms). This audit does not
-replace the published fits. Historical MouseV2 draft availability remains
-an external prerequisite for repeating raw extraction; see `METHODS.md`.
+replace the published fits. Public MouseV2 assets are now supported for repeating raw extraction; see
+the public-access validation below and `METHODS.md`.
 
 ## Regression checks
 
@@ -56,3 +56,29 @@ reproduction outputs.
 
 The original Allen figure code, helpers, environment specification, and
 original README text were verified unchanged against `upstream/master`.
+
+## Anonymous public MouseV2 access
+
+On 2026-10-14, unauthenticated DANDI API requests reported Dandiset 001568 as
+`OPEN`, with eight assets and no numbered published release. Anonymous HTTP
+range requests successfully read the HDF5 signature from all eight asset
+URLs. No API key, authorization header, account, or DANDI client was used.
+The public asset IDs, sizes, SHA-256 hashes, and download URLs are now pinned
+in `raw_sources.json`.
+
+All eight public SHA-256 values match previously recorded anatomical-snapshot
+hashes (September 25 for site6; September 2 for the other sites). Local copies
+of these snapshots were compared against the original response-metric NWBs:
+all scalar unit fields consumed by extraction, unit IDs, sorted spike times,
+and both consumed stimulus tables were exactly equal for every session.
+Full local-file SHA-256 was additionally rechecked for sites2 and3 during this
+update; the other six relied on the recorded snapshot provenance and file
+sizes for local identification. No 75-GB download or repeat statistical
+bootstrap was needed for this input-equivalence check.
+
+The updated suite passes all 12 tests in the extraction environment (11 plus
+one documented h5py skip in the rendering environment). New tests cover
+anonymous downloads, checksum validation, reuse of existing downloads,
+acceptance of public and original extraction inputs, rejection of corruption,
+and cleanup of partial downloads. Public downloads always verify the full
+SHA-256 before accepting a file.

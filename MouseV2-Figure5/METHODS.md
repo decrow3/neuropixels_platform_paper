@@ -9,7 +9,11 @@ statistical tables, and the figure. It checks the regenerated results against
 the locked publication version (v17, corrected tests).
 
 `extract.py` additionally computes the response metrics from the specified
-historical NWBs. Large recordings remain external. Their identifiers, paths,
+public or original NWBs. Large recordings remain external. Public DANDI
+001568 downloads need no API key or account; `extract.py download-mouse`
+uses pinned public asset IDs and verifies their SHA-256 checksums. The public
+files have updated metadata, while anatomical inclusion remains fixed to the
+bundled snapshots below. Their identifiers, paths,
 file sizes, and available hashes are in `raw_sources.json`. Original source
 hashes and the exact columns retained when packaging metric tables are in
 `source_manifest.json`. Compression and column projection do not change the

@@ -15,10 +15,43 @@ import pandas as pd
 import prepare
 import flash_metrics as flashes
 import gratings
-from extract import verify_metrics
+from extract import verify_metrics, validate_raw, download_mouse
+from unittest.mock import patch
 
 
 class ReproductionTests(unittest.TestCase):
+    def test_public_download_is_anonymous_and_hash_verified(self):
+        content = b'public NWB fixture'
+        asset = {'bytes': len(content), 'sha256': hashlib.sha256(content).hexdigest(),
+                 'url': 'https://api.dandiarchive.org/api/assets/test/download/'}
+        record = {'site': 'site2', 'path': 'sub-test/test.nwb', 'bytes': 1,
+                  'sha256': hashlib.sha256(b'x').hexdigest(), 'public_asset': asset}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with patch('extract.urllib.request.urlopen', return_value=io.BytesIO(content)) as request:
+                download_mouse([record], root)
+                request.assert_called_once_with(asset['url'], timeout=120)
+            self.assertEqual(validate_raw(root / record['path'], record, True)['source_variant'], 'public')
+            with patch('extract.urllib.request.urlopen') as request:
+                download_mouse([record], root)
+                request.assert_not_called()
+            (root / record['path']).write_bytes(b'x')
+            self.assertEqual(validate_raw(root / record['path'], record, True)['source_variant'], 'original')
+            with self.assertRaises(ValueError):
+                download_mouse([record], root)
+
+    def test_public_download_rejects_corruption_and_cleans_partial_file(self):
+        content = b'wrong'
+        asset = {'bytes': len(content), 'sha256': hashlib.sha256(b'right').hexdigest(),
+                 'url': 'https://api.dandiarchive.org/api/assets/test/download/'}
+        record = {'site': 'site2', 'path': 'sub-test/test.nwb', 'public_asset': asset}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with patch('extract.urllib.request.urlopen', return_value=io.BytesIO(content)):
+                with self.assertRaises(ValueError): download_mouse([record], root)
+            self.assertFalse((root / record['path']).exists())
+            self.assertFalse((root / record['path']).with_suffix('.part').exists())
+
     def test_bundled_sources_are_complete_and_hash_locked(self):
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertTrue(prepare.check_sources())

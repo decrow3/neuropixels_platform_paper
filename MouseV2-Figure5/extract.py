@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recompute Figure 5 response metrics from the declared historical NWB inputs.
+"""Recompute Figure 5 response metrics from pinned public or original NWB inputs.
 
 Outputs are separate from bundled reference metrics. Released Allen unit
 metadata and timescales, and the historical anatomical design, are explicit
@@ -38,13 +38,45 @@ def qc(table):
 
 
 def validate_raw(path, record, hash_raw):
-    if not path.is_file() or path.stat().st_size != record['bytes']:
-        raise ValueError(f'Missing or size-mismatched historical NWB: {path}')
+    path = Path(path)
+    variants = [('original', record)]
+    if 'public_asset' in record:
+        variants.append(('public', record['public_asset']))
+    if not path.is_file():
+        raise ValueError(f'Missing NWB: {path}')
+    candidates = [(name, item) for name, item in variants if path.stat().st_size == item['bytes']]
+    if not candidates:
+        raise ValueError(f'NWB size does not match a declared source: {path}')
     digest = sha256(path) if hash_raw else None
-    if digest and record.get('sha256') and digest != record['sha256']:
-        raise ValueError(f'Historical NWB checksum mismatch: {path}')
+    if digest:
+        candidates = [(name, item) for name, item in candidates
+                      if not item.get('sha256') or digest == item['sha256']]
+        if not candidates:
+            raise ValueError(f'NWB checksum mismatch: {path}')
+    name, item = candidates[0]
     return {'path': str(path), 'bytes': path.stat().st_size,
-            'sha256': digest, 'validation': 'sha256' if hash_raw else 'size only'}
+            'sha256': digest, 'validation': 'sha256' if hash_raw else 'size only',
+            'source_variant': name, 'asset_id': item.get('asset_id')}
+
+
+def download_mouse(records, root):
+    """Download pinned public assets anonymously; never read DANDI credentials."""
+    for record in records:
+        asset = record['public_asset']
+        target = root / record['path']
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists():
+            validate_raw(target, asset, True)
+            continue
+        temporary = target.with_suffix('.part')
+        print(f"Downloading public MouseV2 {record['site']}", flush=True)
+        try:
+            with urllib.request.urlopen(asset['url'], timeout=120) as response, temporary.open('wb') as stream:
+                shutil.copyfileobj(response, stream)
+            validate_raw(temporary, asset, True)
+            temporary.replace(target)
+        finally:
+            temporary.unlink(missing_ok=True)
 
 
 def extract_mouse(record, path, metrics, support):
@@ -175,8 +207,8 @@ def verify_metrics(output, *, require_complete=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['run', 'verify', 'download-allen', 'audit-allen-timescales'])
-    parser.add_argument('--mouse-root', type=Path, help='Directory containing historical sub-*/ MouseV2 NWBs')
+    parser.add_argument('command', choices=['run', 'verify', 'download-allen', 'download-mouse', 'audit-allen-timescales'])
+    parser.add_argument('--mouse-root', type=Path, help='Directory containing public or original sub-*/ MouseV2 NWBs')
     parser.add_argument('--allen-root', type=Path, help='Directory containing session_*/ Allen NWBs')
     parser.add_argument('--path-map', type=Path, help='Optional JSON mapping site/session IDs to local NWB paths')
     parser.add_argument('--output-dir', type=Path, default=HERE / 'work/metrics')
@@ -194,6 +226,12 @@ def main():
                if not requested or str(record.get('site', record.get('session_id'))) in requested]
     found = {str(r.get('site', r.get('session_id'))) for _, r in records}
     if requested - found: parser.error(f'Unknown sessions: {sorted(requested - found)}')
+    if args.command == 'download-mouse':
+        if args.mouse_root is None: parser.error('--mouse-root is required')
+        selected = [record for cohort, record in records if cohort == 'mousev2']
+        if not selected: parser.error('No MouseV2 sessions selected')
+        download_mouse(selected, args.mouse_root)
+        return
     if args.command == 'download-allen':
         if args.allen_root is None: parser.error('--allen-root is required')
         for cohort, record in records:

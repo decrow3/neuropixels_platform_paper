@@ -3,7 +3,7 @@
   "mousev2": {
     "dandiset_id": "001568",
     "version": "historical draft used for canonical response metrics",
-    "availability": "Exact historical files required; current draft is not a substitute. SHA-256 values below identify the required snapshot. No immutable public download for this snapshot is recorded in the research provenance.",
+    "availability": "Public, anonymous download; no DANDI API key or account required. Pinned public assets are accepted alongside the original response-metric snapshot. Anatomical inclusion still uses the bundled historical scalar tables.",
     "sessions": [
       {
         "site": "site2",
@@ -12,7 +12,13 @@
         "id_offset": 2000000,
         "path": "sub-816305/sub-816305_ses-ecephys-816305-2025-09-04-14-41-47_ecephys.nwb",
         "bytes": 9644162169,
-        "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312"
+        "sha256": "ac27001e7b053a078ce573050c3cd194973132cad7be04d99847f1b9cd2da312",
+        "public_asset": {
+          "asset_id": "efd91d9f-27bb-4f32-bc01-0f1ef687c49d",
+          "bytes": 9644334033,
+          "sha256": "9196b55f5652ab670f43a5c53d66119e88ff645cd346892e455fe2b1791ce5b7",
+          "url": "https://api.dandiarchive.org/api/assets/efd91d9f-27bb-4f32-bc01-0f1ef687c49d/download/"
+        }
       },
       {
         "site": "site3",
@@ -21,7 +27,13 @@
         "id_offset": 3000000,
         "path": "sub-810531/sub-810531_ses-ecephys-810531-2025-09-17-15-14-30_ecephys.nwb",
         "bytes": 8962011152,
-        "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6"
+        "sha256": "bdc46997f4d0d5f5630210b8b15872746419fa6c8a8f8f4a97f418407e04daf6",
+        "public_asset": {
+          "asset_id": "029598f2-fb30-4fd7-93c3-5a5928f05b8a",
+          "bytes": 8962194688,
+          "sha256": "c7ae98a442e8fb8b2bc7090266a414dfc19f7415ec6e25b7a4e7df87a6665b3f",
+          "url": "https://api.dandiarchive.org/api/assets/029598f2-fb30-4fd7-93c3-5a5928f05b8a/download/"
+        }
       },
       {
         "site": "site4",
@@ -30,7 +42,13 @@
         "id_offset": 4000000,
         "path": "sub-810532/sub-810532_ses-ecephys-810532-2025-09-18-14-29-13_ecephys.nwb",
         "bytes": 8890335523,
-        "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056"
+        "sha256": "1b1d79bb19a72293a5229d1a99e252c7f45563b811dd713bbb06f18f55e74056",
+        "public_asset": {
+          "asset_id": "d38d5443-8219-4669-973e-a436e9c7a459",
+          "bytes": 8890484875,
+          "sha256": "6a733fd5f1f485c649f6d1a19a9c97fe1eaad9964fbcdc71b8f836657f7d8799",
+          "url": "https://api.dandiarchive.org/api/assets/d38d5443-8219-4669-973e-a436e9c7a459/download/"
+        }
       },
       {
         "site": "site5",
@@ -39,7 +57,13 @@
         "id_offset": 5000000,
         "path": "sub-813810/sub-813810_ses-ecephys-813810-2025-08-05-14-28-23_ecephys.nwb",
         "bytes": 9988273191,
-        "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d"
+        "sha256": "7a7acfa79695c7ea3a84491714c5b1c4a2968338d55684f12714b95968d46b5d",
+        "public_asset": {
+          "asset_id": "b3e93269-cb7a-4cfe-a828-24c2e1e800ee",
+          "bytes": 9988455359,
+          "sha256": "ea065730558b863bd9e5323f9ad82c25fc61259dac7026240a7ec25db6c4d504",
+          "url": "https://api.dandiarchive.org/api/assets/b3e93269-cb7a-4cfe-a828-24c2e1e800ee/download/"
+        }
       },
       {
         "site": "site6",
@@ -48,7 +72,13 @@
         "id_offset": 6000000,
         "path": "sub-815152/sub-815152_ses-ecephys-815152-2025-08-13-15-41-58_ecephys.nwb",
         "bytes": 9062818368,
-        "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c"
+        "sha256": "a6cd2599241ef325028d04f6c52b670978bb70e0c1739d7c0567c208bc1edb1c",
+        "public_asset": {
+          "asset_id": "04861ac8-27fe-4110-bf04-ef4aba3f0618",
+          "bytes": 9063003216,
+          "sha256": "b5522b72a61b378acea1375e3107eb1a5b272a22663eaee63c6aed4e69832c87",
+          "url": "https://api.dandiarchive.org/api/assets/04861ac8-27fe-4110-bf04-ef4aba3f0618/download/"
+        }
       },
       {
         "site": "site7",
@@ -57,7 +87,13 @@
         "id_offset": 7000000,
         "path": "sub-816308/sub-816308_ses-ecephys-816308-2025-08-20-15-24-06_ecephys.nwb",
         "bytes": 9350128441,
-        "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305"
+        "sha256": "b6f4cca61c8bc160110edcfde5aa8d3a192d511b0ce50d152bfa23a5e83fc305",
+        "public_asset": {
+          "asset_id": "f222cec4-8037-43ba-aafa-939ac94bebac",
+          "bytes": 9350318481,
+          "sha256": "e794b4c1c59dc54da135c7aeb39f490c0f3e61556cd179f33068f47c4fb2f8c8",
+          "url": "https://api.dandiarchive.org/api/assets/f222cec4-8037-43ba-aafa-939ac94bebac/download/"
+        }
       },
       {
         "site": "site8",
@@ -66,7 +102,13 @@
         "id_offset": 8000000,
         "path": "sub-817334/sub-817334_ses-ecephys-817334-2025-09-03-15-10-35_ecephys.nwb",
         "bytes": 9826457420,
-        "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca"
+        "sha256": "0f7d01d2d8750ca4b035b63ee3c3e8f681f9beeb8ffc6465e90986bd837b69ca",
+        "public_asset": {
+          "asset_id": "7bb5f1e6-e2eb-41a6-a0e7-123cb2a4ef8b",
+          "bytes": 9826642636,
+          "sha256": "da0b9f7568380c81c7330fc8c66a2e000aa53925642f5e5c4b3c791b8a39c937",
+          "url": "https://api.dandiarchive.org/api/assets/7bb5f1e6-e2eb-41a6-a0e7-123cb2a4ef8b/download/"
+        }
       },
       {
         "site": "site9",
@@ -75,9 +117,17 @@
         "id_offset": 9000000,
         "path": "sub-817335/sub-817335_ses-ecephys-817335-2025-08-27-14-46-51_ecephys.nwb",
         "bytes": 9210736377,
-        "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df"
+        "sha256": "8f5d073753dcb243b76aabcd57a1ef627828190668c0e1bb937764cc0b5636df",
+        "public_asset": {
+          "asset_id": "16edbdfa-9cad-4e47-b2c0-3ce0f325f522",
+          "bytes": 9210921089,
+          "sha256": "57a2983f2a52899ec9f81c24952670515b5d33a9bfa474fc81a94730e88202fc",
+          "url": "https://api.dandiarchive.org/api/assets/16edbdfa-9cad-4e47-b2c0-3ce0f325f522/download/"
+        }
       }
-    ]
+    ],
+    "public_access_checked": "2026-10-14",
+    "public_version": "draft (asset IDs pinned; no published version available at verification)"
   },
   "allen": {
     "source": "Allen Visual Coding Neuropixels session NWBs",

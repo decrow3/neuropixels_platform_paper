@@ -57,23 +57,32 @@ and rendering with `python MouseV2-Figure5/reproduce.py --resume`.
 
 ## Recompute metrics from NWB recordings
 
-Raw extraction is optional for the bundled-source reproduction above. It
-requires the historical NWB files listed in `raw_sources.json`; they are too
-large to include in Git. The original MouseV2 response-metric snapshot is a
-historical DANDI draft. Its exact file sizes and SHA-256 hashes are recorded,
-but the research provenance does not supply an immutable public download for
-that draft. A current DANDI draft must not silently replace it.
+Raw extraction is optional for the bundled-source reproduction above.
+[MouseV2 DANDI 001568](https://dandiarchive.org/dandiset/001568/draft) is open:
+**no DANDI API key, account, or additional permission is needed**. The eight
+public NWBs total about 75 GB. The downloader uses the specific public asset
+IDs and SHA-256 checksums in `raw_sources.json`, rather than whichever files
+happen to be in a future draft. There was no numbered published version when
+access was checked on October 14, 2026.
 
 Create a separate **Python 3.10** environment and install
 `requirements-extraction.txt`. This preserves the numerical-library versions
-used for historical extraction. Then run:
+used for extraction. Download the public recordings anonymously, then extract:
 
 ```bash
+python MouseV2-Figure5/extract.py download-mouse \
+  --mouse-root /path/to/001568
 python MouseV2-Figure5/extract.py run \
-  --mouse-root /path/to/historical/001568 \
+  --mouse-root /path/to/001568 \
   --allen-root /path/to/allen_sessions \
   --hash-raw
 ```
+
+The downloader always verifies SHA-256 before accepting a file. Existing
+files are checked and reused. `--sessions site2` supports a smaller download.
+The original response-metric NWBs are also accepted for existing local caches.
+The public files have updated metadata; the figure's anatomical assignments
+continue to come from the bundled snapshots described in `METHODS.md`.
 
 MouseV2 paths are `sub-*/...nwb`; Allen paths are
 `session_<id>/session_<id>.nwb`, relative to the roots supplied above. An
@@ -83,8 +92,8 @@ session IDs to existing NWBs. There are no hardcoded local roots.
 Extraction recomputes preferred-polarity response-selected TTFS, harmonized
 F1/F0, and the ten matched-flash MouseV2 timescale draws. It verifies the
 resulting tables against the bundled source values, including unit membership.
-`--hash-raw` verifies historical MouseV2 checksums and records computed Allen
-checksums; without it, only file sizes are checked. The extraction manifest
+`--hash-raw` verifies the matching public or original MouseV2 checksums and
+records computed Allen checksums; without it, only file sizes are checked. The extraction manifest
 records that distinction. `--cohorts`, `--sessions`, and `--metrics` support
 smaller audits, which cannot substitute for a complete extraction.
 
