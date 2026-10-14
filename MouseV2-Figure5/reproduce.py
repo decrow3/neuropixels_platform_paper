@@ -54,7 +54,13 @@ def main():
     report['source_manifest_sha256'] = hashlib.sha256((HERE / 'source_manifest.json').read_bytes()).hexdigest()
     report['code_sha256'] = {path.name: hashlib.sha256(path.read_bytes()).hexdigest()
                              for path in sorted(HERE.glob('*.py'))}
-    (output / 'reproduction.json').write_text(json.dumps(report, indent=2) + '\n')
+    if args.resume:
+        report['operation'] = 'verify existing tables and render; no statistical regeneration'
+        report['timestamp_unix'] = time.time()
+        with (output / 'resume_events.jsonl').open('a') as stream:
+            stream.write(json.dumps(report) + '\n')
+    else:
+        (output / 'reproduction.json').write_text(json.dumps(report, indent=2) + '\n')
     print(f'Verified reproduction: {output / "figure/Figure5.pdf"}', flush=True)
 
 

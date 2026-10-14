@@ -15,11 +15,39 @@ import pandas as pd
 import prepare
 import flash_metrics as flashes
 import gratings
-from extract import verify_metrics, validate_raw, download_mouse
+from extract import verify_metrics, validate_raw, download_mouse, compare_metric_table
 from unittest.mock import patch
 
 
 class ReproductionTests(unittest.TestCase):
+    def test_metric_comparison_requires_exact_identity(self):
+        reference = pd.DataFrame({'unit_id': [1000000000], 'session_id': [900000000],
+                                  'selected': [True], 'preferred_0_250_ttfs_ms': [50.]})
+        rounded = reference.copy()
+        rounded['preferred_0_250_ttfs_ms'] += 1e-8
+        compare_metric_table(rounded, reference, ['session_id', 'unit_id'])
+        for field in ('unit_id', 'session_id', 'selected'):
+            changed = reference.copy()
+            changed[field] = False if field == 'selected' else changed[field] + 1
+            with self.assertRaises(AssertionError):
+                compare_metric_table(changed, reference, ['session_id', 'unit_id'])
+
+    def test_resume_preserves_generation_provenance(self):
+        import reproduce
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            original = '{"commands": [["prepare.py", "regenerate", "--metrics-dir", "raw"]]}'
+            (root / 'reproduction.json').write_text(original)
+            with patch.object(sys, 'argv', ['reproduce.py', '--resume', '--output-dir', directory]), \
+                 patch('reproduce.subprocess.run'), patch('reproduce.version', return_value='test'), \
+                 contextlib.redirect_stdout(io.StringIO()):
+                reproduce.main()
+                reproduce.main()
+            self.assertEqual((root / 'reproduction.json').read_text(), original)
+            events = [json.loads(line) for line in (root / 'resume_events.jsonl').read_text().splitlines()]
+            self.assertEqual(len(events), 2)
+            self.assertTrue(all('no statistical regeneration' in e['operation'] for e in events))
+
     def test_public_download_is_anonymous_and_hash_verified(self):
         content = b'public NWB fixture'
         asset = {'bytes': len(content), 'sha256': hashlib.sha256(content).hexdigest(),

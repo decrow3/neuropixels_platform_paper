@@ -53,7 +53,10 @@ stage. Results go to the ignored `work/reproduction/` directory:
 
 The reference inputs and current exports are preserved. A failed comparison
 stops the run. Once the statistical tables are complete, resume verification
-and rendering with `python MouseV2-Figure5/reproduce.py --resume`.
+and rendering with `python MouseV2-Figure5/reproduce.py --resume`. Resume
+checks append to `resume_events.jsonl`, preserving the original
+`reproduction.json`. If the original run stopped before writing that report,
+resuming does not reconstruct its missing provenance.
 
 ## Recompute metrics from NWB recordings
 
@@ -72,6 +75,8 @@ used for extraction. Download the public recordings anonymously, then extract:
 ```bash
 python MouseV2-Figure5/extract.py download-mouse \
   --mouse-root /path/to/001568
+python MouseV2-Figure5/extract.py download-allen \
+  --allen-root /path/to/allen_sessions
 python MouseV2-Figure5/extract.py run \
   --mouse-root /path/to/001568 \
   --allen-root /path/to/allen_sessions \
@@ -97,13 +102,6 @@ records computed Allen checksums; without it, only file sizes are checked. The e
 records that distinction. `--cohorts`, `--sessions`, and `--metrics` support
 smaller audits, which cannot substitute for a complete extraction.
 
-Allen recordings can be obtained using their declared public file IDs:
-
-```bash
-python MouseV2-Figure5/extract.py download-allen --allen-root /path/to/allen_sessions
-```
-
-This downloads large NWB files; it is not part of the default reproduction.
 After a complete extraction, return to the rendering environment and run:
 
 ```bash

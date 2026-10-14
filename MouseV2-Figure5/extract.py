@@ -161,6 +161,19 @@ def extract_allen(record, path, metrics, support, release):
     return result
 
 
+def compare_metric_table(table, reference, keys):
+    table = table.sort_values(keys).reset_index(drop=True)
+    reference = reference.sort_values(keys).reset_index(drop=True)
+    measurements = [name for name in table.columns if name in {
+        'preferred_0_250_ttfs_ms', 'f1_f0_dg_common_support',
+        'f1_f0_dg_harmonized', 'timescale_ms'}]
+    identity = [name for name in table.columns if name not in measurements]
+    pd.testing.assert_frame_equal(table[identity], reference[identity],
+                                  check_dtype=False, check_exact=True)
+    pd.testing.assert_frame_equal(table[measurements], reference[measurements],
+                                  check_dtype=False, check_exact=False, rtol=1e-7, atol=1e-8)
+
+
 def verify_metrics(output, *, require_complete=False):
     source_manifest = json.loads((HERE / 'source_manifest.json').read_text())
     for item in source_manifest['sources']:
@@ -194,9 +207,7 @@ def verify_metrics(output, *, require_complete=False):
         keys = [session, 'ecephys_unit_id' if label == 'allen_f1_f0' else 'unit_id']
         if label == 'mouse_timescale': keys.append('subsample')
         try:
-            pd.testing.assert_frame_equal(table.sort_values(keys).reset_index(drop=True),
-                                          reference[table.columns].sort_values(keys).reset_index(drop=True),
-                                          check_dtype=False, check_exact=False, rtol=1e-7, atol=1e-8)
+            compare_metric_table(table, reference[table.columns], keys)
         except AssertionError as exc:
             failures.append(f'{label}: {exc}')
         else:
