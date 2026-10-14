@@ -7,7 +7,7 @@ functional hierarchy*. The original figure scripts (`Figure1/`–`Figure4/`,
 
 ## Purpose of this branch
 
-This branch (`codex/minimal-figure5`) contains the minimal, reproducible build
+This branch (`mousev2-figure5`) contains the minimal, reproducible build
 of **Figure 5** for the unified-V2 manuscript. Figure 5 asks whether
 hierarchy-associated response properties differ more **among higher visual
 areas (HVAs)** than **among locations within V1**:
@@ -16,18 +16,22 @@ areas (HVAs)** than **among locations within V1**:
 - phase modulation (log10 F1/F0), and
 - response timescale.
 
-Everything needed to rebuild and check the figure is in `Figure5/`:
+The figure code, frozen analysis tables, and current exports live in
+`MouseV2-figure5/`, following the original one-folder-per-figure layout.
+Shared atlas and connectivity references remain in `data/reference/`.
 
 | Command | What it does |
 | --- | --- |
-| `python Figure5/build.py` | Renders the figure from frozen, hash-locked tables and rejects any numerical change. |
-| `python Figure5/prepare.py check` / `regenerate` / `verify` | Rebuilds those tables from hash-locked metric sources. |
+| `python MouseV2-figure5/Figure5.py` | Renders the figure from frozen, hash-locked tables and rejects any numerical change. |
+| `python MouseV2-figure5/prepare.py check` / `regenerate` / `verify` | Rebuilds those tables from hash-locked metric sources. |
 
-See [Figure5/README.md](Figure5/README.md) for the figure contract. Other
-analyses in this repository (Figure 3 overlays, cross-dataset bridge
-diagnostics, RF and frequency-preference surfaces) are exploratory. They are
-not inputs to Figure 5 unless they are listed in
-[Figure5/dependencies.json](Figure5/dependencies.json).
+View the current [Figure 5](MouseV2-figure5/Figure5.png) or download the
+[PDF](MouseV2-figure5/Figure5.pdf). See
+[MouseV2-figure5/README.md](MouseV2-figure5/README.md) for the build instructions
+and external metric-source requirements, and
+[MouseV2-figure5/dependencies.json](MouseV2-figure5/dependencies.json) for the
+production dependencies. Exploratory analyses are retained on the research
+branch; they are not part of this figure build.
 
 ## Datasets and the role of "MouseV2"
 
@@ -44,9 +48,8 @@ interpreted; the MouseV2 recordings supply the within-area comparison for
 judging it.
 
 Which MouseV2 units count as V1, and where each probe enters the cortex, are
-frozen snapshots (`Figure5/sources/`,
-`artifacts/figure3/06s_mousev2_ccf_surface_projection/`), because the
-underlying DANDI draft changed after the analysis.
+frozen snapshots in `MouseV2-figure5/sources/`, because the underlying DANDI
+draft changed after the analysis.
 
 # Neuropixels Platform Paper
 

@@ -46,14 +46,14 @@
     },
     {
       "label": "mouse_analysis_units",
-      "path": "Figure5/sources/mousev2_analysis_units.csv.gz",
+      "path": "MouseV2-figure5/sources/mousev2_analysis_units.csv.gz",
       "bytes": 13127,
       "sha256": "7ead176714079d9aaa052906b5d447e43995e59284ddf04fca280aa92ef581f0",
       "origin": "Value-free unit and recording assignments preserved from the original CCF preflight registry"
     },
     {
       "label": "mouse_ccf_surface_entries",
-      "path": "artifacts/figure3/06s_mousev2_ccf_surface_projection/mousev2_ccf_surface_entry_points.csv",
+      "path": "MouseV2-figure5/sources/mousev2_ccf_surface_entry_points.csv",
       "bytes": 3040,
       "sha256": "41846a329afeef2f617ecaa7d29a5016a4749e1e0e6b71854dfa45dba9605138",
       "origin": "Frozen anatomical summary from the MouseV2 CCF electrode snapshot"
@@ -91,12 +91,12 @@
     }
   ],
   "regenerated_outputs": {
-    "artifacts/figure4_rerun/v1/response_registry_floor5.csv.gz": "28e846acfc42899625647fac87eab785c808e89d29662dc5b6ab49ba43b2e742",
-    "artifacts/figure4_rerun/v4_primary_dispersion/bootstrap_effects.csv.gz": "a44947e22e3bed0c8afc3074284d348b2e1248242bbb8e7219ac40aca8313c69",
-    "artifacts/figure4_rerun/v4_primary_dispersion/draw_specific_point_fits.csv": "7967c79c54ecf1cffe9e1b60cc8b225bdd069612535e71677b3cb7de62a39852",
-    "artifacts/figure4_rerun/v4_primary_dispersion/primary_effects.csv": "43c77f426cf00cbc8f9d22480c4935848bff7413f7019ebc3366b669d264990a",
-    "artifacts/figure4_rerun/v6_matched_control/matched_control.csv": "2c9490a7181b170f2d6903fdfbdc934d8c585656d0ab6f8d84f3418c26dfe621",
-    "artifacts/figure4_rerun/v8_final/figure4_display_counts.csv": "fc05de25a7c98176c922f95d139f6f40fea95e6ed5f8e1399f44f1e37bea0b1b",
-    "artifacts/figure5/supplement_location_variance_v1/estimates_and_tests.csv": "336ea9b6026494598ea596736ed800aaa29137482bac48de1595c7c7ebdd8241"
+    "MouseV2-figure5/data/response_registry_floor5.csv.gz": "28e846acfc42899625647fac87eab785c808e89d29662dc5b6ab49ba43b2e742",
+    "MouseV2-figure5/data/bootstrap_effects.csv.gz": "a44947e22e3bed0c8afc3074284d348b2e1248242bbb8e7219ac40aca8313c69",
+    "MouseV2-figure5/data/draw_specific_point_fits.csv": "7967c79c54ecf1cffe9e1b60cc8b225bdd069612535e71677b3cb7de62a39852",
+    "MouseV2-figure5/data/primary_effects.csv": "43c77f426cf00cbc8f9d22480c4935848bff7413f7019ebc3366b669d264990a",
+    "MouseV2-figure5/data/matched_control.csv": "2c9490a7181b170f2d6903fdfbdc934d8c585656d0ab6f8d84f3418c26dfe621",
+    "MouseV2-figure5/data/display_counts.csv": "fc05de25a7c98176c922f95d139f6f40fea95e6ed5f8e1399f44f1e37bea0b1b",
+    "MouseV2-figure5/data/estimates_and_tests.csv": "336ea9b6026494598ea596736ed800aaa29137482bac48de1595c7c7ebdd8241"
   }
 }

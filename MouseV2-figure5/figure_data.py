@@ -8,8 +8,8 @@ from scipy.stats import gaussian_kde
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIMARY = ROOT / "artifacts/figure4_rerun/v4_primary_dispersion"
-CONTROL = ROOT / "artifacts/figure4_rerun/v6_matched_control"
+PRIMARY = ROOT / "MouseV2-figure5/data"
+CONTROL = ROOT / "MouseV2-figure5/data"
 
 METRICS = ("TTFS (ms)", "log10 F1/F0", "Response timescale (ms)")
 V1_CATEGORIES = ("A", "E", "C", "B")

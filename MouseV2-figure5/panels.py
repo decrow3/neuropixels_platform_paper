@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compose the verified schematics and saved Figure 4 results on one shared grid."""
+"""Compose the Figure 5 schematics and response panels on one shared grid."""
 from pathlib import Path
 import sys
 import hashlib
@@ -14,12 +14,12 @@ from matplotlib.ticker import MaxNLocator
 import numpy as np
 import pandas as pd
 from scipy.stats import gaussian_kde
-from scripts import build_hierarchy_schematic_row as schematic
-from Figure5 import data as results
+import schematics as schematic
+import figure_data as results
 
-OUT = ROOT / 'artifacts/figure4_rerun/v22_compact_E'
-STEM = OUT / 'Figure4_CDE_rerun_with_schematic'
-REGISTRY = ROOT / 'artifacts/figure4_rerun/v1/response_registry_floor5.csv.gz'
+OUT = ROOT / 'MouseV2-figure5'
+STEM = OUT / 'Figure5'
+REGISTRY = ROOT / 'MouseV2-figure5/data/response_registry_floor5.csv.gz'
 
 
 def heading(fig, x, letter, title):
@@ -89,12 +89,12 @@ def pooled_distribution(ax, table, means, order, colors, response_ylim, label_ba
     return center, sd, cell_center, cell_sd
 
 
-def main(output_dir=None, hierarchy="harris2019", *, figure_number=4,
+def main(output_dir=None, hierarchy="harris2019", *, figure_number=5,
          artboard_points=None, style_callback=None):
     global OUT, STEM
     if output_dir is not None:
         OUT = Path(output_dir).resolve()
-        STEM = OUT / f'Figure{figure_number}_CDE_rerun_with_schematic'
+        STEM = OUT / f'Figure{figure_number}'
     OUT.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 9,
                          'pdf.fonttype': 42, 'ps.fonttype': 42, 'svg.fonttype': 'none'})
@@ -329,7 +329,7 @@ def main(output_dir=None, hierarchy="harris2019", *, figure_number=4,
                                      high=cr.hva_minus_v1_high))
     pd.DataFrame(spread_records).to_csv(STEM.with_name(STEM.name + '_mean_spreads.csv'), index=False)
     counts = pd.DataFrame(records)
-    old = pd.read_csv(ROOT / 'artifacts/figure4_rerun/v8_final/figure4_display_counts.csv')
+    old = pd.read_csv(ROOT / 'MouseV2-figure5/data/display_counts.csv')
     old = old.loc[old.figure.eq('Figure4_CDE_rerun')]
     joined = counts.merge(old, on=['metric', 'population', 'category'], suffixes=('_new', '_original'), validate='one_to_one')
     assert len(joined) == len(counts) == len(old)

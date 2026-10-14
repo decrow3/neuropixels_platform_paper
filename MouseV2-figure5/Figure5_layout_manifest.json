@@ -57,15 +57,15 @@
       0.22
     ]
   },
-  "renderer": "Figure5/render.py",
+  "renderer": "MouseV2-figure5/render.py",
   "display_count_check": "All 27 category counts match original.",
   "sources": {
-    "artifacts/figure4_rerun/v1/response_registry_floor5.csv.gz": "28e846acfc42899625647fac87eab785c808e89d29662dc5b6ab49ba43b2e742",
-    "artifacts/figure4_rerun/v4_primary_dispersion/primary_effects.csv": "43c77f426cf00cbc8f9d22480c4935848bff7413f7019ebc3366b669d264990a",
-    "artifacts/figure4_rerun/v4_primary_dispersion/draw_specific_point_fits.csv": "7967c79c54ecf1cffe9e1b60cc8b225bdd069612535e71677b3cb7de62a39852",
-    "artifacts/figure4_rerun/v6_matched_control/matched_control.csv": "2c9490a7181b170f2d6903fdfbdc934d8c585656d0ab6f8d84f3418c26dfe621",
-    "artifacts/figure4_rerun/v4_primary_dispersion/bootstrap_effects.csv.gz": "a44947e22e3bed0c8afc3074284d348b2e1248242bbb8e7219ac40aca8313c69",
-    "artifacts/figure3/06s_mousev2_ccf_surface_projection/mousev2_ccf_surface_entry_points.csv": "41846a329afeef2f617ecaa7d29a5016a4749e1e0e6b71854dfa45dba9605138",
+    "MouseV2-figure5/data/response_registry_floor5.csv.gz": "28e846acfc42899625647fac87eab785c808e89d29662dc5b6ab49ba43b2e742",
+    "MouseV2-figure5/data/primary_effects.csv": "43c77f426cf00cbc8f9d22480c4935848bff7413f7019ebc3366b669d264990a",
+    "MouseV2-figure5/data/draw_specific_point_fits.csv": "7967c79c54ecf1cffe9e1b60cc8b225bdd069612535e71677b3cb7de62a39852",
+    "MouseV2-figure5/data/matched_control.csv": "2c9490a7181b170f2d6903fdfbdc934d8c585656d0ab6f8d84f3418c26dfe621",
+    "MouseV2-figure5/data/bootstrap_effects.csv.gz": "a44947e22e3bed0c8afc3074284d348b2e1248242bbb8e7219ac40aca8313c69",
+    "MouseV2-figure5/sources/mousev2_ccf_surface_entry_points.csv": "41846a329afeef2f617ecaa7d29a5016a4749e1e0e6b71854dfa45dba9605138",
     "data/reference/allen_ccf_2017_surface/top.nrrd": "ed9d17a3cb988d0289de0cea0a4795703b52d3da4f5dfbd5b0d7c99596c40acd",
     "data/reference/allen_ccf_2017_surface/labelDescription_ITKSNAPColor.txt": "9891579be2004846b2f1ac55dd96482deba8836e0eee83ff38defe0d68c7e21e",
     "data/reference/allen_harris_2019_connectivity/normalized_connection_density_ipsi_ctx.csv": "c7c4d76ab8547fa0fa1f3355a9f6a5542f5f0ea4ee294c462bd774c897c524d5",
@@ -84,12 +84,12 @@
     "axes_linewidth_pt": 0.7
   },
   "cartoons": {
-    "source": "artifacts/figure5/v17_corrected_tests/Original_handmade_cortical_vectors.svg",
+    "source": "MouseV2-figure5/sources/Original_handmade_cortical_vectors.svg",
     "sha256": "e3b71103ff83ba69bdd8060b5520ae5017c133d4508754436a44b21262ad69c3",
     "geometry": "Exact SVG Bezier paths and original marker coordinates/radii.",
     "empirical_coordinates": false
   },
-  "panel_F_source": "artifacts/figure5/supplement_location_variance_v1/estimates_and_tests.csv",
+  "panel_F_source": "MouseV2-figure5/data/estimates_and_tests.csv",
   "multiplicity": {
     "method": "Bonferroni",
     "family": "3 metrics \u00d7 2 populations",
@@ -98,6 +98,6 @@
     "bootstrap_intervals": "individual 95%; not simultaneous"
   },
   "canonical": true,
-  "canonical_entrypoint": "Figure5/build.py",
+  "canonical_entrypoint": "MouseV2-figure5/Figure5.py",
   "canonical_version": "v17-corrected-tests"
 }
